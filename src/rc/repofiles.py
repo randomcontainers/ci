@@ -1,4 +1,4 @@
-"""Files a package repository needs next to its package.yml.
+"""Files a package repository needs next to its package.yml (docs/adding-a-package.md, "Files").
 
 These are light text checks that fail early with a clear message; the
 build and check-image cover the rest.

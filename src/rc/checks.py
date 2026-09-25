@@ -1,4 +1,4 @@
-"""rc check-image: does a built image follow the image contract?
+"""rc check-image: does a built image follow the rules in docs/adding-a-package.md, "Dockerfiles"?
 
 Every check runs against the loaded image before anything is pushed. The
 inspection script runs as root with no network in a throwaway container,

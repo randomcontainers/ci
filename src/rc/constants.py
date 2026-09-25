@@ -1,4 +1,7 @@
-"""Values fixed by the image contract."""
+"""Values fixed by the image contract (docs/adding-a-package.md, "Dockerfiles").
+
+Change them only together with the docs.
+"""
 
 from dataclasses import dataclass
 

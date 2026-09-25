@@ -1,4 +1,4 @@
-"""Image labels and index annotations.
+"""Image labels and index annotations (docs/architecture.md, "The build").
 
 CI sets every key on every image, so nothing is inherited from a base
 image or a combo member.

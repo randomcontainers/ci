@@ -1,4 +1,4 @@
-"""The newest upstream release a package may move to.
+"""The newest upstream release a package may move to (docs/architecture.md, "2. Upstream").
 
 A release is taken when all of these hold:
 

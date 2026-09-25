@@ -30,6 +30,7 @@ ghcr.io/randomcontainers/<name>
 | `src/rc/` | The `rc` command. |
 | `src/rc/templates/combo/` | Files of the generated combo repositories. |
 | `tests/` | Unit tests, package fixtures and the expected combo Dockerfiles. |
+| `docs/` | [How it works](docs/architecture.md) and [adding a package](docs/adding-a-package.md). |
 
 ## Using the build workflow
 
@@ -100,7 +101,7 @@ Every job that runs `rc` (`plan`, `build`, `merge`, `release`) checks out this r
 - dispatches `build.yml` where the published image differs from what it should be: another version or commit, a new base image or member image, or an image older than 7 days.
 - writes `status/catalog.json` and keeps one tracking issue in this repository up to date with anything that needs a person.
 
-`rc reconcile --dry-run` prints what a pass would do and changes nothing.
+`rc reconcile --dry-run` prints what a pass would do and changes nothing. [docs/architecture.md](docs/architecture.md) describes each step.
 
 ## rc
 
