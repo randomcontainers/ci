@@ -1,0 +1,6 @@
+# Base images for every package. Bump a version here and every image is
+# rebuilt on the new base by the next reconcile pass.
+default: ubuntu            # distro behind latest / V / slim / V-slim, for every package
+distros:
+  ubuntu: {image: "ubuntu:26.04", family: debian, version: "26.04"}
+  alpine: {image: "alpine:3.24", family: alpine, version: "3.24"}

@@ -1,0 +1,27 @@
+name: streamlink
+title: Streamlink
+summary: Extract streams from websites and pipe them into a video player or a file.
+homepage: https://streamlink.github.io/
+license: BSD-2-Clause
+upstream:
+  source: pypi
+  project: streamlink
+  versioning: semver
+  version: 8.6.1
+  publisher: streamlink/streamlink
+image:
+  entrypoint: [streamlink]
+  cmd: [--help]
+  env: {PYTHONUNBUFFERED: "1"}
+test:
+  - streamlink --version | tee version.txt | grep -Fq "streamlink $VERSION"
+examples:
+  - title: Save a live stream to a file
+    command: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" ghcr.io/randomcontainers/streamlink -o stream.ts "https://www.twitch.tv/..." best
+combos:
+  - with: [ffmpeg]
+    default: true
+    summary: Streamlink with FFmpeg for muxing separate audio and video streams.
+    test:
+      - /usr/local/lib/streamlink/bin/python -c "import shutil; assert shutil.which('ffmpeg')"
+      - ffmpeg -hide_banner -loglevel error -f lavfi -i testsrc2=duration=1 -f lavfi -i sine=duration=1 -c:v libx264 -c:a aac mux.mp4

@@ -1,0 +1,9 @@
+# Package repositories that the reconciler updates, builds and publishes.
+# Add a repository here only after reviewing its package.yml, Dockerfiles
+# and workflow. Each name is also the repository name in the organization.
+packages:
+  - yt-dlp
+  - ffmpeg
+  - imagemagick
+  - ghostscript
+  - streamlink

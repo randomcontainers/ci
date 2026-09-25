@@ -1,0 +1,26 @@
+name: ghostscript
+title: Ghostscript
+summary: Interpreter for PostScript and PDF files.
+homepage: https://www.ghostscript.com/
+license: AGPL-3.0-or-later
+source-release: true
+upstream:
+  source: github-release
+  repository: ArtifexSoftware/ghostpdl-downloads
+  tag-pattern: '^gs(\d+)(\d{2})(\d)$'
+  version-template: '{1}.{2}.{3}'
+  versioning: loose
+  version: 10.08.0
+  artifact:
+    url: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{nodots}/ghostscript-{version}.tar.xz
+    checksums:
+      url: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{nodots}/SHA512SUMS
+      algorithm: sha512
+    sha256: c20492bc8ebb96c87fa2e52a0926e1cda8cde95d66145e018ac713fed5da38cf
+image:
+  entrypoint: [gs]
+  cmd: [--help]
+test:
+  - test "$(gs --version)" = "$VERSION"
+  - printf '%s\n' '%!PS' '/Times-Roman findfont 36 scalefont setfont' '72 700 moveto (ok) show' showpage > t.ps && gs -q -sDEVICE=pdfwrite -o out.pdf t.ps
+  - gs -q -sDEVICE=png16m -r72 -o out.png out.pdf

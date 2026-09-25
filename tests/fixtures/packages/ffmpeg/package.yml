@@ -1,0 +1,27 @@
+name: ffmpeg
+title: FFmpeg
+summary: Record, convert and stream audio and video.
+homepage: https://ffmpeg.org/
+license: GPL-3.0-or-later
+source-release: true
+upstream:
+  source: github-tag
+  repository: FFmpeg/FFmpeg
+  tag-pattern: '^n(\d+\.\d+(?:\.\d+)?)$'
+  version-template: '{1}'
+  versioning: semver
+  version: 9.0.2
+  artifact:
+    url: https://ffmpeg.org/releases/ffmpeg-{version}.tar.xz
+    signature: https://ffmpeg.org/releases/ffmpeg-{version}.tar.xz.asc
+    sha256: 8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e
+image:
+  entrypoint: [ffmpeg]
+  cmd: [-version]
+test:
+  - ffmpeg -hide_banner -version | tee version.txt | head -n 1 | grep -Fq "ffmpeg version $VERSION "
+  - ffmpeg -hide_banner -loglevel error -f lavfi -i testsrc2=size=320x240:rate=25:duration=1 -c:v libx264 out.mp4
+  - test "$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of csv=p=0 out.mp4)" = h264
+examples:
+  - title: Convert a video to H.264 and AAC
+    command: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" ghcr.io/randomcontainers/ffmpeg -i input.mkv -c:v libx264 -c:a aac output.mp4

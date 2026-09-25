@@ -1,0 +1,40 @@
+name: yt-dlp
+title: yt-dlp
+summary: Download video and audio from YouTube and thousands of other sites.
+homepage: https://github.com/yt-dlp/yt-dlp
+license: Unlicense
+upstream:
+  source: pypi
+  project: yt-dlp
+  tag-pattern: '^(\d{4}\.\d{2}\.\d{2})$'
+  version-template: '{1}'
+  versioning: calver
+  version: 2026.08.19
+  cooldown: 24h
+  publisher: yt-dlp/yt-dlp
+image:
+  entrypoint: [yt-dlp]
+  cmd: [--help]
+  env: {PYTHONUNBUFFERED: "1"}
+test:
+  - yt-dlp --version | tee version.txt
+  - /usr/local/lib/yt-dlp/bin/python -c "import yt_dlp_ejs, curl_cffi, Cryptodome, brotli, mutagen, websockets"
+  - "! yt-dlp --list-impersonate-targets 2>&1 | grep -qi unavailable"
+examples:
+  - title: Download a video into the current directory
+    command: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" ghcr.io/randomcontainers/yt-dlp "https://www.youtube.com/watch?v=..."
+combos:
+  - with: [ffmpeg]
+    default: true
+    base: ffmpeg
+    summary: yt-dlp with FFmpeg for merging and post-processing, and Deno for YouTube.
+    extras:
+      alpine: {packages: [deno]}
+      ubuntu: {requirements: requirements-deno.lock}
+    extras-license: MIT
+    env: {DENO_DIR: /cache/deno}
+    test:
+      - |
+        yt-dlp -v --version 2>&1 | grep -Eq 'exe versions: ffmpeg [0-9]'
+      - |
+        yt-dlp -v --version 2>&1 | grep -E 'JS runtimes:' | grep -q deno

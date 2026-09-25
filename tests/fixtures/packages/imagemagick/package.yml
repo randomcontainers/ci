@@ -1,0 +1,32 @@
+name: imagemagick
+title: ImageMagick
+summary: Create, edit, convert and compose images in more than 200 formats.
+homepage: https://imagemagick.org/
+license: ImageMagick
+upstream:
+  source: github-release
+  repository: ImageMagick/ImageMagick
+  tag-pattern: '^(7\.\d+\.\d+-\d+)$'
+  version-template: '{1}'
+  versioning: loose
+  version: 7.1.2-31
+  artifact:
+    url: https://github.com/ImageMagick/ImageMagick/releases/download/{version}/ImageMagick-{version}.tar.xz
+    sha256: 168a9710b3a8d69dbd20eb0a35f145b0c0ed35f076b2fc98d3eb57daa919c376
+image:
+  entrypoint: [magick]
+  cmd: [-version]
+test:
+  - magick -version | tee version.txt | head -n 1 | grep -Fq "ImageMagick $VERSION"
+  - magick -size 200x40 label:ok label.png
+  - "! magick -list policy | grep -Eiq 'pattern: .*(PS|PDF|SVG)'"
+examples:
+  - title: Convert an image to WebP
+    command: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" ghcr.io/randomcontainers/imagemagick input.png -quality 80 output.webp
+combos:
+  - with: [ghostscript]
+    default: true
+    summary: ImageMagick with Ghostscript, for reading and writing PDF, PostScript and EPS files.
+    test:
+      - magick -size 32x32 xc:red a.pdf && magick a.pdf a.png && magick a.pdf a.eps && magick a.eps b.png
+      - magick a.pdf a.ps && magick a.ps c.png && magick -size 32x32 xc:blue a.svg && magick a.svg d.png
