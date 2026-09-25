@@ -7,6 +7,7 @@ from rc.config import load_distros, load_package, load_package_list
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures" / "packages"
+GOLDEN = ROOT / "tests" / "golden"
 
 
 @pytest.fixture

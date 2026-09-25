@@ -1,0 +1,5 @@
+# Generated from the combos section of $org/$owner package.yml by $org/ci.
+# Do not edit; change package.yml in $org/$owner instead.
+name: $name
+owner: $owner
+with: [$members]
