@@ -1,0 +1,16 @@
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        # Only the combo template calls the shared workflow, by its protected
+        # major tag.
+        "randomcontainers/*": ref-pin
+        "*": hash-pin
+  self-repository:
+    # build.yml checks out ci at job.workflow_sha into .rc, which gives rc
+    # distros.yml and packages.yml from the same commit as the workflow.
+    # test.yml could write `uses: $/setup-rc` instead of `uses: ./setup-rc`,
+    # but actionlint 1.7.12 rejects that form.
+    ignore:
+      - build.yml
+      - test.yml

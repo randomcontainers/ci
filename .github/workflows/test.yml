@@ -1,0 +1,113 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions: {}
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  pytest:
+    name: Unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install test dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/python" -m pip install --quiet --disable-pip-version-check \
+            --require-hashes --only-binary=:all: --no-deps -r requirements-dev.txt
+      - name: Run pytest
+        run: '"$RUNNER_TEMP/venv/bin/python" -m pytest'
+
+  render:
+    name: Render combos
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up rc
+        uses: ./setup-rc
+      - name: Validate the fixture catalog
+        run: rc validate tests/fixtures/packages/* --catalog --packages-dir tests/fixtures/packages
+      - name: Render every combo and compare with the golden files
+        run: |
+          for owner in yt-dlp imagemagick streamlink; do
+            out="$RUNNER_TEMP/render/$owner"
+            rc render --package-file "tests/fixtures/packages/$owner/package.yml" \
+              --packages-dir tests/fixtures/packages --repo-files "$out"
+            combo="$(sed -n 's/^name: //p' "$out/combo.yml")"
+            for distro in ubuntu alpine; do
+              diff -u "tests/golden/$combo/Dockerfile.$distro" "$out/Dockerfile.$distro"
+            done
+          done
+      # Each with the .hadolint.yaml its combo repository gets.
+      - name: Lint the rendered Dockerfiles
+        run: |
+          for dir in "$RUNNER_TEMP"/render/*/; do
+            docker run --rm --network none -v "$dir:/src:ro" -w /src \
+              hadolint/hadolint:v2.15.1@sha256:32dac94127fd60b7b7e3fbfc65e1383b9b5e25c9bfd7b8536de7a539fe68a12d \
+              hadolint Dockerfile.ubuntu Dockerfile.alpine
+          done
+
+  actionlint:
+    name: actionlint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      IMAGE: rhysd/actionlint:1.7.12@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Run actionlint
+        run: |
+          docker run --rm -v "$PWD:/repo" -w /repo "$IMAGE" \
+            -color -config-file .github/actionlint.yaml \
+            .github/workflows/*.yml src/rc/templates/combo/build.yml
+      # actionlint reads only workflows, and every build job runs setup-rc.
+      # The image ships the shellcheck that actionlint runs on workflow steps.
+      - name: Run shellcheck on setup-rc
+        run: |
+          yq '.runs.steps[] | select(has("run")) | .run' setup-rc/action.yml \
+            | docker run --rm -i --network none --entrypoint shellcheck "$IMAGE" --shell=bash -
+
+  zizmor:
+    name: zizmor
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482 # v0.6.4
+        with:
+          # The combo template is checked with this repository's config, which
+          # has the same pin policy as src/rc/templates/combo/zizmor.yml.
+          inputs: . src/rc/templates/combo/build.yml
+          version: 1.30.1
+          advanced-security: false
+          annotations: true
