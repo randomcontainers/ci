@@ -16,6 +16,13 @@ NOW = datetime(2026, 9, 24, 12, 0, 0, tzinfo=UTC)
 SHA = "a" * 40
 
 
+@pytest.fixture(autouse=True)
+def outside_actions(monkeypatch):
+    # rc writes workflow commands to stdout when GITHUB_ACTIONS is set; tests
+    # that need that behaviour set it themselves.
+    monkeypatch.delenv("GITHUB_ACTIONS", raising=False)
+
+
 @pytest.fixture
 def distros():
     return load_distros(ROOT / "distros.yml")
