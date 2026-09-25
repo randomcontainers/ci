@@ -1,0 +1,24 @@
+name: Set up rc
+description: Install the rc command from this checkout of randomcontainers/ci into a virtual environment and put it on PATH.
+
+runs:
+  using: composite
+  steps:
+    - name: Install rc
+      shell: bash
+      # The only PATH entry added is the fresh venv under RUNNER_TEMP; no input reaches it.
+      run: | # zizmor: ignore[github-env]
+        set -euo pipefail
+        root="$(cd "$GITHUB_ACTION_PATH/.." && pwd)"
+        python3 -c 'import sys; sys.exit(sys.version_info < (3, 12))' \
+          || { echo "::error::rc needs Python 3.12 or later"; exit 1; }
+        venv="$RUNNER_TEMP/rc-venv"
+        python3 -m venv "$venv"
+        "$venv/bin/python" -m pip install --quiet --disable-pip-version-check --no-cache-dir \
+          --require-hashes --only-binary=:all: --no-deps -r "$root/requirements.txt"
+        site="$("$venv/bin/python" -c 'import sysconfig; print(sysconfig.get_path("purelib"))')"
+        printf '%s\n' "$root/src" > "$site/rc.pth"
+        printf '#!/bin/sh\nexec "%s" -m rc --ci-dir "%s" "$@"\n' "$venv/bin/python" "$root" > "$venv/bin/rc"
+        chmod +x "$venv/bin/rc"
+        echo "$venv/bin" >> "$GITHUB_PATH"
+        "$venv/bin/rc" --version
