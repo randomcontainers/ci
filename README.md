@@ -91,6 +91,10 @@ rc tags --package-file FILE                             print the tags each imag
 rc digests ...                                          record pushed digests for the merge job
 rc merge ...                                            decide the tags and write the imagetools arguments
 rc source-release ...                                   download and verify the upstream source
+rc reconcile [--dry-run] [--output-dir DIR]             update packages and combos, dispatch due builds
+rc apply-commits FILE                                   make the commits rc reconcile planned
+rc setup-repos FILE                                     make the repository changes rc reconcile asked for
+rc catalog [--output FILE] [--empty]                    write the catalog of published images
 rc lock FILE [--requirement REQ]                        write a hash-locked requirements file with uv
 ```
 
@@ -122,7 +126,7 @@ python3 -m venv .venv
 .venv/bin/pip install --no-deps -e .   # puts rc on the venv's PATH
 ```
 
-The tests use an in-memory registry and never touch the network. `requirements.txt` and `requirements-dev.txt` are generated from the `.in` files with the `uv pip compile` command at the top of each file. If a change to `rc render` is intended, update the files in `tests/golden/`.
+The tests use an in-memory registry, GitHub and PyPI and never touch the network. `requirements.txt` and `requirements-dev.txt` are generated from the `.in` files with the `uv pip compile` command at the top of each file. If a change to `rc render` is intended, update the files in `tests/golden/`.
 
 ## License
 

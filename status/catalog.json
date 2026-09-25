@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "registry": {
+    "alias": "randomcontainers.com",
+    "ghcr": "ghcr.io/randomcontainers"
+  },
+  "distros": [
+    {
+      "id": "ubuntu",
+      "version": "26.04",
+      "default": true
+    },
+    {
+      "id": "alpine",
+      "version": "3.24",
+      "default": false
+    }
+  ],
+  "platforms": [
+    "linux/amd64",
+    "linux/arm64"
+  ],
+  "images": []
+}

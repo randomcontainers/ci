@@ -7,8 +7,10 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-from rc import __version__, bake, catalog, checks, gha, imagetest, locks, merge, names, release, render, repofiles, tags
+from rc import __version__, bake, catalog, checks, commits, gha, http, imagetest, locks, merge, names, release, render, repofiles, reposetup, tags
 from rc import plan as planmod
+from rc import reconcile as reconcilemod
+from rc import status, upstream
 from rc.config import (
     Package,
     load_combo_file,
@@ -19,9 +21,11 @@ from rc.config import (
 from rc.constants import ORG
 from rc.docker import Docker
 from rc.errors import RcError, ValidationError
+from rc.github import GitHub
 from rc.http import UrllibTransport
 from rc.registry import Registry
 from rc.sources import PackageSource
+from rc.state import RegistryState
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -461,7 +465,116 @@ def cmd_source_release(args) -> int:
     return 0
 
 
-# lock
+# reconcile and catalog
+
+
+def _previous_catalog(path: Path) -> dict | None:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+
+
+def _reconciler(args, dry_run: bool) -> reconcilemod.Reconciler:
+    root = ci_dir(args)
+    transport = UrllibTransport()
+    now = datetime.now(UTC).replace(microsecond=0)
+    gh = GitHub(transport, os.environ.get("RC_GITHUB_TOKEN") or None)
+    org = _org()
+    return reconcilemod.Reconciler(
+        ci_dir=root,
+        gh=gh,
+        ci_gh=GitHub(transport, os.environ.get("RC_CI_TOKEN") or None),
+        registry=RegistryState(Registry(transport), org),
+        checker=upstream.Checker(gh, transport, now),
+        fetch=lambda url, algorithms: http.stream_digests(url, algorithms),
+        lock=lambda recipe, version: locks.compile_lock(recipe, version),
+        now=now,
+        dry_run=dry_run,
+        packages_dir=Path(args.packages_dir) if args.packages_dir else None,
+        previous_catalog=_previous_catalog(root / "status" / "catalog.json"),
+        org=org,
+    )
+
+
+LATER = {"commit": " (by rc apply-commits)", "create": " (by rc setup-repos)", "topics": " (by rc setup-repos)"}
+
+
+def cmd_reconcile(args) -> int:
+    if args.dry_run and (args.output_dir or args.setup_file or args.commit_file):
+        raise RcError("--dry-run writes nothing; leave out --output-dir, --setup-file and --commit-file")
+    rec = _reconciler(args, args.dry_run)
+    outcome = rec.run()
+    for line in outcome.log:
+        print(line)
+    for line in outcome.notes.lines():
+        print(f"attention: {line}")
+    dispatched = [a for a in outcome.actions if a.kind == "dispatch" and (a.done or args.dry_run)]
+    planned = outcome.commits
+    requests = outcome.requests
+    print(
+        f"{len(dispatched)} builds {'to dispatch' if args.dry_run else 'dispatched'}; "
+        f"{len(planned)} commits for rc apply-commits; "
+        f"{len(requests)} repository changes for rc setup-repos; "
+        f"{rec.gh.requests + rec.ci_gh.requests} GitHub API requests"
+    )
+    if args.commit_file:
+        if planned:
+            commits.dump(planned, Path(args.commit_file), rec.listed)
+        gha.set_output("commits", "true" if planned else "false")
+        gha.set_output("commit-repos", commits.repositories(planned))
+    if args.setup_file:
+        if requests:
+            reposetup.dump(requests, Path(args.setup_file))
+        gha.set_output("setup", "true" if requests else "false")
+    if args.output_dir:
+        out = Path(args.output_dir)
+        out.mkdir(parents=True, exist_ok=True)
+        if outcome.catalog is not None:
+            (out / "catalog.json").write_text(status.dumps(outcome.catalog), encoding="utf-8")
+        repository = os.environ.get("GITHUB_REPOSITORY") or f"{rec.org}/ci"
+        (out / "issue.md").write_text(status.issue_body(outcome.notes, repository), encoding="utf-8")
+        (out / "issue-state").write_text("open\n" if outcome.notes else "closed\n", encoding="utf-8")
+        gha.set_output("written", "true")
+        gha.summary(
+            "### Reconcile\n\n"
+            + (
+                "".join(f"- {a.title}{LATER.get(a.kind, '')}\n" for a in outcome.actions)
+                or "Nothing to do.\n"
+            )
+            + ("\n" + "".join(f"- {line}\n" for line in outcome.notes.lines()) if outcome.notes else "")
+        )
+    return 0
+
+
+def cmd_apply_commits(args) -> int:
+    planned = commits.load(Path(args.file), _listed(args))
+    token = os.environ.get("RC_WRITE_TOKEN")
+    if not token:
+        raise RcError("RC_WRITE_TOKEN is not set")
+    org = _org()
+    for commit in planned:
+        print(f"commit \"{commit['message']}\" to {org}/{commit['name']} ({', '.join(sorted(commit['files']))})")
+    problems = commits.apply(planned, GitHub(UrllibTransport(), token), org)
+    for problem in problems:
+        gha.error(problem)
+    print(f"{len(planned) - len(problems)} of {len(planned)} commits made")
+    return 1 if problems else 0
+
+
+def cmd_setup_repos(args) -> int:
+    requests = reposetup.load(Path(args.file))
+    token = os.environ.get("RC_ADMIN_TOKEN")
+    if not token:
+        raise RcError("RC_ADMIN_TOKEN is not set")
+    org = _org()
+    for request in requests:
+        print(f"{request['kind']} {org}/{request['name']}")
+    problems = reposetup.apply(requests, GitHub(UrllibTransport(), token), org)
+    for problem in problems:
+        gha.error(problem)
+    print(f"{len(requests) - len(problems)} of {len(requests)} repository changes made")
+    return 1 if problems else 0
 
 
 def cmd_lock(args) -> int:
@@ -482,6 +595,21 @@ def cmd_lock(args) -> int:
         version = package.version
     path.write_bytes(locks.compile_lock(recipe, version))
     print(f"{path}: {recipe.requirement(version)}")
+    return 0
+
+
+def cmd_catalog(args) -> int:
+    if args.empty:
+        doc = status.empty(_distros(args), _org())
+    else:
+        doc = _reconciler(args, dry_run=True).catalog_only()
+    text = status.dumps(doc)
+    if args.output:
+        Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.output).write_text(text, encoding="utf-8")
+        print(args.output)
+    else:
+        sys.stdout.write(text)
     return 0
 
 
@@ -584,6 +712,31 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--plan", required=True)
     p.add_argument("--output-dir", required=True)
 
+    p = add(
+        "reconcile",
+        cmd_reconcile,
+        "Update packages, sync combo repositories and dispatch the builds that are due.",
+    )
+    p.add_argument("--dry-run", action="store_true", help="print what would be done and change nothing")
+    p.add_argument("--output-dir", help="write catalog.json, issue.md and issue-state here")
+    p.add_argument("--setup-file", help="write the repositories to create and the topics to set here, for rc setup-repos")
+    p.add_argument("--commit-file", help="write the planned commits here, for rc apply-commits")
+    packages_dir(p)
+
+    p = add(
+        "apply-commits",
+        cmd_apply_commits,
+        "Make the commits rc reconcile planned; needs RC_WRITE_TOKEN.",
+    )
+    p.add_argument("file", help="the file written by rc reconcile --commit-file")
+
+    p = add(
+        "setup-repos",
+        cmd_setup_repos,
+        "Create combo repositories and set topics as rc reconcile requested; needs RC_ADMIN_TOKEN.",
+    )
+    p.add_argument("file", help="the file written by rc reconcile --setup-file")
+
     p = add("lock", cmd_lock, "Write a hash-locked requirements file with uv, the way the reconciler does.")
     p.add_argument("file", help="the lock file, for example requirements.lock")
     p.add_argument("--package-file", help="package.yml whose version is locked (default: next to the lock file)")
@@ -597,6 +750,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="let this dependency skip the 7-day --exclude-newer window, for one the package pins exactly "
         "and releases together with it; kept in the file's header",
     )
+
+    p = add("catalog", cmd_catalog, "Write the catalog of published images.")
+    p.add_argument("--output", help="write here instead of stdout")
+    p.add_argument("--empty", action="store_true", help="write a catalog with no images")
+    packages_dir(p)
     return parser
 
 

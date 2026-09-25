@@ -1,4 +1,4 @@
-"""In-memory GitHub (REST API and raw files)."""
+"""In-memory GitHub (REST API and raw files), PyPI and download hosts."""
 
 import base64
 import hashlib
@@ -252,3 +252,65 @@ class FakeGitHub:
                     key = "tagger" if m.group(1) == "tags" else "committer"
                     return _json(200, {key: {"date": iso(date)}})
         return Response(404)
+
+
+class FakeWeb:
+    """PyPI's simple and integrity APIs plus static download URLs."""
+
+    def __init__(self):
+        self.projects: dict[str, dict] = {}
+        self.provenance: dict[tuple[str, str], str | None] = {}
+        self.urls: dict[str, bytes] = {}
+        self.requests: list[tuple[str, str]] = []
+
+    def add_release(self, project: str, version: str, when: datetime, *, publisher: str | None, wheel: str = "py3-none-any", yanked: bool = False):
+        stem = project.replace("-", "_")
+        data = self.projects.setdefault(project, {"versions": [], "files": []})
+        if version not in data["versions"]:
+            data["versions"].append(version)
+        for filename in (f"{stem}-{version}-{wheel}.whl", f"{stem}-{version}.tar.gz"):
+            data["files"].append(
+                {
+                    "filename": filename,
+                    "upload-time": iso(when),
+                    "yanked": yanked,
+                    "provenance": f"https://pypi.org/integrity/{project}/{version}/{filename}/provenance" if publisher else None,
+                }
+            )
+            self.provenance[(version, filename)] = publisher
+
+    def request(self, method: str, url: str, headers: dict[str, str], body: bytes | None = None) -> Response:
+        self.requests.append((method, url))
+        parsed = urllib.parse.urlparse(url)
+        if parsed.hostname == "pypi.org":
+            m = re.match(r"^/simple/([^/]+)/$", parsed.path)
+            if m and m.group(1) in self.projects:
+                return _json(200, self.projects[m.group(1)])
+            m = re.match(r"^/integrity/([^/]+)/([^/]+)/([^/]+)/provenance$", parsed.path)
+            if m:
+                publisher = self.provenance.get((urllib.parse.unquote(m.group(2)), urllib.parse.unquote(m.group(3))))
+                if publisher is None:
+                    return Response(404)
+                bundle = {"publisher": {"kind": "GitHub", "repository": publisher, "workflow": "release.yml"}, "attestations": [{}]}
+                return _json(200, {"version": 1, "attestation_bundles": [bundle]})
+            return Response(404)
+        if url in self.urls:
+            return Response(200, {}, b"" if method == "HEAD" else self.urls[url])
+        return Response(404)
+
+
+class Router:
+    """One transport for every host: registries, GitHub and the web."""
+
+    def __init__(self, registry, github: FakeGitHub, web: FakeWeb):
+        self.registry = registry
+        self.github = github
+        self.web = web
+
+    def request(self, method: str, url: str, headers: dict[str, str], body: bytes | None = None) -> Response:
+        host = urllib.parse.urlparse(url).hostname or ""
+        if host in ("api.github.com", "raw.githubusercontent.com"):
+            return self.github.request(method, url, headers, body)
+        if host in ("pypi.org",) or url in self.web.urls:
+            return self.web.request(method, url, headers, body)
+        return self.registry.request(method, url, headers, body)
