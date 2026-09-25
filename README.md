@@ -1,8 +1,17 @@
 # ci
 
-Build tooling for the randomcontainers images. This repository holds the `rc` command and the reusable workflow that every package and combo repository calls to build and publish its images.
+Build tooling for the randomcontainers images. This repository holds the `rc` command, the reusable workflow that every package and combo repository calls to build and publish its images, and the reconciler that moves packages to new upstream releases and rebuilds images when their base or members change.
 
 ```
+tick.yml, every 15 minutes
+  |
+  v
+reconcile.yml (rc reconcile)
+  |-- commit "Update yt-dlp to 2026.09.20" ------> yt-dlp, ffmpeg, ...     (package repositories)
+  |-- commit generated files --------------------> yt-dlp-ffmpeg, ...      (combo repositories)
+  |-- dispatch build.yml as "Build <want>" ------> either of them
+  |-- status/catalog.json, tracking issue
+  |
 package or combo repository: .github/workflows/build.yml
   |   uses randomcontainers/ci/.github/workflows/build.yml@v1
   v
@@ -14,6 +23,9 @@ ghcr.io/randomcontainers/<name>
 | `distros.yml` | Base images. `default` is the distro behind `latest`, `slim` and the plain version tags. |
 | `packages.yml` | Package repositories that are built and published. Add one only after reviewing it. |
 | `.github/workflows/build.yml` | The reusable build workflow. |
+| `.github/workflows/tick.yml` | Starts `reconcile.yml` every 15 minutes. |
+| `.github/workflows/reconcile.yml` | Runs `rc reconcile` and publishes its results. |
+| `status/catalog.json` | Machine-readable list of the published images with their variants and tags, written by the reconciler. |
 | `setup-rc/` | Composite action that installs `rc` from the same commit as the workflow. |
 | `src/rc/` | The `rc` command. |
 | `src/rc/templates/combo/` | Files of the generated combo repositories. |
@@ -78,6 +90,18 @@ Pull requests build and test both images on both platforms but push nothing.
 
 Every job that runs `rc` (`plan`, `build`, `merge`, `release`) checks out this repository at `job.workflow_sha` into `.rc/` and installs `rc` from there, so the workflow and `rc` always come from the same commit. PyYAML, the only dependency, is installed from `requirements.txt` with `--require-hashes`.
 
+## The reconciler
+
+`reconcile.yml` runs `rc reconcile` from `main` of this repository. Each pass reads every listed `package.yml` and compares it with PyPI or GitHub and with what is published on ghcr.io. It then:
+
+- commits a new upstream version to the package repository, after the release has passed its cooldown, its files are published and, on PyPI, its provenance names the expected publisher. Tarballs are downloaded once and their sha256 pinned in `package.yml`; Python lock files are regenerated with uv.
+- re-locks the Python dependencies of a package once a week and commits the result when it changed.
+- creates missing combo repositories and commits their generated files when they changed. It only writes to a combo repository whose `combo.yml` names the same owner.
+- dispatches `build.yml` where the published image differs from what it should be: another version or commit, a new base image or member image, or an image older than 7 days.
+- writes `status/catalog.json` and keeps one tracking issue in this repository up to date with anything that needs a person.
+
+`rc reconcile --dry-run` prints what a pass would do and changes nothing.
+
 ## rc
 
 ```
@@ -99,6 +123,14 @@ rc lock FILE [--requirement REQ]                        write a hash-locked requ
 ```
 
 `rc <command> --help` lists every option. Member `package.yml` files are read from the `main` branch of each package repository; `--packages-dir DIR` reads them from `DIR/<name>/package.yml` instead.
+
+`rc reconcile` and `rc catalog` read public data without a token. In the workflow they get `RC_GITHUB_TOKEN` (reads and dispatches) and `RC_CI_TOKEN` (this repository). A dry run against the real services, with the package repositories checked out next to this one:
+
+```sh
+rc reconcile --dry-run --packages-dir ..
+```
+
+The reconciler never gets a token that can write to a repository. `rc reconcile --commit-file FILE` writes the commits it plans to `FILE`, and `rc apply-commits FILE` makes them with `RC_WRITE_TOKEN`, which `reconcile.yml` mints only when the file exists and only for the repositories it names. In the same way, `rc reconcile --setup-file FILE` writes the combo repositories to create and the topics to set, and `rc setup-repos FILE` makes those changes with `RC_ADMIN_TOKEN`, the only token with the Administration permission.
 
 `rc plan` and `rc validate --files` also check the package repository itself: a `Dockerfile.<distro>` for every distro that declares `ARG BASE_IMAGE` and `ARG VERSION` (plus `ARG SOURCE_SHA256` for tarball builds) and ends in a stage named `slim`, and any requirements file a combo installs. They also compare the `ARG BASE_IMAGE` defaults and the distro releases named in `README.md` with `distros.yml`: `rc validate --files` reports a difference as an error, `rc plan` as a warning. `rc validate --catalog` needs `--packages-dir`.
 
@@ -126,7 +158,7 @@ python3 -m venv .venv
 .venv/bin/pip install --no-deps -e .   # puts rc on the venv's PATH
 ```
 
-The tests use an in-memory registry, GitHub and PyPI and never touch the network. `requirements.txt` and `requirements-dev.txt` are generated from the `.in` files with the `uv pip compile` command at the top of each file. If a change to `rc render` is intended, update the files in `tests/golden/`.
+The tests use an in-memory registry, GitHub and PyPI and never touch the network. `requirements.txt`, `requirements-dev.txt` and `requirements-reconcile.txt` (the uv that the reconciler runs) are generated from the `.in` files with the `uv pip compile` command at the top of each file. If a change to `rc render` is intended, update the files in `tests/golden/`.
 
 ## License
 

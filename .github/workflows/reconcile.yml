@@ -1,0 +1,165 @@
+name: Reconcile
+
+# One pass of rc reconcile: update packages to new upstream releases, keep
+# the combo repositories in sync and dispatch the builds that are due.
+# tick.yml starts it every 15 minutes; it can also be started by hand.
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: reconcile
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  reconcile:
+    name: Reconcile
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    # Holds RC_APP_PRIVATE_KEY and RC_APP_CLIENT_ID, for main only. Without
+    # deployment: false every pass would add a deployment record.
+    environment:
+      name: bot
+      deployment: false
+    permissions:
+      actions: read # the state of tick.yml
+      contents: read
+    outputs:
+      written: ${{ steps.reconcile.outputs.written }}
+    steps:
+      - name: Check out ci
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up rc
+        uses: ./setup-rc
+      - name: Install uv
+        run: |
+          "$RUNNER_TEMP/rc-venv/bin/python" -m pip install --quiet --disable-pip-version-check --no-cache-dir \
+            --require-hashes --only-binary=:all: --no-deps -r requirements-reconcile.txt
+          uv --version
+      - name: Create token for reading and dispatching
+        id: dispatch-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.RC_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RC_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-actions: write
+          permission-contents: read
+      - name: Reconcile
+        id: reconcile
+        env:
+          RC_GITHUB_TOKEN: ${{ steps.dispatch-token.outputs.token }}
+          RC_CI_TOKEN: ${{ github.token }}
+        run: >-
+          rc reconcile --output-dir "$RUNNER_TEMP/status"
+          --commit-file "$RUNNER_TEMP/commits.json" --setup-file "$RUNNER_TEMP/setup.json"
+      - name: Upload status
+        if: ${{ !cancelled() && steps.reconcile.outputs.written == 'true' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: status
+          path: ${{ runner.temp }}/status/
+          if-no-files-found: error
+          retention-days: 3
+      # The pass parses upstream and registry data, so it gets no token that
+      # can write to a repository. The token for commits is minted only when
+      # the pass planned some, for those repositories only, and only the step
+      # that reads nothing but commits.json sees it.
+      - name: Create token for commits
+        id: write-token
+        if: ${{ steps.reconcile.outputs.commits == 'true' }}
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.RC_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RC_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ steps.reconcile.outputs.commit-repos }}
+          permission-contents: write
+          permission-workflows: write
+      - name: Commit
+        if: ${{ steps.reconcile.outputs.commits == 'true' }}
+        env:
+          RC_WRITE_TOKEN: ${{ steps.write-token.outputs.token }}
+        run: rc apply-commits "$RUNNER_TEMP/commits.json"
+      # Creating a repository and setting topics need Administration, so that
+      # token is minted only when the pass asked for such a change, and only
+      # this step, which reads nothing but setup.json, sees it.
+      - name: Create token for repository setup
+        id: admin-token
+        if: ${{ steps.reconcile.outputs.setup == 'true' }}
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.RC_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RC_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-administration: write
+      - name: Create repositories and set topics
+        if: ${{ steps.reconcile.outputs.setup == 'true' }}
+        env:
+          RC_ADMIN_TOKEN: ${{ steps.admin-token.outputs.token }}
+        run: rc setup-repos "$RUNNER_TEMP/setup.json"
+
+  publish-status:
+    name: Publish status
+    needs: reconcile
+    if: ${{ !cancelled() && needs.reconcile.outputs.written == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write # commit status/catalog.json
+      issues: write # the tracking issue
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Download status
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: status
+          path: ${{ runner.temp }}/status
+      # A pass that finds nothing new writes the same bytes as the committed
+      # catalog, so nothing is committed.
+      - name: Commit the catalog
+        run: |
+          new="$RUNNER_TEMP/status/catalog.json"
+          [[ -f "$new" ]] || exit 0
+          current="$(gh api "repos/$REPO/contents/status/catalog.json?ref=main" 2> /dev/null || true)"
+          sha="$(jq -r '.sha // empty' <<< "$current")"
+          if [[ -n "$sha" ]] && jq -r '.content' <<< "$current" | base64 -d | cmp -s - "$new"; then
+            exit 0
+          fi
+          jq -n --rawfile file "$new" --arg sha "$sha" \
+            '{message: "Update catalog", branch: "main", content: ($file | @base64)} + (if $sha == "" then {} else {sha: $sha} end)' \
+            | gh api --method PUT "repos/$REPO/contents/status/catalog.json" --input - > /dev/null
+      - name: Update the tracking issue
+        env:
+          TITLE: Reconciler status
+        run: |
+          state="$(< "$RUNNER_TEMP/status/issue-state")"
+          [[ "$state" == open || "$state" == closed ]] || { echo "::error::unexpected issue state"; exit 1; }
+          number="$(gh api "repos/$REPO/issues?state=all&creator=github-actions%5Bbot%5D&per_page=100" \
+            --jq '[.[] | select(.pull_request == null and .title == env.TITLE)][0].number // empty')"
+          if [[ -z "$number" ]]; then
+            if [[ "$state" == open ]]; then
+              gh issue create --repo "$REPO" --title "$TITLE" --body-file "$RUNNER_TEMP/status/issue.md"
+            fi
+            exit 0
+          fi
+          issue="$(gh api "repos/$REPO/issues/$number")"
+          if [[ "$(jq -r '.body // "" | gsub("\r"; "")' <<< "$issue")" != "$(< "$RUNNER_TEMP/status/issue.md")" ]]; then
+            gh issue edit "$number" --repo "$REPO" --body-file "$RUNNER_TEMP/status/issue.md"
+          fi
+          current="$(jq -r .state <<< "$issue")"
+          if [[ "$state" == open && "$current" == closed ]]; then
+            gh issue reopen "$number" --repo "$REPO"
+          elif [[ "$state" == closed && "$current" == open ]]; then
+            gh issue close "$number" --repo "$REPO"
+          fi

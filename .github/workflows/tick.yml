@@ -1,0 +1,28 @@
+name: Tick
+
+# Starts a reconcile pass every 15 minutes. GitHub delays scheduled runs at
+# the top of the hour, so the minutes are off the quarter hours.
+
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+
+permissions: {}
+
+concurrency:
+  group: tick
+  cancel-in-progress: true
+
+jobs:
+  dispatch:
+    name: Start reconcile
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: write # dispatch reconcile.yml
+    steps:
+      - name: Dispatch reconcile.yml
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: gh api --method POST "repos/$REPO/actions/workflows/reconcile.yml/dispatches" -f ref=main

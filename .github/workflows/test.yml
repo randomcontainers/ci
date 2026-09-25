@@ -3,7 +3,9 @@ name: Test
 on:
   push:
     branches: [main]
+    paths-ignore: ["status/**"]
   pull_request:
+    paths-ignore: ["status/**"]
 
 permissions: {}
 

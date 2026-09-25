@@ -29,3 +29,38 @@ def test_hadolint_runs_before_the_plan():
     lint = steps[names.index("Lint Dockerfiles")]
     assert lint["working-directory"] == "src"
     assert "--network none" in lint["run"] and ':/src:ro"' in lint["run"]
+
+
+def test_only_the_reconcile_job_uses_the_bot_environment():
+    jobs = yaml.safe_load((WORKFLOWS / "reconcile.yml").read_text())["jobs"]
+    assert {name: job.get("environment") for name, job in jobs.items()} == {
+        "reconcile": {"name": "bot", "deployment": False},
+        "publish-status": None,
+    }
+
+
+def test_only_the_setup_step_gets_administration():
+    steps = yaml.safe_load((WORKFLOWS / "reconcile.yml").read_text())["jobs"]["reconcile"]["steps"]
+    tokens = {s["id"]: s for s in steps if "create-github-app-token" in s.get("uses", "")}
+    admin = [i for i, s in tokens.items() if "permission-administration" in s["with"]]
+    assert admin == ["admin-token"]
+    assert tokens["admin-token"]["if"] == "${{ steps.reconcile.outputs.setup == 'true' }}"
+    assert [k for k in tokens["admin-token"]["with"] if k.startswith("permission-")] == ["permission-administration"]
+    users = [s for s in steps if "steps.admin-token.outputs.token" in str(s.get("env", {}))]
+    assert len(users) == 1 and users[0]["run"].startswith("rc setup-repos ")
+    reconcile = next(s for s in steps if s.get("id") == "reconcile")
+    assert "--setup-file" in reconcile["run"] and "RC_ADMIN_TOKEN" not in reconcile["env"]
+
+
+def test_commit_token_covers_only_the_planned_commits():
+    steps = yaml.safe_load((WORKFLOWS / "reconcile.yml").read_text())["jobs"]["reconcile"]["steps"]
+    tokens = {s["id"]: s for s in steps if "create-github-app-token" in s.get("uses", "")}
+    writers = [i for i, s in tokens.items() if "write" in (s["with"].get("permission-contents"), s["with"].get("permission-workflows"))]
+    assert writers == ["write-token"]
+    token = tokens["write-token"]
+    assert token["if"] == "${{ steps.reconcile.outputs.commits == 'true' }}"
+    assert token["with"]["repositories"] == "${{ steps.reconcile.outputs.commit-repos }}"
+    users = [s for s in steps if "steps.write-token.outputs.token" in str(s.get("env", {}))]
+    assert len(users) == 1 and users[0]["run"].startswith("rc apply-commits ")
+    reconcile = next(s for s in steps if s.get("id") == "reconcile")
+    assert "--commit-file" in reconcile["run"] and set(reconcile["env"]) == {"RC_GITHUB_TOKEN", "RC_CI_TOKEN"}

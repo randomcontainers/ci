@@ -9,8 +9,17 @@ rules:
   self-repository:
     # build.yml checks out ci at job.workflow_sha into .rc, which gives rc
     # distros.yml and packages.yml from the same commit as the workflow.
-    # test.yml could write `uses: $/setup-rc` instead of `uses: ./setup-rc`,
-    # but actionlint 1.7.12 rejects that form.
+    # test.yml and reconcile.yml could write `uses: $/setup-rc` instead of
+    # `uses: ./setup-rc`, but actionlint 1.7.12 rejects that form.
     ignore:
       - build.yml
       - test.yml
+      - reconcile.yml
+  github-app:
+    # The App is installed only on the package repositories and the combo
+    # repositories it creates. The token for commits names the repositories
+    # of the planned commits. The pass reads and dispatches in all of them,
+    # and the setup token creates repositories that do not exist yet, so
+    # neither can have a fixed list.
+    ignore:
+      - reconcile.yml
