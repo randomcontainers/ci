@@ -7,7 +7,7 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-from rc import __version__, bake, catalog, checks, gha, imagetest, merge, names, release, render, repofiles, tags
+from rc import __version__, bake, catalog, checks, gha, imagetest, locks, merge, names, release, render, repofiles, tags
 from rc import plan as planmod
 from rc.config import (
     Package,
@@ -461,6 +461,30 @@ def cmd_source_release(args) -> int:
     return 0
 
 
+# lock
+
+
+def cmd_lock(args) -> int:
+    path = Path(args.file)
+    if args.requirement:
+        recipe, version = locks.new_recipe(
+            path.name, args.requirement, args.python_version, tuple(args.no_emit or ()), tuple(args.exempt or ())
+        )
+    else:
+        if not path.is_file():
+            raise RcError(f"{path} does not exist; pass --requirement to create it")
+        package_file = Path(args.package_file) if args.package_file else path.parent / "package.yml"
+        package = load_package(package_file, _distros(args))
+        if package.upstream.source != "pypi":
+            raise RcError(f"{package.name} is not installed from PyPI")
+        recipe = locks.parse_recipe(path.read_text(encoding="utf-8"), path.name, package.upstream.project)
+        recipe = locks.with_exempt(recipe, tuple(args.exempt or ()))
+        version = package.version
+    path.write_bytes(locks.compile_lock(recipe, version))
+    print(f"{path}: {recipe.requirement(version)}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="rc", description="Build tooling for randomcontainers images.")
     parser.add_argument("--version", action="version", version=f"rc {__version__}")
@@ -559,6 +583,20 @@ def build_parser() -> argparse.ArgumentParser:
     p = add("source-release", cmd_source_release, "Download and verify the upstream source for the release.")
     p.add_argument("--plan", required=True)
     p.add_argument("--output-dir", required=True)
+
+    p = add("lock", cmd_lock, "Write a hash-locked requirements file with uv, the way the reconciler does.")
+    p.add_argument("file", help="the lock file, for example requirements.lock")
+    p.add_argument("--package-file", help="package.yml whose version is locked (default: next to the lock file)")
+    p.add_argument("--requirement", help="create the file for this requirement, for example 'streamlink==8.6.1'")
+    p.add_argument("--python-version", default="3.14", help="oldest python3 of the distros (with --requirement)")
+    p.add_argument("--no-emit", action="append", help="leave this package out of the file (with --requirement)")
+    p.add_argument(
+        "--exempt",
+        action="append",
+        metavar="PACKAGE",
+        help="let this dependency skip the 7-day --exclude-newer window, for one the package pins exactly "
+        "and releases together with it; kept in the file's header",
+    )
     return parser
 
 

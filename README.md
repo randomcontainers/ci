@@ -91,6 +91,7 @@ rc tags --package-file FILE                             print the tags each imag
 rc digests ...                                          record pushed digests for the merge job
 rc merge ...                                            decide the tags and write the imagetools arguments
 rc source-release ...                                   download and verify the upstream source
+rc lock FILE [--requirement REQ]                        write a hash-locked requirements file with uv
 ```
 
 `rc <command> --help` lists every option. Member `package.yml` files are read from the `main` branch of each package repository; `--packages-dir DIR` reads them from `DIR/<name>/package.yml` instead.
