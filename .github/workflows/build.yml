@@ -264,19 +264,29 @@ jobs:
           TAG: ${{ steps.source.outputs.tag }}
           TITLE: ${{ steps.source.outputs.title }}
           NOTES: ${{ steps.source.outputs.notes }}
+        # Only missing files are uploaded. When a rebuild of the same version
+        # adds one, for example a new extra artifact, the notes are rewritten
+        # to list the files of this build.
         run: |
+          created=false
           if ! gh release view "$TAG" --repo "$REPO" > /dev/null 2>&1; then
             gh release create "$TAG" --repo "$REPO" --target "$SHA" --title "$TITLE" --notes-file "$NOTES"
+            created=true
           fi
           existing="$(gh release view "$TAG" --repo "$REPO" --json assets --jq '.assets[].name')"
+          added=false
           for file in "$RUNNER_TEMP"/source/assets/*; do
             name="$(basename "$file")"
             if grep -Fxq -- "$name" <<< "$existing"; then
               echo "$name is already attached"
             else
               gh release upload "$TAG" "$file" --repo "$REPO"
+              added=true
             fi
           done
+          if [[ "$created" == false && "$added" == true ]]; then
+            gh release edit "$TAG" --repo "$REPO" --notes-file "$NOTES"
+          fi
 
   scan:
     name: Scan ${{ matrix.flavour }} ${{ matrix.distro }}

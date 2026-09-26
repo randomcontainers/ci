@@ -1,4 +1,8 @@
+import json
+import os
 import re
+import subprocess
+import sys
 
 import yaml
 
@@ -64,3 +68,62 @@ def test_commit_token_covers_only_the_planned_commits():
     assert len(users) == 1 and users[0]["run"].startswith("rc apply-commits ")
     reconcile = next(s for s in steps if s.get("id") == "reconcile")
     assert "--commit-file" in reconcile["run"] and set(reconcile["env"]) == {"RC_GITHUB_TOKEN", "RC_CI_TOKEN"}
+
+
+FAKE_GH = """#!{python}
+import json, os, sys
+path = os.environ["FAKE_GH_STATE"]
+state = json.load(open(path))
+args = sys.argv[1:]
+state["calls"].append(" ".join(args[:2]))
+tag = args[2]
+if args[:2] == ["release", "view"]:
+    if tag not in state["releases"]:
+        sys.exit(1)
+    if "--json" in args:
+        print("\\n".join(state["releases"][tag]))
+elif args[:2] == ["release", "create"]:
+    state["releases"][tag] = []
+elif args[:2] == ["release", "upload"]:
+    state["releases"][tag].append(os.path.basename(args[3]))
+json.dump(state, open(path, "w"))
+"""
+
+
+def publish_release(tmp_path, releases):
+    """Run the "Publish release" step of the release job against a fake gh."""
+    steps = yaml.safe_load((WORKFLOWS / "build.yml").read_text())["jobs"]["release"]["steps"]
+    script = next(s for s in steps if s.get("name") == "Publish release")["run"]
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir(parents=True)
+    (bin_dir / "gh").write_text(FAKE_GH.format(python=sys.executable))
+    (bin_dir / "gh").chmod(0o755)
+    assets = tmp_path / "source" / "assets"
+    assets.mkdir(parents=True)
+    for name in ("tool-1.0.tar.gz", "gts-0.7.6.tar.gz"):
+        (assets / name).write_bytes(b"x")
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"releases": releases, "calls": []}))
+    env = {
+        "PATH": f"{bin_dir}:{os.environ['PATH']}",
+        "FAKE_GH_STATE": str(state),
+        "RUNNER_TEMP": str(tmp_path),
+        "REPO": "randomcontainers/tool",
+        "SHA": "a" * 40,
+        "TAG": "v1.0",
+        "TITLE": "Tool 1.0 source",
+        "NOTES": str(tmp_path / "NOTES.md"),
+    }
+    subprocess.run(["bash", "--noprofile", "--norc", "-eo", "pipefail", "-c", script], env=env, check=True, capture_output=True)
+    return json.loads(state.read_text())
+
+
+def test_source_release_uploads_only_missing_files(tmp_path):
+    new = publish_release(tmp_path / "new", {})
+    assert new["releases"]["v1.0"] == ["gts-0.7.6.tar.gz", "tool-1.0.tar.gz"]
+    assert "release edit" not in new["calls"]
+    same = publish_release(tmp_path / "same", {"v1.0": ["gts-0.7.6.tar.gz", "tool-1.0.tar.gz"]})
+    assert "release upload" not in same["calls"] and "release edit" not in same["calls"]
+    added = publish_release(tmp_path / "added", {"v1.0": ["tool-1.0.tar.gz"]})
+    assert added["releases"]["v1.0"] == ["tool-1.0.tar.gz", "gts-0.7.6.tar.gz"]
+    assert added["calls"].count("release upload") == 1 and added["calls"][-1] == "release edit"
