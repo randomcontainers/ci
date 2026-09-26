@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-09-26T16:43:14Z",
+  "generated": "2026-09-26T16:46:28Z",
   "registry": {
     "alias": "randomcontainers.com",
     "ghcr": "ghcr.io/randomcontainers"
@@ -2777,9 +2777,42 @@
       "repository": "https://github.com/randomcontainers/doxygen-graphviz",
       "license": "GPL-2.0-or-later AND Apache-2.0 AND BSD-2-Clause-Views AND LPPL-1.3c AND MIT AND Zlib AND blessing AND EPL-2.0 AND BSD-3-Clause AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
       "version": "1.18.0",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T16:46:02Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.18.0",
+          "tags": [
+            "latest",
+            "1.18.0",
+            "ubuntu",
+            "1.18.0-ubuntu",
+            "1.18.0-ubuntu26.04"
+          ],
+          "digest": "sha256:bfb1b139490b92f7b52141dfd568b64f33f722903368dbd00206a89d648cc361",
+          "size": {
+            "linux/amd64": 82666749,
+            "linux/arm64": 79808013
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.18.0",
+          "tags": [
+            "alpine",
+            "1.18.0-alpine",
+            "1.18.0-alpine3.24"
+          ],
+          "digest": "sha256:5ad37844c16a65147cf44dd2d2ea85c1d1b3ccfd91563737e987d836427fe747",
+          "size": {
+            "linux/amd64": 43239022,
+            "linux/arm64": 42676051
+          }
+        }
+      ]
     },
     {
       "name": "exiftool-imagemagick",
@@ -2795,9 +2828,42 @@
       "repository": "https://github.com/randomcontainers/exiftool-imagemagick",
       "license": "(((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0) AND ImageMagick AND LGPL-3.0-or-later)",
       "version": "13.59",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T16:46:02Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "13.59",
+          "tags": [
+            "latest",
+            "13.59",
+            "ubuntu",
+            "13.59-ubuntu",
+            "13.59-ubuntu26.04"
+          ],
+          "digest": "sha256:e6bb3b34148d35247401cd45f1f0c40aff69fd209e81683476197b46378f2ab8",
+          "size": {
+            "linux/amd64": 78094568,
+            "linux/arm64": 75630411
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "13.59",
+          "tags": [
+            "alpine",
+            "13.59-alpine",
+            "13.59-alpine3.24"
+          ],
+          "digest": "sha256:fd53973645eab69c7fed9892fd53aa1a51814dd02ea67dd2af67d16b464141c4",
+          "size": {
+            "linux/amd64": 41843437,
+            "linux/arm64": 41532580
+          }
+        }
+      ]
     },
     {
       "name": "imagemagick-ghostscript",
@@ -2864,9 +2930,42 @@
       "repository": "https://github.com/randomcontainers/jpegoptim-imagemagick",
       "license": "GPL-3.0-or-later AND ImageMagick AND LGPL-3.0-or-later",
       "version": "1.5.6",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T16:46:13Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.5.6",
+          "tags": [
+            "latest",
+            "1.5.6",
+            "ubuntu",
+            "1.5.6-ubuntu",
+            "1.5.6-ubuntu26.04"
+          ],
+          "digest": "sha256:48d0d63ccd63f2484675fd9e6922726906a13d8dbfa0c0d723fb5768016de51a",
+          "size": {
+            "linux/amd64": 60186767,
+            "linux/arm64": 57776722
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.5.6",
+          "tags": [
+            "alpine",
+            "1.5.6-alpine",
+            "1.5.6-alpine3.24"
+          ],
+          "digest": "sha256:ff4ec4a06c5a2bd645f5f8edc6f0fcdebb543c893d7ea0f674ed0d510237d884",
+          "size": {
+            "linux/amd64": 25835111,
+            "linux/arm64": 25585607
+          }
+        }
+      ]
     },
     {
       "name": "mediainfo-ffmpeg",
@@ -2882,9 +2981,42 @@
       "repository": "https://github.com/randomcontainers/mediainfo-ffmpeg",
       "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause AND GPL-3.0-or-later",
       "version": "26.05",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T16:46:17Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "26.05",
+          "tags": [
+            "latest",
+            "26.05",
+            "ubuntu",
+            "26.05-ubuntu",
+            "26.05-ubuntu26.04"
+          ],
+          "digest": "sha256:e71274435db5be08c0d61b99bd9f945960b68648d1b1b27ee160779e2aa44770",
+          "size": {
+            "linux/amd64": 93268637,
+            "linux/arm64": 91073739
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "26.05",
+          "tags": [
+            "alpine",
+            "26.05-alpine",
+            "26.05-alpine3.24"
+          ],
+          "digest": "sha256:491372442f1ecad2697f6f983e022eba98af94c42a1f61e5008c3aaffcaf84e3",
+          "size": {
+            "linux/amd64": 56420053,
+            "linux/arm64": 54349256
+          }
+        }
+      ]
     },
     {
       "name": "mkvtoolnix-ffmpeg-mediainfo",
@@ -2901,9 +3033,42 @@
       "repository": "https://github.com/randomcontainers/mkvtoolnix-ffmpeg-mediainfo",
       "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0 AND GPL-3.0-or-later AND BSD-2-Clause AND Zlib AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause",
       "version": "102.0",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T16:46:12Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "102.0",
+          "tags": [
+            "latest",
+            "102.0",
+            "ubuntu",
+            "102.0-ubuntu",
+            "102.0-ubuntu26.04"
+          ],
+          "digest": "sha256:0439e3155dd9f056be1cbff4acf0b2c3f0bb72440ed8818886f3888c6140dcc7",
+          "size": {
+            "linux/amd64": 121881910,
+            "linux/arm64": 118969735
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "102.0",
+          "tags": [
+            "alpine",
+            "102.0-alpine",
+            "102.0-alpine3.24"
+          ],
+          "digest": "sha256:21105f5ef4cf1a8ed56736605858c74d9be880592270729f50c3a9b317776b71",
+          "size": {
+            "linux/amd64": 75185392,
+            "linux/arm64": 72474049
+          }
+        }
+      ]
     },
     {
       "name": "qpdf-ghostscript",
@@ -2919,9 +3084,42 @@
       "repository": "https://github.com/randomcontainers/qpdf-ghostscript",
       "license": "Apache-2.0 AND AGPL-3.0-or-later AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
       "version": "12.4.1",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T16:46:18Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "12.4.1",
+          "tags": [
+            "latest",
+            "12.4.1",
+            "ubuntu",
+            "12.4.1-ubuntu",
+            "12.4.1-ubuntu26.04"
+          ],
+          "digest": "sha256:b7eeb9c5b280484d0ae3b2cf22caee67dd19b94a2143fb0bf698cc866b95228f",
+          "size": {
+            "linux/amd64": 61465091,
+            "linux/arm64": 60330651
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "12.4.1",
+          "tags": [
+            "alpine",
+            "12.4.1-alpine",
+            "12.4.1-alpine3.24"
+          ],
+          "digest": "sha256:427b57d7d2c16aca6d4eed1dc9ad1a3132f2e6b621e96ed8d126e44536a114fd",
+          "size": {
+            "linux/amd64": 21847113,
+            "linux/arm64": 21913614
+          }
+        }
+      ]
     },
     {
       "name": "streamlink-ffmpeg",
@@ -2988,9 +3186,42 @@
       "repository": "https://github.com/randomcontainers/tesseract-poppler",
       "license": "(Apache-2.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))",
       "version": "5.5.3",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T16:46:22Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "5.5.3",
+          "tags": [
+            "latest",
+            "5.5.3",
+            "ubuntu",
+            "5.5.3-ubuntu",
+            "5.5.3-ubuntu26.04"
+          ],
+          "digest": "sha256:4d3702c08439c02b44cc864e74d0f8ef4920bcb175d9cc86db9bffee1b328bfb",
+          "size": {
+            "linux/amd64": 78054640,
+            "linux/arm64": 76536844
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "5.5.3",
+          "tags": [
+            "alpine",
+            "5.5.3-alpine",
+            "5.5.3-alpine3.24"
+          ],
+          "digest": "sha256:14db5e3866a0e3e2aab48c9b3f9e330e90220f83acf25baea7b0733e7d137773",
+          "size": {
+            "linux/amd64": 37247469,
+            "linux/arm64": 37059178
+          }
+        }
+      ]
     },
     {
       "name": "weasyprint-qpdf",
@@ -3006,9 +3237,42 @@
       "repository": "https://github.com/randomcontainers/weasyprint-qpdf",
       "license": "BSD-3-Clause AND MIT AND MIT-CMU AND Apache-2.0 AND BSD-2-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND LGPL-2.1-or-later AND GPL-2.0-or-later AND GPL-3.0-only AND FTL AND MIT-Modern-Variant AND IJG AND Zlib AND libpng-2.0 AND libtiff AND bzip2-1.0.6",
       "version": "70.0",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T16:46:23Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "70.0",
+          "tags": [
+            "latest",
+            "70.0",
+            "ubuntu",
+            "70.0-ubuntu",
+            "70.0-ubuntu26.04"
+          ],
+          "digest": "sha256:4d07ff15705d124e90e463712ff1f62d77cc91ac048754cfa6539eee70d55003",
+          "size": {
+            "linux/amd64": 89421263,
+            "linux/arm64": 88007969
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "70.0",
+          "tags": [
+            "alpine",
+            "70.0-alpine",
+            "70.0-alpine3.24"
+          ],
+          "digest": "sha256:bc838add92649ae87594599130f7961d76842ba3a0dfab36853e34824f0262e0",
+          "size": {
+            "linux/amd64": 60299505,
+            "linux/arm64": 59584883
+          }
+        }
+      ]
     },
     {
       "name": "whisper-cpp-ffmpeg",
@@ -3024,9 +3288,42 @@
       "repository": "https://github.com/randomcontainers/whisper-cpp-ffmpeg",
       "license": "((MIT AND (MIT-0 OR Unlicense)) AND GPL-3.0-or-later)",
       "version": "1.9.4",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T16:46:28Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.9.4",
+          "tags": [
+            "latest",
+            "1.9.4",
+            "ubuntu",
+            "1.9.4-ubuntu",
+            "1.9.4-ubuntu26.04"
+          ],
+          "digest": "sha256:bb7ae676814165864f483c271e0ed1c6ab014c9e726a5d0ba2c5198574dbdee0",
+          "size": {
+            "linux/amd64": 96287217,
+            "linux/arm64": 91026062
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.9.4",
+          "tags": [
+            "alpine",
+            "1.9.4-alpine",
+            "1.9.4-alpine3.24"
+          ],
+          "digest": "sha256:5cc601abae5469b23ff78867cf45d22686858e0f66c1c61fd85d2d8d12dde47b",
+          "size": {
+            "linux/amd64": 58697783,
+            "linux/arm64": 53771415
+          }
+        }
+      ]
     },
     {
       "name": "yt-dlp-ffmpeg",
