@@ -1,5 +1,6 @@
 {
   "schema": 1,
+  "generated": "2026-09-26T11:27:04Z",
   "registry": {
     "alias": "randomcontainers.com",
     "ghcr": "ghcr.io/randomcontainers"
@@ -20,5 +21,653 @@
     "linux/amd64",
     "linux/arm64"
   ],
-  "images": []
+  "images": [
+    {
+      "name": "ffmpeg",
+      "kind": "package",
+      "title": "FFmpeg",
+      "summary": "Converts, filters and streams audio and video. Built from the signed FFmpeg release, with x264, x265, VP9, AV1, Opus, MP3 and subtitle rendering.",
+      "homepage": "https://ffmpeg.org/",
+      "repository": "https://github.com/randomcontainers/ffmpeg",
+      "license": "GPL-3.0-or-later",
+      "version": "9.0.2",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Convert a video to H.264 and AAC in an MP4 file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/ffmpeg -i input.mkv -c:v libx264 -crf 23 -c:a aac output.mp4"
+        },
+        {
+          "title": "Encode a video to AV1 with SVT-AV1 and Opus",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/ffmpeg -i input.mp4 -c:v libsvtav1 -preset 8 -crf 35 -c:a libopus output.webm"
+        },
+        {
+          "title": "Show the streams in a file with ffprobe",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint ffprobe ghcr.io/randomcontainers/ffmpeg -hide_banner input.mp4"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-25T14:05:17Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "9.0.2",
+          "tags": [
+            "latest",
+            "9.0.2",
+            "9.0",
+            "9",
+            "ubuntu",
+            "9.0.2-ubuntu",
+            "9.0-ubuntu",
+            "9-ubuntu",
+            "9.0.2-ubuntu26.04"
+          ],
+          "digest": "sha256:766079dc2002471071518bc54f492aa1ccbe82624ec20253d70ce5347695531f",
+          "size": {
+            "linux/amd64": 87360793,
+            "linux/arm64": 85511172
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "9.0.2",
+          "tags": [
+            "alpine",
+            "9.0.2-alpine",
+            "9.0-alpine",
+            "9-alpine",
+            "9.0.2-alpine3.24"
+          ],
+          "digest": "sha256:7c9a3eccd05a259dfc5bbb47a3a0e32e0996f437a93ea54b5ec42539f18f55e8",
+          "size": {
+            "linux/amd64": 49838051,
+            "linux/arm64": 48089860
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "9.0.2",
+          "tags": [
+            "slim",
+            "9.0.2-slim",
+            "9.0-slim",
+            "9-slim",
+            "slim-ubuntu",
+            "9.0.2-slim-ubuntu",
+            "9.0-slim-ubuntu",
+            "9-slim-ubuntu",
+            "9.0.2-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:766079dc2002471071518bc54f492aa1ccbe82624ec20253d70ce5347695531f",
+          "size": {
+            "linux/amd64": 87360793,
+            "linux/arm64": 85511172
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "9.0.2",
+          "tags": [
+            "slim-alpine",
+            "9.0.2-slim-alpine",
+            "9.0-slim-alpine",
+            "9-slim-alpine",
+            "9.0.2-slim-alpine3.24"
+          ],
+          "digest": "sha256:7c9a3eccd05a259dfc5bbb47a3a0e32e0996f437a93ea54b5ec42539f18f55e8",
+          "size": {
+            "linux/amd64": 49838051,
+            "linux/arm64": 48089860
+          }
+        }
+      ]
+    },
+    {
+      "name": "ghostscript",
+      "kind": "package",
+      "title": "Ghostscript",
+      "summary": "Renders and converts PostScript and PDF files, and merges and compresses PDFs.",
+      "homepage": "https://www.ghostscript.com/",
+      "repository": "https://github.com/randomcontainers/ghostscript",
+      "license": "AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
+      "version": "10.08.0",
+      "versioning": "loose",
+      "examples": [
+        {
+          "title": "Convert a PostScript file to PDF",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/ghostscript -sDEVICE=pdfwrite -o output.pdf input.ps"
+        },
+        {
+          "title": "Render every page of a PDF to a 150 dpi PNG",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/ghostscript -sDEVICE=png16m -r150 -o page-%03d.png input.pdf"
+        },
+        {
+          "title": "Make a PDF smaller by downsampling its images",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/ghostscript -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -o smaller.pdf input.pdf"
+        },
+        {
+          "title": "Merge several PDFs into one",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/ghostscript -sDEVICE=pdfwrite -o merged.pdf first.pdf second.pdf"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-25T14:05:27Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "10.08.0",
+          "tags": [
+            "latest",
+            "10.08.0",
+            "10.08",
+            "10",
+            "ubuntu",
+            "10.08.0-ubuntu",
+            "10.08-ubuntu",
+            "10-ubuntu",
+            "10.08.0-ubuntu26.04"
+          ],
+          "digest": "sha256:9f418f47133c7bacfca4628db1264a7addfbb415d8c0a898c462694fe5cfe783",
+          "size": {
+            "linux/amd64": 59881073,
+            "linux/arm64": 58851354
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "10.08.0",
+          "tags": [
+            "alpine",
+            "10.08.0-alpine",
+            "10.08-alpine",
+            "10-alpine",
+            "10.08.0-alpine3.24"
+          ],
+          "digest": "sha256:f7a1f17c9ace83f0d2dbbfdcd64c47ee3663c24dc793a024f2a2af36d022e5ba",
+          "size": {
+            "linux/amd64": 19191960,
+            "linux/arm64": 19423565
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "10.08.0",
+          "tags": [
+            "slim",
+            "10.08.0-slim",
+            "10.08-slim",
+            "10-slim",
+            "slim-ubuntu",
+            "10.08.0-slim-ubuntu",
+            "10.08-slim-ubuntu",
+            "10-slim-ubuntu",
+            "10.08.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:9f418f47133c7bacfca4628db1264a7addfbb415d8c0a898c462694fe5cfe783",
+          "size": {
+            "linux/amd64": 59881073,
+            "linux/arm64": 58851354
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "10.08.0",
+          "tags": [
+            "slim-alpine",
+            "10.08.0-slim-alpine",
+            "10.08-slim-alpine",
+            "10-slim-alpine",
+            "10.08.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:f7a1f17c9ace83f0d2dbbfdcd64c47ee3663c24dc793a024f2a2af36d022e5ba",
+          "size": {
+            "linux/amd64": 19191960,
+            "linux/arm64": 19423565
+          }
+        }
+      ]
+    },
+    {
+      "name": "imagemagick",
+      "kind": "package",
+      "title": "ImageMagick",
+      "summary": "Converts and edits images, with JPEG, PNG, TIFF, WebP, HEIC, AVIF, JPEG XL, JPEG 2000 and camera raw support.",
+      "homepage": "https://imagemagick.org/",
+      "repository": "https://github.com/randomcontainers/imagemagick",
+      "license": "ImageMagick",
+      "version": "7.1.2-31",
+      "versioning": "loose",
+      "examples": [
+        {
+          "title": "Convert an image to WebP",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/imagemagick input.png -quality 80 output.webp"
+        },
+        {
+          "title": "Resize a photo to fit in 1600x1600 and strip its metadata",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/imagemagick photo.heic -resize 1600x1600 -strip photo.jpg"
+        },
+        {
+          "title": "Make a contact sheet of every JPEG in the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/imagemagick montage -geometry 240x240+4+4 *.jpg contact-sheet.jpg"
+        },
+        {
+          "title": "Render the first page of a PDF at 150 dpi (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/imagemagick -density 150 \"input.pdf[0]\" page-1.png"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "imagemagick-ghostscript",
+        "with": [
+          "ghostscript"
+        ],
+        "base": "ghostscript",
+        "summary": "ImageMagick with Ghostscript, for reading and writing PDF, PostScript and EPS files.",
+        "license": "ImageMagick AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib"
+      },
+      "combos": [
+        "imagemagick-ghostscript"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T11:27:04Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "7.1.2-31",
+          "tags": [
+            "latest",
+            "7.1.2-31",
+            "7.1.2",
+            "7.1",
+            "7",
+            "ubuntu",
+            "7.1.2-31-ubuntu",
+            "7.1.2-ubuntu",
+            "7.1-ubuntu",
+            "7-ubuntu",
+            "7.1.2-31-ubuntu26.04"
+          ],
+          "digest": "sha256:0b139b64cb195a15a6cb4f142cb834cd59d6c50a443e20d954dbab006175aa59",
+          "size": {
+            "linux/amd64": 72360663,
+            "linux/arm64": 69881339
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "7.1.2-31",
+          "tags": [
+            "alpine",
+            "7.1.2-31-alpine",
+            "7.1.2-alpine",
+            "7.1-alpine",
+            "7-alpine",
+            "7.1.2-31-alpine3.24"
+          ],
+          "digest": "sha256:e8944de74cafe466bd435cbcc379a9cc31eef0dd227692498e22b86807450dcd",
+          "size": {
+            "linux/amd64": 38317715,
+            "linux/arm64": 38016789
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "7.1.2-31",
+          "tags": [
+            "slim",
+            "7.1.2-31-slim",
+            "7.1.2-slim",
+            "7.1-slim",
+            "7-slim",
+            "slim-ubuntu",
+            "7.1.2-31-slim-ubuntu",
+            "7.1.2-slim-ubuntu",
+            "7.1-slim-ubuntu",
+            "7-slim-ubuntu",
+            "7.1.2-31-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:169e896a32ba8093ed5fd2b8300341fe96925bbf1ee310668dc7bf7f50998476",
+          "size": {
+            "linux/amd64": 59609351,
+            "linux/arm64": 57221143
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "7.1.2-31",
+          "tags": [
+            "slim-alpine",
+            "7.1.2-31-slim-alpine",
+            "7.1.2-slim-alpine",
+            "7.1-slim-alpine",
+            "7-slim-alpine",
+            "7.1.2-31-slim-alpine3.24"
+          ],
+          "digest": "sha256:4a51019400d46b7d710dd07ef84acac6e90a3cd9c0bbde8b6a83d5e92be09e2c",
+          "size": {
+            "linux/amd64": 25591611,
+            "linux/arm64": 25372356
+          }
+        }
+      ]
+    },
+    {
+      "name": "streamlink",
+      "kind": "package",
+      "title": "Streamlink",
+      "summary": "Extracts live streams from Twitch, YouTube and many other sites and saves them to a file or pipes them into a video player.",
+      "homepage": "https://streamlink.github.io/",
+      "repository": "https://github.com/randomcontainers/streamlink",
+      "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later",
+      "version": "8.6.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "List the qualities a stream is available in",
+          "command": "docker run --rm ghcr.io/randomcontainers/streamlink \"https://www.twitch.tv/<channel>\""
+        },
+        {
+          "title": "Record a live stream to a file in the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/streamlink -o recording.ts \"https://www.twitch.tv/<channel>\" best"
+        },
+        {
+          "title": "Watch a stream in a player on the host",
+          "command": "docker run --rm ghcr.io/randomcontainers/streamlink --stdout \"https://www.twitch.tv/<channel>\" best | mpv -"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "streamlink-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "Streamlink with FFmpeg, which it needs for streams that deliver video and audio separately.",
+        "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later AND GPL-3.0-or-later"
+      },
+      "combos": [
+        "streamlink-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T11:27:00Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "8.6.1",
+          "tags": [
+            "latest",
+            "8.6.1",
+            "8.6",
+            "8",
+            "ubuntu",
+            "8.6.1-ubuntu",
+            "8.6-ubuntu",
+            "8-ubuntu",
+            "8.6.1-ubuntu26.04"
+          ],
+          "digest": "sha256:570c6483e936b16848b233360edaea0734a8352dcabf092123e6e43f16558d2e",
+          "size": {
+            "linux/amd64": 126495192,
+            "linux/arm64": 124360459
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "8.6.1",
+          "tags": [
+            "alpine",
+            "8.6.1-alpine",
+            "8.6-alpine",
+            "8-alpine",
+            "8.6.1-alpine3.24"
+          ],
+          "digest": "sha256:bc82e683b66e224ad11d26d7570b3188b53845ab14c11e2e98e795394af65c46",
+          "size": {
+            "linux/amd64": 89325836,
+            "linux/arm64": 87303515
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "8.6.1",
+          "tags": [
+            "slim",
+            "8.6.1-slim",
+            "8.6-slim",
+            "8-slim",
+            "slim-ubuntu",
+            "8.6.1-slim-ubuntu",
+            "8.6-slim-ubuntu",
+            "8-slim-ubuntu",
+            "8.6.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:9cd53d82d91b49b31b8cee8ef89daa762fd278bcae3b3f40ec238b1009485671",
+          "size": {
+            "linux/amd64": 81572521,
+            "linux/arm64": 80452585
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "8.6.1",
+          "tags": [
+            "slim-alpine",
+            "8.6.1-slim-alpine",
+            "8.6-slim-alpine",
+            "8-slim-alpine",
+            "8.6.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:db74966db656d93f6664e9a03ab22666ceab191f9f43b4a632133424f1d65ba2",
+          "size": {
+            "linux/amd64": 44879113,
+            "linux/arm64": 44874018
+          }
+        }
+      ]
+    },
+    {
+      "name": "yt-dlp",
+      "kind": "package",
+      "title": "yt-dlp",
+      "summary": "Downloads video and audio from YouTube and many other sites.",
+      "homepage": "https://github.com/yt-dlp/yt-dlp",
+      "repository": "https://github.com/randomcontainers/yt-dlp",
+      "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016",
+      "version": "2026.08.19",
+      "versioning": "calver",
+      "examples": [
+        {
+          "title": "Download a video into the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/yt-dlp \"https://www.youtube.com/watch?v=<id>\""
+        },
+        {
+          "title": "List the available formats",
+          "command": "docker run --rm ghcr.io/randomcontainers/yt-dlp -F \"https://www.youtube.com/watch?v=<id>\""
+        },
+        {
+          "title": "Extract the audio as MP3",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/yt-dlp -x --audio-format mp3 \"https://www.youtube.com/watch?v=<id>\""
+        },
+        {
+          "title": "Keep the cache between runs",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" -v yt-dlp-cache:/cache ghcr.io/randomcontainers/yt-dlp \"https://www.youtube.com/watch?v=<id>\""
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "yt-dlp-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "yt-dlp with FFmpeg for merging formats and post-processing, and Deno for YouTube.",
+        "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016 AND GPL-3.0-or-later"
+      },
+      "combos": [
+        "yt-dlp-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T11:26:56Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2026.08.19",
+          "tags": [
+            "latest",
+            "2026.08.19",
+            "ubuntu",
+            "2026.08.19-ubuntu",
+            "2026.08.19-ubuntu26.04"
+          ],
+          "digest": "sha256:ffe32e1a911efbdd31b5dd0df907f610f3b143d280d28efad2bcff3506d39a35",
+          "size": {
+            "linux/amd64": 177012251,
+            "linux/arm64": 173375027
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2026.08.19",
+          "tags": [
+            "alpine",
+            "2026.08.19-alpine",
+            "2026.08.19-alpine3.24"
+          ],
+          "digest": "sha256:f8d1b85181be7059a3fbe1e2c5588e79be37183e6363c8c3a74795c411350009",
+          "size": {
+            "linux/amd64": 144669709,
+            "linux/arm64": 141905022
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "2026.08.19",
+          "tags": [
+            "slim",
+            "2026.08.19-slim",
+            "slim-ubuntu",
+            "2026.08.19-slim-ubuntu",
+            "2026.08.19-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:76ec1f560f1f8c984e376c554c3148f4863402b775eb48b94b0510a912828071",
+          "size": {
+            "linux/amd64": 89312161,
+            "linux/arm64": 87875987
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "2026.08.19",
+          "tags": [
+            "slim-alpine",
+            "2026.08.19-slim-alpine",
+            "2026.08.19-slim-alpine3.24"
+          ],
+          "digest": "sha256:b1bd3bdccb7ce95c2d7561759805f7cc6d56e786bc5e08dddfb7abd763bc26b4",
+          "size": {
+            "linux/amd64": 52452293,
+            "linux/arm64": 51954943
+          }
+        }
+      ]
+    },
+    {
+      "name": "imagemagick-ghostscript",
+      "kind": "combo",
+      "owner": "imagemagick",
+      "members": [
+        "imagemagick",
+        "ghostscript"
+      ],
+      "base": "ghostscript",
+      "title": "ImageMagick + Ghostscript",
+      "summary": "ImageMagick with Ghostscript, for reading and writing PDF, PostScript and EPS files.",
+      "repository": "https://github.com/randomcontainers/imagemagick-ghostscript",
+      "license": "ImageMagick AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
+      "version": "7.1.2-31",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "streamlink-ffmpeg",
+      "kind": "combo",
+      "owner": "streamlink",
+      "members": [
+        "streamlink",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "Streamlink + FFmpeg",
+      "summary": "Streamlink with FFmpeg, which it needs for streams that deliver video and audio separately.",
+      "repository": "https://github.com/randomcontainers/streamlink-ffmpeg",
+      "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later AND GPL-3.0-or-later",
+      "version": "8.6.1",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "yt-dlp-ffmpeg",
+      "kind": "combo",
+      "owner": "yt-dlp",
+      "members": [
+        "yt-dlp",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "yt-dlp + FFmpeg",
+      "summary": "yt-dlp with FFmpeg for merging formats and post-processing, and Deno for YouTube.",
+      "repository": "https://github.com/randomcontainers/yt-dlp-ffmpeg",
+      "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016 AND GPL-3.0-or-later",
+      "version": "2026.08.19",
+      "public": false,
+      "updated": null,
+      "variants": []
+    }
+  ]
 }
