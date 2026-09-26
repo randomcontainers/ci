@@ -37,7 +37,13 @@ _CALVER_PYPI = re.compile(r"^([0-9]{4})\.([0-9]{1,2})\.([0-9]{1,2})$")
 _FILENAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]{0,254}$")
 _PLATFORMS = {("manylinux", "x86_64"), ("manylinux", "aarch64"), ("musllinux", "x86_64"), ("musllinux", "aarch64")}
 _CHECKSUM_LINE = re.compile(r"^([A-Fa-f0-9]{64,128})\s+\*?(\S+)$")
-_CHECKSUM_BSD = re.compile(r"^[A-Z0-9-]+ \((\S+)\) = ([A-Fa-f0-9]{64,128})$")
+# BSD `SHA256 (file) = hex` and OpenSSL `SHA2-256(file)= hex`
+_CHECKSUM_TAGGED = (
+    re.compile(r"^([A-Z0-9-]+) \((\S+)\) = ([A-Fa-f0-9]{64,128})$"),
+    re.compile(r"^([A-Z0-9-]+)\((\S+)\)= ?([A-Fa-f0-9]{64,128})$"),
+)
+_CHECKSUM_LABELS = {"SHA256": "sha256", "SHA-256": "sha256", "SHA2-256": "sha256", "SHA512": "sha512", "SHA-512": "sha512", "SHA2-512": "sha512"}
+_HEX_LENGTH = {"sha256": 64, "sha512": 128}
 _RELEASE_ASSET = re.compile(r"^https://github\.com/([^/]+/[^/]+)/releases/download/([^/]+)/([^/]+)$")
 
 
@@ -303,15 +309,27 @@ class Checker:
 # Pinning a tarball at bump time
 
 
-def parse_checksums(text: str, filename: str) -> str | None:
+def parse_checksums(text: str, filename: str, algorithm: str | None = None) -> str | None:
+    """The digest of filename in a checksums file.
+
+    Reads GNU (`hex  file`), BSD (`SHA256 (file) = hex`) and OpenSSL
+    (`SHA2-256(file)= hex`) lines. With an algorithm, only lines of that
+    algorithm count: labelled lines by their label, GNU lines by the length
+    of the digest.
+    """
+    length = _HEX_LENGTH.get(algorithm) if algorithm else None
     for line in text.splitlines():
         line = line.strip()
         m = _CHECKSUM_LINE.match(line)
-        if m and m.group(2) == filename:
+        if m and m.group(2) == filename and length in (None, len(m.group(1))):
             return m.group(1).lower()
-        m = _CHECKSUM_BSD.match(line)
-        if m and m.group(1) == filename:
-            return m.group(2).lower()
+        for tagged in _CHECKSUM_TAGGED:
+            m = tagged.match(line)
+            if not m or m.group(2) != filename:
+                continue
+            if algorithm and (_CHECKSUM_LABELS.get(m.group(1)) != algorithm or len(m.group(3)) != length):
+                continue
+            return m.group(3).lower()
     return None
 
 
@@ -340,7 +358,7 @@ def pin_artifact(package: Package, c: Candidate, web: http.Transport, fetch: Fet
     if artifact.checksums:
         checksums_url = expand_url(artifact.checksums.url, c.version)
         listing = http.get(web, checksums_url).decode("utf-8", "replace")
-        expected = parse_checksums(listing, filename)
+        expected = parse_checksums(listing, filename, artifact.checksums.algorithm)
         if expected is None:
             raise RcError(f"{filename} is not listed in {checksums_url}")
         if digests[artifact.checksums.algorithm] != expected:

@@ -225,3 +225,30 @@ def test_duration():
     assert upstream.duration("3d") == timedelta(days=3)
     with pytest.raises(RcError):
         upstream.duration("1w")
+
+
+def test_openssl_checksum_lines():
+    # exiftool.org/checksums.txt
+    text = (
+        f"SHA2-256(Image-ExifTool-13.59.tar.gz)= {'a' * 64}\n"
+        f"SHA2-256(exiftool-13.59_64.zip)= {'b' * 64}\n"
+        f"SHA1(Image-ExifTool-13.59.tar.gz)= {'c' * 40}\n"
+        f"MD5 (Image-ExifTool-13.59.tar.gz) = {'d' * 32}\n"
+        f"SHA256(older.tar.gz)={'E' * 64}\n"
+        f"SHA2-512(Image-ExifTool-13.59.tar.gz)= {'f' * 128}\n"
+    )
+    assert upstream.parse_checksums(text, "Image-ExifTool-13.59.tar.gz") == "a" * 64
+    assert upstream.parse_checksums(text, "Image-ExifTool-13.59.tar.gz", "sha256") == "a" * 64
+    assert upstream.parse_checksums(text, "Image-ExifTool-13.59.tar.gz", "sha512") == "f" * 128
+    assert upstream.parse_checksums(text, "older.tar.gz", "sha256") == "e" * 64
+    assert upstream.parse_checksums(text, "exiftool-13.59_64.zip", "sha512") is None
+
+
+def test_checksums_of_another_algorithm_are_skipped():
+    text = f"SHA512 (a.tar) = {'1' * 128}\nSHA256 (a.tar) = {'2' * 64}\n{'3' * 128}  b.tar\n{'4' * 64}  b.tar\n"
+    assert upstream.parse_checksums(text, "a.tar", "sha256") == "2" * 64
+    assert upstream.parse_checksums(text, "a.tar", "sha512") == "1" * 128
+    assert upstream.parse_checksums(text, "b.tar", "sha256") == "4" * 64
+    assert upstream.parse_checksums(text, "b.tar", "sha512") == "3" * 128
+    # a label that does not fit its digest is not trusted
+    assert upstream.parse_checksums(f"SHA256 (c.tar) = {'5' * 128}\n", "c.tar", "sha256") is None
