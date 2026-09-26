@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-09-26T12:14:29Z",
+  "generated": "2026-09-26T16:19:49Z",
   "registry": {
     "alias": "randomcontainers.com",
     "ghcr": "ghcr.io/randomcontainers"
@@ -22,6 +22,356 @@
     "linux/arm64"
   ],
   "images": [
+    {
+      "name": "7zip",
+      "kind": "package",
+      "title": "7-Zip",
+      "summary": "Creates, extracts and tests 7z, zip, tar, xz, gzip and bzip2 archives, and unpacks RAR, ISO, DMG, CAB and many other formats.",
+      "homepage": "https://www.7-zip.org/",
+      "repository": "https://github.com/randomcontainers/7zip",
+      "license": "LGPL-2.1-or-later AND BSD-2-Clause AND BSD-3-Clause AND LicenseRef-7-Zip-unRAR",
+      "version": "26.03",
+      "versioning": "loose",
+      "examples": [
+        {
+          "title": "Extract an archive into the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/7zip x archive.7z"
+        },
+        {
+          "title": "Pack a directory into a 7z archive with maximum compression",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/7zip a -mx=9 backup.7z project/"
+        },
+        {
+          "title": "List the files in a RAR archive",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/7zip l archive.rar"
+        },
+        {
+          "title": "Test an archive without extracting it",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/7zip t archive.zip"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T14:51:59Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "26.03",
+          "tags": [
+            "latest",
+            "26.03",
+            "26",
+            "ubuntu",
+            "26.03-ubuntu",
+            "26-ubuntu",
+            "26.03-ubuntu26.04"
+          ],
+          "digest": "sha256:8e55555b427a84ce51fe9036d08b176c9af5f041cc47fdd00cd919d408ee6ba0",
+          "size": {
+            "linux/amd64": 44079276,
+            "linux/arm64": 43184601
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "26.03",
+          "tags": [
+            "alpine",
+            "26.03-alpine",
+            "26-alpine",
+            "26.03-alpine3.24"
+          ],
+          "digest": "sha256:f63900ebd30bc1af10a9fc999e786bcda9fd2d29a01f407957c5c472f77eb7f3",
+          "size": {
+            "linux/amd64": 6635305,
+            "linux/arm64": 6850440
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "26.03",
+          "tags": [
+            "slim",
+            "26.03-slim",
+            "26-slim",
+            "slim-ubuntu",
+            "26.03-slim-ubuntu",
+            "26-slim-ubuntu",
+            "26.03-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:8e55555b427a84ce51fe9036d08b176c9af5f041cc47fdd00cd919d408ee6ba0",
+          "size": {
+            "linux/amd64": 44079276,
+            "linux/arm64": 43184601
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "26.03",
+          "tags": [
+            "slim-alpine",
+            "26.03-slim-alpine",
+            "26-slim-alpine",
+            "26.03-slim-alpine3.24"
+          ],
+          "digest": "sha256:f63900ebd30bc1af10a9fc999e786bcda9fd2d29a01f407957c5c472f77eb7f3",
+          "size": {
+            "linux/amd64": 6635305,
+            "linux/arm64": 6850440
+          }
+        }
+      ]
+    },
+    {
+      "name": "doxygen",
+      "kind": "package",
+      "title": "Doxygen",
+      "summary": "Generates HTML, LaTeX, man page and XML documentation from comments in C++, C, Java, Python and other source code.",
+      "homepage": "https://www.doxygen.nl/",
+      "repository": "https://github.com/randomcontainers/doxygen",
+      "license": "GPL-2.0-or-later AND Apache-2.0 AND BSD-2-Clause-Views AND LPPL-1.3c AND MIT AND Zlib AND blessing",
+      "version": "1.18.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Generate documentation with the Doxyfile in the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/doxygen Doxyfile"
+        },
+        {
+          "title": "Write a template Doxyfile to start from",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/doxygen -g Doxyfile"
+        },
+        {
+          "title": "Override a setting of the Doxyfile without editing it",
+          "command": "{ cat Doxyfile; echo \"PROJECT_NUMBER = 2.1\"; } | docker run --rm -i --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/doxygen -"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "doxygen-graphviz",
+        "with": [
+          "graphviz"
+        ],
+        "base": "graphviz",
+        "summary": "Doxygen with Graphviz, for class, collaboration, include and call graphs drawn by dot.",
+        "license": "GPL-2.0-or-later AND Apache-2.0 AND BSD-2-Clause-Views AND LPPL-1.3c AND MIT AND Zlib AND blessing AND EPL-2.0 AND BSD-3-Clause AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree"
+      },
+      "combos": [
+        "doxygen-graphviz"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T16:11:47Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.18.0",
+          "tags": [
+            "latest",
+            "1.18.0",
+            "1.18",
+            "1",
+            "ubuntu",
+            "1.18.0-ubuntu",
+            "1.18-ubuntu",
+            "1-ubuntu",
+            "1.18.0-ubuntu26.04"
+          ],
+          "digest": "sha256:0673de20caa1489a634a078e8063edef93d0467b7d1ebfa5a5dacc91f95cf21a",
+          "size": {
+            "linux/amd64": 82666569,
+            "linux/arm64": 79807866
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.18.0",
+          "tags": [
+            "alpine",
+            "1.18.0-alpine",
+            "1.18-alpine",
+            "1-alpine",
+            "1.18.0-alpine3.24"
+          ],
+          "digest": "sha256:6c5012b6543a031cdc204bb11b61e90adcb828749303204a5a4864ee896ad7d6",
+          "size": {
+            "linux/amd64": 43238862,
+            "linux/arm64": 42675891
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.18.0",
+          "tags": [
+            "slim",
+            "1.18.0-slim",
+            "1.18-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.18.0-slim-ubuntu",
+            "1.18-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.18.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:71bc6377a93596f0f5c771d4b34ef0672c98bca43184dc48a3e8692f87ddcd80",
+          "size": {
+            "linux/amd64": 51061896,
+            "linux/arm64": 49853946
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.18.0",
+          "tags": [
+            "slim-alpine",
+            "1.18.0-slim-alpine",
+            "1.18-slim-alpine",
+            "1-slim-alpine",
+            "1.18.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:459396ce0485cd737d8299511ccaa8caf6280c248f7aabfc6887c0c28b723968",
+          "size": {
+            "linux/amd64": 13579320,
+            "linux/arm64": 13505855
+          }
+        }
+      ]
+    },
+    {
+      "name": "exiftool",
+      "kind": "package",
+      "title": "ExifTool",
+      "summary": "Reads, writes and removes metadata in images, video, audio and documents, including EXIF, GPS, IPTC, XMP and camera maker notes.",
+      "homepage": "https://exiftool.org/",
+      "repository": "https://github.com/randomcontainers/exiftool",
+      "license": "(Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0",
+      "version": "13.59",
+      "versioning": "loose",
+      "examples": [
+        {
+          "title": "Show every tag in a photo with its group name",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/exiftool -a -G1 -s photo.jpg"
+        },
+        {
+          "title": "Remove the GPS position from every JPEG in the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/exiftool -overwrite_original '-gps*=' -ext jpg -ext jpeg ."
+        },
+        {
+          "title": "Rename photos after the date they were taken",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/exiftool '-FileName<DateTimeOriginal' -d '%Y%m%d_%H%M%S%%-c.%%e' ."
+        },
+        {
+          "title": "Write the metadata of every JPEG in a directory tree to a JSON file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/exiftool -json -r -ext jpg -ext jpeg . > metadata.json"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "exiftool-imagemagick",
+        "with": [
+          "imagemagick"
+        ],
+        "base": "imagemagick",
+        "summary": "ExifTool with ImageMagick, for converting and resizing images and then copying, fixing or removing their metadata.",
+        "license": "(((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0) AND ImageMagick AND LGPL-3.0-or-later)"
+      },
+      "combos": [
+        "exiftool-imagemagick"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T16:05:29Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "13.59",
+          "tags": [
+            "latest",
+            "13.59",
+            "13",
+            "ubuntu",
+            "13.59-ubuntu",
+            "13-ubuntu",
+            "13.59-ubuntu26.04"
+          ],
+          "digest": "sha256:1835ad4bd1946504c459f0c36debddee2363785cea46da70ddb0597c34ecc72e",
+          "size": {
+            "linux/amd64": 78094385,
+            "linux/arm64": 75630081
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "13.59",
+          "tags": [
+            "alpine",
+            "13.59-alpine",
+            "13-alpine",
+            "13.59-alpine3.24"
+          ],
+          "digest": "sha256:f599edd6f615a4de9fe2fb980284632b2b109bc83975be2eacff89df5f91ddab",
+          "size": {
+            "linux/amd64": 41843297,
+            "linux/arm64": 41532303
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "13.59",
+          "tags": [
+            "slim",
+            "13.59-slim",
+            "13-slim",
+            "slim-ubuntu",
+            "13.59-slim-ubuntu",
+            "13-slim-ubuntu",
+            "13.59-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:db0cf1ef479577a55f2933366d199e6f3f54a040b0f9e248dcdfb5a7df617f15",
+          "size": {
+            "linux/amd64": 60524556,
+            "linux/arm64": 59635244
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "13.59",
+          "tags": [
+            "slim-alpine",
+            "13.59-slim-alpine",
+            "13-slim-alpine",
+            "13.59-slim-alpine3.24"
+          ],
+          "digest": "sha256:765b3be527cbcbb04f0aa08f22ed766b66794a51d1bd1973b8c02a57065634a5",
+          "size": {
+            "linux/amd64": 20190744,
+            "linux/arm64": 20467093
+          }
+        }
+      ]
+    },
     {
       "name": "ffmpeg",
       "kind": "package",
@@ -54,7 +404,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-09-25T14:05:17Z",
+      "updated": "2026-09-26T14:50:42Z",
       "variants": [
         {
           "flavour": "default",
@@ -71,10 +421,10 @@
             "9-ubuntu",
             "9.0.2-ubuntu26.04"
           ],
-          "digest": "sha256:766079dc2002471071518bc54f492aa1ccbe82624ec20253d70ce5347695531f",
+          "digest": "sha256:b4e5e483b80f9610c47364418f714ac3e6301399d7b75148dfe23a15b10597cd",
           "size": {
-            "linux/amd64": 87360793,
-            "linux/arm64": 85511172
+            "linux/amd64": 87360882,
+            "linux/arm64": 85511249
           }
         },
         {
@@ -88,10 +438,10 @@
             "9-alpine",
             "9.0.2-alpine3.24"
           ],
-          "digest": "sha256:7c9a3eccd05a259dfc5bbb47a3a0e32e0996f437a93ea54b5ec42539f18f55e8",
+          "digest": "sha256:d98dd4c668d8079a916a950c299576ca62c1ddc13eadd16cc3b654cc292d14f1",
           "size": {
-            "linux/amd64": 49838051,
-            "linux/arm64": 48089860
+            "linux/amd64": 49838096,
+            "linux/arm64": 48089909
           }
         },
         {
@@ -109,10 +459,10 @@
             "9-slim-ubuntu",
             "9.0.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:766079dc2002471071518bc54f492aa1ccbe82624ec20253d70ce5347695531f",
+          "digest": "sha256:b4e5e483b80f9610c47364418f714ac3e6301399d7b75148dfe23a15b10597cd",
           "size": {
-            "linux/amd64": 87360793,
-            "linux/arm64": 85511172
+            "linux/amd64": 87360882,
+            "linux/arm64": 85511249
           }
         },
         {
@@ -126,10 +476,10 @@
             "9-slim-alpine",
             "9.0.2-slim-alpine3.24"
           ],
-          "digest": "sha256:7c9a3eccd05a259dfc5bbb47a3a0e32e0996f437a93ea54b5ec42539f18f55e8",
+          "digest": "sha256:d98dd4c668d8079a916a950c299576ca62c1ddc13eadd16cc3b654cc292d14f1",
           "size": {
-            "linux/amd64": 49838051,
-            "linux/arm64": 48089860
+            "linux/amd64": 49838096,
+            "linux/arm64": 48089909
           }
         }
       ]
@@ -170,7 +520,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-09-25T14:05:27Z",
+      "updated": "2026-09-26T14:50:43Z",
       "variants": [
         {
           "flavour": "default",
@@ -187,10 +537,10 @@
             "10-ubuntu",
             "10.08.0-ubuntu26.04"
           ],
-          "digest": "sha256:9f418f47133c7bacfca4628db1264a7addfbb415d8c0a898c462694fe5cfe783",
+          "digest": "sha256:99e8b8197d634f426f26ea3fe71a7bdd69162b2552ef52eb4b83c73a65df1944",
           "size": {
-            "linux/amd64": 59881073,
-            "linux/arm64": 58851354
+            "linux/amd64": 59881109,
+            "linux/arm64": 58851386
           }
         },
         {
@@ -204,10 +554,10 @@
             "10-alpine",
             "10.08.0-alpine3.24"
           ],
-          "digest": "sha256:f7a1f17c9ace83f0d2dbbfdcd64c47ee3663c24dc793a024f2a2af36d022e5ba",
+          "digest": "sha256:b996bac5870f3615b54fa3dffe55ec55e8540b162d936ff1043add827d61371a",
           "size": {
-            "linux/amd64": 19191960,
-            "linux/arm64": 19423565
+            "linux/amd64": 19191892,
+            "linux/arm64": 19423553
           }
         },
         {
@@ -225,10 +575,10 @@
             "10-slim-ubuntu",
             "10.08.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:9f418f47133c7bacfca4628db1264a7addfbb415d8c0a898c462694fe5cfe783",
+          "digest": "sha256:99e8b8197d634f426f26ea3fe71a7bdd69162b2552ef52eb4b83c73a65df1944",
           "size": {
-            "linux/amd64": 59881073,
-            "linux/arm64": 58851354
+            "linux/amd64": 59881109,
+            "linux/arm64": 58851386
           }
         },
         {
@@ -242,10 +592,126 @@
             "10-slim-alpine",
             "10.08.0-slim-alpine3.24"
           ],
-          "digest": "sha256:f7a1f17c9ace83f0d2dbbfdcd64c47ee3663c24dc793a024f2a2af36d022e5ba",
+          "digest": "sha256:b996bac5870f3615b54fa3dffe55ec55e8540b162d936ff1043add827d61371a",
           "size": {
-            "linux/amd64": 19191960,
-            "linux/arm64": 19423565
+            "linux/amd64": 19191892,
+            "linux/arm64": 19423553
+          }
+        }
+      ]
+    },
+    {
+      "name": "graphviz",
+      "kind": "package",
+      "title": "Graphviz",
+      "summary": "Lays out graphs written in the DOT language and draws them as SVG, PNG, PDF and other formats, with the dot, neato, sfdp and other Graphviz layouts.",
+      "homepage": "https://graphviz.org/",
+      "repository": "https://github.com/randomcontainers/graphviz",
+      "license": "EPL-2.0 AND BSD-3-Clause AND CPL-1.0 AND LGPL-2.0-or-later AND MIT AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
+      "version": "16.1.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Draw a graph as SVG",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/graphviz -Tsvg -o graph.svg graph.gv"
+        },
+        {
+          "title": "Draw a graph as PNG at 150 dpi, reading from stdin and writing to stdout",
+          "command": "docker run --rm -i ghcr.io/randomcontainers/graphviz -Tpng -Gdpi=150 < graph.gv > graph.png"
+        },
+        {
+          "title": "Lay out a large undirected graph with sfdp",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/graphviz -Ksfdp -Tsvg -o network.svg network.gv"
+        },
+        {
+          "title": "Remove transitive edges from a graph with tred",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint tred ghcr.io/randomcontainers/graphviz graph.gv"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T14:57:57Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "16.1.0",
+          "tags": [
+            "latest",
+            "16.1.0",
+            "16.1",
+            "16",
+            "ubuntu",
+            "16.1.0-ubuntu",
+            "16.1-ubuntu",
+            "16-ubuntu",
+            "16.1.0-ubuntu26.04"
+          ],
+          "digest": "sha256:ced8c2b39eaffaa9382351f8f1e9e8174d31a168ca306aaf759f9a84d5ac0cc2",
+          "size": {
+            "linux/amd64": 74262724,
+            "linux/arm64": 71773115
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "16.1.0",
+          "tags": [
+            "alpine",
+            "16.1.0-alpine",
+            "16.1-alpine",
+            "16-alpine",
+            "16.1.0-alpine3.24"
+          ],
+          "digest": "sha256:1043be25bdc88df5a5a12a6a89605622263df977a11b1dea794380efeeaafb1a",
+          "size": {
+            "linux/amd64": 34803954,
+            "linux/arm64": 34590532
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "16.1.0",
+          "tags": [
+            "slim",
+            "16.1.0-slim",
+            "16.1-slim",
+            "16-slim",
+            "slim-ubuntu",
+            "16.1.0-slim-ubuntu",
+            "16.1-slim-ubuntu",
+            "16-slim-ubuntu",
+            "16.1.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:ced8c2b39eaffaa9382351f8f1e9e8174d31a168ca306aaf759f9a84d5ac0cc2",
+          "size": {
+            "linux/amd64": 74262724,
+            "linux/arm64": 71773115
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "16.1.0",
+          "tags": [
+            "slim-alpine",
+            "16.1.0-slim-alpine",
+            "16.1-slim-alpine",
+            "16-slim-alpine",
+            "16.1.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:1043be25bdc88df5a5a12a6a89605622263df977a11b1dea794380efeeaafb1a",
+          "size": {
+            "linux/amd64": 34803954,
+            "linux/arm64": 34590532
           }
         }
       ]
@@ -257,7 +723,7 @@
       "summary": "Converts and edits images, with JPEG, PNG, TIFF, WebP, HEIC, AVIF, JPEG XL, JPEG 2000 and camera raw support.",
       "homepage": "https://imagemagick.org/",
       "repository": "https://github.com/randomcontainers/imagemagick",
-      "license": "ImageMagick",
+      "license": "ImageMagick AND LGPL-3.0-or-later",
       "version": "7.1.2-31",
       "versioning": "loose",
       "examples": [
@@ -278,7 +744,7 @@
           "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/imagemagick -density 150 \"input.pdf[0]\" page-1.png"
         }
       ],
-      "source_release": false,
+      "source_release": true,
       "default": {
         "kind": "combo",
         "combo": "imagemagick-ghostscript",
@@ -287,7 +753,7 @@
         ],
         "base": "ghostscript",
         "summary": "ImageMagick with Ghostscript, for reading and writing PDF, PostScript and EPS files.",
-        "license": "ImageMagick AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib"
+        "license": "ImageMagick AND LGPL-3.0-or-later AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib"
       },
       "combos": [
         "imagemagick-ghostscript"
@@ -295,7 +761,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-09-26T11:27:04Z",
+      "updated": "2026-09-26T15:57:30Z",
       "variants": [
         {
           "flavour": "default",
@@ -314,10 +780,10 @@
             "7-ubuntu",
             "7.1.2-31-ubuntu26.04"
           ],
-          "digest": "sha256:0b139b64cb195a15a6cb4f142cb834cd59d6c50a443e20d954dbab006175aa59",
+          "digest": "sha256:f7d4348384f35046c5addb148884c056a34cc301e56f1bad68bdb79f306550f0",
           "size": {
-            "linux/amd64": 72360663,
-            "linux/arm64": 69881339
+            "linux/amd64": 72898865,
+            "linux/arm64": 70400039
           }
         },
         {
@@ -332,10 +798,10 @@
             "7-alpine",
             "7.1.2-31-alpine3.24"
           ],
-          "digest": "sha256:e8944de74cafe466bd435cbcc379a9cc31eef0dd227692498e22b86807450dcd",
+          "digest": "sha256:4210cb2d94aea84a3d74daeebba4122e0b8678c71d201028f4a69badf0400670",
           "size": {
-            "linux/amd64": 38317715,
-            "linux/arm64": 38016789
+            "linux/amd64": 38501855,
+            "linux/arm64": 38169172
           }
         },
         {
@@ -355,10 +821,10 @@
             "7-slim-ubuntu",
             "7.1.2-31-slim-ubuntu26.04"
           ],
-          "digest": "sha256:169e896a32ba8093ed5fd2b8300341fe96925bbf1ee310668dc7bf7f50998476",
+          "digest": "sha256:fc2177976b047fbabe0656a8e37d9d26a52bf41ec2a030bcb31878f90350b85a",
           "size": {
-            "linux/amd64": 59609351,
-            "linux/arm64": 57221143
+            "linux/amd64": 60146645,
+            "linux/arm64": 57737261
           }
         },
         {
@@ -373,10 +839,1091 @@
             "7-slim-alpine",
             "7.1.2-31-slim-alpine3.24"
           ],
-          "digest": "sha256:4a51019400d46b7d710dd07ef84acac6e90a3cd9c0bbde8b6a83d5e92be09e2c",
+          "digest": "sha256:e6bebc2f7934aee80ce86f95f0524eb8ed04c4b264a614f3066f11a947c37c94",
           "size": {
-            "linux/amd64": 25591611,
-            "linux/arm64": 25372356
+            "linux/amd64": 25773199,
+            "linux/arm64": 25524325
+          }
+        }
+      ]
+    },
+    {
+      "name": "iperf3",
+      "kind": "package",
+      "title": "iperf3",
+      "summary": "Measures TCP and UDP throughput between two hosts, with jitter and packet loss for UDP.",
+      "homepage": "https://software.es.net/iperf/",
+      "repository": "https://github.com/randomcontainers/iperf3",
+      "license": "BSD-3-Clause-LBNL AND BSD-2-Clause AND BSD-3-Clause AND MIT AND NCSA",
+      "version": "3.21",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Start a server on port 5201",
+          "command": "docker run --rm --network host ghcr.io/randomcontainers/iperf3 -s"
+        },
+        {
+          "title": "Measure TCP throughput to a server for 10 seconds",
+          "command": "docker run --rm --network host ghcr.io/randomcontainers/iperf3 -c <server>"
+        },
+        {
+          "title": "Measure the other direction, from the server to this host",
+          "command": "docker run --rm --network host ghcr.io/randomcontainers/iperf3 -c <server> -R"
+        },
+        {
+          "title": "Send UDP at 500 Mbit/s and report jitter and packet loss",
+          "command": "docker run --rm --network host ghcr.io/randomcontainers/iperf3 -c <server> -u -b 500M"
+        },
+        {
+          "title": "Run a server behind Docker's port mapping instead of the host network",
+          "command": "docker run --rm -p 5201:5201 -p 5201:5201/udp ghcr.io/randomcontainers/iperf3 -s"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T15:47:22Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.21",
+          "tags": [
+            "latest",
+            "3.21",
+            "3",
+            "ubuntu",
+            "3.21-ubuntu",
+            "3-ubuntu",
+            "3.21-ubuntu26.04"
+          ],
+          "digest": "sha256:7d31d5250997cca2a9c01ad86bcbe58e71c912a3cc00e7628772a02092b57a42",
+          "size": {
+            "linux/amd64": 42752755,
+            "linux/arm64": 41910650
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.21",
+          "tags": [
+            "alpine",
+            "3.21-alpine",
+            "3-alpine",
+            "3.21-alpine3.24"
+          ],
+          "digest": "sha256:69c838b2126ba0c31b8e5ea031e7881ff1abbaae34627efef06b10e7dec83ff5",
+          "size": {
+            "linux/amd64": 4196914,
+            "linux/arm64": 4534583
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "3.21",
+          "tags": [
+            "slim",
+            "3.21-slim",
+            "3-slim",
+            "slim-ubuntu",
+            "3.21-slim-ubuntu",
+            "3-slim-ubuntu",
+            "3.21-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:7d31d5250997cca2a9c01ad86bcbe58e71c912a3cc00e7628772a02092b57a42",
+          "size": {
+            "linux/amd64": 42752755,
+            "linux/arm64": 41910650
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "3.21",
+          "tags": [
+            "slim-alpine",
+            "3.21-slim-alpine",
+            "3-slim-alpine",
+            "3.21-slim-alpine3.24"
+          ],
+          "digest": "sha256:69c838b2126ba0c31b8e5ea031e7881ff1abbaae34627efef06b10e7dec83ff5",
+          "size": {
+            "linux/amd64": 4196914,
+            "linux/arm64": 4534583
+          }
+        }
+      ]
+    },
+    {
+      "name": "jpegoptim",
+      "kind": "package",
+      "title": "jpegoptim",
+      "summary": "Makes JPEG files smaller, losslessly or by recompressing them to a maximum quality or file size, and can strip their metadata.",
+      "homepage": "https://github.com/tjko/jpegoptim",
+      "repository": "https://github.com/randomcontainers/jpegoptim",
+      "license": "GPL-3.0-or-later",
+      "version": "1.5.6",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Optimize every JPEG in the current directory losslessly and strip their metadata",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/jpegoptim --strip-all *.jpg"
+        },
+        {
+          "title": "Recompress photos that were saved above quality 85",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/jpegoptim --max=85 --strip-all *.jpg"
+        },
+        {
+          "title": "Optimize a JPEG from standard input to standard output",
+          "command": "docker run --rm -i ghcr.io/randomcontainers/jpegoptim --stdin --stdout --strip-all < photo.jpg > photo-small.jpg"
+        },
+        {
+          "title": "Rotate and resize a photo, then optimize it and keep its color profile (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/jpegoptim -c 'magick photo.jpg -auto-orient -resize 1600x1600 web.jpg && jpegoptim --max=85 --strip-all --keep-icc web.jpg'"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "jpegoptim-imagemagick",
+        "with": [
+          "imagemagick"
+        ],
+        "base": "imagemagick",
+        "summary": "jpegoptim with ImageMagick, for resizing, rotating or converting images before optimizing them.",
+        "license": "GPL-3.0-or-later AND ImageMagick AND LGPL-3.0-or-later"
+      },
+      "combos": [
+        "jpegoptim-imagemagick"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T16:05:36Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.5.6",
+          "tags": [
+            "latest",
+            "1.5.6",
+            "1.5",
+            "1",
+            "ubuntu",
+            "1.5.6-ubuntu",
+            "1.5-ubuntu",
+            "1-ubuntu",
+            "1.5.6-ubuntu26.04"
+          ],
+          "digest": "sha256:981bc805f557b4395a2aa1190dfc77f4ffe03fca2a373d32f281d7cc828ec22d",
+          "size": {
+            "linux/amd64": 60186642,
+            "linux/arm64": 57776529
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.5.6",
+          "tags": [
+            "alpine",
+            "1.5.6-alpine",
+            "1.5-alpine",
+            "1-alpine",
+            "1.5.6-alpine3.24"
+          ],
+          "digest": "sha256:5c5d729e9172f76d253d37ab595bcfd19c6537d6320aba83cff47a859203e2e5",
+          "size": {
+            "linux/amd64": 25834934,
+            "linux/arm64": 25585440
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.5.6",
+          "tags": [
+            "slim",
+            "1.5.6-slim",
+            "1.5-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.5.6-slim-ubuntu",
+            "1.5-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.5.6-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:ea2de026a364ad085b597c91452aafec9e7e50909ab3b7d4bb2cbc122750435f",
+          "size": {
+            "linux/amd64": 42875729,
+            "linux/arm64": 42046022
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.5.6",
+          "tags": [
+            "slim-alpine",
+            "1.5.6-slim-alpine",
+            "1.5-slim-alpine",
+            "1-slim-alpine",
+            "1.5.6-slim-alpine3.24"
+          ],
+          "digest": "sha256:72b6ce1d693f0f92c4ebeecb3dbb9771b459190b154f53422e0e18839524ab24",
+          "size": {
+            "linux/amd64": 4354220,
+            "linux/arm64": 4720746
+          }
+        }
+      ]
+    },
+    {
+      "name": "mediainfo",
+      "kind": "package",
+      "title": "MediaInfo",
+      "summary": "Reports the technical and tag data of video and audio files, such as codecs, bit rates, HDR formats and subtitle tracks, as text, JSON or XML.",
+      "homepage": "https://mediaarea.net/en/MediaInfo",
+      "repository": "https://github.com/randomcontainers/mediainfo",
+      "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause",
+      "version": "26.05",
+      "versioning": "loose",
+      "examples": [
+        {
+          "title": "Show the technical data of a video file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mediainfo input.mkv"
+        },
+        {
+          "title": "Write the full report as JSON",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mediainfo --Output=JSON input.mp4 > input.json"
+        },
+        {
+          "title": "Print the resolution and frame rate of the video track",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mediainfo --Output='Video;%Width%x%Height% %FrameRate% fps' input.mp4"
+        },
+        {
+          "title": "Read a file over HTTPS without downloading all of it",
+          "command": "docker run --rm ghcr.io/randomcontainers/mediainfo https://example.com/video.mp4"
+        },
+        {
+          "title": "Measure the picture inside black borders with FFmpeg (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mediainfo --Enable_FFmpeg=1 --Output='Video;%Active_Width%x%Active_Height%' input.mkv"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "mediainfo-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "MediaInfo with FFmpeg, for checking files with both mediainfo and ffprobe and for measuring black borders.",
+        "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause AND GPL-3.0-or-later"
+      },
+      "combos": [
+        "mediainfo-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T15:47:23Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "26.05",
+          "tags": [
+            "latest",
+            "26.05",
+            "26",
+            "ubuntu",
+            "26.05-ubuntu",
+            "26-ubuntu",
+            "26.05-ubuntu26.04"
+          ],
+          "digest": "sha256:90d308098ed7f9d850cedb2536f64b6c4d3d10e6303fc70f32c0deb008690db9",
+          "size": {
+            "linux/amd64": 93268491,
+            "linux/arm64": 91073585
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "26.05",
+          "tags": [
+            "alpine",
+            "26.05-alpine",
+            "26-alpine",
+            "26.05-alpine3.24"
+          ],
+          "digest": "sha256:7a8b0c9213b35aaa8eee0a8e2df4676c194db09b10f0395ae20781f281fbd9f8",
+          "size": {
+            "linux/amd64": 56419911,
+            "linux/arm64": 54349105
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "26.05",
+          "tags": [
+            "slim",
+            "26.05-slim",
+            "26-slim",
+            "slim-ubuntu",
+            "26.05-slim-ubuntu",
+            "26-slim-ubuntu",
+            "26.05-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:0b86e0ecd8f2083edbebc6fe157649467606f277c4b4ffb86314c5ee24688ab8",
+          "size": {
+            "linux/amd64": 52465597,
+            "linux/arm64": 51183188
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "26.05",
+          "tags": [
+            "slim-alpine",
+            "26.05-slim-alpine",
+            "26-slim-alpine",
+            "26.05-slim-alpine3.24"
+          ],
+          "digest": "sha256:b41d0ae53a1dd1752ed89be0f80f00a1e336c5158d1935ee5647ba8974b1c289",
+          "size": {
+            "linux/amd64": 12162498,
+            "linux/arm64": 12120287
+          }
+        }
+      ]
+    },
+    {
+      "name": "mkvtoolnix",
+      "kind": "package",
+      "title": "MKVToolNix",
+      "summary": "Creates, inspects, edits and extracts from Matroska and WebM files with mkvmerge, mkvinfo, mkvpropedit and mkvextract.",
+      "homepage": "https://mkvtoolnix.download/",
+      "repository": "https://github.com/randomcontainers/mkvtoolnix",
+      "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0",
+      "version": "102.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Remux an MP4 file into Matroska without re-encoding",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mkvtoolnix -o output.mkv input.mp4"
+        },
+        {
+          "title": "Add German subtitles to a video",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mkvtoolnix -o output.mkv input.mkv --language 0:de --track-name 0:Deutsch subtitles.de.srt"
+        },
+        {
+          "title": "List the tracks, chapters and attachments of a file as JSON",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mkvtoolnix -J input.mkv"
+        },
+        {
+          "title": "Change the title and the language of the first audio track in place",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint mkvpropedit ghcr.io/randomcontainers/mkvtoolnix input.mkv --edit info --set \"title=New title\" --edit track:a1 --set language=en"
+        },
+        {
+          "title": "Extract a subtitle track",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint mkvextract ghcr.io/randomcontainers/mkvtoolnix input.mkv tracks 2:subtitles.srt"
+        },
+        {
+          "title": "Convert the first audio track to Opus with FFmpeg (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint ffmpeg ghcr.io/randomcontainers/mkvtoolnix -i input.mkv -map 0:a:0 -c:a libopus audio.opus"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "mkvtoolnix-ffmpeg-mediainfo",
+        "with": [
+          "ffmpeg",
+          "mediainfo"
+        ],
+        "base": "ffmpeg",
+        "summary": "MKVToolNix with FFmpeg and MediaInfo, for converting, remuxing and checking video files in one image.",
+        "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0 AND GPL-3.0-or-later AND BSD-2-Clause AND Zlib AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause"
+      },
+      "combos": [
+        "mkvtoolnix-ffmpeg-mediainfo"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T16:19:49Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "102.0",
+          "tags": [
+            "latest",
+            "102.0",
+            "102",
+            "ubuntu",
+            "102.0-ubuntu",
+            "102-ubuntu",
+            "102.0-ubuntu26.04"
+          ],
+          "digest": "sha256:ea818c4bb6cf2f5622271326a476f8ac2590d8280b95f3b270a45e458781a32d",
+          "size": {
+            "linux/amd64": 121881720,
+            "linux/arm64": 118969480
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "102.0",
+          "tags": [
+            "alpine",
+            "102.0-alpine",
+            "102-alpine",
+            "102.0-alpine3.24"
+          ],
+          "digest": "sha256:4b4d24bd61a8622a08b24677479cd7fe643bfdd7d724371f1c402f928d37e3b4",
+          "size": {
+            "linux/amd64": 75185206,
+            "linux/arm64": 72473850
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "102.0",
+          "tags": [
+            "slim",
+            "102.0-slim",
+            "102-slim",
+            "slim-ubuntu",
+            "102.0-slim-ubuntu",
+            "102-slim-ubuntu",
+            "102.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:7ef4ddbe70e71d2eb72e44a36ec12dabc8bea9fceeae981bbd3084ac728ff7e4",
+          "size": {
+            "linux/amd64": 73999555,
+            "linux/arm64": 72428938
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "102.0",
+          "tags": [
+            "slim-alpine",
+            "102.0-slim-alpine",
+            "102-slim-alpine",
+            "102.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:5c148964b16c62bd3e8468b559e5288cd2fdcfc31d22acc0f842d26142f40717",
+          "size": {
+            "linux/amd64": 29413488,
+            "linux/arm64": 28986222
+          }
+        }
+      ]
+    },
+    {
+      "name": "mupdf",
+      "kind": "package",
+      "title": "MuPDF",
+      "summary": "Renders, converts, merges, encrypts and repairs PDF files with mutool, and converts EPUB, XPS, CBZ, HTML and Markdown documents.",
+      "homepage": "https://mupdf.com/",
+      "repository": "https://github.com/randomcontainers/mupdf",
+      "license": "AGPL-3.0-or-later AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND FTL AND IJG AND ISC AND MIT AND MIT-Modern-Variant AND OFL-1.1 AND Unicode-TOU AND X11 AND Zlib",
+      "version": "1.28.5",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Render every page of a PDF to a 150 dpi PNG",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mupdf draw -r 150 -o page-%d.png input.pdf"
+        },
+        {
+          "title": "Extract the text of a PDF",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mupdf draw -F txt -o output.txt input.pdf"
+        },
+        {
+          "title": "Merge several PDFs into one",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mupdf merge -o merged.pdf first.pdf second.pdf"
+        },
+        {
+          "title": "Convert an EPUB book to PDF",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/mupdf convert -o book.pdf book.epub"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T14:52:23Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.28.5",
+          "tags": [
+            "latest",
+            "1.28.5",
+            "1.28",
+            "1",
+            "ubuntu",
+            "1.28.5-ubuntu",
+            "1.28-ubuntu",
+            "1-ubuntu",
+            "1.28.5-ubuntu26.04"
+          ],
+          "digest": "sha256:7123c71ccb27c8b842d2ac2eab65bdaead8fb012715dcd100f0079d3704a3dbc",
+          "size": {
+            "linux/amd64": 73474217,
+            "linux/arm64": 72550535
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.28.5",
+          "tags": [
+            "alpine",
+            "1.28.5-alpine",
+            "1.28-alpine",
+            "1-alpine",
+            "1.28.5-alpine3.24"
+          ],
+          "digest": "sha256:8563a2ee282d5e638f0ba1847e58ec420187350c77dcf24d819efb641df97463",
+          "size": {
+            "linux/amd64": 34999261,
+            "linux/arm64": 35236478
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.28.5",
+          "tags": [
+            "slim",
+            "1.28.5-slim",
+            "1.28-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.28.5-slim-ubuntu",
+            "1.28-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.28.5-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:7123c71ccb27c8b842d2ac2eab65bdaead8fb012715dcd100f0079d3704a3dbc",
+          "size": {
+            "linux/amd64": 73474217,
+            "linux/arm64": 72550535
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.28.5",
+          "tags": [
+            "slim-alpine",
+            "1.28.5-slim-alpine",
+            "1.28-slim-alpine",
+            "1-slim-alpine",
+            "1.28.5-slim-alpine3.24"
+          ],
+          "digest": "sha256:8563a2ee282d5e638f0ba1847e58ec420187350c77dcf24d819efb641df97463",
+          "size": {
+            "linux/amd64": 34999261,
+            "linux/arm64": 35236478
+          }
+        }
+      ]
+    },
+    {
+      "name": "nmap",
+      "kind": "package",
+      "title": "Nmap",
+      "summary": "Discovers hosts and services on a network and scans their ports, with Ncat and Nping. Built from the signed Nmap release.",
+      "homepage": "https://nmap.org/",
+      "repository": "https://github.com/randomcontainers/nmap",
+      "license": "LicenseRef-NPSL-0.95 AND BSD-2-Clause AND BSD-2-Clause-Patent AND BSD-3-Clause AND MIT",
+      "version": "7.991",
+      "versioning": "loose",
+      "examples": [
+        {
+          "title": "Find the open ports on a host and the services behind them",
+          "command": "docker run --rm ghcr.io/randomcontainers/nmap -sV scanme.nmap.org"
+        },
+        {
+          "title": "Scan a subnet and save the results as XML",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/nmap -sV -oX scan.xml 192.168.1.0/24"
+        },
+        {
+          "title": "Show the TLS certificate and ciphers of an HTTPS server",
+          "command": "docker run --rm ghcr.io/randomcontainers/nmap -p 443 --script ssl-cert,ssl-enum-ciphers <host>"
+        },
+        {
+          "title": "Run a SYN scan with OS detection from the host's network",
+          "command": "docker run --rm --user 0 --cap-add NET_RAW --network host ghcr.io/randomcontainers/nmap -sS -O 192.168.1.0/24"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T14:54:18Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "7.991",
+          "tags": [
+            "latest",
+            "7.991",
+            "7",
+            "ubuntu",
+            "7.991-ubuntu",
+            "7-ubuntu",
+            "7.991-ubuntu26.04"
+          ],
+          "digest": "sha256:b9feb50ea4467e245b0f36713d2a46ff22919e701bbb906d2cef73d57f6ee15a",
+          "size": {
+            "linux/amd64": 50747161,
+            "linux/arm64": 49822816
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "7.991",
+          "tags": [
+            "alpine",
+            "7.991-alpine",
+            "7-alpine",
+            "7.991-alpine3.24"
+          ],
+          "digest": "sha256:88d048cb4dddcd5d751b9dbffd2f6f4cf83b11f4bf2b791dafbc3fca7497c868",
+          "size": {
+            "linux/amd64": 12924053,
+            "linux/arm64": 13132857
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "7.991",
+          "tags": [
+            "slim",
+            "7.991-slim",
+            "7-slim",
+            "slim-ubuntu",
+            "7.991-slim-ubuntu",
+            "7-slim-ubuntu",
+            "7.991-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:b9feb50ea4467e245b0f36713d2a46ff22919e701bbb906d2cef73d57f6ee15a",
+          "size": {
+            "linux/amd64": 50747161,
+            "linux/arm64": 49822816
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "7.991",
+          "tags": [
+            "slim-alpine",
+            "7.991-slim-alpine",
+            "7-slim-alpine",
+            "7.991-slim-alpine3.24"
+          ],
+          "digest": "sha256:88d048cb4dddcd5d751b9dbffd2f6f4cf83b11f4bf2b791dafbc3fca7497c868",
+          "size": {
+            "linux/amd64": 12924053,
+            "linux/arm64": 13132857
+          }
+        }
+      ]
+    },
+    {
+      "name": "poppler",
+      "kind": "package",
+      "title": "Poppler",
+      "summary": "Extracts text, images and attachments from PDF files, renders pages to PNG, JPEG, TIFF or SVG, and splits, merges and inspects PDFs.",
+      "homepage": "https://poppler.freedesktop.org/",
+      "repository": "https://github.com/randomcontainers/poppler",
+      "license": "(GPL-2.0-only OR GPL-3.0-only) AND MIT",
+      "version": "26.09.0",
+      "versioning": "loose",
+      "examples": [
+        {
+          "title": "Extract the text of a PDF, keeping the layout of the page",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/poppler -layout input.pdf output.txt"
+        },
+        {
+          "title": "Render every page of a PDF to a 150 dpi PNG",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint pdftoppm ghcr.io/randomcontainers/poppler -png -r 150 input.pdf page"
+        },
+        {
+          "title": "Show the page count, page size and metadata of a PDF",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint pdfinfo ghcr.io/randomcontainers/poppler input.pdf"
+        },
+        {
+          "title": "Merge PDF files into one",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint pdfunite ghcr.io/randomcontainers/poppler first.pdf second.pdf merged.pdf"
+        },
+        {
+          "title": "Extract the images of a PDF in their original format",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint pdfimages ghcr.io/randomcontainers/poppler -all input.pdf image"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T15:47:29Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "26.09.0",
+          "tags": [
+            "latest",
+            "26.09.0",
+            "26.09",
+            "26",
+            "ubuntu",
+            "26.09.0-ubuntu",
+            "26.09-ubuntu",
+            "26-ubuntu",
+            "26.09.0-ubuntu26.04"
+          ],
+          "digest": "sha256:f14fefba956a5bb8a373ac25096ffaa263806e1a47034be04bf14c75afc6f95c",
+          "size": {
+            "linux/amd64": 62209477,
+            "linux/arm64": 60935373
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "26.09.0",
+          "tags": [
+            "alpine",
+            "26.09.0-alpine",
+            "26.09-alpine",
+            "26-alpine",
+            "26.09.0-alpine3.24"
+          ],
+          "digest": "sha256:2c319331dcc1417a5df366e12fb7ac1a60baaef174b1cf1f80b071528023f49c",
+          "size": {
+            "linux/amd64": 25656048,
+            "linux/arm64": 25576252
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "26.09.0",
+          "tags": [
+            "slim",
+            "26.09.0-slim",
+            "26.09-slim",
+            "26-slim",
+            "slim-ubuntu",
+            "26.09.0-slim-ubuntu",
+            "26.09-slim-ubuntu",
+            "26-slim-ubuntu",
+            "26.09.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:f14fefba956a5bb8a373ac25096ffaa263806e1a47034be04bf14c75afc6f95c",
+          "size": {
+            "linux/amd64": 62209477,
+            "linux/arm64": 60935373
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "26.09.0",
+          "tags": [
+            "slim-alpine",
+            "26.09.0-slim-alpine",
+            "26.09-slim-alpine",
+            "26-slim-alpine",
+            "26.09.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:2c319331dcc1417a5df366e12fb7ac1a60baaef174b1cf1f80b071528023f49c",
+          "size": {
+            "linux/amd64": 25656048,
+            "linux/arm64": 25576252
+          }
+        }
+      ]
+    },
+    {
+      "name": "qpdf",
+      "kind": "package",
+      "title": "qpdf",
+      "summary": "Merges, splits, encrypts, decrypts, linearizes and repairs PDF files without changing their content.",
+      "homepage": "https://qpdf.sourceforge.io/",
+      "repository": "https://github.com/randomcontainers/qpdf",
+      "license": "Apache-2.0",
+      "version": "12.4.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Merge PDF files into one",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/qpdf --empty --pages first.pdf second.pdf -- merged.pdf"
+        },
+        {
+          "title": "Split a PDF into one file per page",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/qpdf --split-pages input.pdf page-%d.pdf"
+        },
+        {
+          "title": "Encrypt a PDF with AES-256 and a password to open it",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/qpdf --encrypt --user-password=open-me --owner-password=change-me --bits=256 -- input.pdf encrypted.pdf"
+        },
+        {
+          "title": "Linearize a PDF for fast web view",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/qpdf --linearize input.pdf web.pdf"
+        },
+        {
+          "title": "Shrink a PDF with Ghostscript (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint gs ghcr.io/randomcontainers/qpdf -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -o smaller.pdf input.pdf"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "qpdf-ghostscript",
+        "with": [
+          "ghostscript"
+        ],
+        "base": "ghostscript",
+        "summary": "qpdf with Ghostscript, for PDF work that also needs rendering, compression or PostScript conversion.",
+        "license": "Apache-2.0 AND AGPL-3.0-or-later AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib"
+      },
+      "combos": [
+        "qpdf-ghostscript"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T16:05:24Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "12.4.1",
+          "tags": [
+            "latest",
+            "12.4.1",
+            "12.4",
+            "12",
+            "ubuntu",
+            "12.4.1-ubuntu",
+            "12.4-ubuntu",
+            "12-ubuntu",
+            "12.4.1-ubuntu26.04"
+          ],
+          "digest": "sha256:8de5bcb407352ad905135ba10c851b1931d97405847dee8aa38d1db55d499367",
+          "size": {
+            "linux/amd64": 61464929,
+            "linux/arm64": 60330485
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "12.4.1",
+          "tags": [
+            "alpine",
+            "12.4.1-alpine",
+            "12.4-alpine",
+            "12-alpine",
+            "12.4.1-alpine3.24"
+          ],
+          "digest": "sha256:fd0f8cec33393ff48a884ee7dbe24ca26af8d60dc6effa9aca187cc4a554a543",
+          "size": {
+            "linux/amd64": 21846937,
+            "linux/arm64": 21913442
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "12.4.1",
+          "tags": [
+            "slim",
+            "12.4.1-slim",
+            "12.4-slim",
+            "12-slim",
+            "slim-ubuntu",
+            "12.4.1-slim-ubuntu",
+            "12.4-slim-ubuntu",
+            "12-slim-ubuntu",
+            "12.4.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:a8e9e9e126cd9664d2d8553c8ec08821cae3d094a0db7e4b2cad92def812eb2c",
+          "size": {
+            "linux/amd64": 44420196,
+            "linux/arm64": 43486542
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "12.4.1",
+          "tags": [
+            "slim-alpine",
+            "12.4.1-slim-alpine",
+            "12.4-slim-alpine",
+            "12-slim-alpine",
+            "12.4.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:08983fa329a15ffd2487c81160caef9b5ea2b924be8cc30ce2af090ab11274eb",
+          "size": {
+            "linux/amd64": 6954348,
+            "linux/arm64": 7155366
+          }
+        }
+      ]
+    },
+    {
+      "name": "rsync",
+      "kind": "package",
+      "title": "rsync",
+      "summary": "Copies and synchronizes files locally, over SSH or with an rsync daemon, sending only the parts of files that changed.",
+      "homepage": "https://rsync.samba.org/",
+      "repository": "https://github.com/randomcontainers/rsync",
+      "license": "GPL-3.0-or-later AND Zlib",
+      "version": "3.5.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Mirror a directory, deleting files that are gone from the source",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/rsync -a --delete photos/ photos-backup/"
+        },
+        {
+          "title": "Show what would change without copying anything",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/rsync -a --delete --dry-run --itemize-changes photos/ photos-backup/"
+        },
+        {
+          "title": "Copy a directory to a server over SSH (as UID 1000, see the README)",
+          "command": "docker run --rm --user 1000:1000 -v \"$PWD:/work\" -v \"$HOME/.ssh:/ssh:ro\" ghcr.io/randomcontainers/rsync -a -e \"ssh -i /ssh/id_ed25519 -o UserKnownHostsFile=/ssh/known_hosts\" site/ deploy@example.com:/var/www/site/"
+        },
+        {
+          "title": "Serve a directory with the rsync daemon on port 873",
+          "command": "docker run -d --user \"$(id -u):$(id -g)\" -p 873:8730 -v \"$PWD:/work\" ghcr.io/randomcontainers/rsync --daemon --no-detach --port=8730 --config=/work/rsyncd.conf"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T14:53:57Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.5.1",
+          "tags": [
+            "latest",
+            "3.5.1",
+            "3.5",
+            "3",
+            "ubuntu",
+            "3.5.1-ubuntu",
+            "3.5-ubuntu",
+            "3-ubuntu",
+            "3.5.1-ubuntu26.04"
+          ],
+          "digest": "sha256:63b72b7f7c329ec013273f8a5912754c076f6ab9d6f49f7d7c8bdcb903b20f32",
+          "size": {
+            "linux/amd64": 46526609,
+            "linux/arm64": 45635822
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.5.1",
+          "tags": [
+            "alpine",
+            "3.5.1-alpine",
+            "3.5-alpine",
+            "3-alpine",
+            "3.5.1-alpine3.24"
+          ],
+          "digest": "sha256:dc8f2b27b6693347e06ed20dadab706e6fabdbc6911f46ec4d1f85ef473af6d2",
+          "size": {
+            "linux/amd64": 7428507,
+            "linux/arm64": 7736046
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "3.5.1",
+          "tags": [
+            "slim",
+            "3.5.1-slim",
+            "3.5-slim",
+            "3-slim",
+            "slim-ubuntu",
+            "3.5.1-slim-ubuntu",
+            "3.5-slim-ubuntu",
+            "3-slim-ubuntu",
+            "3.5.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:63b72b7f7c329ec013273f8a5912754c076f6ab9d6f49f7d7c8bdcb903b20f32",
+          "size": {
+            "linux/amd64": 46526609,
+            "linux/arm64": 45635822
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "3.5.1",
+          "tags": [
+            "slim-alpine",
+            "3.5.1-slim-alpine",
+            "3.5-slim-alpine",
+            "3-slim-alpine",
+            "3.5.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:dc8f2b27b6693347e06ed20dadab706e6fabdbc6911f46ec4d1f85ef473af6d2",
+          "size": {
+            "linux/amd64": 7428507,
+            "linux/arm64": 7736046
           }
         }
       ]
@@ -503,13 +2050,614 @@
       ]
     },
     {
+      "name": "tcpdump",
+      "kind": "package",
+      "title": "tcpdump",
+      "summary": "Captures and decodes network packets, and reads, filters and writes pcap files. Built from the signed tcpdump release with the distro's libpcap.",
+      "homepage": "https://www.tcpdump.org/",
+      "repository": "https://github.com/randomcontainers/tcpdump",
+      "license": "BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause AND BSD-4-Clause-UC AND ISC AND NTP",
+      "version": "4.99.7",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Print the packets in a capture file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/tcpdump -n -r capture.pcap"
+        },
+        {
+          "title": "Copy the DNS packets of a capture file to a new file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/tcpdump -r capture.pcap -w dns.pcap 'udp port 53'"
+        },
+        {
+          "title": "Watch the traffic of a running container named web",
+          "command": "docker run --rm --user 0 --cap-add NET_RAW --network container:web ghcr.io/randomcontainers/tcpdump -i eth0 -n -l"
+        },
+        {
+          "title": "Save 1000 packets from the host's eth0 to a file",
+          "command": "docker run --rm --user 0 --cap-add NET_RAW --network host ghcr.io/randomcontainers/tcpdump -i eth0 -c 1000 -w - > capture.pcap"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T14:54:32Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "4.99.7",
+          "tags": [
+            "latest",
+            "4.99.7",
+            "4.99",
+            "4",
+            "ubuntu",
+            "4.99.7-ubuntu",
+            "4.99-ubuntu",
+            "4-ubuntu",
+            "4.99.7-ubuntu26.04"
+          ],
+          "digest": "sha256:4eda332c53dfb8ccc516f6b51a4cbbb3383a45c2422bd946f67881b5e2f2bb00",
+          "size": {
+            "linux/amd64": 43964930,
+            "linux/arm64": 43129509
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "4.99.7",
+          "tags": [
+            "alpine",
+            "4.99.7-alpine",
+            "4.99-alpine",
+            "4-alpine",
+            "4.99.7-alpine3.24"
+          ],
+          "digest": "sha256:793b9e51c19c21b41ac80693f7474ac90ddf26849b284a8336890ec4a19ef943",
+          "size": {
+            "linux/amd64": 4768547,
+            "linux/arm64": 5106776
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "4.99.7",
+          "tags": [
+            "slim",
+            "4.99.7-slim",
+            "4.99-slim",
+            "4-slim",
+            "slim-ubuntu",
+            "4.99.7-slim-ubuntu",
+            "4.99-slim-ubuntu",
+            "4-slim-ubuntu",
+            "4.99.7-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:4eda332c53dfb8ccc516f6b51a4cbbb3383a45c2422bd946f67881b5e2f2bb00",
+          "size": {
+            "linux/amd64": 43964930,
+            "linux/arm64": 43129509
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "4.99.7",
+          "tags": [
+            "slim-alpine",
+            "4.99.7-slim-alpine",
+            "4.99-slim-alpine",
+            "4-slim-alpine",
+            "4.99.7-slim-alpine3.24"
+          ],
+          "digest": "sha256:793b9e51c19c21b41ac80693f7474ac90ddf26849b284a8336890ec4a19ef943",
+          "size": {
+            "linux/amd64": 4768547,
+            "linux/arm64": 5106776
+          }
+        }
+      ]
+    },
+    {
+      "name": "tesseract",
+      "kind": "package",
+      "title": "Tesseract",
+      "summary": "Reads printed text in scans and photos (OCR) and writes text, hOCR, ALTO, TSV or searchable PDF. Includes English and orientation and script detection models.",
+      "homepage": "https://tesseract-ocr.github.io/",
+      "repository": "https://github.com/randomcontainers/tesseract",
+      "license": "Apache-2.0",
+      "version": "5.5.3",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Read the text of a scanned page into page.txt",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/tesseract page.png page"
+        },
+        {
+          "title": "Make a searchable PDF from a scanned page",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/tesseract page.png page pdf"
+        },
+        {
+          "title": "Print the text of an image read from standard input",
+          "command": "docker run --rm -i ghcr.io/randomcontainers/tesseract - - < page.png"
+        },
+        {
+          "title": "Render the pages of a PDF at 300 dpi for OCR (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint pdftoppm ghcr.io/randomcontainers/tesseract -r 300 -gray -png input.pdf page"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "tesseract-poppler",
+        "with": [
+          "poppler"
+        ],
+        "base": "tesseract",
+        "summary": "Tesseract with Poppler, for OCR of PDF files. pdftoppm renders the pages and Tesseract reads them.",
+        "license": "(Apache-2.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))"
+      },
+      "combos": [
+        "tesseract-poppler"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T16:11:41Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "5.5.3",
+          "tags": [
+            "latest",
+            "5.5.3",
+            "5.5",
+            "5",
+            "ubuntu",
+            "5.5.3-ubuntu",
+            "5.5-ubuntu",
+            "5-ubuntu",
+            "5.5.3-ubuntu26.04"
+          ],
+          "digest": "sha256:fe5be1db9e9d7340979c35e4db9b5a3ed3e6451159df4edab59213f4a749c207",
+          "size": {
+            "linux/amd64": 78054507,
+            "linux/arm64": 76536593
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "5.5.3",
+          "tags": [
+            "alpine",
+            "5.5.3-alpine",
+            "5.5-alpine",
+            "5-alpine",
+            "5.5.3-alpine3.24"
+          ],
+          "digest": "sha256:523e9baa690646f1c81ea8469fc957ef28bde70d1ead917e799bf8bdb007e4b2",
+          "size": {
+            "linux/amd64": 37247304,
+            "linux/arm64": 37058993
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "5.5.3",
+          "tags": [
+            "slim",
+            "5.5.3-slim",
+            "5.5-slim",
+            "5-slim",
+            "slim-ubuntu",
+            "5.5.3-slim-ubuntu",
+            "5.5-slim-ubuntu",
+            "5-slim-ubuntu",
+            "5.5.3-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:742a93f3d5cd47c42fbbdf490b767ec8c02d9a9b7f9865a0027e945cb8ff9a61",
+          "size": {
+            "linux/amd64": 60248119,
+            "linux/arm64": 59042503
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "5.5.3",
+          "tags": [
+            "slim-alpine",
+            "5.5.3-slim-alpine",
+            "5.5-slim-alpine",
+            "5-slim-alpine",
+            "5.5.3-slim-alpine3.24"
+          ],
+          "digest": "sha256:08c40446ed8649a92884127dd8a9185e94f3aed874efdf2585217cfb19e5ccef",
+          "size": {
+            "linux/amd64": 18456756,
+            "linux/arm64": 18583089
+          }
+        }
+      ]
+    },
+    {
+      "name": "weasyprint",
+      "kind": "package",
+      "title": "WeasyPrint",
+      "summary": "Turns HTML and CSS into PDF documents laid out for print, with page sizes, margins, headers, footers and page numbers.",
+      "homepage": "https://weasyprint.org/",
+      "repository": "https://github.com/randomcontainers/weasyprint",
+      "license": "BSD-3-Clause AND MIT AND MIT-CMU AND Apache-2.0 AND BSD-2-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND LGPL-2.1-or-later AND GPL-2.0-or-later AND GPL-3.0-only AND FTL AND MIT-Modern-Variant AND IJG AND Zlib AND libpng-2.0 AND libtiff AND bzip2-1.0.6",
+      "version": "70.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Convert an HTML file in the current directory to PDF",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/weasyprint report.html report.pdf"
+        },
+        {
+          "title": "Convert HTML from standard input to PDF on standard output, without network access",
+          "command": "docker run --rm -i --network none ghcr.io/randomcontainers/weasyprint - - < report.html > report.pdf"
+        },
+        {
+          "title": "Add a stylesheet and make a PDF/A-3b document",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/weasyprint --stylesheet print.css --pdf-variant pdf/a-3b report.html report.pdf"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "weasyprint-qpdf",
+        "with": [
+          "qpdf"
+        ],
+        "base": "weasyprint",
+        "summary": "WeasyPrint with qpdf, which encrypts, linearizes, splits and merges the PDFs that WeasyPrint writes.",
+        "license": "BSD-3-Clause AND MIT AND MIT-CMU AND Apache-2.0 AND BSD-2-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND LGPL-2.1-or-later AND GPL-2.0-or-later AND GPL-3.0-only AND FTL AND MIT-Modern-Variant AND IJG AND Zlib AND libpng-2.0 AND libtiff AND bzip2-1.0.6"
+      },
+      "combos": [
+        "weasyprint-qpdf"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T16:11:45Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "70.0",
+          "tags": [
+            "latest",
+            "70.0",
+            "70",
+            "ubuntu",
+            "70.0-ubuntu",
+            "70-ubuntu",
+            "70.0-ubuntu26.04"
+          ],
+          "digest": "sha256:1e51c6736aba53cd7dcb4629697cf52d358f26f1a13f3325674e3504ee7b1c7b",
+          "size": {
+            "linux/amd64": 89421164,
+            "linux/arm64": 88007796
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "70.0",
+          "tags": [
+            "alpine",
+            "70.0-alpine",
+            "70-alpine",
+            "70.0-alpine3.24"
+          ],
+          "digest": "sha256:6a02a3819511c3d008443b0b45ef2f16100e478956416a8e793503e9df6dcae8",
+          "size": {
+            "linux/amd64": 60299354,
+            "linux/arm64": 59584737
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "70.0",
+          "tags": [
+            "slim",
+            "70.0-slim",
+            "70-slim",
+            "slim-ubuntu",
+            "70.0-slim-ubuntu",
+            "70-slim-ubuntu",
+            "70.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:3ab1dabab1ee85e62cda717edede601af3dd847397c88aadcda662f58723051f",
+          "size": {
+            "linux/amd64": 87578350,
+            "linux/arm64": 86260840
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "70.0",
+          "tags": [
+            "slim-alpine",
+            "70.0-slim-alpine",
+            "70-slim-alpine",
+            "70.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:dc067893625f85c58d62636b06894c31235a7b50de9d94ac586cb31ad210f4fd",
+          "size": {
+            "linux/amd64": 58459074,
+            "linux/arm64": 57818157
+          }
+        }
+      ]
+    },
+    {
+      "name": "whisper-cpp",
+      "kind": "package",
+      "title": "whisper.cpp",
+      "summary": "Transcribes and translates speech on the CPU with whisper.cpp, writing text, SRT, VTT or JSON. Whisper models are not included.",
+      "homepage": "https://github.com/ggml-org/whisper.cpp",
+      "repository": "https://github.com/randomcontainers/whisper-cpp",
+      "license": "MIT AND (MIT-0 OR Unlicense)",
+      "version": "1.9.4",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Transcribe a WAV file with a model from the models directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/whisper-cpp -m models/ggml-base.en.bin -f input.wav"
+        },
+        {
+          "title": "Write subtitles as input.srt",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/whisper-cpp -m models/ggml-base.en.bin -f input.wav -osrt -of input"
+        },
+        {
+          "title": "Translate German speech into English text",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/whisper-cpp -m models/ggml-base.bin -l de -tr -f input.mp3 -otxt -of input.en"
+        },
+        {
+          "title": "Transcribe the audio track of a video, converted by FFmpeg (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/whisper-cpp -c 'ffmpeg -loglevel error -i input.mp4 -vn -ar 16000 -ac 1 -f wav - | whisper-cli -m models/ggml-base.en.bin -f - -osrt -of input'"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "whisper-cpp-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "whisper.cpp with FFmpeg, for transcribing video files and audio formats that whisper-cli cannot read, such as AAC and Opus.",
+        "license": "((MIT AND (MIT-0 OR Unlicense)) AND GPL-3.0-or-later)"
+      },
+      "combos": [
+        "whisper-cpp-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T14:55:06Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.9.4",
+          "tags": [
+            "latest",
+            "1.9.4",
+            "1.9",
+            "1",
+            "ubuntu",
+            "1.9.4-ubuntu",
+            "1.9-ubuntu",
+            "1-ubuntu",
+            "1.9.4-ubuntu26.04"
+          ],
+          "digest": "sha256:9b304fbab947bbc35425fc0503585c3c8c3acfe9884f4f49aaea1492a7ffde8d",
+          "size": {
+            "linux/amd64": 96286992,
+            "linux/arm64": 91025809
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.9.4",
+          "tags": [
+            "alpine",
+            "1.9.4-alpine",
+            "1.9-alpine",
+            "1-alpine",
+            "1.9.4-alpine3.24"
+          ],
+          "digest": "sha256:99edbfc328c1c94e7c968d79dd431f881bef3b8c783a47039f6278b4d5a91818",
+          "size": {
+            "linux/amd64": 58697584,
+            "linux/arm64": 53771204
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.9.4",
+          "tags": [
+            "slim",
+            "1.9.4-slim",
+            "1.9-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.9.4-slim-ubuntu",
+            "1.9-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.9.4-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:2fd5d74008d6158b1b1057ef498d4a93005a07a083567707395ebed59068ab71",
+          "size": {
+            "linux/amd64": 51771122,
+            "linux/arm64": 47515911
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.9.4",
+          "tags": [
+            "slim-alpine",
+            "1.9.4-slim-alpine",
+            "1.9-slim-alpine",
+            "1-slim-alpine",
+            "1.9.4-slim-alpine3.24"
+          ],
+          "digest": "sha256:dccafe06d543d15ef70dfd42fab00c94972b7f62b5ad6e6c7b4a91489ce30b16",
+          "size": {
+            "linux/amd64": 14163342,
+            "linux/arm64": 11255288
+          }
+        }
+      ]
+    },
+    {
+      "name": "yamllint",
+      "kind": "package",
+      "title": "yamllint",
+      "summary": "Checks YAML files for syntax errors, duplicate keys and formatting problems such as indentation, line length and trailing spaces.",
+      "homepage": "https://github.com/adrienverge/yamllint",
+      "repository": "https://github.com/randomcontainers/yamllint",
+      "license": "GPL-3.0-or-later AND MIT AND MPL-2.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND PSF-2.0",
+      "version": "1.38.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Check every YAML file in the current directory and below",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/yamllint ."
+        },
+        {
+          "title": "Check a file from standard input",
+          "command": "docker run --rm -i ghcr.io/randomcontainers/yamllint - < config.yaml"
+        },
+        {
+          "title": "Fail on warnings too, with one line per problem",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/yamllint --strict -f parsable ."
+        },
+        {
+          "title": "Report problems as GitHub Actions annotations",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/yamllint -f github ."
+        },
+        {
+          "title": "Use the relaxed preset instead of the default rules",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/yamllint -d relaxed ."
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-09-26T14:52:28Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.38.0",
+          "tags": [
+            "latest",
+            "1.38.0",
+            "1.38",
+            "1",
+            "ubuntu",
+            "1.38.0-ubuntu",
+            "1.38-ubuntu",
+            "1-ubuntu",
+            "1.38.0-ubuntu26.04"
+          ],
+          "digest": "sha256:e04ccd7d1a463395f163cd166b20f42498fb45059908900971199fcad290ab50",
+          "size": {
+            "linux/amd64": 61611920,
+            "linux/arm64": 60717855
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.38.0",
+          "tags": [
+            "alpine",
+            "1.38.0-alpine",
+            "1.38-alpine",
+            "1-alpine",
+            "1.38.0-alpine3.24"
+          ],
+          "digest": "sha256:ba534688df834bd05fbe1f54e1566993ecfac003bcd9388973382b304d9296d1",
+          "size": {
+            "linux/amd64": 24915052,
+            "linux/arm64": 25076313
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.38.0",
+          "tags": [
+            "slim",
+            "1.38.0-slim",
+            "1.38-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.38.0-slim-ubuntu",
+            "1.38-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.38.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:e04ccd7d1a463395f163cd166b20f42498fb45059908900971199fcad290ab50",
+          "size": {
+            "linux/amd64": 61611920,
+            "linux/arm64": 60717855
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.38.0",
+          "tags": [
+            "slim-alpine",
+            "1.38.0-slim-alpine",
+            "1.38-slim-alpine",
+            "1-slim-alpine",
+            "1.38.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:ba534688df834bd05fbe1f54e1566993ecfac003bcd9388973382b304d9296d1",
+          "size": {
+            "linux/amd64": 24915052,
+            "linux/arm64": 25076313
+          }
+        }
+      ]
+    },
+    {
       "name": "yt-dlp",
       "kind": "package",
       "title": "yt-dlp",
       "summary": "Downloads video and audio from YouTube and many other sites.",
       "homepage": "https://github.com/yt-dlp/yt-dlp",
       "repository": "https://github.com/randomcontainers/yt-dlp",
-      "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016",
+      "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016 AND PSF-2.0",
       "version": "2026.08.19",
       "versioning": "calver",
       "examples": [
@@ -539,7 +2687,7 @@
         ],
         "base": "ffmpeg",
         "summary": "yt-dlp with FFmpeg for merging formats and post-processing, and Deno for YouTube.",
-        "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016 AND GPL-3.0-or-later"
+        "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016 AND PSF-2.0 AND GPL-3.0-or-later"
       },
       "combos": [
         "yt-dlp-ffmpeg"
@@ -547,7 +2695,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-09-26T11:26:56Z",
+      "updated": "2026-09-26T14:50:44Z",
       "variants": [
         {
           "flavour": "default",
@@ -560,10 +2708,10 @@
             "2026.08.19-ubuntu",
             "2026.08.19-ubuntu26.04"
           ],
-          "digest": "sha256:ffe32e1a911efbdd31b5dd0df907f610f3b143d280d28efad2bcff3506d39a35",
+          "digest": "sha256:431c0c00e011807e68338204b537239aea8c50627b3b4f3308fb8890f7bf9533",
           "size": {
-            "linux/amd64": 177012251,
-            "linux/arm64": 173375027
+            "linux/amd64": 177011586,
+            "linux/arm64": 173375023
           }
         },
         {
@@ -575,10 +2723,10 @@
             "2026.08.19-alpine",
             "2026.08.19-alpine3.24"
           ],
-          "digest": "sha256:f8d1b85181be7059a3fbe1e2c5588e79be37183e6363c8c3a74795c411350009",
+          "digest": "sha256:52de0eb8c415d2befd313de13950b251b07cdf9309aafe8543ca180fe51c23ee",
           "size": {
-            "linux/amd64": 144669709,
-            "linux/arm64": 141905022
+            "linux/amd64": 144669468,
+            "linux/arm64": 141904713
           }
         },
         {
@@ -592,10 +2740,10 @@
             "2026.08.19-slim-ubuntu",
             "2026.08.19-slim-ubuntu26.04"
           ],
-          "digest": "sha256:76ec1f560f1f8c984e376c554c3148f4863402b775eb48b94b0510a912828071",
+          "digest": "sha256:e6a7261c76ea8f98add9ac299d9a104a8242c73b431dd2300564a3951dab32c6",
           "size": {
-            "linux/amd64": 89312161,
-            "linux/arm64": 87875987
+            "linux/amd64": 89311339,
+            "linux/arm64": 87875537
           }
         },
         {
@@ -607,13 +2755,49 @@
             "2026.08.19-slim-alpine",
             "2026.08.19-slim-alpine3.24"
           ],
-          "digest": "sha256:b1bd3bdccb7ce95c2d7561759805f7cc6d56e786bc5e08dddfb7abd763bc26b4",
+          "digest": "sha256:6d2fbc24f3406213647bb3325f101203f4363df54fef4deb4e7d8fef1cfaffbc",
           "size": {
-            "linux/amd64": 52452293,
-            "linux/arm64": 51954943
+            "linux/amd64": 52452116,
+            "linux/arm64": 51954512
           }
         }
       ]
+    },
+    {
+      "name": "doxygen-graphviz",
+      "kind": "combo",
+      "owner": "doxygen",
+      "members": [
+        "doxygen",
+        "graphviz"
+      ],
+      "base": "graphviz",
+      "title": "Doxygen + Graphviz",
+      "summary": "Doxygen with Graphviz, for class, collaboration, include and call graphs drawn by dot.",
+      "repository": "https://github.com/randomcontainers/doxygen-graphviz",
+      "license": "GPL-2.0-or-later AND Apache-2.0 AND BSD-2-Clause-Views AND LPPL-1.3c AND MIT AND Zlib AND blessing AND EPL-2.0 AND BSD-3-Clause AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
+      "version": "1.18.0",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "exiftool-imagemagick",
+      "kind": "combo",
+      "owner": "exiftool",
+      "members": [
+        "exiftool",
+        "imagemagick"
+      ],
+      "base": "imagemagick",
+      "title": "ExifTool + ImageMagick",
+      "summary": "ExifTool with ImageMagick, for converting and resizing images and then copying, fixing or removing their metadata.",
+      "repository": "https://github.com/randomcontainers/exiftool-imagemagick",
+      "license": "(((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0) AND ImageMagick AND LGPL-3.0-or-later)",
+      "version": "13.59",
+      "public": false,
+      "updated": null,
+      "variants": []
     },
     {
       "name": "imagemagick-ghostscript",
@@ -627,7 +2811,7 @@
       "title": "ImageMagick + Ghostscript",
       "summary": "ImageMagick with Ghostscript, for reading and writing PDF, PostScript and EPS files.",
       "repository": "https://github.com/randomcontainers/imagemagick-ghostscript",
-      "license": "ImageMagick AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
+      "license": "ImageMagick AND LGPL-3.0-or-later AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
       "version": "7.1.2-31",
       "public": true,
       "updated": "2026-09-26T12:14:27Z",
@@ -665,6 +2849,79 @@
           }
         }
       ]
+    },
+    {
+      "name": "jpegoptim-imagemagick",
+      "kind": "combo",
+      "owner": "jpegoptim",
+      "members": [
+        "jpegoptim",
+        "imagemagick"
+      ],
+      "base": "imagemagick",
+      "title": "jpegoptim + ImageMagick",
+      "summary": "jpegoptim with ImageMagick, for resizing, rotating or converting images before optimizing them.",
+      "repository": "https://github.com/randomcontainers/jpegoptim-imagemagick",
+      "license": "GPL-3.0-or-later AND ImageMagick AND LGPL-3.0-or-later",
+      "version": "1.5.6",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "mediainfo-ffmpeg",
+      "kind": "combo",
+      "owner": "mediainfo",
+      "members": [
+        "mediainfo",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "MediaInfo + FFmpeg",
+      "summary": "MediaInfo with FFmpeg, for checking files with both mediainfo and ffprobe and for measuring black borders.",
+      "repository": "https://github.com/randomcontainers/mediainfo-ffmpeg",
+      "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause AND GPL-3.0-or-later",
+      "version": "26.05",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "mkvtoolnix-ffmpeg-mediainfo",
+      "kind": "combo",
+      "owner": "mkvtoolnix",
+      "members": [
+        "mkvtoolnix",
+        "ffmpeg",
+        "mediainfo"
+      ],
+      "base": "ffmpeg",
+      "title": "MKVToolNix + FFmpeg + MediaInfo",
+      "summary": "MKVToolNix with FFmpeg and MediaInfo, for converting, remuxing and checking video files in one image.",
+      "repository": "https://github.com/randomcontainers/mkvtoolnix-ffmpeg-mediainfo",
+      "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0 AND GPL-3.0-or-later AND BSD-2-Clause AND Zlib AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause",
+      "version": "102.0",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "qpdf-ghostscript",
+      "kind": "combo",
+      "owner": "qpdf",
+      "members": [
+        "qpdf",
+        "ghostscript"
+      ],
+      "base": "ghostscript",
+      "title": "qpdf + Ghostscript",
+      "summary": "qpdf with Ghostscript, for PDF work that also needs rendering, compression or PostScript conversion.",
+      "repository": "https://github.com/randomcontainers/qpdf-ghostscript",
+      "license": "Apache-2.0 AND AGPL-3.0-or-later AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
+      "version": "12.4.1",
+      "public": false,
+      "updated": null,
+      "variants": []
     },
     {
       "name": "streamlink-ffmpeg",
@@ -718,6 +2975,60 @@
       ]
     },
     {
+      "name": "tesseract-poppler",
+      "kind": "combo",
+      "owner": "tesseract",
+      "members": [
+        "tesseract",
+        "poppler"
+      ],
+      "base": "tesseract",
+      "title": "Tesseract + Poppler",
+      "summary": "Tesseract with Poppler, for OCR of PDF files. pdftoppm renders the pages and Tesseract reads them.",
+      "repository": "https://github.com/randomcontainers/tesseract-poppler",
+      "license": "(Apache-2.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))",
+      "version": "5.5.3",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "weasyprint-qpdf",
+      "kind": "combo",
+      "owner": "weasyprint",
+      "members": [
+        "weasyprint",
+        "qpdf"
+      ],
+      "base": "weasyprint",
+      "title": "WeasyPrint + qpdf",
+      "summary": "WeasyPrint with qpdf, which encrypts, linearizes, splits and merges the PDFs that WeasyPrint writes.",
+      "repository": "https://github.com/randomcontainers/weasyprint-qpdf",
+      "license": "BSD-3-Clause AND MIT AND MIT-CMU AND Apache-2.0 AND BSD-2-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND LGPL-2.1-or-later AND GPL-2.0-or-later AND GPL-3.0-only AND FTL AND MIT-Modern-Variant AND IJG AND Zlib AND libpng-2.0 AND libtiff AND bzip2-1.0.6",
+      "version": "70.0",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "whisper-cpp-ffmpeg",
+      "kind": "combo",
+      "owner": "whisper-cpp",
+      "members": [
+        "whisper-cpp",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "whisper.cpp + FFmpeg",
+      "summary": "whisper.cpp with FFmpeg, for transcribing video files and audio formats that whisper-cli cannot read, such as AAC and Opus.",
+      "repository": "https://github.com/randomcontainers/whisper-cpp-ffmpeg",
+      "license": "((MIT AND (MIT-0 OR Unlicense)) AND GPL-3.0-or-later)",
+      "version": "1.9.4",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
       "name": "yt-dlp-ffmpeg",
       "kind": "combo",
       "owner": "yt-dlp",
@@ -729,7 +3040,7 @@
       "title": "yt-dlp + FFmpeg",
       "summary": "yt-dlp with FFmpeg for merging formats and post-processing, and Deno for YouTube.",
       "repository": "https://github.com/randomcontainers/yt-dlp-ffmpeg",
-      "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016 AND GPL-3.0-or-later",
+      "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016 AND PSF-2.0 AND GPL-3.0-or-later",
       "version": "2026.08.19",
       "public": true,
       "updated": "2026-09-26T12:14:29Z",
