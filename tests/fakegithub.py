@@ -261,6 +261,7 @@ class FakeWeb:
         self.projects: dict[str, dict] = {}
         self.provenance: dict[tuple[str, str], str | None] = {}
         self.urls: dict[str, bytes] = {}
+        self.headers: dict[str, dict[str, str]] = {}
         self.requests: list[tuple[str, str]] = []
 
     def add_release(self, project: str, version: str, when: datetime, *, publisher: str | None, wheel: str = "py3-none-any", yanked: bool = False):
@@ -295,7 +296,7 @@ class FakeWeb:
                 return _json(200, {"version": 1, "attestation_bundles": [bundle]})
             return Response(404)
         if url in self.urls:
-            return Response(200, {}, b"" if method == "HEAD" else self.urls[url])
+            return Response(200, dict(self.headers.get(url, {})), b"" if method == "HEAD" else self.urls[url])
         return Response(404)
 
 

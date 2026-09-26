@@ -1,12 +1,12 @@
 import dataclasses
 import hashlib
-from datetime import timedelta
+from datetime import UTC, timedelta
 
 import pytest
 
 from fakegithub import NOW, FakeGitHub, FakeWeb, Router
 from fakes import FakeRegistry
-from rc import upstream
+from rc import config, upstream
 from rc.errors import RcError
 from rc.github import GitHub
 from world import World
@@ -252,3 +252,185 @@ def test_checksums_of_another_algorithm_are_skipped():
     assert upstream.parse_checksums(text, "b.tar", "sha512") == "3" * 128
     # a label that does not fit its digest is not trusted
     assert upstream.parse_checksums(f"SHA256 (c.tar) = {'5' * 128}\n", "c.tar", "sha256") is None
+
+
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        ("2026-09-04T14:43:25.618Z", "2026-09-04T14:43:25"),
+        ("2026-09-14T15:56:29+02:00", "2026-09-14T13:56:29"),
+        ("Fri, 04 Sep 2026 14:42:08 GMT", "2026-09-04T14:42:08"),
+        ("2026-09-03 12:00 -0730", "2026-09-03T19:30:00"),
+        # no zone: the latest moment it can mean, in UTC-12
+        ("2026-08-05 14:27", "2026-08-06T02:27:00"),
+        ("05-Aug-2026 14:27", "2026-08-06T02:27:00"),
+        # no time: the end of that day in UTC-12
+        ("2026-09-03", "2026-09-04T12:00:00"),
+        ("Thu Sep 3, 2026", "2026-09-04T12:00:00"),
+        ("September 3, 2026", "2026-09-04T12:00:00"),
+        ("3 Sep 2026", "2026-09-04T12:00:00"),
+        ("Sep 31, 2026", None),
+        ("Foo 3, 2026", None),
+        ("2026-09-03 25:00", None),
+        ("2026-09-03 12:00 +1500", None),
+        ("9999-12-31", None),
+        ("yesterday", None),
+        (None, None),
+        ("2026-09-03" + " " * 80, None),
+    ],
+)
+def test_release_date(text, expected):
+    value = upstream.release_date(text)
+    assert (value.astimezone(UTC).replace(tzinfo=None).isoformat() if value else None) == expected
+
+
+# Sources outside PyPI and GitHub
+
+BASE = {
+    "name": "tool",
+    "title": "Tool",
+    "summary": "A tool.",
+    "homepage": "https://example.org/",
+    "license": "MIT",
+    "image": {"entrypoint": ["tool"]},
+    "test": ["tool --version"],
+}
+POPPLER_PAGE = b"""<h2>Poppler 26.09 Releases</h2>
+<pre>
+<p><a href="poppler-26.09.0.tar.xz">poppler-26.09.0.tar.xz</a> (Thu Sep 3, 2026):</p>
+        core:
+         * Subset fonts when saving changes
+</pre>
+<p><a href="poppler-26.08.0.tar.xz">poppler-26.08.0.tar.xz</a> (Sun Aug 2, 2026):</p>
+<p><a href="poppler-26.07.0.tar.xz">poppler-26.07.0.tar.xz</a> (Thu Jul 2, 2026):</p>
+"""
+POPPLER = {
+    "source": "html-index",
+    "url": "https://poppler.freedesktop.org/releases.html",
+    "pattern": r'href="poppler-(?P<version>\d+\.\d+\.\d+)\.tar\.xz">[^<]*</a> \((?P<date>[A-Za-z]{3} [A-Za-z]{3} \d{1,2}, \d{4})\)',
+    "versioning": "loose",
+    "version": "26.08.0",
+}
+NMAP_PAGE = (
+    b'<li><a class="feature" href="/dist/nmap-7.991.tar.bz2">Nmap 7.991 source code</a>\n'
+    b'<tr><td class="indexcolname"><a href="nmap-7.991.tar.bz2">nmap-7.991.tar.bz2</a></td><td>2026-08-05 14:27</td></tr>\n'
+    b'<tr><td class="indexcolname"><a href="nmap-7.99.tar.bz2">nmap-7.99.tar.bz2</a></td><td>2026-03-26 13:55</td></tr>\n'
+    b'<tr><td class="indexcolname"><a href="nmap-7.99RC1.tar.bz2">nmap-7.99RC1.tar.bz2</a></td></tr>\n'
+)
+NMAP = {
+    "source": "html-index",
+    "url": "https://nmap.org/dist/",
+    "pattern": r'href="nmap-(\d+\.\d+)\.tar\.bz2"',
+    "versioning": "loose",
+    "version": "7.99",
+    "artifact": {
+        "url": "https://nmap.org/dist/nmap-{version}.tar.bz2",
+        "signature": "https://nmap.org/dist/sigs/nmap-{version}.tar.bz2.asc",
+        "sha256": "0" * 64,
+    },
+}
+
+
+def package_with(distros, source, **changes):
+    return config.parse_package({**BASE, "upstream": {**source, **changes}}, "package.yml", distros)
+
+
+def test_html_index_with_dates(distros):
+    web = FakeWeb()
+    web.urls[POPPLER["url"]] = POPPLER_PAGE
+    package = package_with(distros, POPPLER)
+    got = checker(FakeGitHub(), web).candidates(package.upstream)
+    assert [(c.version, c.published.isoformat()) for c in got] == [
+        ("26.09.0", "2026-09-04T12:00:00+00:00"),
+        ("26.08.0", "2026-08-03T12:00:00+00:00"),
+        ("26.07.0", "2026-07-03T12:00:00+00:00"),
+    ]
+    result = checker(FakeGitHub(), web).latest(package)
+    assert result.chosen.version == "26.09.0" and result.chosen.tag == "26.09.0"
+
+
+def test_html_index_date_is_read_conservatively(distros):
+    web = FakeWeb()
+    web.urls[POPPLER["url"]] = POPPLER_PAGE.replace(b"Thu Sep 3, 2026", b"Wed Sep 23, 2026")
+    package = package_with(distros, POPPLER)
+    # 23 September ends at 12:00 UTC on the 24th, which is NOW
+    result = checker(FakeGitHub(), web).latest(package)
+    assert result.chosen is None and result.waiting == ["26.09.0 was released 0h ago; the cooldown is 24h"]
+    later = checker(FakeGitHub(), web, now=NOW + timedelta(hours=24)).latest(package)
+    assert later.chosen.version == "26.09.0"
+
+
+def test_html_index_unreadable_date_is_refused(distros):
+    web = FakeWeb()
+    web.urls[POPPLER["url"]] = POPPLER_PAGE.replace(b"Thu Sep 3, 2026", b"Thu Sep 33, 2026")
+    result = checker(FakeGitHub(), web).latest(package_with(distros, POPPLER))
+    assert result.chosen is None and result.refused == ["26.09.0 has no release date"]
+
+
+def test_html_index_repeated_version_takes_the_latest_date(distros):
+    web = FakeWeb()
+    web.urls[POPPLER["url"]] = POPPLER_PAGE + b'<p><a href="poppler-26.09.0.tar.xz">again</a> (Wed Sep 23, 2026):</p>\n'
+    got = checker(FakeGitHub(), web).candidates(package_with(distros, POPPLER).upstream)
+    assert got[0].version == "26.09.0" and got[0].published.isoformat() == "2026-09-24T12:00:00+00:00"
+
+
+def test_html_index_dated_by_last_modified(distros):
+    web = FakeWeb()
+    web.urls[NMAP["url"]] = NMAP_PAGE
+    tarball = "https://nmap.org/dist/nmap-7.991.tar.bz2"
+    web.urls[tarball] = b"x"
+    web.urls["https://nmap.org/dist/sigs/nmap-7.991.tar.bz2.asc"] = b"x"
+    web.headers[tarball] = {"last-modified": "Wed, 23 Sep 2026 21:27:13 GMT"}
+    package = package_with(distros, NMAP)
+    assert [c.version for c in checker(FakeGitHub(), web).candidates(package.upstream)] == ["7.991", "7.99"]
+    result = checker(FakeGitHub(), web).latest(package)
+    assert result.chosen is None and result.waiting == ["7.991 was released 14h ago; the cooldown is 24h"]
+    later = checker(FakeGitHub(), web, now=NOW + timedelta(hours=10)).latest(package)
+    assert later.chosen.version == "7.991" and later.chosen.tag == "7.991"
+
+
+def test_html_index_waits_for_the_artifact(distros):
+    web = FakeWeb()
+    web.urls[NMAP["url"]] = NMAP_PAGE
+    result = checker(FakeGitHub(), web).latest(package_with(distros, NMAP))
+    assert result.chosen is None
+    assert result.waiting == ["7.991 https://nmap.org/dist/nmap-7.991.tar.bz2 is not available yet"]
+
+
+def test_html_index_without_last_modified_is_refused(distros):
+    web = FakeWeb()
+    web.urls[NMAP["url"]] = NMAP_PAGE
+    web.urls["https://nmap.org/dist/nmap-7.991.tar.bz2"] = b"x"
+    result = checker(FakeGitHub(), web).latest(package_with(distros, NMAP))
+    assert result.refused == ["7.991 has no release date"]
+
+
+def test_html_index_page_that_no_longer_matches_is_an_error(distros):
+    web = FakeWeb()
+    web.urls[NMAP["url"]] = b"<html><body>Moved to a new layout</body></html>\n"
+    with pytest.raises(RcError, match="the pattern matches no line"):
+        checker(FakeGitHub(), web).candidates(package_with(distros, NMAP).upstream)
+    with pytest.raises(RcError, match="HTTP 404"):
+        checker(FakeGitHub(), FakeWeb()).candidates(package_with(distros, NMAP).upstream)
+
+
+def test_html_index_limits(distros, monkeypatch):
+    web = FakeWeb()
+    web.urls[NMAP["url"]] = b'<a href="nmap-8.0.tar.bz2">' + b"x" * upstream.MAX_LINE + b"\n" + NMAP_PAGE
+    got = checker(FakeGitHub(), web).candidates(package_with(distros, NMAP).upstream)
+    assert [c.version for c in got] == ["7.991", "7.99"]
+    monkeypatch.setattr(upstream, "MAX_INDEX", 100)
+    with pytest.raises(RcError, match="larger than 100 bytes"):
+        checker(FakeGitHub(), web).candidates(package_with(distros, NMAP).upstream)
+
+
+@pytest.mark.parametrize(
+    "version",
+    ["7.992;id", "7.992$(id)", "7.992`id`", "7.992/../../x", "7.99 2", "7.992\\n", "7." + "9" * 40, "٧.992"],
+)
+def test_html_index_versions_must_pass_the_scheme(distros, version):
+    web = FakeWeb()
+    web.urls[NMAP["url"]] = f'<a href="nmap-{version}.tar.bz2">\n'.encode() + NMAP_PAGE
+    package = package_with(distros, NMAP, pattern=r'href="nmap-([^"]+)\.tar\.bz2"')
+    got = checker(FakeGitHub(), web).candidates(package.upstream)
+    assert [c.version for c in got] == ["7.991", "7.99", "7.99RC1"]

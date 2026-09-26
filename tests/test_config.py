@@ -183,3 +183,52 @@ def test_extras_package_names_follow_the_distro_family(distros):
 
     data["combos"][0]["extras"]["ubuntu"]["packages"] = ["deno;id"]
     assert "'deno;id' is not a valid package name" in problems_for(data, distros)
+
+
+SOURCES = {
+    "html-index": {
+        "source": "html-index",
+        "url": "https://poppler.freedesktop.org/releases.html",
+        "pattern": r'href="poppler-(?P<version>\d+\.\d+\.\d+)\.tar\.xz">[^<]*</a> \((?P<date>[^)]+)\)',
+        "versioning": "loose",
+        "version": "26.09.0",
+    },
+}
+
+
+def with_upstream(source, **changes):
+    data = raw("ffmpeg")
+    data["upstream"] = {**copy.deepcopy(SOURCES[source]), **changes}
+    data["source-release"] = False
+    data["license"] = "MIT"
+    return data
+
+
+def test_other_sources(distros):
+    html = config.parse_package(with_upstream("html-index"), "package.yml", distros).upstream
+    assert html.url == "https://poppler.freedesktop.org/releases.html" and html.index_dated
+    artifact = {"url": "https://nmap.org/dist/nmap-{version}.tar.bz2", "sha256": "0" * 64}
+    undated = with_upstream("html-index", pattern=r'href="nmap-(\d+\.\d+)\.tar\.bz2"', artifact=artifact)
+    assert not config.parse_package(undated, "package.yml", distros).upstream.index_dated
+
+
+@pytest.mark.parametrize(
+    "source,changes,expected",
+    [
+        ("html-index", {"url": None}, "html-index upstreams need 'url'"),
+        ("html-index", {"pattern": None}, "html-index upstreams need 'pattern'"),
+        ("html-index", {"url": "http://nmap.org/dist/"}, "https URL"),
+        ("html-index", {"pattern": "poppler-(\\d+"}, "not a valid regular expression"),
+        ("html-index", {"pattern": "poppler-\\d+"}, "needs a group for the version"),
+        ("html-index", {"pattern": "(?P<ver>\\d+)"}, "unknown named groups ['ver']"),
+        ("html-index", {"pattern": "(?P<date>\\S+) poppler-(\\d+)"}, "name the version group"),
+        ("html-index", {"pattern": "poppler-(\\d+)"}, "need 'artifact'; its Last-Modified is the release date"),
+        ("html-index", {"pattern": "x" * 513}, "at most 512"),
+        ("html-index", {"repository": "a/b"}, "upstream.repository: is only used by github-release and github-tag"),
+    ],
+)
+def test_other_source_problems(distros, source, changes, expected):
+    data = with_upstream(source, **{k: v for k, v in changes.items() if v is not None})
+    for key in [k for k, v in changes.items() if v is None]:
+        del data["upstream"][key]
+    assert expected in problems_for(data, distros)

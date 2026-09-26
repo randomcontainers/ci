@@ -11,6 +11,9 @@ A release is taken when all of these hold:
   PEP 740 provenance from the `publisher` repository; for tarball builds the
   artifact (and signature) answer with HTTP 200.
 
+Besides PyPI and GitHub, versions can come from a regular expression over
+an index page (html-index).
+
 When a newer release fails a check, older releases that are still newer
 than the current version are tried, and the reason is reported.
 """
@@ -20,7 +23,7 @@ import re
 import urllib.parse
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta, timezone
 
 from rc import http, names, versions
 from rc.config import Package, Upstream, expand_url
@@ -32,6 +35,8 @@ SIMPLE_JSON = "application/vnd.pypi.simple.v1+json"
 INTEGRITY_JSON = "application/vnd.pypi.integrity.v1+json"
 MAX_CANDIDATES = 5
 MAX_TAG = 128
+MAX_INDEX = 4 * 1024 * 1024
+MAX_LINE = 16 * 1024
 
 _CALVER_PYPI = re.compile(r"^([0-9]{4})\.([0-9]{1,2})\.([0-9]{1,2})$")
 _FILENAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]{0,254}$")
@@ -65,6 +70,60 @@ class Result:
     chosen: Candidate | None = None
     refused: list[str] = field(default_factory=list)
     waiting: list[str] = field(default_factory=list)
+
+
+_MONTHS = ("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
+_MONTH_NAMES = ("january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december")
+_CLOCK = r"(?P<H>\d{2}):(?P<M>\d{2})(?::(?P<S>\d{2})(?:\.\d{1,9})?)?"
+_ZONE = r"(?:\s?(?P<tz>Z|UTC|GMT|[+-]\d{2}:?\d{2}))?"
+_WEEKDAY = r"(?:[A-Za-z]{3,9},? )?"
+_DATES = tuple(
+    re.compile(p, re.ASCII)
+    for p in (
+        rf"(?P<y>\d{{4}})-(?P<m>\d{{2}})-(?P<d>\d{{2}})(?:[T ]{_CLOCK}{_ZONE})?",  # 2026-08-05 14:27, ISO 8601
+        rf"(?P<d>\d{{1,2}})-(?P<b>[A-Za-z]{{3}})-(?P<y>\d{{4}})(?: {_CLOCK}{_ZONE})?",  # 05-Aug-2026 14:27
+        rf"{_WEEKDAY}(?P<b>[A-Za-z]{{3,9}})\.? (?P<d>\d{{1,2}}),? (?P<y>\d{{4}})",  # Thu Sep 3, 2026
+        rf"{_WEEKDAY}(?P<d>\d{{1,2}}) (?P<b>[A-Za-z]{{3,9}})\.? (?P<y>\d{{4}})(?: {_CLOCK}{_ZONE})?",  # Fri, 04 Sep 2026 14:42:08 GMT
+    )
+)
+# A date without a zone is read as the latest moment it can stand for: in
+# UTC-12, and at the end of the day when it has no time.
+_LATEST_ZONE = timedelta(hours=12)
+
+
+def release_date(text: str | None) -> datetime | None:
+    """A date from an index page or a Last-Modified header, or None when it is not one of the known formats."""
+    if not isinstance(text, str) or len(text) > 64:
+        return None
+    text = " ".join(text.split())
+    m = next((m for m in (p.fullmatch(text) for p in _DATES) if m), None)
+    if m is None:
+        return None
+    parts = m.groupdict()
+    month = parts.get("m")
+    if month is None:
+        name = parts["b"].lower()
+        if name[:3] not in _MONTHS or (len(name) > 3 and name not in _MONTH_NAMES and name != "sept"):
+            return None
+        month = _MONTHS.index(name[:3]) + 1
+    zone = parts.get("tz")
+    try:
+        value = datetime(
+            int(parts["y"]), int(month), int(parts["d"]), int(parts.get("H") or 0), int(parts.get("M") or 0), int(parts.get("S") or 0)
+        )
+        if zone in ("Z", "UTC", "GMT"):
+            return value.replace(tzinfo=UTC)
+        if zone:
+            digits = zone[1:].replace(":", "")
+            offset = timedelta(hours=int(digits[:2]), minutes=int(digits[2:]))
+            if offset > timedelta(hours=14) or int(digits[2:]) >= 60:
+                return None
+            return value.replace(tzinfo=timezone(offset if zone[0] == "+" else -offset)).astimezone(UTC)
+        if parts.get("H") is None:
+            value += timedelta(days=1)
+        return (value + _LATEST_ZONE).replace(tzinfo=UTC)
+    except (ValueError, OverflowError):
+        return None
 
 
 def duration(text: str) -> timedelta:
@@ -240,8 +299,47 @@ class Checker:
                 out.append(Candidate(version, tag, object=(sha, kind)))
         return out
 
+    def html_index(self, upstream: Upstream) -> list[Candidate]:
+        """Versions matched by `pattern` on each line of an index page.
+
+        A version listed more than once takes the latest date found for it.
+        A pattern that matches nothing means the page changed, which is an
+        error rather than "no new version".
+        """
+        resp = http.follow(self.web, "GET", upstream.url)
+        if resp.status != 200:
+            raise RcError(f"{upstream.url}: HTTP {resp.status}")
+        if len(resp.body) > MAX_INDEX:
+            raise RcError(f"{upstream.url}: larger than {MAX_INDEX} bytes")
+        pattern = re.compile(upstream.pattern, re.ASCII)
+        group = "version" if "version" in pattern.groupindex else 1
+        dated = upstream.index_dated
+        found: dict[str, Candidate] = {}
+        matched = False
+        for line in resp.body.decode("utf-8", "replace").splitlines():
+            if len(line) > MAX_LINE:
+                continue
+            for m in pattern.finditer(line):
+                matched = True
+                raw = m.group(group)
+                version = match_version(upstream, raw) if raw else None
+                if not version:
+                    continue
+                c = found.setdefault(version, Candidate(version, raw))
+                published = release_date(m.group("date")) if dated else None
+                if published is not None and (c.published is None or published > c.published):
+                    c.published = published
+        if not matched:
+            raise RcError(f"{upstream.url}: the pattern matches no line; the page may have changed")
+        return list(found.values())
+
     def candidates(self, upstream: Upstream) -> list[Candidate]:
-        source = {"pypi": self.pypi, "github-release": self.github_release, "github-tag": self.github_tag}
+        source = {
+            "pypi": self.pypi,
+            "github-release": self.github_release,
+            "github-tag": self.github_tag,
+            "html-index": self.html_index,
+        }
         found = source[upstream.source](upstream)
         seen: dict[str, Candidate] = {}
         for c in found:
@@ -265,6 +363,12 @@ class Checker:
 
     def check(self, upstream: Upstream, c: Candidate) -> tuple[str, str] | None:
         """None when the candidate can be used, else (kind, reason) with kind waiting or refused."""
+        if upstream.source == "html-index" and not upstream.index_dated and c.published is None:
+            url = upstream.artifact.url_for(c.version)
+            resp = http.follow(self.web, "HEAD", url)
+            if resp.status != 200:
+                return "waiting", f"{url} is not available yet"
+            c.published = release_date(resp.header("last-modified"))
         published = self._published(upstream, c)
         if published is None:
             return "refused", "has no release date"

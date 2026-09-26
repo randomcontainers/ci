@@ -45,3 +45,15 @@ def test_refuses_files_it_cannot_edit_safely(distros):
     missing = text("streamlink").replace("  version: 8.6.1\n", "  version:\n    8.6.1\n")
     with pytest.raises(RcError):
         pkgedit.update_upstream(missing, distros, version="8.7.0")
+
+
+def test_other_sources_keep_their_settings(distros):
+    before = text("ghostscript").replace(
+        "  source: github-release\n  repository: ArtifexSoftware/ghostpdl-downloads\n",
+        "  source: html-index\n  url: https://ghostscript.com/releases/\n"
+        "  pattern: 'href=\"ghostscript-(?P<version>[0-9.]+)\\.tar\\.xz\"[^>]*> *(?P<date>[0-9-]+)'\n",
+    )
+    assert "html-index" in before
+    after = pkgedit.update_upstream(before, distros, version="10.09.0", sha256="f" * 64)
+    assert "  version: 10.09.0\n" in after and after.count("f" * 64) == 1
+    assert after.replace("10.09.0", "10.08.0").replace("f" * 64, before.split("sha256: ")[1][:64]) == before

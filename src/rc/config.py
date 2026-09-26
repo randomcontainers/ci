@@ -16,7 +16,21 @@ from rc import names, versions, yamlio
 from rc.constants import COMMON_ENV
 from rc.errors import ValidationError
 
-SOURCES = ("pypi", "github-release", "github-tag")
+SOURCES = ("pypi", "github-release", "github-tag", "html-index")
+# The upstream keys each source reads; the first ones listed are required.
+SOURCE_KEYS = {
+    "pypi": ("project", "publisher"),
+    "github-release": ("repository",),
+    "github-tag": ("repository",),
+    "html-index": ("url", "pattern"),
+}
+SOURCE_REQUIRED = {
+    "pypi": ("project", "publisher"),
+    "github-release": ("repository",),
+    "github-tag": ("repository",),
+    "html-index": ("url", "pattern"),
+}
+INDEX_GROUPS = ("version", "date")
 FAMILIES = ("debian", "alpine")
 CHECKSUM_ALGORITHMS = ("sha256", "sha512")
 URL_FIELDS = ("version", "nodots", "underscored", "major", "minor")
@@ -93,6 +107,12 @@ class Upstream:
     cooldown: str = "24h"
     publisher: str | None = None
     artifact: Artifact | None = None
+    url: str | None = None
+    pattern: str | None = None
+
+    @property
+    def index_dated(self) -> bool:
+        return index_dated(self.pattern)
 
 
 @dataclass(frozen=True)
@@ -190,6 +210,11 @@ class ComboFile:
     name: str
     owner: str
     with_: tuple[str, ...]
+
+
+def index_dated(pattern: str | None) -> bool:
+    """True when an html-index pattern reads the release date from the page."""
+    return pattern is not None and "date" in re.compile(pattern, re.ASCII).groupindex
 
 
 def expand_url(template: str, version: str) -> str:
@@ -381,6 +406,8 @@ UPSTREAM_KEYS = (
     "cooldown",
     "publisher",
     "artifact",
+    "url",
+    "pattern",
 )
 COMBO_KEYS = ("with", "default", "base", "summary", "extras", "extras-license", "env", "test")
 
@@ -482,23 +509,25 @@ def _parse_upstream(r: _Reader, raw: Any, path: str) -> Upstream | None:
     if source is not None and source not in SOURCES:
         r.add(f"{path}.source", f"must be one of {', '.join(SOURCES)}")
         source = None
-    project = repository = publisher = None
+    project = repository = publisher = url = pattern = None
+    if source is not None:
+        for key in SOURCE_REQUIRED[source]:
+            if key not in raw:
+                what = {"publisher": "'publisher', the trusted publisher repository"}.get(key, repr(key))
+                r.add(path, f"{source} upstreams need {what}")
+        for key in ("project", "publisher", "repository", "url", "pattern"):
+            if key in raw and key not in SOURCE_KEYS[source]:
+                users = [s for s in SOURCES if key in SOURCE_KEYS[s]]
+                listed = f"{', '.join(users[:-1])} and {users[-1]}" if len(users) > 1 else users[0]
+                r.add(f"{path}.{key}", f"is only used by {listed}")
     if source == "pypi":
         project = r.pattern(raw, "project", path, names.PYPI_PROJECT, "PyPI project name")
         publisher = r.pattern(raw, "publisher", path, names.GITHUB_REPO, "owner/repo")
-        if "project" not in raw:
-            r.add(path, "pypi upstreams need 'project'")
-        if "publisher" not in raw:
-            r.add(path, "pypi upstreams need 'publisher', the trusted publisher repository")
-        if "repository" in raw:
-            r.add(f"{path}.repository", "is only used by github-release and github-tag")
-    elif source is not None:
+    elif source in ("github-release", "github-tag"):
         repository = r.pattern(raw, "repository", path, names.GITHUB_REPO, "owner/repo")
-        if "repository" not in raw:
-            r.add(path, f"{source} upstreams need 'repository'")
-        for key in ("project", "publisher"):
-            if key in raw:
-                r.add(f"{path}.{key}", "is only used by pypi")
+    elif source == "html-index":
+        url = r.pattern(raw, "url", path, names.HTTPS_URL, "https URL")
+        pattern = _index_pattern(r, r.text(raw, "pattern", path, limit=512), f"{path}.pattern")
 
     tag_pattern = r.text(raw, "tag-pattern", path)
     groups = 0
@@ -537,6 +566,8 @@ def _parse_upstream(r: _Reader, raw: Any, path: str) -> Upstream | None:
     artifact = None
     if "artifact" in raw:
         artifact = _parse_artifact(r, raw["artifact"], f"{path}.artifact")
+    if source == "html-index" and pattern is not None and not index_dated(pattern) and "artifact" not in raw:
+        r.add(path, "html-index upstreams without a 'date' group in 'pattern' need 'artifact'; its Last-Modified is the release date")
 
     if source is None or versioning is None or version is None:
         return None
@@ -551,7 +582,31 @@ def _parse_upstream(r: _Reader, raw: Any, path: str) -> Upstream | None:
         cooldown=cooldown,
         publisher=publisher,
         artifact=artifact,
+        url=url,
+        pattern=pattern,
     )
+
+
+def _index_pattern(r: _Reader, value: str | None, path: str) -> str | None:
+    """The regular expression an html-index source applies to each line of its page."""
+    if value is None:
+        return None
+    try:
+        compiled = re.compile(value, re.ASCII)
+    except re.error as exc:
+        r.add(path, f"is not a valid regular expression: {exc}")
+        return None
+    unknown = sorted(set(compiled.groupindex) - set(INDEX_GROUPS))
+    if unknown:
+        r.add(path, f"has unknown named groups {unknown}; allowed: {', '.join(INDEX_GROUPS)}")
+        return None
+    if not compiled.groups:
+        r.add(path, "needs a group for the version: (?P<version>...) or the first group")
+        return None
+    if "version" not in compiled.groupindex and compiled.groupindex.get("date") == 1:
+        r.add(path, "reads the date from its first group, so name the version group (?P<version>...)")
+        return None
+    return value
 
 
 def _check_url_template(r: _Reader, value: str | None, path: str) -> str | None:
