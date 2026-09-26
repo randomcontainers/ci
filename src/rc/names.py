@@ -31,6 +31,12 @@ DIGEST = re.compile(r"^sha256:[a-f0-9]{64}$")
 SHA256_HEX = re.compile(r"^[a-f0-9]{64}$")
 GIT_SHA = re.compile(r"^[a-f0-9]{40}$")
 GITHUB_REPO = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})/[A-Za-z0-9._-]{1,100}$")
+# owner/repo on a Forgejo server such as Codeberg; neither part may start with a dot.
+FORGE_REPO = re.compile(r"^[A-Za-z0-9_](?:[A-Za-z0-9._-]{0,39})/[A-Za-z0-9_][A-Za-z0-9._-]{0,99}$")
+# A GitLab project: its numeric id, or its path with every namespace.
+GITLAB_PROJECT = re.compile(r"^(?:[1-9][0-9]{0,11}|[A-Za-z0-9_][A-Za-z0-9._-]{0,99}(?:/[A-Za-z0-9_][A-Za-z0-9._-]{0,99}){1,9})$")
+# Base URL of a GitLab or Forgejo server: https, optionally a path, no trailing slash.
+SERVER_URL = re.compile(r"^https://[A-Za-z0-9.-]+(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~-]+)*$")
 PYPI_PROJECT = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9._-]{0,98}[A-Za-z0-9])?$")
 DURATION = re.compile(r"^[0-9]{1,4}[mhd]$")
 HTTPS_URL = re.compile(r"^https://[A-Za-z0-9.-]+(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/?#-]*)?$")

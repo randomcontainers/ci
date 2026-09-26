@@ -16,20 +16,25 @@ from rc import names, versions, yamlio
 from rc.constants import COMMON_ENV
 from rc.errors import ValidationError
 
-SOURCES = ("pypi", "github-release", "github-tag", "html-index")
+SOURCES = ("pypi", "github-release", "github-tag", "gitlab-release", "forgejo-tag", "html-index")
 # The upstream keys each source reads; the first ones listed are required.
 SOURCE_KEYS = {
     "pypi": ("project", "publisher"),
     "github-release": ("repository",),
     "github-tag": ("repository",),
+    "gitlab-release": ("project", "server"),
+    "forgejo-tag": ("repository", "server"),
     "html-index": ("url", "pattern"),
 }
 SOURCE_REQUIRED = {
     "pypi": ("project", "publisher"),
     "github-release": ("repository",),
     "github-tag": ("repository",),
+    "gitlab-release": ("project",),
+    "forgejo-tag": ("repository",),
     "html-index": ("url", "pattern"),
 }
+DEFAULT_SERVERS = {"gitlab-release": "https://gitlab.com", "forgejo-tag": "https://codeberg.org"}
 INDEX_GROUPS = ("version", "date")
 FAMILIES = ("debian", "alpine")
 CHECKSUM_ALGORITHMS = ("sha256", "sha512")
@@ -107,6 +112,7 @@ class Upstream:
     cooldown: str = "24h"
     publisher: str | None = None
     artifact: Artifact | None = None
+    server: str | None = None
     url: str | None = None
     pattern: str | None = None
 
@@ -406,6 +412,7 @@ UPSTREAM_KEYS = (
     "cooldown",
     "publisher",
     "artifact",
+    "server",
     "url",
     "pattern",
 )
@@ -509,13 +516,13 @@ def _parse_upstream(r: _Reader, raw: Any, path: str) -> Upstream | None:
     if source is not None and source not in SOURCES:
         r.add(f"{path}.source", f"must be one of {', '.join(SOURCES)}")
         source = None
-    project = repository = publisher = url = pattern = None
+    project = repository = publisher = server = url = pattern = None
     if source is not None:
         for key in SOURCE_REQUIRED[source]:
             if key not in raw:
                 what = {"publisher": "'publisher', the trusted publisher repository"}.get(key, repr(key))
                 r.add(path, f"{source} upstreams need {what}")
-        for key in ("project", "publisher", "repository", "url", "pattern"):
+        for key in ("project", "publisher", "repository", "server", "url", "pattern"):
             if key in raw and key not in SOURCE_KEYS[source]:
                 users = [s for s in SOURCES if key in SOURCE_KEYS[s]]
                 listed = f"{', '.join(users[:-1])} and {users[-1]}" if len(users) > 1 else users[0]
@@ -525,9 +532,16 @@ def _parse_upstream(r: _Reader, raw: Any, path: str) -> Upstream | None:
         publisher = r.pattern(raw, "publisher", path, names.GITHUB_REPO, "owner/repo")
     elif source in ("github-release", "github-tag"):
         repository = r.pattern(raw, "repository", path, names.GITHUB_REPO, "owner/repo")
+    elif source == "gitlab-release":
+        project = r.pattern(raw, "project", path, names.GITLAB_PROJECT, "GitLab project id or path (quote an id in YAML)")
+    elif source == "forgejo-tag":
+        repository = r.pattern(raw, "repository", path, names.FORGE_REPO, "owner/repo")
     elif source == "html-index":
         url = r.pattern(raw, "url", path, names.HTTPS_URL, "https URL")
         pattern = _index_pattern(r, r.text(raw, "pattern", path, limit=512), f"{path}.pattern")
+    if source in DEFAULT_SERVERS:
+        server = r.pattern(raw, "server", path, names.SERVER_URL, "https base URL without a trailing slash")
+        server = server or DEFAULT_SERVERS[source]
 
     tag_pattern = r.text(raw, "tag-pattern", path)
     groups = 0
@@ -582,6 +596,7 @@ def _parse_upstream(r: _Reader, raw: Any, path: str) -> Upstream | None:
         cooldown=cooldown,
         publisher=publisher,
         artifact=artifact,
+        server=server,
         url=url,
         pattern=pattern,
     )

@@ -11,8 +11,8 @@ A release is taken when all of these hold:
   PEP 740 provenance from the `publisher` repository; for tarball builds the
   artifact (and signature) answer with HTTP 200.
 
-Besides PyPI and GitHub, versions can come from a regular expression over
-an index page (html-index).
+Besides PyPI and GitHub, versions can come from GitLab releases, Forgejo
+tags (Codeberg) and a regular expression over an index page (html-index).
 
 When a newer release fails a check, older releases that are still newer
 than the current version are tried, and the reason is reported.
@@ -37,6 +37,8 @@ MAX_CANDIDATES = 5
 MAX_TAG = 128
 MAX_INDEX = 4 * 1024 * 1024
 MAX_LINE = 16 * 1024
+FORGEJO_LIMIT = 50
+FORGEJO_PAGES = 10
 
 _CALVER_PYPI = re.compile(r"^([0-9]{4})\.([0-9]{1,2})\.([0-9]{1,2})$")
 _FILENAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]{0,254}$")
@@ -124,6 +126,12 @@ def release_date(text: str | None) -> datetime | None:
         return (value + _LATEST_ZONE).replace(tzinfo=UTC)
     except (ValueError, OverflowError):
         return None
+
+
+def api_time(value) -> datetime | None:
+    """A timestamp from an upstream API; one without a time zone is not trusted."""
+    parsed = parse_time(value)
+    return parsed if parsed is not None and parsed.tzinfo is not None else None
 
 
 def duration(text: str) -> timedelta:
@@ -299,6 +307,84 @@ class Checker:
                 out.append(Candidate(version, tag, object=(sha, kind)))
         return out
 
+    def _get_json(self, url: str, what: str) -> tuple[http.Response, object]:
+        resp = http.follow(self.web, "GET", url, {"Accept": "application/json"})
+        if resp.status != 200:
+            raise RcError(f"{what}: HTTP {resp.status}")
+        try:
+            return resp, json.loads(resp.body)
+        except ValueError:
+            raise RcError(f"{what}: response is not JSON") from None
+
+    def gitlab_release(self, upstream: Upstream) -> list[Candidate]:
+        """The newest 100 releases; upcoming releases are skipped.
+
+        released_at can be set to any date when a release is made, so the
+        later of released_at and created_at counts.
+        """
+        project = urllib.parse.quote(upstream.project, safe="")
+        url = f"{upstream.server}/api/v4/projects/{project}/releases?per_page=100"
+        _, data = self._get_json(url, f"GitLab releases of {upstream.project}")
+        if not isinstance(data, list):
+            raise RcError(f"GitLab releases of {upstream.project}: unexpected response")
+        out = []
+        for release in data:
+            if not isinstance(release, dict) or release.get("upcoming_release"):
+                continue
+            tag = release.get("tag_name", "")
+            version = match_version(upstream, tag)
+            if version:
+                dates = [d for d in (api_time(release.get("released_at")), api_time(release.get("created_at"))) if d]
+                out.append(Candidate(version, tag, published=max(dates, default=None)))
+        return out
+
+    def _forgejo_api(self, upstream: Upstream) -> str:
+        owner, repo = (urllib.parse.quote(part, safe="") for part in upstream.repository.split("/"))
+        return f"{upstream.server}/api/v1/repos/{owner}/{repo}"
+
+    def forgejo_tag(self, upstream: Upstream) -> list[Candidate]:
+        """Tags from the Forgejo API, newest first.
+
+        Paging stops after a page that lists a tag no newer than the current
+        version. The object is the tag's id and whether it is an annotated
+        tag, whose tagger date is read only for the candidates that get
+        checked.
+        """
+        base = f"{self._forgejo_api(upstream)}/tags"
+        out = []
+        for page in range(1, FORGEJO_PAGES + 1):
+            resp, data = self._get_json(f"{base}?page={page}&limit={FORGEJO_LIMIT}", f"tags of {upstream.repository}")
+            if not isinstance(data, list):
+                raise RcError(f"tags of {upstream.repository}: unexpected response")
+            reached = False
+            for tag in data:
+                if not isinstance(tag, dict):
+                    continue
+                name = tag.get("name", "")
+                version = match_version(upstream, name)
+                if version:
+                    commit = tag.get("commit") if isinstance(tag.get("commit"), dict) else {}
+                    tag_id = str(tag.get("id") or "")
+                    kind = "commit" if tag_id == commit.get("sha") else "tag"
+                    out.append(Candidate(version, name, published=api_time(commit.get("created")), object=(tag_id, kind)))
+                    reached = reached or versions.compare(upstream.versioning, version, upstream.version) <= 0
+            if reached or not data or 'rel="next"' not in (resp.header("link") or ""):
+                break
+        return out
+
+    def _forgejo_date(self, upstream: Upstream, c: Candidate) -> datetime | None:
+        """The later of the commit date and, for an annotated tag, the tagger date."""
+        tag_id, kind = c.object
+        if c.published is None or not names.GIT_SHA.match(tag_id):
+            return None
+        if kind == "commit":
+            return c.published
+        _, data = self._get_json(f"{self._forgejo_api(upstream)}/git/tags/{tag_id}", f"tag {c.tag} of {upstream.repository}")
+        if not isinstance(data, dict) or data.get("sha") != tag_id or not isinstance(data.get("tagger"), dict):
+            return None
+        tagged = api_time(data["tagger"].get("date"))
+        return max(c.published, tagged) if tagged else None
+
     def html_index(self, upstream: Upstream) -> list[Candidate]:
         """Versions matched by `pattern` on each line of an index page.
 
@@ -338,6 +424,8 @@ class Checker:
             "pypi": self.pypi,
             "github-release": self.github_release,
             "github-tag": self.github_tag,
+            "gitlab-release": self.gitlab_release,
+            "forgejo-tag": self.forgejo_tag,
             "html-index": self.html_index,
         }
         found = source[upstream.source](upstream)
@@ -349,7 +437,10 @@ class Checker:
     # checks
 
     def _published(self, upstream: Upstream, c: Candidate) -> datetime | None:
-        if c.published is None and c.object is not None:
+        if upstream.source == "forgejo-tag":
+            if c.object is not None:
+                c.published, c.object = self._forgejo_date(upstream, c), None
+        elif c.published is None and c.object is not None:
             c.published = self.gh.tag_date(upstream.repository, *c.object)
         return c.published
 

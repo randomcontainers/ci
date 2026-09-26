@@ -193,6 +193,14 @@ SOURCES = {
         "versioning": "loose",
         "version": "26.09.0",
     },
+    "gitlab-release": {"source": "gitlab-release", "project": "4207231", "versioning": "semver", "version": "16.1.0"},
+    "forgejo-tag": {
+        "source": "forgejo-tag",
+        "repository": "mbunkus/mkvtoolnix",
+        "tag-pattern": r"^release-(\d+\.\d+)$",
+        "versioning": "loose",
+        "version": "102.0",
+    },
 }
 
 
@@ -206,7 +214,15 @@ def with_upstream(source, **changes):
 
 def test_other_sources(distros):
     html = config.parse_package(with_upstream("html-index"), "package.yml", distros).upstream
-    assert html.url == "https://poppler.freedesktop.org/releases.html" and html.index_dated
+    assert html.url == "https://poppler.freedesktop.org/releases.html" and html.index_dated and html.server is None
+    gitlab = config.parse_package(with_upstream("gitlab-release"), "package.yml", distros).upstream
+    assert gitlab.project == "4207231" and gitlab.server == "https://gitlab.com"
+    path = config.parse_package(with_upstream("gitlab-release", project="graphviz/graphviz"), "package.yml", distros)
+    assert path.upstream.project == "graphviz/graphviz"
+    forgejo = config.parse_package(with_upstream("forgejo-tag"), "package.yml", distros).upstream
+    assert forgejo.repository == "mbunkus/mkvtoolnix" and forgejo.server == "https://codeberg.org"
+    own = config.parse_package(with_upstream("forgejo-tag", server="https://git.example.org/forge"), "package.yml", distros)
+    assert own.upstream.server == "https://git.example.org/forge"
     artifact = {"url": "https://nmap.org/dist/nmap-{version}.tar.bz2", "sha256": "0" * 64}
     undated = with_upstream("html-index", pattern=r'href="nmap-(\d+\.\d+)\.tar\.bz2"', artifact=artifact)
     assert not config.parse_package(undated, "package.yml", distros).upstream.index_dated
@@ -224,7 +240,24 @@ def test_other_sources(distros):
         ("html-index", {"pattern": "(?P<date>\\S+) poppler-(\\d+)"}, "name the version group"),
         ("html-index", {"pattern": "poppler-(\\d+)"}, "need 'artifact'; its Last-Modified is the release date"),
         ("html-index", {"pattern": "x" * 513}, "at most 512"),
-        ("html-index", {"repository": "a/b"}, "upstream.repository: is only used by github-release and github-tag"),
+        ("html-index", {"repository": "a/b"}, "upstream.repository: is only used by github-release, github-tag and forgejo-tag"),
+        ("html-index", {"server": "https://a.org"}, "upstream.server: is only used by gitlab-release and forgejo-tag"),
+        ("gitlab-release", {"project": None}, "gitlab-release upstreams need 'project'"),
+        ("gitlab-release", {"project": 4207231}, "quote it"),
+        ("gitlab-release", {"project": "graphviz"}, "GitLab project id or path"),
+        ("gitlab-release", {"project": "graphviz/../x"}, "GitLab project id or path"),
+        ("gitlab-release", {"project": "0"}, "GitLab project id or path"),
+        ("gitlab-release", {"server": "https://gitlab.com/"}, "without a trailing slash"),
+        ("gitlab-release", {"server": "http://gitlab.com"}, "without a trailing slash"),
+        ("gitlab-release", {"server": "https://gitlab.com/?x=1"}, "without a trailing slash"),
+        ("gitlab-release", {"publisher": "a/b"}, "upstream.publisher: is only used by pypi"),
+        ("gitlab-release", {"url": "https://a.org/"}, "upstream.url: is only used by html-index"),
+        ("forgejo-tag", {"repository": None}, "forgejo-tag upstreams need 'repository'"),
+        ("forgejo-tag", {"repository": "mbunkus/.."}, "owner/repo"),
+        ("forgejo-tag", {"repository": "../mkvtoolnix"}, "owner/repo"),
+        ("forgejo-tag", {"repository": "mbunkus/mkvtoolnix/tags"}, "owner/repo"),
+        ("forgejo-tag", {"project": "x"}, "upstream.project: is only used by pypi and gitlab-release"),
+        ("forgejo-tag", {"pattern": "(x)"}, "upstream.pattern: is only used by html-index"),
     ],
 )
 def test_other_source_problems(distros, source, changes, expected):
@@ -232,3 +265,12 @@ def test_other_source_problems(distros, source, changes, expected):
     for key in [k for k, v in changes.items() if v is None]:
         del data["upstream"][key]
     assert expected in problems_for(data, distros)
+
+
+def test_github_sources_reject_the_new_keys(distros):
+    data = raw("ffmpeg")
+    data["upstream"]["server"] = "https://codeberg.org"
+    assert "upstream.server: is only used by gitlab-release and forgejo-tag" in problems_for(data, distros)
+    data = raw("yt-dlp")
+    data["upstream"]["repository"] = "yt-dlp/yt-dlp"
+    assert "upstream.repository: is only used by github-release, github-tag and forgejo-tag" in problems_for(data, distros)

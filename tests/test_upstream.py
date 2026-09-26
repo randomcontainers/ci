@@ -1,10 +1,11 @@
 import dataclasses
 import hashlib
-from datetime import UTC, timedelta
+import json
+from datetime import UTC, timedelta, timezone
 
 import pytest
 
-from fakegithub import NOW, FakeGitHub, FakeWeb, Router
+from fakegithub import NOW, FakeGitHub, FakeWeb, Router, iso
 from fakes import FakeRegistry
 from rc import config, upstream
 from rc.errors import RcError
@@ -329,10 +330,47 @@ NMAP = {
         "sha256": "0" * 64,
     },
 }
+GRAPHVIZ = {
+    "source": "gitlab-release",
+    "project": "4207231",
+    "tag-pattern": r"^(\d+\.\d+\.\d+)$",
+    "versioning": "semver",
+    "version": "16.0.0",
+}
+GITLAB_RELEASES = "https://gitlab.com/api/v4/projects/4207231/releases?per_page=100"
+MKVTOOLNIX = {
+    "source": "forgejo-tag",
+    "repository": "mbunkus/mkvtoolnix",
+    "tag-pattern": r"^release-(\d+\.\d+)$",
+    "versioning": "loose",
+    "version": "101.0",
+}
+CODEBERG_TAGS = "https://codeberg.org/api/v1/repos/mbunkus/mkvtoolnix/tags?page={}&limit=50"
 
 
 def package_with(distros, source, **changes):
     return config.parse_package({**BASE, "upstream": {**source, **changes}}, "package.yml", distros)
+
+
+def web_json(web, url, data, headers=None):
+    web.urls[url] = json.dumps(data).encode()
+    web.headers[url] = headers or {}
+
+
+def gitlab_release(tag, released, created=None, upcoming=False):
+    return {"tag_name": tag, "released_at": iso(released), "created_at": iso(created or released), "upcoming_release": upcoming}
+
+
+def forgejo_tag(name, created, tag_id=None):
+    """A tag as the Forgejo API lists it; with tag_id, an annotated tag."""
+    sha = hashlib.sha1(name.encode()).hexdigest()
+    return {"name": name, "id": tag_id or sha, "commit": {"sha": sha, "created": created.astimezone(timezone(timedelta(hours=2))).isoformat()}}
+
+
+def forgejo_annotated(web, tag_id, tagged):
+    url = f"https://codeberg.org/api/v1/repos/mbunkus/mkvtoolnix/git/tags/{tag_id}"
+    web_json(web, url, {"tag": "x", "sha": tag_id, "tagger": {"name": "a", "date": iso(tagged) if tagged else None}})
+    return url
 
 
 def test_html_index_with_dates(distros):
@@ -434,3 +472,134 @@ def test_html_index_versions_must_pass_the_scheme(distros, version):
     package = package_with(distros, NMAP, pattern=r'href="nmap-([^"]+)\.tar\.bz2"')
     got = checker(FakeGitHub(), web).candidates(package.upstream)
     assert [c.version for c in got] == ["7.991", "7.99", "7.99RC1"]
+
+
+def test_gitlab_releases(distros):
+    web = FakeWeb()
+    web_json(
+        web,
+        GITLAB_RELEASES,
+        [
+            gitlab_release("17.0.0", NOW + timedelta(days=30), created=OLD, upcoming=True),
+            gitlab_release("16.2.0", OLD, created=NOW - timedelta(hours=3)),
+            gitlab_release("16.1.0", OLD),
+            gitlab_release("16.1.0-rc1", OLD),
+            gitlab_release("16.0.0", OLD),
+        ],
+    )
+    package = package_with(distros, GRAPHVIZ)
+    assert [c.version for c in checker(FakeGitHub(), web).candidates(package.upstream)] == ["16.2.0", "16.1.0", "16.0.0"]
+    # a release backdated with released_at still waits for its cooldown from created_at
+    result = checker(FakeGitHub(), web).latest(package)
+    assert result.chosen.version == "16.1.0" and result.waiting == ["16.2.0 was released 3h ago; the cooldown is 24h"]
+
+
+def test_gitlab_project_path_and_server(distros):
+    web = FakeWeb()
+    web_json(web, "https://gitlab.example.org/api/v4/projects/graphviz%2Fgraphviz/releases?per_page=100", [gitlab_release("16.1.0", OLD)])
+    package = package_with(distros, GRAPHVIZ, project="graphviz/graphviz", server="https://gitlab.example.org")
+    assert checker(FakeGitHub(), web).latest(package).chosen.version == "16.1.0"
+
+
+def test_gitlab_bad_responses(distros):
+    package = package_with(distros, GRAPHVIZ)
+    with pytest.raises(RcError, match="HTTP 404"):
+        checker(FakeGitHub(), FakeWeb()).candidates(package.upstream)
+    web = FakeWeb()
+    web_json(web, GITLAB_RELEASES, {"message": "401 Unauthorized"})
+    with pytest.raises(RcError, match="unexpected response"):
+        checker(FakeGitHub(), web).candidates(package.upstream)
+    web.urls[GITLAB_RELEASES] = b"<html>"
+    with pytest.raises(RcError, match="not JSON"):
+        checker(FakeGitHub(), web).candidates(package.upstream)
+    web_json(web, GITLAB_RELEASES, ["x", {"tag_name": 16}, {"tag_name": "16.1.0", "released_at": "2026-09-01T00:00:00"}])
+    result = checker(FakeGitHub(), web).latest(package)
+    assert result.chosen is None and result.refused == ["16.1.0 has no release date"]
+
+
+def test_forgejo_tags_across_pages(distros):
+    web = FakeWeb()
+    next_page = {"link": '<https://codeberg.org/api/v1/repos/mbunkus/mkvtoolnix/tags?limit=50&page=2>; rel="next"'}
+    web_json(web, CODEBERG_TAGS.format(1), [forgejo_tag("release-102.0", NOW - timedelta(hours=5))], next_page)
+    # 99.0 is older than the current version, so page 3 is not read
+    page = [forgejo_tag("release-101.1", OLD), forgejo_tag("release-9.9.0", OLD), {"name": None}, forgejo_tag("release-99.0", OLD)]
+    web_json(web, CODEBERG_TAGS.format(2), page, next_page)
+    web_json(web, CODEBERG_TAGS.format(3), [forgejo_tag("release-200.0", OLD)])
+    package = package_with(distros, MKVTOOLNIX)
+    got = checker(FakeGitHub(), web).candidates(package.upstream)
+    assert [(c.version, c.tag) for c in got] == [("102.0", "release-102.0"), ("101.1", "release-101.1"), ("99.0", "release-99.0")]
+    result = checker(FakeGitHub(), web).latest(package)
+    assert result.chosen.version == "101.1" and result.waiting == ["102.0 was released 5h ago; the cooldown is 24h"]
+    assert CODEBERG_TAGS.format(3) not in [u for _, u in web.requests]
+
+
+def test_forgejo_page_limit_and_server(distros, monkeypatch):
+    monkeypatch.setattr(upstream, "FORGEJO_PAGES", 2)
+    web = FakeWeb()
+    tags = "https://git.example.org/forge/api/v1/repos/mbunkus/mkvtoolnix/tags?page={}&limit=50"
+    for page in (1, 2, 3):
+        web_json(web, tags.format(page), [forgejo_tag(f"release-10{page}.0", OLD)], {"link": 'rel="next"'})
+    package = package_with(distros, MKVTOOLNIX, server="https://git.example.org/forge", version="100.0")
+    assert [c.version for c in checker(FakeGitHub(), web).candidates(package.upstream)] == ["102.0", "101.0"]
+
+
+def test_forgejo_annotated_tags_are_dated_by_the_tagger(distros):
+    web = FakeWeb()
+    fresh, old, undated, skipped = ("1" * 40, "3" * 40, "5" * 40, "7" * 40)
+    tags = [
+        # an annotated tag made today on an old commit
+        forgejo_tag("release-103.0", OLD, tag_id=fresh),
+        forgejo_tag("release-102.0", OLD, tag_id=undated),
+        forgejo_tag("release-101.1", OLD - timedelta(days=5), tag_id=old),
+        forgejo_tag("release-100.0", OLD, tag_id=skipped),
+    ]
+    web_json(web, CODEBERG_TAGS.format(1), tags)
+    urls = [
+        forgejo_annotated(web, fresh, NOW - timedelta(hours=2)),
+        forgejo_annotated(web, undated, None),
+        forgejo_annotated(web, old, OLD),
+        forgejo_annotated(web, skipped, OLD),
+    ]
+    result = checker(FakeGitHub(), web).latest(package_with(distros, MKVTOOLNIX))
+    assert result.waiting == ["103.0 was released 2h ago; the cooldown is 24h"]
+    assert result.refused == ["102.0 has no release date"]
+    assert result.chosen.version == "101.1"
+    requested = [u for _, u in web.requests]
+    assert all(u in requested for u in urls[:3]) and urls[3] not in requested
+
+
+def test_pin_from_a_gitlab_checksums_file(distros):
+    tarball = b"graphviz source"
+    sha256 = hashlib.sha256(tarball).hexdigest()
+    base = "https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/{version}/graphviz-{version}.tar.xz"
+    artifact = {"url": base, "checksums": {"url": base + ".sha256", "algorithm": "sha256"}, "sha256": "0" * 64}
+    package = package_with(distros, GRAPHVIZ, artifact=artifact)
+    web = FakeWeb()
+    web.urls[base.format(version="16.1.0") + ".sha256"] = f"{sha256}  graphviz-16.1.0.tar.xz\n".encode()
+
+    def fetch(url, algorithms):
+        return {a: hashlib.new(a, tarball).hexdigest() for a in algorithms}
+
+    assert upstream.pin_artifact(package, upstream.Candidate("16.1.0", "16.1.0"), web, fetch) == sha256
+
+
+def test_pin_from_an_openssl_checksums_file(distros):
+    tarball = b"exiftool source"
+    sha256 = hashlib.sha256(tarball).hexdigest()
+    artifact = {
+        "url": "https://downloads.sourceforge.net/project/exiftool/Image-ExifTool-{version}.tar.gz",
+        "checksums": {"url": "https://exiftool.org/checksums.txt", "algorithm": "sha256"},
+        "sha256": "0" * 64,
+    }
+    package = package_with(distros, GRAPHVIZ, artifact=artifact)
+    web = FakeWeb()
+    web.urls["https://exiftool.org/checksums.txt"] = (
+        f"SHA2-256(Image-ExifTool-13.59.tar.gz)= {sha256}\nSHA1(Image-ExifTool-13.59.tar.gz)= {'0' * 40}\n"
+    ).encode()
+
+    def fetch(url, algorithms):
+        return {a: hashlib.new(a, tarball).hexdigest() for a in algorithms}
+
+    assert upstream.pin_artifact(package, upstream.Candidate("13.59", "13.59"), web, fetch) == sha256
+    with pytest.raises(RcError, match="is not listed"):
+        upstream.pin_artifact(package, upstream.Candidate("13.60", "13.60"), web, fetch)
