@@ -22,8 +22,9 @@ jobs:
     name: Reconcile
     runs-on: ubuntu-24.04
     timeout-minutes: 30
-    # Holds RC_APP_PRIVATE_KEY and RC_APP_CLIENT_ID, for main only. Without
-    # deployment: false every pass would add a deployment record.
+    # Holds RC_APP_PRIVATE_KEY and RC_APP_CLIENT_ID (a variable or a secret),
+    # for main only. Without deployment: false every pass would add a
+    # deployment record.
     environment:
       name: bot
       deployment: false
@@ -48,7 +49,7 @@ jobs:
         id: dispatch-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          client-id: ${{ vars.RC_APP_CLIENT_ID }}
+          client-id: ${{ vars.RC_APP_CLIENT_ID || secrets.RC_APP_CLIENT_ID }}
           private-key: ${{ secrets.RC_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           permission-actions: write
@@ -78,7 +79,7 @@ jobs:
         if: ${{ steps.reconcile.outputs.commits == 'true' }}
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          client-id: ${{ vars.RC_APP_CLIENT_ID }}
+          client-id: ${{ vars.RC_APP_CLIENT_ID || secrets.RC_APP_CLIENT_ID }}
           private-key: ${{ secrets.RC_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: ${{ steps.reconcile.outputs.commit-repos }}
@@ -97,7 +98,7 @@ jobs:
         if: ${{ steps.reconcile.outputs.setup == 'true' }}
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          client-id: ${{ vars.RC_APP_CLIENT_ID }}
+          client-id: ${{ vars.RC_APP_CLIENT_ID || secrets.RC_APP_CLIENT_ID }}
           private-key: ${{ secrets.RC_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           permission-administration: write
