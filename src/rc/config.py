@@ -19,7 +19,7 @@ from rc.errors import ValidationError
 SOURCES = ("pypi", "github-release", "github-tag")
 FAMILIES = ("debian", "alpine")
 CHECKSUM_ALGORITHMS = ("sha256", "sha512")
-URL_FIELDS = ("version", "nodots", "major", "minor")
+URL_FIELDS = ("version", "nodots", "underscored", "major", "minor")
 
 
 @dataclass(frozen=True)
@@ -197,6 +197,7 @@ def expand_url(template: str, version: str) -> str:
     values = {
         "version": version,
         "nodots": versions.nodots(version),
+        "underscored": version.replace(".", "_"),
         "major": parts[0],
         "minor": parts[1] if len(parts) > 1 else "0",
     }

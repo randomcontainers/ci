@@ -115,6 +115,18 @@ def test_artifact_problems(distros, mutate, expected):
     assert expected in problems_for(data, distros)
 
 
+@pytest.mark.parametrize(
+    "template,expected",
+    [
+        ("https://e.org/{version}/{nodots}.tar.gz", "https://e.org/1.18.0/1180.tar.gz"),
+        ("https://e.org/Release_{underscored}/x-{version}.tar.gz", "https://e.org/Release_1_18_0/x-1.18.0.tar.gz"),
+        ("https://e.org/{major}.{minor}/x.tar.gz", "https://e.org/1.18/x.tar.gz"),
+    ],
+)
+def test_expand_url(template, expected):
+    assert config.expand_url(template, "1.18.0") == expected
+
+
 def test_source_release_needs_artifact(distros):
     data = raw("ffmpeg")
     del data["upstream"]["artifact"]
