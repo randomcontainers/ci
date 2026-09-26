@@ -8,7 +8,7 @@ import pytest
 from fakegithub import NOW, FakeGitHub, FakeWeb, Router, advertisement, iso, pkt, serve_git
 from fakes import FakeRegistry
 from rc import config, upstream
-from rc.errors import RcError
+from rc.errors import RcError, TransientError
 from rc.github import GitHub
 from world import World
 
@@ -755,3 +755,31 @@ def test_git_tag_of_a_version_read_from_a_page(distros):
     result = checker(FakeGitHub(), web).latest(package_with(distros, POPPLER, git=git))
     # a version from a page has no tag of its own to compare git.tag with
     assert (result.chosen.version, result.chosen.tag, result.chosen.commit) == ("26.09.0", "26.09.0", "9" * 40)
+
+
+def test_unreachable_upstreams_are_transient(distros):
+    web = FakeWeb()
+    mkvtoolnix = package_with(distros, MKVTOOLNIX)
+    for status in (429, 500, 503):
+        web.status[CODEBERG_TAGS.format(1)] = status
+        with pytest.raises(TransientError, match=f"HTTP {status}"):
+            checker(FakeGitHub(), web).latest(mkvtoolnix)
+    web.status[CODEBERG_TAGS.format(1)] = 404
+    with pytest.raises(RcError, match="HTTP 404") as exc:
+        checker(FakeGitHub(), web).latest(mkvtoolnix)
+    assert not isinstance(exc.value, TransientError)
+
+    web.status[POPPLER["url"]] = 502
+    with pytest.raises(TransientError):
+        checker(FakeGitHub(), web).latest(package_with(distros, POPPLER))
+    # a page that loads but no longer matches is an error, not an outage
+    del web.status[POPPLER["url"]]
+    web.urls[POPPLER["url"]] = b"<html>Making sure you are not a bot</html>"
+    with pytest.raises(RcError, match="matches no line") as exc:
+        checker(FakeGitHub(), web).latest(package_with(distros, POPPLER))
+    assert not isinstance(exc.value, TransientError)
+
+    gh, web = whisper_world([])
+    web.status[f"{WHISPER['git']['url']}/info/refs?service=git-upload-pack"] = 503
+    with pytest.raises(TransientError):
+        checker(gh, web).latest(package_with(distros, WHISPER))

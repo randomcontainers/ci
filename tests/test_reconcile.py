@@ -801,3 +801,23 @@ def test_topics_removed_by_hand_are_requested_again():
     listing = rec.gh.installation_repositories
     rec.gh.installation_repositories = lambda: dict.fromkeys(listing(), None)
     assert kinds(rec.run(), "topics") == [("topics", "yt-dlp-ffmpeg")]
+
+
+def ffmpeg_from_git(world):
+    text = (FIXTURES / "ffmpeg" / "package.yml").read_text()
+    start, end = text.index("  artifact:\n"), text.index("image:\n")
+    git = "  git:\n    url: https://github.com/FFmpeg/FFmpeg.git\n    tag: n{version}\n    commit: " + "a" * 40 + "\n"
+    world.github.push(f"{ORG}/ffmpeg", {"package.yml": (text[:start] + git + text[end:]).encode()})
+    world.github.tags["FFmpeg/FFmpeg"].append(("n9.1", "3" * 40, "tag", NOW - timedelta(days=10)))
+
+
+def test_an_unreachable_upstream_is_only_logged():
+    world = World()
+    ffmpeg_from_git(world)
+    world.web.status["https://github.com/FFmpeg/FFmpeg.git/info/refs?service=git-upload-pack"] = 503
+    outcome = world.reconciler(dry_run=True).run()
+    assert not any("ffmpeg" in n for n in outcome.notes.items.get("errors", []))
+    assert any(line.startswith("ffmpeg: upstream did not answer, trying again on the next pass") for line in outcome.log)
+    world.web.status["https://github.com/FFmpeg/FFmpeg.git/info/refs?service=git-upload-pack"] = 404
+    outcome = world.reconciler(dry_run=True).run()
+    assert any(n.startswith("Cannot check upstream for `ffmpeg`") for n in outcome.notes.items["errors"])

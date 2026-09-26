@@ -32,7 +32,7 @@ from datetime import UTC, datetime, timedelta, timezone
 
 from rc import http, names, versions
 from rc.config import TAG_SOURCES, Artifact, Package, Upstream, expand_url
-from rc.errors import RcError
+from rc.errors import RcError, http_error
 from rc.github import GitHub, parse_time
 
 PYPI = "https://pypi.org"
@@ -243,7 +243,7 @@ def git_refs(web: http.Transport, url: str) -> dict[str, str]:
         raise RcError(f"refusing to read the refs of {url!r}")
     resp = http.follow(web, "GET", f"{url}/info/refs?service=git-upload-pack")
     if resp.status != 200:
-        raise RcError(f"{url}: HTTP {resp.status}")
+        raise http_error(url, resp.status)
     if (resp.header("content-type") or "").split(";")[0].strip() != GIT_ADVERTISEMENT:
         raise RcError(f"{url}: not a git repository served over smart HTTP")
     try:
@@ -282,7 +282,7 @@ def provenance_problem(web: http.Transport, project: str, raw_version: str, file
         if resp.status == 404:
             return f"{filename} has no provenance"
         if resp.status != 200:
-            raise RcError(f"PyPI Integrity API: HTTP {resp.status} for {filename}")
+            raise http_error(f"PyPI Integrity API, {filename}", resp.status)
         try:
             bundles = json.loads(resp.body).get("attestation_bundles") or []
         except (ValueError, AttributeError):
@@ -318,7 +318,7 @@ class Checker:
         url = f"{PYPI}/simple/{pypi_name(upstream.project)}/"
         resp = http.follow(self.web, "GET", url, {"Accept": SIMPLE_JSON})
         if resp.status != 200:
-            raise RcError(f"PyPI: HTTP {resp.status} for {upstream.project}")
+            raise http_error(f"PyPI, {upstream.project}", resp.status)
         try:
             data = json.loads(resp.body)
         except ValueError:
@@ -373,7 +373,7 @@ class Checker:
     def _get_json(self, url: str, what: str) -> tuple[http.Response, object]:
         resp = http.follow(self.web, "GET", url, {"Accept": "application/json"})
         if resp.status != 200:
-            raise RcError(f"{what}: HTTP {resp.status}")
+            raise http_error(what, resp.status)
         try:
             return resp, json.loads(resp.body)
         except ValueError:
@@ -457,7 +457,7 @@ class Checker:
         """
         resp = http.follow(self.web, "GET", upstream.url)
         if resp.status != 200:
-            raise RcError(f"{upstream.url}: HTTP {resp.status}")
+            raise http_error(upstream.url, resp.status)
         if len(resp.body) > MAX_INDEX:
             raise RcError(f"{upstream.url}: larger than {MAX_INDEX} bytes")
         pattern = re.compile(upstream.pattern, re.ASCII)

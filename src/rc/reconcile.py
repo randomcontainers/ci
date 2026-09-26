@@ -43,7 +43,7 @@ from pathlib import Path
 from rc import catalog, commits, locks, names, pkgedit, render, reposetup, status, upstream, yamlio
 from rc.config import Combo, Distro, Distros, Package, load_distros, load_package_list, parse_combo_file, parse_package
 from rc.constants import ORG, RESERVED_NAMES, SITE
-from rc.errors import RcError
+from rc.errors import RcError, TransientError
 from rc.github import Commit, GitHub, Job, Run, blob_sha
 from rc.state import RegistryState
 
@@ -380,6 +380,9 @@ class Reconciler:
                 continue
             try:
                 result = self.checker.latest(package)
+            except TransientError as exc:
+                self.say(f"{name}: upstream did not answer, trying again on the next pass: {exc}")
+                continue
             except RcError as exc:
                 self.notes.add("errors", f"Cannot check upstream for `{name}`: {exc}")
                 continue
@@ -389,6 +392,8 @@ class Reconciler:
                 self.say(f"{name}: {text}")
             try:
                 self._update_package(repo, result)
+            except TransientError as exc:
+                self.say(f"{name}: a download did not answer, trying again on the next pass: {exc}")
             except Exception as exc:
                 self.notes.add("errors", f"Cannot update `{name}`: {_why(exc)}")
 

@@ -277,6 +277,7 @@ class FakeWeb:
         self.provenance: dict[tuple[str, str], str | None] = {}
         self.urls: dict[str, bytes] = {}
         self.headers: dict[str, dict[str, str]] = {}
+        self.status: dict[str, int] = {}
         self.requests: list[tuple[str, str]] = []
 
     def add_release(self, project: str, version: str, when: datetime, *, publisher: str | None, wheel: str = "py3-none-any", yanked: bool = False):
@@ -297,6 +298,8 @@ class FakeWeb:
 
     def request(self, method: str, url: str, headers: dict[str, str], body: bytes | None = None) -> Response:
         self.requests.append((method, url))
+        if url in self.status:
+            return Response(self.status[url])
         parsed = urllib.parse.urlparse(url)
         if parsed.hostname == "pypi.org":
             m = re.match(r"^/simple/([^/]+)/$", parsed.path)
@@ -327,7 +330,7 @@ class Router:
         host = urllib.parse.urlparse(url).hostname or ""
         if host in ("api.github.com", "raw.githubusercontent.com"):
             return self.github.request(method, url, headers, body)
-        if host in ("pypi.org",) or url in self.web.urls:
+        if host in ("pypi.org",) or url in self.web.urls or url in self.web.status:
             return self.web.request(method, url, headers, body)
         return self.registry.request(method, url, headers, body)
 

@@ -1,6 +1,7 @@
 """A small HTTPS client with an injectable transport, so tests never touch the network."""
 
 import hashlib
+import ssl
 import time
 import urllib.error
 import urllib.parse
@@ -10,7 +11,7 @@ from pathlib import Path
 from typing import Protocol
 
 from rc import __version__
-from rc.errors import RcError
+from rc.errors import RcError, TransientError, http_error
 
 USER_AGENT = f"randomcontainers-rc/{__version__}"
 MAX_BODY = 16 * 1024 * 1024
@@ -82,10 +83,17 @@ class UrllibTransport:
             hdrs = {k.lower(): v for k, v in (exc.headers or {}).items()}
             body = exc.read(65536) if method != "HEAD" else b""
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
-            raise RcError(f"{method} {url}: {getattr(exc, 'reason', exc)}") from None
+            raise _unreachable(f"{method} {url}", exc) from None
         if len(body) > self.max_body:
             raise RcError(f"{method} {url}: response larger than {self.max_body} bytes")
         return Response(status, hdrs, body)
+
+
+def _unreachable(what: str, exc: Exception) -> RcError:
+    """A connection failure is transient, except a certificate that does not verify."""
+    reason = getattr(exc, "reason", exc)
+    bad_certificate = isinstance(exc, ssl.SSLCertVerificationError) or isinstance(reason, ssl.SSLCertVerificationError)
+    return (RcError if bad_certificate else TransientError)(f"{what}: {reason}")
 
 
 def follow(transport: Transport, method: str, url: str, headers: dict[str, str] | None = None) -> Response:
@@ -111,7 +119,7 @@ def follow(transport: Transport, method: str, url: str, headers: dict[str, str] 
 def get(transport: Transport, url: str, headers: dict[str, str] | None = None) -> bytes:
     resp = follow(transport, "GET", url, headers)
     if resp.status != 200:
-        raise RcError(f"GET {url}: HTTP {resp.status}")
+        raise http_error(f"GET {url}", resp.status)
     return resp.body
 
 
@@ -141,7 +149,7 @@ def stream_digests(
                 if out is not None:
                     out.write(chunk)
     except urllib.error.HTTPError as exc:
-        raise RcError(f"GET {url}: HTTP {exc.code}") from None
+        raise http_error(f"GET {url}", exc.code) from None
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
-        raise RcError(f"GET {url}: {getattr(exc, 'reason', exc)}") from None
+        raise _unreachable(f"GET {url}", exc) from None
     return {name: h.hexdigest() for name, h in hashes.items()}
