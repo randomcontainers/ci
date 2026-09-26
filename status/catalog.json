@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-09-26T11:27:04Z",
+  "generated": "2026-09-26T12:14:29Z",
   "registry": {
     "alias": "randomcontainers.com",
     "ghcr": "ghcr.io/randomcontainers"
@@ -629,9 +629,42 @@
       "repository": "https://github.com/randomcontainers/imagemagick-ghostscript",
       "license": "ImageMagick AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
       "version": "7.1.2-31",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T12:14:27Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "7.1.2-31",
+          "tags": [
+            "latest",
+            "7.1.2-31",
+            "ubuntu",
+            "7.1.2-31-ubuntu",
+            "7.1.2-31-ubuntu26.04"
+          ],
+          "digest": "sha256:e4e45e0b03e977701b3c1cb21f04688acc456ca2754a5a08946bd4c4dfb854d7",
+          "size": {
+            "linux/amd64": 72360810,
+            "linux/arm64": 69881596
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "7.1.2-31",
+          "tags": [
+            "alpine",
+            "7.1.2-31-alpine",
+            "7.1.2-31-alpine3.24"
+          ],
+          "digest": "sha256:ac255f4f8cc3e16be314271d2da10022904a7694cdcf47aa30acacd28852b73a",
+          "size": {
+            "linux/amd64": 38317898,
+            "linux/arm64": 38016986
+          }
+        }
+      ]
     },
     {
       "name": "streamlink-ffmpeg",
@@ -647,9 +680,42 @@
       "repository": "https://github.com/randomcontainers/streamlink-ffmpeg",
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later AND GPL-3.0-or-later",
       "version": "8.6.1",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T12:14:23Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "8.6.1",
+          "tags": [
+            "latest",
+            "8.6.1",
+            "ubuntu",
+            "8.6.1-ubuntu",
+            "8.6.1-ubuntu26.04"
+          ],
+          "digest": "sha256:f1f5bb00f8feca639c57f07c679297263b36bd7a179de9d540c11c42b5d922cb",
+          "size": {
+            "linux/amd64": 126495260,
+            "linux/arm64": 124360778
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "8.6.1",
+          "tags": [
+            "alpine",
+            "8.6.1-alpine",
+            "8.6.1-alpine3.24"
+          ],
+          "digest": "sha256:1bd8d32400ee4b7be5f79deedb4d888faae45ebf163588c13d92ed5a685d5ad4",
+          "size": {
+            "linux/amd64": 89325981,
+            "linux/arm64": 87303657
+          }
+        }
+      ]
     },
     {
       "name": "yt-dlp-ffmpeg",
@@ -665,9 +731,42 @@
       "repository": "https://github.com/randomcontainers/yt-dlp-ffmpeg",
       "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016 AND GPL-3.0-or-later",
       "version": "2026.08.19",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-09-26T12:14:29Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2026.08.19",
+          "tags": [
+            "latest",
+            "2026.08.19",
+            "ubuntu",
+            "2026.08.19-ubuntu",
+            "2026.08.19-ubuntu26.04"
+          ],
+          "digest": "sha256:ccd683b2e34d896fb371796ccb19f9eee7d3b46e636720e226a78cef4757c58a",
+          "size": {
+            "linux/amd64": 177012329,
+            "linux/arm64": 173375257
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2026.08.19",
+          "tags": [
+            "alpine",
+            "2026.08.19-alpine",
+            "2026.08.19-alpine3.24"
+          ],
+          "digest": "sha256:608b708844dfdb95f410e3382d1dd26a856c083d43ea3f824a25a0574aa4460c",
+          "size": {
+            "linux/amd64": 144669793,
+            "linux/arm64": 141905163
+          }
+        }
+      ]
     }
   ]
 }
