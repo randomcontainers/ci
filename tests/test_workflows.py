@@ -1,3 +1,4 @@
+import fnmatch
 import json
 import os
 import re
@@ -46,6 +47,48 @@ def test_hadolint_runs_before_the_plan():
     lint = steps[names.index("Lint Dockerfiles")]
     assert lint["working-directory"] == "src"
     assert "--network none" in lint["run"] and ':/src:ro"' in lint["run"]
+
+
+def test_plan_reaches_the_other_jobs_as_an_artifact():
+    text = (WORKFLOWS / "build.yml").read_text()
+    jobs = yaml.safe_load(text)["jobs"]
+    assert "plan" not in jobs["plan"]["outputs"]
+    read = set(re.findall(r"needs\.plan\.outputs\.([A-Za-z0-9_-]+)", text))
+    assert read and read <= set(jobs["plan"]["outputs"])
+    steps = jobs["plan"]["steps"]
+    names = [step.get("name") for step in steps]
+    upload = steps[names.index("Upload plan")]
+    assert names.index("Plan") < names.index("Upload plan")
+    assert upload["uses"].startswith("actions/upload-artifact@")
+    assert upload["with"] == {
+        "name": "plan",
+        "path": "${{ runner.temp }}/plan.json",
+        "if-no-files-found": "error",
+        "retention-days": 1,
+    }
+    readers = [name for name, job in jobs.items() if "plan.json" in str(job.get("steps")) and name != "plan"]
+    assert readers == ["build", "merge", "release"]
+    for name in readers:
+        steps = jobs[name]["steps"]
+        download = [s for s in steps if s.get("name") == "Download plan"]
+        assert len(download) == 1
+        assert download[0]["uses"].startswith("actions/download-artifact@")
+        assert download[0]["with"] == {"name": "plan", "path": "${{ runner.temp }}"}
+        first = next(i for i, s in enumerate(steps) if "plan.json" in s.get("run", ""))
+        assert steps.index(download[0]) < first
+    # The merge job downloads digests by pattern, which must not pick up the plan.
+    patterns = [s["with"]["pattern"] for s in jobs["merge"]["steps"] if "pattern" in s.get("with", {})]
+    assert patterns
+    assert not any(fnmatch.fnmatchcase("plan", re.sub(r"\$\{\{.*?\}\}", "*", p)) for p in patterns)
+    uploads = [s["with"]["name"] for job in jobs.values() for s in job["steps"] if "upload-artifact" in s.get("uses", "")]
+    assert uploads.count("plan") == 1 and all(n.startswith("digests-") for n in uploads if n != "plan")
+
+
+def test_artifact_actions_share_one_pin():
+    text = (WORKFLOWS / "build.yml").read_text()
+    for action in ("upload-artifact", "download-artifact"):
+        pins = set(re.findall(rf"actions/{action}@[a-f0-9]{{40}} # v[0-9.]+", text))
+        assert len(pins) == 1, pins
 
 
 def test_only_the_reconcile_job_uses_the_bot_environment():

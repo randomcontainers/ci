@@ -234,6 +234,17 @@ def test_check_rejects_tampered_plan(distros, listed, packages, fake):
         planmod.check(doc)
 
 
+def test_load_reports_a_missing_or_empty_plan(tmp_path):
+    with pytest.raises(RcError, match="no plan at"):
+        planmod.load(tmp_path / "plan.json")
+    (tmp_path / "plan.json").write_text("\n")
+    with pytest.raises(RcError, match="is empty"):
+        planmod.load(tmp_path / "plan.json")
+    (tmp_path / "plan.json").write_text("{")
+    with pytest.raises(RcError, match="cannot read plan"):
+        planmod.load(tmp_path / "plan.json")
+
+
 def ffmpeg_with_combo(distros, combo):
     data = yaml.safe_load((FIXTURES / "ffmpeg" / "package.yml").read_text())
     data["combos"] = [combo]

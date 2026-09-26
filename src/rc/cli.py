@@ -209,9 +209,6 @@ def cmd_plan(args) -> int:
     if args.output_file:
         _write_json(Path(args.output_file), document)
     targets = document["targets"]
-    compact = json.dumps(document, separators=(",", ":"))
-    if len(compact) > 900_000:
-        raise RcError("the plan is too large for a job output")
     outputs = {
         "kind": document["kind"],
         "name": document["name"],
@@ -239,11 +236,9 @@ def cmd_plan(args) -> int:
         ),
         "tags": json.dumps({t["id"]: t["tags"] for t in targets}, separators=(",", ":")),
         "labels": json.dumps({t["id"]: t["labels"] for t in targets}, separators=(",", ":")),
-        "plan": compact,
     }
     for key, value in outputs.items():
-        if key != "plan" or os.environ.get("GITHUB_OUTPUT"):
-            gha.set_output(key, value)
+        gha.set_output(key, value)
     gha.summary(planmod.summary_markdown(document, planner.errors + planner.notices))
     return 0
 

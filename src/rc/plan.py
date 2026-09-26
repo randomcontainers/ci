@@ -478,8 +478,16 @@ def merge_matrix(plan: dict) -> dict:
 
 def load(path: Path) -> dict:
     try:
-        plan = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError) as exc:
+        text = path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        raise RcError(f"no plan at {path}") from None
+    except OSError as exc:
+        raise RcError(f"cannot read plan {path}: {exc}") from None
+    if not text.strip():
+        raise RcError(f"the plan at {path} is empty")
+    try:
+        plan = json.loads(text)
+    except ValueError as exc:
         raise RcError(f"cannot read plan {path}: {exc}") from None
     check(plan)
     return plan

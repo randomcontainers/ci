@@ -136,6 +136,8 @@ def test_cli_offline_plan_and_bake(tmp_path, monkeypatch, capsys):
     assert code == 0
     out = capsys.readouterr().out
     assert "build=true" in out and "publish=false" in out
+    # The plan itself goes only to --output-file.
+    assert not any(line.startswith("plan=") for line in out.splitlines())
     monkeypatch.chdir(tmp_path)
     code = cli.main(["--ci-dir", str(CI_DIR), "bake", "--plan", str(plan_file), "--distro", "ubuntu",
                      "--platform", "linux/amd64", "--mode", "load", "--output", "bake.json"])
@@ -148,7 +150,7 @@ def test_cli_offline_plan_and_bake(tmp_path, monkeypatch, capsys):
 def test_cli_errors_are_reported(capsys):
     assert cli.main(["--ci-dir", str(CI_DIR), "check-image", "--plan", "/nonexistent.json", "--target", "slim",
                      "--distro", "ubuntu"]) == 1
-    assert "cannot read plan" in capsys.readouterr().err
+    assert "no plan at /nonexistent.json" in capsys.readouterr().err
 
 
 GIT_RELEASE = {
