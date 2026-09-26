@@ -821,3 +821,14 @@ def test_an_unreachable_upstream_is_only_logged():
     world.web.status["https://github.com/FFmpeg/FFmpeg.git/info/refs?service=git-upload-pack"] = 404
     outcome = world.reconciler(dry_run=True).run()
     assert any(n.startswith("Cannot check upstream for `ffmpeg`") for n in outcome.notes.items["errors"])
+
+
+def test_a_version_that_keeps_waiting_is_reported():
+    world = World()
+    ffmpeg_from_git(world)
+    serve_git(world.web, "https://github.com/FFmpeg/FFmpeg.git", [("refs/tags/n9.0.2", "1" * 40)])
+    outcome = world.reconciler(dry_run=True).run()
+    assert (
+        "`ffmpeg` 9.1 has no tag n9.1 at https://github.com/FFmpeg/FFmpeg.git yet, 10 days after its release"
+        in outcome.notes.items["upstream"]
+    )

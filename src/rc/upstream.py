@@ -39,6 +39,9 @@ PYPI = "https://pypi.org"
 SIMPLE_JSON = "application/vnd.pypi.simple.v1+json"
 INTEGRITY_JSON = "application/vnd.pypi.integrity.v1+json"
 MAX_CANDIDATES = 5
+# A version still waiting this long after its cooldown is reported: its URL or
+# tag template is most likely wrong.
+STALLED = timedelta(days=7)
 MAX_TAG = 128
 MAX_INDEX = 4 * 1024 * 1024
 MAX_LINE = 16 * 1024
@@ -79,6 +82,7 @@ class Result:
     chosen: Candidate | None = None
     refused: list[str] = field(default_factory=list)
     waiting: list[str] = field(default_factory=list)
+    stalled: list[str] = field(default_factory=list)
 
 
 _MONTHS = ("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
@@ -577,6 +581,9 @@ class Checker:
                 break
             kind, reason = verdict
             (result.waiting if kind == "waiting" else result.refused).append(f"{c.version} {reason}")
+            age = self.now - c.published if c.published else None
+            if kind == "waiting" and age is not None and age > duration(upstream.cooldown) + STALLED:
+                result.stalled.append(f"{c.version} {reason}, {age.days} days after its release")
         return result
 
 

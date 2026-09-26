@@ -386,7 +386,7 @@ class Reconciler:
             except RcError as exc:
                 self.notes.add("errors", f"Cannot check upstream for `{name}`: {exc}")
                 continue
-            for text in result.refused:
+            for text in result.refused + result.stalled:
                 self.notes.add("upstream", f"`{name}` {text}")
             for text in result.waiting:
                 self.say(f"{name}: {text}")

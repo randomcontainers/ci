@@ -646,8 +646,12 @@ def test_git_tags_resolve_to_their_commit(distros):
     result = checker(gh, web).latest(package)
     assert (result.chosen.version, result.chosen.commit) == ("1.9.5", "c" * 40)
     assert result.waiting == [f"1.9.6 has no tag v1.9.6 at {WHISPER['git']['url']} yet"]
+    # 1.9.6 was released 10 days ago, more than a week past its cooldown
+    assert result.stalled == [f"1.9.6 has no tag v1.9.6 at {WHISPER['git']['url']} yet, 10 days after its release"]
     # the refs are read once per pass, however many versions are checked
     assert len([u for _, u in web.requests if u.endswith("/info/refs?service=git-upload-pack")]) == 1
+    result = checker(gh, web, now=OLD + timedelta(days=7, hours=23)).latest(package)
+    assert result.waiting and result.stalled == []
 
 
 def test_git_tag_must_be_the_tag_the_version_came_from(distros):
