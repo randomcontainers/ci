@@ -10,6 +10,14 @@ from pathlib import Path
 from rc.config import Distros, Package
 
 _ARG = re.compile(r"^\s*ARG\s+([A-Za-z_][A-Za-z0-9_]*)", re.M | re.I)
+_ARG_LINE = re.compile(r"^\s*ARG\s+(.*)$", re.M | re.I)
+_NAME = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+_CHECKSUM = re.compile(r"--checksum=(\S+)")
+_VARIABLE = re.compile(r"\$\{?([A-Za-z_][A-Za-z0-9_]*)")
+# Build arguments with these endings pin what the build downloads or checks out.
+_PINS = ("_SHA256", "_COMMIT", "_VERSION")
+# rc bake passes these to every build; JOBS only when it is set.
+_ALWAYS_PASSED = {"BASE_IMAGE", "VERSION", "SOURCE_DATE_EPOCH", "JOBS"}
 _BASE_DEFAULT = re.compile(r"^\s*ARG\s+BASE_IMAGE\s*=\s*(\S+)", re.M | re.I)
 _FROM = re.compile(r"^\s*FROM\s+(?:--\S+\s+)*\S+(?:\s+AS\s+(\S+))?\s*$", re.M | re.I)
 
@@ -34,6 +42,8 @@ def package_problems(package: Package, directory: Path, distros: Distros) -> lis
         for arg in required:
             if arg not in declared:
                 problems.append(f"{name} does not declare ARG {arg}")
+        passed = _ALWAYS_PASSED | set(common) | {arg for e in extras for arg in e.build_args(package.version)}
+        problems += [f"{name}: ARG {arg} has no default and the build does not pass it" for arg in _unpassed(text, passed)]
         stages = _FROM.findall(text)
         if not stages or stages[-1].lower() != "slim":
             problems.append(f"{name}: the last stage must be named slim")
@@ -42,6 +52,25 @@ def package_problems(package: Package, directory: Path, distros: Distros) -> lis
             if extras.requirements and not (directory / extras.requirements).is_file():
                 problems.append(f"combo {combo.name}: {extras.requirements} is missing")
     return problems
+
+
+def _unpassed(text: str, passed: set[str]) -> list[str]:
+    """ARGs without a default that pin a download or checkout, which the build does not pass.
+
+    These are ARGs used in a `--checksum=` flag or named like a pin. Without
+    this check such an ARG is empty and only the build fails, in `ADD
+    --checksum` or when the checkout is compared with it.
+    """
+    declared, defaulted = set(), set()
+    for line in _ARG_LINE.findall(text):
+        for token in line.split():
+            arg, eq, _ = token.partition("=")
+            if _NAME.fullmatch(arg):
+                declared.add(arg)
+                if eq:
+                    defaulted.add(arg)
+    checked = {v for flag in _CHECKSUM.findall(text) for v in _VARIABLE.findall(flag)}
+    return sorted(a for a in declared - defaulted - passed if a in checked or a.endswith(_PINS))
 
 
 def distro_problems(directory: Path, distros: Distros) -> list[str]:

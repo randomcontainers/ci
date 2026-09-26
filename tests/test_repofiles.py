@@ -40,7 +40,8 @@ def test_contract_problems(tmp_path, packages, distros):
 
 
 def test_combo_requirements_file(tmp_path, packages, distros):
-    root = write(tmp_path / "yt-dlp", {"Dockerfile.ubuntu": GOOD, "Dockerfile.alpine": GOOD})
+    plain = GOOD.replace("ARG SOURCE_SHA256\n", "")
+    root = write(tmp_path / "yt-dlp", {"Dockerfile.ubuntu": plain, "Dockerfile.alpine": plain})
     problems = repofiles.package_problems(packages["yt-dlp"], root, distros)
     assert problems == ["combo yt-dlp-ffmpeg: requirements-deno.lock is missing"]
     (root / "requirements-deno.lock").write_text("")
@@ -88,3 +89,31 @@ def test_git_and_extra_artifact_arguments(tmp_path, distros):
     alpine = ubuntu.replace("ARG VERSION\n", "ARG VERSION\nARG GTS_SHA256\n")
     root = write(tmp_path / "ffmpeg", {"Dockerfile.ubuntu": ubuntu, "Dockerfile.alpine": alpine})
     assert repofiles.package_problems(package, root, distros) == []
+
+
+def test_pins_the_build_does_not_pass(tmp_path, packages, distros):
+    # the Dockerfile downloads an extra artifact that package.yml does not declare
+    extra = (
+        "ARG LIBHEIF_VERSION\nARG LIBHEIF_SHA256\nARG CHECKED\nARG TOOL_COMMIT=abc\nARG TOOL_COMMIT\nARG NAME\n"
+        "ADD --checksum=sha256:${CHECKED} https://e.org/libheif-${LIBHEIF_VERSION}.tar.gz /src/\n"
+    )
+    root = write(tmp_path / "ffmpeg", {"Dockerfile.ubuntu": GOOD.replace("RUN true\n", extra), "Dockerfile.alpine": GOOD})
+    assert repofiles.package_problems(packages["ffmpeg"], root, distros) == [
+        "Dockerfile.ubuntu: ARG CHECKED has no default and the build does not pass it",
+        "Dockerfile.ubuntu: ARG LIBHEIF_SHA256 has no default and the build does not pass it",
+        "Dockerfile.ubuntu: ARG LIBHEIF_VERSION has no default and the build does not pass it",
+    ]
+    data = yaml.safe_load((FIXTURES / "ffmpeg" / "package.yml").read_text())
+    data["upstream"]["extra-artifacts"] = {
+        "libheif": {"version": "1.23.5", "url": "https://e.org/libheif-{version}.tar.gz", "sha256": "a" * 64, "distros": ["ubuntu"]},
+    }
+    package = parse_package(data, "package.yml", distros)
+    assert repofiles.package_problems(package, root, distros) == ["Dockerfile.ubuntu: ARG CHECKED has no default and the build does not pass it"]
+    # a git build passes no SOURCE_SHA256
+    data["upstream"].pop("artifact")
+    data["upstream"].pop("extra-artifacts")
+    data["upstream"]["git"] = {"url": "https://github.com/FFmpeg/FFmpeg.git", "tag": "n{version}", "commit": "c" * 40}
+    good = GOOD.replace("ARG SOURCE_SHA256\n", "ARG SOURCE_SHA256\nARG SOURCE_COMMIT\n")
+    root = write(tmp_path / "ffmpeg", {"Dockerfile.ubuntu": good, "Dockerfile.alpine": good})
+    problems = repofiles.package_problems(parse_package(data, "package.yml", distros), root, distros)
+    assert problems == [f"Dockerfile.{d}: ARG SOURCE_SHA256 has no default and the build does not pass it" for d in ("ubuntu", "alpine")]
