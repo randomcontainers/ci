@@ -44,12 +44,15 @@ def fake():
     return FakeRegistry()
 
 
-def slim_labels(name, version, distro_version):
-    return {
+def slim_labels(name, version, distro_version, revision=None):
+    labels = {
         "org.opencontainers.image.version": version,
         "com.randomcontainers.distro-version": distro_version,
         "com.randomcontainers.variant": "slim",
     }
+    if revision is not None:
+        labels["org.opencontainers.image.revision"] = revision
+    return labels
 
 
 def publish_bases(fake):
@@ -60,9 +63,9 @@ def publish_bases(fake):
     }
 
 
-def publish_slim(fake, name, version, distros=(("ubuntu", "26.04"), ("alpine", "3.24"))):
+def publish_slim(fake, name, version, distros=(("ubuntu", "26.04"), ("alpine", "3.24")), revision=None):
     return {
-        d: fake.add_image("ghcr.io", f"randomcontainers/{name}", f"slim-{d}", labels=slim_labels(name, version, dv))
+        d: fake.add_image("ghcr.io", f"randomcontainers/{name}", f"slim-{d}", labels=slim_labels(name, version, dv, revision))
         for d, dv in distros
     }
 

@@ -123,7 +123,7 @@ rc catalog [--output FILE] [--empty]                    write the catalog of pub
 rc lock FILE [--requirement REQ]                        write a hash-locked requirements file with uv
 ```
 
-`rc <command> --help` lists every option. Member `package.yml` files are read from the `main` branch of each package repository; `--packages-dir DIR` reads them from `DIR/<name>/package.yml` instead.
+`rc <command> --help` lists every option. Member `package.yml` files are read from the `main` branch of each package repository. For a member taken from a published image, `rc plan` reads the `package.yml` at the commit in the image's `org.opencontainers.image.revision` label, or `main` with a notice when the label is missing. With `--packages-dir DIR`, every definition comes from `DIR/<name>/package.yml`.
 
 `rc reconcile` and `rc catalog` read public data without a token. In the workflow they get `RC_GITHUB_TOKEN` (reads and dispatches) and `RC_CI_TOKEN` (this repository). A dry run against the real services, with the package repositories checked out next to this one:
 

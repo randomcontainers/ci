@@ -120,6 +120,8 @@ class FakeGitHub:
         parsed = urllib.parse.urlparse(url)
         if parsed.hostname == "raw.githubusercontent.com":
             owner, repo, sha, path = parsed.path.lstrip("/").split("/", 3)
+            if sha == "main":
+                sha = self.heads.get(f"{owner}/{repo}", "")
             commit = self.commits.get(sha)
             if f"{owner}/{repo}" not in self.heads or commit is None:
                 return Response(404)

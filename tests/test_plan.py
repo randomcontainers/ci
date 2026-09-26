@@ -4,10 +4,16 @@ import json
 import pytest
 import yaml
 
-from conftest import FIXTURES, SHA, make_planner, publish_bases, publish_slim
+from conftest import FIXTURES, NOW, SHA, make_planner, publish_bases, publish_slim
 from rc import plan as planmod
 from rc.config import ComboFile, parse_package
 from rc.errors import RcError
+from rc.plan import Planner, RunContext
+from rc.registry import Registry
+from rc.sources import PackageSource
+from world import World
+
+RAW = "https://raw.githubusercontent.com/randomcontainers"
 
 
 def targets_by_id(document):
@@ -354,3 +360,127 @@ def test_git_source_and_extra_artifacts(distros, listed, packages, fake):
         ],
     }
     planmod.check(doc)
+
+
+# Members are described by the package.yml their published image was built from.
+
+
+def github_planner(world, repository, *, default_only=False):
+    """A planner that reads package.yml files from GitHub, as rc plan does in CI."""
+    run = RunContext(repository, SHA, "refs/heads/main", "workflow_dispatch", default_only=default_only, now=NOW)
+    source = PackageSource(world.distros, transport=world.router)
+    return Planner(world.distros, world.listed, source, Registry(world.router), run)
+
+
+def push_package(world, name, change):
+    data = yaml.safe_load((FIXTURES / name / "package.yml").read_text())
+    change(data)
+    world.github.push(f"randomcontainers/{name}", {"package.yml": yaml.safe_dump(data, sort_keys=False).encode()})
+    return parse_package(data, f"{name}/package.yml", world.distros)
+
+
+def raw_reads(world, name):
+    return [u for _, u, _, _ in world.github.requests if u.startswith(f"{RAW}/{name}/")]
+
+
+def commands_by_package(target):
+    return {group["package"]: group["commands"] for group in target["tests"]}
+
+
+def test_member_is_tested_with_the_package_yml_of_its_image():
+    world = World()
+    built = world.github.heads["randomcontainers/ffmpeg"]
+    publish_slim(world.registry, "ffmpeg", "9.0.2", revision=built)
+
+    def add_test_and_env(data):
+        data["test"].append("ffmpeg -hide_banner -filters | grep -q new_filter")
+        data["image"]["env"] = {"FFMPEG_DATADIR": "/usr/local/share/ffmpeg"}
+
+    push_package(world, "ffmpeg", add_test_and_env)
+    planner = github_planner(world, "randomcontainers/yt-dlp")
+    doc = planner.plan_package(world.packages["yt-dlp"])
+    t = targets_by_id(doc)
+    for distro in ("ubuntu", "alpine"):
+        default = t[f"default-{distro}"]
+        assert commands_by_package(default)["ffmpeg"] == list(world.packages["ffmpeg"].test)
+        assert "FFMPEG_DATADIR" not in default["expect"]["env"]
+        assert "FFMPEG_DATADIR" not in default["build"]["dockerfile_text"]
+    # Both slim images come from the same commit, which is read once; main is
+    # still read for the catalog checks.
+    assert raw_reads(world, "ffmpeg").count(f"{RAW}/ffmpeg/{built}/package.yml") == 1
+    assert f"{RAW}/ffmpeg/main/package.yml" in raw_reads(world, "ffmpeg")
+    assert not any("revision label" in n for n in planner.notices)
+
+
+def test_default_only_uses_the_owner_package_yml_of_its_slim_image():
+    world = World()
+    for name, version in (("ffmpeg", "9.0.2"), ("yt-dlp", "2026.08.19")):
+        publish_slim(world.registry, name, version, revision=world.github.heads[f"randomcontainers/{name}"])
+
+    def change(data):
+        data["test"].append("yt-dlp --help | grep -q -- --new-option")
+        data["image"]["cmd"] = ["--version"]
+
+    checkout = push_package(world, "yt-dlp", change)
+    planner = github_planner(world, "randomcontainers/yt-dlp", default_only=True)
+    doc = planner.plan_package(checkout)
+    default = targets_by_id(doc)["default-ubuntu"]
+    assert commands_by_package(default)["yt-dlp"] == list(world.packages["yt-dlp"].test)
+    assert default["expect"]["cmd"] == ["--help"]
+    assert 'CMD ["--help"]' in default["build"]["dockerfile_text"]
+    # The combo's own tests come from the checkout.
+    assert commands_by_package(default)["yt-dlp-ffmpeg"] == list(checkout.default_combo.test)
+
+
+def test_combo_members_are_tested_with_the_package_yml_of_their_images():
+    world = World()
+    publish_slim(world.registry, "imagemagick", "7.1.2-31", revision=world.github.heads["randomcontainers/imagemagick"])
+    publish_slim(world.registry, "ghostscript", "10.08.0", revision=world.github.heads["randomcontainers/ghostscript"])
+    push_package(world, "ghostscript", lambda data: data["test"].append("gs -h | grep -q pdfwrite"))
+    planner = github_planner(world, "randomcontainers/imagemagick-ghostscript")
+    doc = planner.plan_combo(ComboFile("imagemagick-ghostscript", "imagemagick", ("ghostscript",)))
+    tests = commands_by_package(targets_by_id(doc)["default-alpine"])
+    assert tests["ghostscript"] == list(world.packages["ghostscript"].test)
+    assert tests["imagemagick"] == list(world.packages["imagemagick"].test)
+
+
+def test_member_without_a_revision_label_is_tested_with_main():
+    world = World()
+    publish_slim(world.registry, "ffmpeg", "9.0.2")
+    push_package(world, "ffmpeg", lambda data: data["test"].append("ffmpeg -hide_banner -filters | grep -q new_filter"))
+    planner = github_planner(world, "randomcontainers/yt-dlp")
+    doc = planner.plan_package(world.packages["yt-dlp"])
+    assert commands_by_package(targets_by_id(doc)["default-ubuntu"])["ffmpeg"][-1].endswith("grep -q new_filter")
+    assert "ghcr.io/randomcontainers/ffmpeg:slim-ubuntu has no revision label; testing it with the current ffmpeg/package.yml" in planner.notices
+    assert all("/main/" in u for u in raw_reads(world, "ffmpeg"))
+
+
+@pytest.mark.parametrize(
+    "revision, reason",
+    [
+        ("main", "'main' is not a full commit id"),
+        ("F" * 40, "is not a full commit id"),
+        ("f" * 40, "HTTP 404"),
+    ],
+)
+def test_member_whose_package_yml_cannot_be_read_blocks_the_default_image(revision, reason):
+    world = World()
+    publish_slim(world.registry, "ffmpeg", "9.0.2", revision=revision)
+    planner = github_planner(world, "randomcontainers/yt-dlp")
+    doc = planner.plan_package(world.packages["yt-dlp"])
+    assert [t["id"] for t in doc["targets"]] == ["slim-ubuntu", "slim-alpine"]
+    notice = next(n for n in planner.notices if "slim-ubuntu was built from" in n)
+    assert notice.startswith("Skipping the yt-dlp default image on ubuntu: cannot read the package.yml ")
+    assert reason in notice
+    if revision != "f" * 40:
+        assert all("/main/" in u for u in raw_reads(world, "ffmpeg"))
+
+
+def test_packages_dir_is_used_whatever_the_revision(distros, listed, packages, fake):
+    publish_bases(fake)
+    publish_slim(fake, "ffmpeg", "9.0.2", revision="b" * 40)
+    planner = make_planner(distros, listed, fake, "randomcontainers/yt-dlp")
+    doc = planner.plan_package(packages["yt-dlp"])
+    assert commands_by_package(targets_by_id(doc)["default-ubuntu"])["ffmpeg"] == list(packages["ffmpeg"].test)
+    assert not any("raw.githubusercontent.com" in u for _, u, _ in fake.requests)
+    assert planner.notices == []

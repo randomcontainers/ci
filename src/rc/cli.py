@@ -195,8 +195,8 @@ def cmd_plan(args) -> int:
             committed = Path(args.source) / f"Dockerfile.{target['distro']}"
             if committed.is_file() and committed.read_text(encoding="utf-8") != target["build"]["dockerfile_text"]:
                 planner.notices.append(
-                    f"{committed.name} differs from the file rendered from the current package.yml files; "
-                    "building the rendered file (the reconciler updates the repository)"
+                    f"{committed.name} differs from the file rendered from the package.yml files the member "
+                    "images were built from; building the rendered file"
                 )
 
     for message in planner.errors:

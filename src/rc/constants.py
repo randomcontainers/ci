@@ -18,7 +18,7 @@ IMAGE_USER = "1000:1000"
 WORKDIR = "/work"
 CACHE_DIR = "/cache"
 
-RAW_PACKAGE_URL = "https://raw.githubusercontent.com/{org}/{name}/main/package.yml"
+RAW_PACKAGE_URL = "https://raw.githubusercontent.com/{org}/{name}/{ref}/package.yml"
 
 # Names reserved for project paths, which no package or combo can use.
 RESERVED_NAMES = frozenset(

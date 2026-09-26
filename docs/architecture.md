@@ -26,6 +26,8 @@ Each image is pushed by the workflow of the repository that owns it, with that r
 
 A package's default image leaves the package itself out of `members`, since it is built in the same run.
 
+A default or combo image runs the tests of every member. For a member taken from its published `slim-<distro>` image, `rc plan` reads the member's `package.yml` at the commit in that image's `org.opencontainers.image.revision` label, so its tests, environment and entrypoint match the image. A test added to a member applies to these images once the member's slim image is rebuilt.
+
 ## A reconcile pass
 
 `tick.yml` dispatches `reconcile.yml` every 15 minutes. Passes never overlap (concurrency group `reconcile`). A pass keeps no state of its own: it reads the repositories, the upstreams and the registry, and a pass that finds everything current does nothing.

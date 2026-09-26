@@ -5,6 +5,10 @@ index digest exactly once, checks that members are public and on the
 current distro release, and writes one JSON document. The build, merge
 and release jobs only read that document, so every job of a run works
 from the same digests.
+
+A member taken from a published image is described by the package.yml at
+the commit in the image's revision label. Its tests, environment and
+entrypoint have to match the image, which can be older than main.
 """
 
 import json
@@ -17,7 +21,7 @@ from rc.config import Combo, ComboFile, Distro, Distros, Package
 from rc.constants import COMMON_ENV, IMAGE_USER, ORG, PLATFORMS, REGISTRY, WORKDIR
 from rc.errors import RcError
 from rc.labels import image_labels
-from rc.registry import Registry, RegistryError, parse_reference
+from rc.registry import Reference, Registry, RegistryError, parse_reference
 from rc.sources import PackageSource
 
 SCHEMA = 1
@@ -46,6 +50,7 @@ class MemberState:
     digest: str = ""
     version: str = ""
     context: str = ""
+    package: Package | None = None
 
 
 class Planner:
@@ -97,12 +102,12 @@ class Planner:
         return f"{distro.image}@{digest}", digest
 
     def resolve_member(self, name: str, distro: Distro) -> MemberState:
-        package = self.source.load(name)
         if self.offline:
+            package = self.source.load(name)
             image = self.member_images.get(name, "").replace("{distro}", distro.id)
             if not image:
                 return MemberState(name, False, f"no local image given for {name} (--member-image {name}=REF)")
-            return MemberState(name, True, version=package.version, context=f"docker-image://{image}")
+            return MemberState(name, True, version=package.version, context=f"docker-image://{image}", package=package)
         ref = parse_reference(f"{self.image_ref(name)}:slim-{distro.id}")
         probe = self.registry.probe(ref)
         if probe.status == "unavailable":
@@ -114,6 +119,10 @@ class Planner:
             labels = self.registry.config_labels(ref.with_digest(digest))
         except RegistryError as exc:
             return MemberState(name, False, f"cannot read {ref}: {exc}")
+        try:
+            package = self.built_from(name, ref, labels)
+        except RcError as exc:
+            return MemberState(name, False, f"cannot read the package.yml {ref} was built from: {exc}")
         version = labels.get("org.opencontainers.image.version", "")
         distro_version = labels.get("com.randomcontainers.distro-version", "")
         try:
@@ -132,7 +141,16 @@ class Planner:
             digest=digest,
             version=version,
             context=f"docker-image://{self.image_ref(name)}@{digest}",
+            package=package,
         )
+
+    def built_from(self, name: str, ref: Reference, labels: dict[str, str]) -> Package:
+        """The package definition at the commit a member image was built from."""
+        revision = labels.get("org.opencontainers.image.revision", "")
+        if not revision:
+            self.notices.append(f"{ref} has no revision label; testing it with the current {name}/package.yml")
+            return self.source.load(name)
+        return self.source.load_at(name, revision)
 
     # Targets
 
@@ -223,11 +241,10 @@ class Planner:
         (the owner comes from `target:slim` unless default-only is set).
         """
         owner = self.source.load(combo.owner)
-        packages = {m: self.source.load(m) for m in combo.members}
         states: dict[str, MemberState] = {}
         for name in combo.members:
             if name == owner.name and in_repo and not self.run.default_only:
-                states[name] = MemberState(name, True, version=owner.version, context="target:slim")
+                states[name] = MemberState(name, True, version=owner.version, context="target:slim", package=owner)
                 continue
             states[name] = self.resolve_member(name, distro)
         blocked = [s for s in states.values() if not s.ready]
@@ -242,6 +259,7 @@ class Planner:
             self.notices.append(
                 f"{combo.name} on {distro.id} uses {owner.name} {version}; package.yml is at {owner.version}"
             )
+        packages = {n: s.package for n, s in states.items()}
         if in_repo:
             ts = tags.package_tags("default", version, owner.versioning, distro, self.distros.default)
             primary = tags.primary_tag("default", version, distro)
@@ -294,8 +312,8 @@ class Planner:
             "distro_base": f"{distro.image}@{distro_digest}" if distro_digest else distro.image,
             "expect": self._expect(
                 env,
-                owner.image.entrypoint,
-                owner.image.cmd,
+                packages[owner.name].image.entrypoint,
+                packages[owner.name].image.cmd,
                 {n: s.version for n, s in states.items()},
                 extras.packages,
                 distro,
