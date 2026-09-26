@@ -396,20 +396,41 @@ class Reconciler:
         package = repo.package
         pypi = package.upstream.source == "pypi"
         chosen = result.chosen
-        if chosen is None:
+        unchecked = upstream.hand_pins(package, chosen) if chosen is not None else []
+        if unchecked:
+            # A download that nothing checks cannot be pinned, so none is made.
+            self.notes.add(
+                "upstream",
+                f"`{repo.name}` {chosen.version} needs a hand pin: no checksums file, signature or digest recorded by "
+                f"GitHub checks {', '.join(unchecked)}",
+            )
+            chosen = None
+        elif chosen is None:
             self.say(f"{repo.name}: {package.version} is current (newest upstream: {result.newest or 'none found'})")
         files: dict[str, bytes] = {}
         message = ""
         if chosen is not None:
             message = f"Update {repo.name} to {chosen.version}"
             self.say(f"{repo.name}: {chosen.version} is available (package.yml is at {package.version})")
-            sha256 = None
-            if package.upstream.artifact:
-                if self.dry_run:
-                    self.say(f"{repo.name}: would download {package.upstream.artifact.url_for(chosen.version)} and pin its sha256")
-                else:
+            source = package.upstream
+            sha256, extras, commit = None, {}, None
+            if self.dry_run:
+                urls = [source.artifact.url_for(chosen.version)] if source.artifact else []
+                urls += [e.url_for(chosen.version) for e in source.extra_artifacts if not e.pinned_by_hand]
+                for url in urls:
+                    self.say(f"{repo.name}: would download {url} and pin its sha256")
+            else:
+                if source.artifact:
                     sha256 = upstream.pin_artifact(package, chosen, self.checker.web, self.fetch)
-            text = pkgedit.update_upstream(repo.text.decode("utf-8"), self.distros, version=chosen.version, sha256=sha256)
+                extras = upstream.pin_extras(package, chosen, self.checker.web, self.fetch)
+            if source.git:
+                commit = chosen.commit
+                if not commit:
+                    raise RcError(f"tag {source.git.tag_for(chosen.version)} was not resolved to a commit")
+                self.say(f"{repo.name}: tag {source.git.tag_for(chosen.version)} at {source.git.url} is commit {commit}")
+            text = pkgedit.update_upstream(
+                repo.text.decode("utf-8"), self.distros, version=chosen.version, sha256=sha256, commit=commit, extras=extras
+            )
             files["package.yml"] = text.encode("utf-8")
             if pypi:
                 files.update(self._relock(repo, chosen.version, self._lock_files(repo)))

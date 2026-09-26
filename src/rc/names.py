@@ -6,6 +6,7 @@ or a shell, so keep them strict.
 
 import re
 import shlex
+import urllib.parse
 
 from rc.constants import RESERVED_NAMES
 
@@ -37,6 +38,15 @@ FORGE_REPO = re.compile(r"^[A-Za-z0-9_](?:[A-Za-z0-9._-]{0,39})/[A-Za-z0-9_][A-Z
 GITLAB_PROJECT = re.compile(r"^(?:[1-9][0-9]{0,11}|[A-Za-z0-9_][A-Za-z0-9._-]{0,99}(?:/[A-Za-z0-9_][A-Za-z0-9._-]{0,99}){1,9})$")
 # Base URL of a GitLab or Forgejo server: https, optionally a path, no trailing slash.
 SERVER_URL = re.compile(r"^https://[A-Za-z0-9.-]+(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~-]+)*$")
+# A git repository to clone over https: host and path only, no query or credentials.
+GIT_URL = re.compile(r"^https://[A-Za-z0-9.-]+(?::[0-9]{1,5})?(?:/[A-Za-z0-9_~-][A-Za-z0-9._~-]*)+$")
+# A tag name that git accepts and that is safe on a command line: components
+# separated by single slashes, none starting with a dot or a dash.
+GIT_TAG = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9._+-]*(?:/[A-Za-z0-9_][A-Za-z0-9._+-]*)*$")
+# The name of an extra artifact; upper-cased with _ for -, it prefixes the build arguments.
+EXTRA_NAME = re.compile(r"^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$")
+# A version pinned by hand for an extra artifact.
+PINNED_VERSION = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9._+~-]{0,62}[A-Za-z0-9])?$")
 PYPI_PROJECT = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9._-]{0,98}[A-Za-z0-9])?$")
 DURATION = re.compile(r"^[0-9]{1,4}[mhd]$")
 HTTPS_URL = re.compile(r"^https://[A-Za-z0-9.-]+(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/?#-]*)?$")
@@ -45,6 +55,22 @@ TOPIC = re.compile(r"^[a-z0-9][a-z0-9-]{0,49}$")
 
 _SPDX_ID = re.compile(r"^(?:LicenseRef-|DocumentRef-[A-Za-z0-9.-]+:LicenseRef-)?[A-Za-z0-9][A-Za-z0-9.+-]*$")
 _SPDX_TOKEN = re.compile(r"\(|\)|[^\s()]+")
+
+
+def is_git_tag(value: str) -> bool:
+    """A tag git accepts: GIT_TAG, at most 128 characters, no "..", no component ending in "." or ".lock"."""
+    if not isinstance(value, str) or len(value) > 128 or not GIT_TAG.match(value) or ".." in value:
+        return False
+    return not any(part.endswith((".", ".lock")) for part in value.split("/"))
+
+
+def url_file_name(url: str) -> str | None:
+    """The file name at the end of a URL's path, or None when it is not a plain file name."""
+    if not isinstance(url, str):
+        return None
+    path = urllib.parse.urlparse(url).path
+    name = urllib.parse.unquote(path.rsplit("/", 1)[-1])
+    return name if FILE_NAME.match(name) else None
 
 
 def check_name(value: str) -> str | None:

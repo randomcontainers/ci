@@ -9,10 +9,15 @@ A release is taken when all of these hold:
 - its files are published: on PyPI not yanked, with wheels for glibc and
   musl on amd64 and arm64 or a pure-Python wheel, and every file carries a
   PEP 740 provenance from the `publisher` repository; for tarball builds the
-  artifact (and signature) answer with HTTP 200.
+  artifact (and signature) answer with HTTP 200, and so do the extra
+  artifacts that follow the package version.
 
 Besides PyPI and GitHub, versions can come from GitLab releases, Forgejo
 tags (Codeberg) and a regular expression over an index page (html-index).
+
+A package built from a git tag (`upstream.git`) also needs the tag at its
+git URL. The tag is resolved there to its commit, the same way `git clone`
+sees it, and the commit is pinned in package.yml together with the version.
 
 When a newer release fails a check, older releases that are still newer
 than the current version are tried, and the reason is reported.
@@ -26,7 +31,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta, timezone
 
 from rc import http, names, versions
-from rc.config import Package, Upstream, expand_url
+from rc.config import TAG_SOURCES, Artifact, Package, Upstream, expand_url
 from rc.errors import RcError
 from rc.github import GitHub, parse_time
 
@@ -39,6 +44,7 @@ MAX_INDEX = 4 * 1024 * 1024
 MAX_LINE = 16 * 1024
 FORGEJO_LIMIT = 50
 FORGEJO_PAGES = 10
+GIT_ADVERTISEMENT = "application/x-git-upload-pack-advertisement"
 
 _CALVER_PYPI = re.compile(r"^([0-9]{4})\.([0-9]{1,2})\.([0-9]{1,2})$")
 _FILENAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]{0,254}$")
@@ -62,6 +68,7 @@ class Candidate:
     object: tuple[str, str] | None = None
     release: dict | None = None
     files: list[dict] = field(default_factory=list)
+    commit: str | None = None
 
 
 @dataclass
@@ -190,6 +197,61 @@ def literal_prefix(pattern: str | None) -> str:
     return out
 
 
+def parse_advertisement(body: bytes) -> dict[str, str]:
+    """Ref name to object id from a git smart HTTP ref advertisement (the reply to info/refs)."""
+    refs: dict[str, str] = {}
+    pos = 0
+    while pos < len(body):
+        head = body[pos : pos + 4]
+        if len(head) < 4 or not re.fullmatch(rb"[0-9a-fA-F]{4}", head):
+            raise RcError("not a git ref advertisement")
+        length = int(head, 16)
+        if length == 0:
+            pos += 4
+            continue
+        if length < 4 or pos + length > len(body):
+            raise RcError("truncated git ref advertisement")
+        line = body[pos + 4 : pos + length].rstrip(b"\n").split(b"\0", 1)[0]
+        pos += length
+        if line.startswith(b"ERR "):
+            raise RcError(f"the server answered: {line[4:200].decode('ascii', 'replace')}")
+        if line.startswith(b"#"):
+            continue
+        sha, _, ref = line.decode("ascii", "replace").partition(" ")
+        if names.GIT_SHA.match(sha) and ref.startswith("refs/"):
+            refs[ref] = sha
+    return refs
+
+
+def tag_commit(web: http.Transport, url: str, tag: str, refs: dict[str, str] | None = None) -> str | None:
+    """The commit a tag points to at a git URL, or None when the repository has no such tag.
+
+    Reads the ref advertisement that `git clone` reads first, unless refs
+    from an earlier call are given. An annotated tag is listed twice, the
+    second time peeled (`^{}`) to its commit.
+    """
+    if not names.GIT_URL.match(url) or not names.is_git_tag(tag):
+        raise RcError(f"refusing to look up tag {tag!r} at {url!r}")
+    if refs is None:
+        refs = git_refs(web, url)
+    return refs.get(f"refs/tags/{tag}^{{}}") or refs.get(f"refs/tags/{tag}")
+
+
+def git_refs(web: http.Transport, url: str) -> dict[str, str]:
+    """Every ref a git repository served over smart HTTP advertises."""
+    if not names.GIT_URL.match(url):
+        raise RcError(f"refusing to read the refs of {url!r}")
+    resp = http.follow(web, "GET", f"{url}/info/refs?service=git-upload-pack")
+    if resp.status != 200:
+        raise RcError(f"{url}: HTTP {resp.status}")
+    if (resp.header("content-type") or "").split(";")[0].strip() != GIT_ADVERTISEMENT:
+        raise RcError(f"{url}: not a git repository served over smart HTTP")
+    try:
+        return parse_advertisement(resp.body)
+    except RcError as exc:
+        raise RcError(f"{url}: {exc}") from None
+
+
 def wheel_problem(files: list[dict]) -> str | None:
     wheels = [f["filename"] for f in files if f["filename"].endswith(".whl")]
     if not wheels:
@@ -248,6 +310,7 @@ class Checker:
         self.web = web
         self.now = now
         self.max_candidates = max_candidates
+        self._refs: dict[str, dict[str, str]] = {}
 
     # candidates
 
@@ -477,11 +540,27 @@ class Checker:
             problem = provenance_problem(self.web, upstream.project, c.tag, c.files, upstream.publisher)
             if problem:
                 return "refused", problem
-        artifact = upstream.artifact
-        if artifact:
-            for url in filter(None, (artifact.url_for(c.version), artifact.signature_for(c.version))):
-                if not self._present(upstream, c, url):
-                    return "waiting", f"{url} is not available yet"
+        urls = []
+        if upstream.artifact:
+            urls += [upstream.artifact.url_for(c.version), upstream.artifact.signature_for(c.version)]
+        for extra in upstream.extra_artifacts:
+            if not extra.pinned_by_hand:
+                urls += [extra.url_for(c.version), extra.signature_for(c.version)]
+        for url in filter(None, urls):
+            if not self._present(upstream, c, url):
+                return "waiting", f"{url} is not available yet"
+        if upstream.git:
+            tag = upstream.git.tag_for(c.version)
+            if upstream.source in TAG_SOURCES and tag != c.tag:
+                return "refused", f"is tagged {c.tag}, but git.tag gives {tag}"
+            if not names.is_git_tag(tag):
+                return "refused", f"gives the tag name {tag!r}, which is not valid"
+            url = upstream.git.url
+            if url not in self._refs:
+                self._refs[url] = git_refs(self.web, url)
+            c.commit = tag_commit(self.web, url, tag, self._refs[url])
+            if c.commit is None:
+                return "waiting", f"has no tag {tag} at {upstream.git.url} yet"
         return None
 
     def latest(self, package: Package) -> Result:
@@ -531,17 +610,66 @@ def parse_checksums(text: str, filename: str, algorithm: str | None = None) -> s
 Fetch = Callable[[str, tuple[str, ...]], dict[str, str]]
 
 
+class HandPin(RcError):
+    """A new version with a file that nothing can check, so a person has to pin it."""
+
+
+def _filename(url: str) -> str:
+    return urllib.parse.unquote(url.rsplit("/", 1)[1])
+
+
+def _recorded_digests(c: Candidate, filename: str) -> list[str]:
+    """The sha256 digests GitHub recorded for the release assets named filename."""
+    digests = []
+    for asset in (c.release or {}).get("assets", []):
+        digest = asset.get("digest")
+        if asset.get("name") == filename and isinstance(digest, str) and digest.startswith("sha256:"):
+            digests.append(digest)
+    return digests
+
+
+def _checkable(artifact: Artifact, version: str, c: Candidate) -> bool:
+    return bool(artifact.checksums or artifact.signature or _recorded_digests(c, _filename(artifact.url_for(version))))
+
+
+def hand_pins(package: Package, c: Candidate) -> list[str]:
+    """The files of version c that no checksums file, signature or GitHub digest checks.
+
+    The reconciler cannot pin such a version, and it says so without
+    downloading anything.
+    """
+    source = package.upstream
+    artifacts = [source.artifact] if source.artifact else []
+    artifacts += [extra.artifact for extra in source.extra_artifacts if not extra.pinned_by_hand]
+    return [_filename(a.url_for(c.version)) for a in artifacts if not _checkable(a, c.version, c)]
+
+
 def pin_artifact(package: Package, c: Candidate, web: http.Transport, fetch: Fetch) -> str:
-    """Download the release artifact once and return its sha256 after the configured cross-checks.
+    """Download the release artifact once and return its sha256 after the configured cross-checks."""
+    return pin_file(package.upstream.artifact, c.version, c, web, fetch)
+
+
+def pin_extras(package: Package, c: Candidate, web: http.Transport, fetch: Fetch) -> dict[str, str]:
+    """The sha256 of every extra artifact that follows the package version, checked like the main artifact."""
+    return {
+        extra.name: pin_file(extra.artifact, c.version, c, web, fetch)
+        for extra in package.upstream.extra_artifacts
+        if not extra.pinned_by_hand
+    }
+
+
+def pin_file(artifact: Artifact, version: str, c: Candidate, web: http.Transport, fetch: Fetch) -> str:
+    """Download a file once and return its sha256 after the configured cross-checks.
 
     At least one check must run: the checksums file, the digest GitHub
     recorded for the release asset, or the signature that the Dockerfile
     verifies. Without any of them the download itself would be the only
-    source of the pin.
+    source of the pin, so a file that none of them covers is not downloaded.
     """
-    artifact = package.upstream.artifact
-    url = artifact.url_for(c.version)
-    filename = urllib.parse.unquote(url.rsplit("/", 1)[1])
+    url = artifact.url_for(version)
+    filename = _filename(url)
+    if not _checkable(artifact, version, c):
+        raise HandPin(f"{filename}: no checksums file, no signature and no digest recorded by GitHub; pin it by hand")
     algorithms = ("sha256",)
     if artifact.checksums and artifact.checksums.algorithm != "sha256":
         algorithms += (artifact.checksums.algorithm,)
@@ -549,22 +677,15 @@ def pin_artifact(package: Package, c: Candidate, web: http.Transport, fetch: Fet
     sha256 = digests["sha256"]
     if not names.SHA256_HEX.match(sha256):
         raise RcError(f"{url}: unexpected digest")
-    checked = False
     if artifact.checksums:
-        checksums_url = expand_url(artifact.checksums.url, c.version)
+        checksums_url = expand_url(artifact.checksums.url, version)
         listing = http.get(web, checksums_url).decode("utf-8", "replace")
         expected = parse_checksums(listing, filename, artifact.checksums.algorithm)
         if expected is None:
             raise RcError(f"{filename} is not listed in {checksums_url}")
         if digests[artifact.checksums.algorithm] != expected:
             raise RcError(f"{filename} does not match its {artifact.checksums.algorithm} in the checksums file")
-        checked = True
-    for asset in (c.release or {}).get("assets", []):
-        digest = asset.get("digest")
-        if asset.get("name") == filename and isinstance(digest, str) and digest.startswith("sha256:"):
-            if digest != f"sha256:{sha256}":
-                raise RcError(f"{filename} does not match the digest GitHub recorded for the release asset")
-            checked = True
-    if not checked and not artifact.signature:
-        raise RcError(f"{filename}: no checksums file, no signature and no digest recorded by GitHub; pin it by hand")
+    for digest in _recorded_digests(c, filename):
+        if digest != f"sha256:{sha256}":
+            raise RcError(f"{filename} does not match the digest GitHub recorded for the release asset")
     return sha256

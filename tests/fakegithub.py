@@ -254,6 +254,21 @@ class FakeGitHub:
         return Response(404)
 
 
+def pkt(data: bytes) -> bytes:
+    return f"{len(data) + 4:04x}".encode() + data
+
+
+def advertisement(refs) -> bytes:
+    """What a git server answers to GET <url>/info/refs?service=git-upload-pack."""
+    out = pkt(b"# service=git-upload-pack\n") + b"0000"
+    for i, (ref, sha) in enumerate(refs):
+        line = f"{sha} {ref}".encode()
+        if i == 0:
+            line += b"\0multi_ack thin-pack side-band-64k symref=HEAD:refs/heads/master"
+        out += pkt(line + b"\n")
+    return out + b"0000"
+
+
 class FakeWeb:
     """PyPI's simple and integrity APIs plus static download URLs."""
 
@@ -315,3 +330,9 @@ class Router:
         if host in ("pypi.org",) or url in self.web.urls:
             return self.web.request(method, url, headers, body)
         return self.registry.request(method, url, headers, body)
+
+
+def serve_git(web: "FakeWeb", url: str, refs) -> None:
+    """Answer the ref advertisement of a git repository at url."""
+    web.urls[f"{url}/info/refs?service=git-upload-pack"] = advertisement(refs)
+    web.headers[f"{url}/info/refs?service=git-upload-pack"] = {"content-type": "application/x-git-upload-pack-advertisement"}

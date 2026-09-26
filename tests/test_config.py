@@ -274,3 +274,155 @@ def test_github_sources_reject_the_new_keys(distros):
     data = raw("yt-dlp")
     data["upstream"]["repository"] = "yt-dlp/yt-dlp"
     assert "upstream.repository: is only used by github-release, github-tag and forgejo-tag" in problems_for(data, distros)
+
+
+WHISPER_GIT = {
+    "url": "https://github.com/ggml-org/whisper.cpp.git",
+    "tag": "v{version}",
+    "commit": "927cfce34f31707e17f2bff35c349632fb9e2c3a",
+}
+
+
+def whisper(**git):
+    data = raw("ffmpeg")
+    data.update(name="whisper-cpp", title="whisper.cpp", license="MIT")
+    data["upstream"] = {
+        "source": "github-tag",
+        "repository": "ggml-org/whisper.cpp",
+        "tag-pattern": r"^v(\d+\.\d+\.\d+)$",
+        "versioning": "semver",
+        "version": "1.9.4",
+        "git": {**WHISPER_GIT, **git},
+    }
+    data["source-release"] = False
+    return data
+
+
+def test_git_source(distros):
+    upstream = config.parse_package(whisper(), "package.yml", distros).upstream
+    assert upstream.git == config.GitSource(**WHISPER_GIT)
+    assert upstream.git.tag_for("1.9.4") == "v1.9.4"
+    assert upstream.git.archive_stem("1.9.4") == "whisper.cpp-1.9.4"
+    assert upstream.artifact is None
+
+
+@pytest.mark.parametrize(
+    "git,expected",
+    [
+        ({"url": "http://github.com/ggml-org/whisper.cpp.git"}, "https URL of a git repository"),
+        ({"url": "https://github.com/ggml-org/whisper.cpp.git?x=1"}, "https URL of a git repository"),
+        ({"url": "https://github.com/../whisper.cpp.git"}, "https URL of a git repository"),
+        ({"url": "https://user@github.com/ggml-org/whisper.cpp.git"}, "https URL of a git repository"),
+        ({"url": "https://github.com"}, "https URL of a git repository"),
+        ({"tag": "v1.9.4"}, "needs a placeholder such as {version}"),
+        ({"tag": "v{release}"}, "unknown placeholders ['release']"),
+        ({"tag": "{version}.lock"}, "does not give a valid tag name"),
+        ({"tag": "v{version}..x"}, "does not give a valid tag name"),
+        ({"tag": "-{version}"}, "does not give a valid tag name"),
+        ({"tag": "v{version}^{{}}"}, "does not give a valid tag name"),
+        ({"tag": "v {version}"}, "does not give a valid tag name"),
+        ({"commit": "927cfce"}, "full commit id"),
+        ({"commit": "927CFCE34F31707E17F2BFF35C349632FB9E2C3A"}, "full commit id"),
+        ({"branch": "master"}, "unknown key 'branch'"),
+    ],
+)
+def test_git_source_problems(distros, git, expected):
+    assert expected in problems_for(whisper(**git), distros)
+
+
+def test_git_source_replaces_the_artifact(distros):
+    data = whisper()
+    data["upstream"]["artifact"] = {"url": "https://github.com/ggml-org/whisper.cpp/archive/v{version}.tar.gz", "sha256": "0" * 64}
+    assert "upstream: set either 'artifact' or 'git', not both" in problems_for(data, distros)
+
+
+def test_copyleft_git_builds_need_a_source_release(distros):
+    data = whisper()
+    data["license"] = "GPL-2.0-only"
+    assert "source-release: must be true: a build from a git tag under GPL-2.0-only" in problems_for(data, distros)
+    data["source-release"] = True
+    assert config.parse_package(data, "package.yml", distros).source_release
+    data["upstream"]["git"]["url"] = "https://github.com/ggml-org/~whisper"
+    assert "upstream.git.url: must end in a file name" in problems_for(data, distros)
+
+
+GTS = {
+    "version": "0.7.6",
+    "url": "https://downloads.sourceforge.net/project/gts/gts/{version}/gts-{version}.tar.gz",
+    "sha256": "059c3e13e3e3b796d775ec9f96abdce8f2b3b5144df8514eda0cc12e13e8b81e",
+    "distros": ["alpine"],
+}
+DOCS = {
+    "url": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{nodots}/ghostpdl-{version}.tar.xz",
+    "checksums": {"url": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{nodots}/SHA512SUMS", "algorithm": "sha512"},
+    "sha256": "1" * 64,
+}
+
+
+def with_extras(**extras):
+    data = raw("ghostscript")
+    data["upstream"]["extra-artifacts"] = extras
+    return data
+
+
+def test_extra_artifacts(distros):
+    upstream = config.parse_package(with_extras(gts=GTS, **{"pdf-docs": DOCS}), "package.yml", distros).upstream
+    gts, docs = upstream.extra_artifacts
+    assert gts.pinned_by_hand and not docs.pinned_by_hand
+    assert upstream.extra("pdf-docs") is docs and upstream.extra("x") is None
+    assert (gts.used_on("ubuntu"), gts.used_on("alpine"), docs.used_on("ubuntu")) == (False, True, True)
+    assert gts.build_args("10.08.0") == {
+        "GTS_VERSION": "0.7.6",
+        "GTS_URL": "https://downloads.sourceforge.net/project/gts/gts/0.7.6/gts-0.7.6.tar.gz",
+        "GTS_SHA256": GTS["sha256"],
+    }
+    assert docs.build_args("10.08.0") == {
+        "PDF_DOCS_VERSION": "10.08.0",
+        "PDF_DOCS_URL": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10080/ghostpdl-10.08.0.tar.xz",
+        "PDF_DOCS_SHA256": "1" * 64,
+    }
+    assert docs.artifact.checksums == config.Checksums(DOCS["checksums"]["url"], "sha512")
+    assert [n for _, n in config.release_files(upstream, "10.08.0")] == [
+        "ghostscript-10.08.0.tar.xz",
+        "gts-0.7.6.tar.gz",
+        "ghostpdl-10.08.0.tar.xz",
+    ]
+
+
+@pytest.mark.parametrize(
+    "extras,expected",
+    [
+        ({}, "must be a non-empty mapping"),
+        ({"GTS": GTS}, "lowercase letters and digits"),
+        ({"gts lib": GTS}, "lowercase letters and digits"),
+        ({"x" * 33: GTS}, "at most 32 characters"),
+        ({"source": GTS}, "'source' is reserved for the main source"),
+        ({"pdf-docs": DOCS, "pdf_docs": DOCS}, "gives the same build arguments (PDF_DOCS_*) as 'pdf-docs'"),
+        ({"gts": {**GTS, "version": 0.8}}, "must be a string (quote it in YAML)"),
+        ({"gts": {**GTS, "version": "0.7.6; id"}}, "not a valid version"),
+        ({"gts": {**GTS, "checksums": DOCS["checksums"]}}, "which it does for artifacts without 'version'"),
+        ({"gts": {k: v for k, v in GTS.items() if k != "version"} | {"url": "https://e.org/gts.tar.gz"}}, "needs a placeholder such as {version}"),
+        ({"gts": {**GTS, "distros": ["debian"]}}, "'debian' is not a distro in distros.yml"),
+        ({"gts": {**GTS, "distros": ["alpine", "alpine"]}}, "lists a distro more than once"),
+        ({"gts": {**GTS, "distros": []}}, "must not be empty"),
+        ({"gts": {**GTS, "sha256": "ABC"}}, "sha256"),
+        ({"gts": {**GTS, "url": "http://e.org/{version}.tar.gz"}}, "https URL"),
+        ({"gts": {**GTS, "mirror": "x"}}, "unknown key 'mirror'"),
+        ({"gts": {**GTS, "url": "https://e.org/gts/{version}/download"}, "docs": {**GTS, "url": "https://e.org/docs/{version}/download"}},
+         "gives the release asset download, like upstream.extra-artifacts.gts.url"),
+        ({"gts": {**GTS, "url": "https://e.org/ghostscript-{version}.tar.xz", "version": "10.08.0"}},
+         "gives the release asset ghostscript-10.08.0.tar.xz, like upstream.artifact.url"),
+        ({"gts": {**GTS, "url": "https://e.org/gts/"}}, "must end in a file name"),
+    ],
+)
+def test_extra_artifact_problems(distros, extras, expected):
+    assert expected in problems_for(with_extras(**extras), distros)
+
+
+def test_extra_artifacts_alone_can_make_a_source_release(distros):
+    data = raw("yt-dlp")
+    data["license"] = "Unlicense AND LGPL-2.1-or-later"
+    data["upstream"]["extra-artifacts"] = {"gts": GTS}
+    assert "must be true: a build with extra artifacts under LGPL-2.1-or-later" in problems_for(data, distros)
+    data["source-release"] = True
+    assert config.parse_package(data, "package.yml", distros).upstream.extra("gts").version == "0.7.6"

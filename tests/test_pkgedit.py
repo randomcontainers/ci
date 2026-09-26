@@ -68,3 +68,65 @@ def test_other_sources_keep_their_settings(distros):
     after = pkgedit.update_upstream(before, distros, version="10.09.0", sha256="f" * 64)
     assert "  version: 10.09.0\n" in after and after.count("f" * 64) == 1
     assert after.replace("10.09.0", "10.08.0").replace("f" * 64, before.split("sha256: ")[1][:64]) == before
+
+
+GIT = """  git:
+    url: https://github.com/FFmpeg/FFmpeg.git
+    tag: n{version}
+    commit: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+"""
+EXTRAS = """  extra-artifacts:
+    gts:
+      version: 0.7.6   # pinned by hand
+      url: https://downloads.sourceforge.net/project/gts/gts/{version}/gts-{version}.tar.gz
+      sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      distros: [alpine]
+    ghostpdl:
+      url: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{nodots}/ghostpdl-{version}.tar.xz
+      # follows the package version
+      sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+"""
+
+
+def git_text():
+    before = text("ffmpeg")
+    start = before.index("  artifact:\n")
+    end = before.index("image:\n")
+    return before[:start] + GIT + before[end:]
+
+
+def test_commit(distros):
+    before = git_text()
+    after = pkgedit.update_upstream(before, distros, version="9.1", commit="4" * 40)
+    changed = [(a, b) for a, b in zip(before.splitlines(), after.splitlines(), strict=True) if a != b]
+    # a commit id of digits only would be read as a number, so it is quoted
+    assert changed == [("  version: 9.0.2", '  version: "9.1"'), (f"    commit: {'a' * 40}", f'    commit: "{"4" * 40}"')]
+    after = pkgedit.update_upstream(before, distros, commit="4" * 39 + "b")
+    assert f"    commit: {'4' * 39}b\n" in after
+    with pytest.raises(RcError, match="refusing to write commit"):
+        pkgedit.update_upstream(before, distros, commit="4" * 39)
+    with pytest.raises(RcError, match="no upstream.git.commit"):
+        pkgedit.update_upstream(text("ffmpeg"), distros, commit="4" * 40)
+
+
+def test_extra_artifacts_that_follow_the_version(distros):
+    before = text("ghostscript").replace("image:\n", EXTRAS + "image:\n", 1)
+    after = pkgedit.update_upstream(before, distros, version="10.09.0", sha256="f" * 64, extras={"ghostpdl": "e" * 64})
+    changed = [(a.strip(), b.strip()) for a, b in zip(before.splitlines(), after.splitlines(), strict=True) if a != b]
+    assert [b for _, b in changed] == ["version: 10.09.0", f"sha256: {'f' * 64}", f"sha256: {'e' * 64}"]
+    assert "sha256: " + "b" * 64 in after
+    with pytest.raises(RcError, match="refusing to pin 'gts'"):
+        pkgedit.update_upstream(before, distros, extras={"gts": "e" * 64})
+    with pytest.raises(RcError, match="refusing to pin 'docs'"):
+        pkgedit.update_upstream(before, distros, extras={"docs": "e" * 64})
+    with pytest.raises(RcError, match="refusing to write sha256"):
+        pkgedit.update_upstream(before, distros, extras={"ghostpdl": "E" * 64})
+    flow = before.replace(
+        "    ghostpdl:\n      url: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{nodots}/ghostpdl-{version}.tar.xz\n"
+        "      # follows the package version\n      sha256: " + "c" * 64 + "\n",
+        "    ghostpdl: {url: 'https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{nodots}/ghostpdl-{version}.tar.xz', "
+        "sha256: " + "c" * 64 + "}\n",
+    )
+    assert flow != before
+    with pytest.raises(RcError, match="no upstream.extra-artifacts.ghostpdl.sha256"):
+        pkgedit.update_upstream(flow, distros, extras={"ghostpdl": "e" * 64})

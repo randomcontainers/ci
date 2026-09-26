@@ -6,8 +6,8 @@ from datetime import timedelta
 import pytest
 import yaml
 
-from conftest import ROOT
-from fakegithub import NOW
+from conftest import FIXTURES, ROOT
+from fakegithub import NOW, serve_git
 from rc import cli, commits, locks, status
 from rc.errors import RcError
 from rc.github import GitHub, GitHubError
@@ -510,6 +510,75 @@ def test_tarball_bump_pins_sha256_after_checksums():
     outcome = world.run()
     assert not [a for a in outcome.actions if a.repo == f"{ORG}/ghostscript" and a.kind == "commit"]
     assert any("does not match its sha512" in n for n in outcome.notes.items["errors"])
+
+
+def test_release_that_nothing_can_check_is_reported_without_a_download():
+    world = World()
+
+    def fetch(url, algorithms):
+        raise AssertionError(f"{url} was downloaded")
+
+    world.fetch = fetch
+    # a release asset without a digest, and no checksums file or signature
+    world.github.releases["ImageMagick/ImageMagick"].insert(
+        0, World.release("7.1.2-32", NOW - timedelta(days=2), assets=["ImageMagick-7.1.2-32.tar.xz"])
+    )
+    note = (
+        "`imagemagick` 7.1.2-32 needs a hand pin: no checksums file, signature or digest recorded by GitHub "
+        "checks ImageMagick-7.1.2-32.tar.xz"
+    )
+    for outcome in (world.run(), world.reconciler(dry_run=True).run()):
+        assert note in outcome.notes.items["upstream"]
+        assert not any("imagemagick" in n for n in outcome.notes.items.get("errors", []))
+        assert not [a for a in outcome.actions if a.repo == f"{ORG}/imagemagick" and a.kind == "commit"]
+
+
+def test_git_tag_bump_pins_the_commit():
+    world = World()
+    text = (FIXTURES / "ffmpeg" / "package.yml").read_text()
+    start, end = text.index("  artifact:\n"), text.index("image:\n")
+    git = "  git:\n    url: https://github.com/FFmpeg/FFmpeg.git\n    tag: n{version}\n    commit: " + "a" * 40 + "\n"
+    world.github.push(f"{ORG}/ffmpeg", {"package.yml": (text[:start] + git + text[end:]).encode()})
+    world.github.tags["FFmpeg/FFmpeg"].append(("n9.1", "3" * 40, "tag", NOW - timedelta(days=2)))
+    serve_git(world.web, "https://github.com/FFmpeg/FFmpeg.git", [("refs/tags/n9.1", "3" * 40), ("refs/tags/n9.1^{}", "4" * 39 + "b")])
+    outcome = world.run()
+    commit = next(a for a in outcome.actions if a.repo == f"{ORG}/ffmpeg" and a.kind == "commit")
+    assert commit.message == "Update ffmpeg to 9.1"
+    after = world.github.files(f"{ORG}/ffmpeg")["package.yml"].decode()
+    assert '  version: "9.1"\n' in after and f"    commit: {'4' * 39}b\n" in after
+    assert f"ffmpeg: tag n9.1 at https://github.com/FFmpeg/FFmpeg.git is commit {'4' * 39}b" in outcome.log
+
+
+def test_extra_artifacts_that_follow_the_version_are_pinned_with_it():
+    world = World()
+    base = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{nodots}"
+    extras = (
+        "  extra-artifacts:\n"
+        "    ghostpdl:\n"
+        f"      url: {base}/ghostpdl-{{version}}.tar.xz\n"
+        f"      checksums: {{url: '{base}/SHA512SUMS', algorithm: sha512}}\n"
+        f"      sha256: {'b' * 64}\n"
+        "    gts:\n"
+        "      version: 0.7.6\n"
+        "      url: https://downloads.sourceforge.net/project/gts/gts/{version}/gts-{version}.tar.gz\n"
+        f"      sha256: {'c' * 64}\n"
+    )
+    text = (FIXTURES / "ghostscript" / "package.yml").read_text().replace("image:\n", extras + "image:\n", 1)
+    world.github.push(f"{ORG}/ghostscript", {"package.yml": text.encode()})
+    url = base.format(nodots="10090")
+    files = {"ghostscript-10.09.0.tar.xz": b"gs 10.09.0", "ghostpdl-10.09.0.tar.xz": b"ghostpdl 10.09.0"}
+    for name, data in files.items():
+        world.web.urls[f"{url}/{name}"] = data
+    world.web.urls[f"{url}/SHA512SUMS"] = "".join(f"{hashlib.sha512(d).hexdigest()}  {n}\n" for n, d in files.items()).encode()
+    world.github.releases["ArtifexSoftware/ghostpdl-downloads"].insert(
+        0, World.release("gs10090", NOW - timedelta(days=2), assets=[*files, "SHA512SUMS"])
+    )
+    world.run()
+    after = world.github.files(f"{ORG}/ghostscript")["package.yml"].decode()
+    assert "  version: 10.09.0\n" in after
+    assert f"    sha256: {hashlib.sha256(files['ghostscript-10.09.0.tar.xz']).hexdigest()}\n" in after
+    assert f"      sha256: {hashlib.sha256(files['ghostpdl-10.09.0.tar.xz']).hexdigest()}\n" in after
+    assert f"      sha256: {'c' * 64}\n" in after
 
 
 def test_weekly_relock_commits_only_changed_locks():

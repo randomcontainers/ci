@@ -106,6 +106,8 @@ def test_package_without_default_combo(distros, listed, packages, fake):
         "url": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.xz",
         "sha256": packages["ffmpeg"].upstream.artifact.sha256,
         "signature": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.xz.asc",
+        "git": None,
+        "extras": [],
     }
 
 
@@ -281,3 +283,63 @@ def test_unreadable_listed_package_is_a_warning(distros, packages, fake):
     assert "default-ubuntu" in targets_by_id(doc)
     assert any(w.startswith("yt-dlp-ffmpeg was not checked against not-there") for w in planner.warnings)
     assert planner.errors == []
+
+
+def test_git_source_and_extra_artifacts(distros, listed, packages, fake):
+    publish_bases(fake)
+    data = yaml.safe_load((FIXTURES / "ffmpeg" / "package.yml").read_text())
+    data["upstream"].pop("artifact")
+    data["upstream"]["git"] = {"url": "https://github.com/FFmpeg/FFmpeg.git", "tag": "n{version}", "commit": "c" * 40}
+    data["upstream"]["extra-artifacts"] = {
+        "gts": {
+            "version": "0.7.6",
+            "url": "https://downloads.sourceforge.net/project/gts/gts/{version}/gts-{version}.tar.gz",
+            "signature": "https://example.org/gts-{version}.tar.gz.sig",
+            "sha256": "a" * 64,
+            "distros": ["alpine"],
+        },
+        "nv-codec": {"url": "https://example.org/nv-codec-{version}.tar.gz", "signature": "https://example.org/nv-codec-{version}.tar.gz.asc", "sha256": "b" * 64},
+    }
+    package = parse_package(data, "package.yml", distros)
+    doc = make_planner(distros, listed, fake, "randomcontainers/ffmpeg").plan_package(package)
+    t = targets_by_id(doc)
+    common = {"VERSION": "9.0.2", "SOURCE_COMMIT": "c" * 40, "NV_CODEC_VERSION": "9.0.2",
+              "NV_CODEC_URL": "https://example.org/nv-codec-9.0.2.tar.gz", "NV_CODEC_SHA256": "b" * 64}
+    ubuntu = t["slim-ubuntu"]["build"]["args"]
+    alpine = t["slim-alpine"]["build"]["args"]
+    assert {k: v for k, v in ubuntu.items() if k != "BASE_IMAGE"} == common
+    assert {k: v for k, v in alpine.items() if k != "BASE_IMAGE"} == common | {
+        "GTS_VERSION": "0.7.6",
+        "GTS_URL": "https://downloads.sourceforge.net/project/gts/gts/0.7.6/gts-0.7.6.tar.gz",
+        "GTS_SHA256": "a" * 64,
+    }
+    assert "SOURCE_SHA256" not in ubuntu
+    assert doc["release"] == {
+        "tag": "v9.0.2",
+        "title": "FFmpeg 9.0.2 source",
+        "url": None,
+        "sha256": None,
+        "signature": None,
+        "git": {"url": "https://github.com/FFmpeg/FFmpeg.git", "tag": "n9.0.2", "commit": "c" * 40, "archive": "FFmpeg-9.0.2"},
+        "extras": [
+            {
+                "name": "gts",
+                "version": "0.7.6",
+                "url": "https://downloads.sourceforge.net/project/gts/gts/0.7.6/gts-0.7.6.tar.gz",
+                "sha256": "a" * 64,
+                "signature": "https://example.org/gts-0.7.6.tar.gz.sig",
+                "distros": ["alpine"],
+                "pinned_by_hand": True,
+            },
+            {
+                "name": "nv-codec",
+                "version": "9.0.2",
+                "url": "https://example.org/nv-codec-9.0.2.tar.gz",
+                "sha256": "b" * 64,
+                "signature": "https://example.org/nv-codec-9.0.2.tar.gz.asc",
+                "distros": [],
+                "pinned_by_hand": False,
+            },
+        ],
+    }
+    planmod.check(doc)

@@ -39,6 +39,10 @@ INDEX_GROUPS = ("version", "date")
 FAMILIES = ("debian", "alpine")
 CHECKSUM_ALGORITHMS = ("sha256", "sha512")
 URL_FIELDS = ("version", "nodots", "underscored", "major", "minor")
+# Upstream sources whose candidates are git tags, so git.tag must give the same name.
+TAG_SOURCES = ("github-release", "github-tag", "gitlab-release", "forgejo-tag")
+# Extra artifacts cannot use this name: SOURCE_SHA256 and SOURCE_COMMIT belong to the main source.
+RESERVED_EXTRA = ("source",)
 
 
 @dataclass(frozen=True)
@@ -101,6 +105,63 @@ class Artifact:
 
 
 @dataclass(frozen=True)
+class GitSource:
+    """A tag checkout: the Dockerfile clones the tag from url and checks that HEAD is commit."""
+
+    url: str
+    tag: str
+    commit: str
+
+    def tag_for(self, version: str) -> str:
+        return expand_url(self.tag, version)
+
+    def archive_stem(self, version: str) -> str:
+        """<repository>-<version>, the file name and top directory of the source release archive."""
+        return f"{self.url.rsplit('/', 1)[1].removesuffix('.git')}-{version}"
+
+
+@dataclass(frozen=True)
+class ExtraArtifact:
+    """Another source file the build compiles, passed to the Dockerfile as <PREFIX>_VERSION, _URL and _SHA256.
+
+    With a version it is pinned by hand. Without one it follows the
+    package version and the reconciler pins it with the main artifact.
+    """
+
+    name: str
+    artifact: Artifact
+    version: str | None = None
+    distros: tuple[str, ...] = ()
+
+    @property
+    def pinned_by_hand(self) -> bool:
+        return self.version is not None
+
+    @property
+    def prefix(self) -> str:
+        return arg_prefix(self.name)
+
+    def version_for(self, package_version: str) -> str:
+        return self.version or package_version
+
+    def url_for(self, package_version: str) -> str:
+        return self.artifact.url_for(self.version_for(package_version))
+
+    def signature_for(self, package_version: str) -> str | None:
+        return self.artifact.signature_for(self.version_for(package_version))
+
+    def used_on(self, distro_id: str) -> bool:
+        return not self.distros or distro_id in self.distros
+
+    def build_args(self, package_version: str) -> dict[str, str]:
+        return {
+            f"{self.prefix}_VERSION": self.version_for(package_version),
+            f"{self.prefix}_URL": self.url_for(package_version),
+            f"{self.prefix}_SHA256": self.artifact.sha256,
+        }
+
+
+@dataclass(frozen=True)
 class Upstream:
     source: str
     versioning: str
@@ -115,10 +176,15 @@ class Upstream:
     server: str | None = None
     url: str | None = None
     pattern: str | None = None
+    git: GitSource | None = None
+    extra_artifacts: tuple[ExtraArtifact, ...] = ()
 
     @property
     def index_dated(self) -> bool:
         return index_dated(self.pattern)
+
+    def extra(self, name: str) -> ExtraArtifact | None:
+        return next((e for e in self.extra_artifacts if e.name == name), None)
 
 
 @dataclass(frozen=True)
@@ -216,6 +282,11 @@ class ComboFile:
     name: str
     owner: str
     with_: tuple[str, ...]
+
+
+def arg_prefix(name: str) -> str:
+    """How the build arguments of an extra artifact start: libde265 gives LIBDE265_VERSION, _URL and _SHA256."""
+    return name.upper().replace("-", "_")
 
 
 def index_dated(pattern: str | None) -> bool:
@@ -415,7 +486,11 @@ UPSTREAM_KEYS = (
     "server",
     "url",
     "pattern",
+    "git",
+    "extra-artifacts",
 )
+ARTIFACT_KEYS = ("url", "checksums", "sha256", "signature")
+EXTRA_KEYS = (*ARTIFACT_KEYS, "version", "distros")
 COMBO_KEYS = ("with", "default", "base", "summary", "extras", "extras-license", "env", "test")
 
 
@@ -439,7 +514,7 @@ def parse_package(data: Any, origin: str, distros: Distros) -> Package:
         spdx = names.check_spdx(license_)
         if spdx:
             r.add("license", spdx)
-    upstream = _parse_upstream(r, data.get("upstream"), "upstream") if "upstream" in data else None
+    upstream = _parse_upstream(r, data.get("upstream"), "upstream", distros) if "upstream" in data else None
 
     image = None
     if "image" in data:
@@ -473,14 +548,24 @@ def parse_package(data: Any, origin: str, distros: Distros) -> Package:
             examples.append(Example(ex_title, command))
 
     source_release = r.boolean(data, "source-release", "")
-    if source_release and upstream is not None and upstream.artifact is None:
-        r.add("source-release", "needs upstream.artifact with a pinned sha256")
+    compiled = None
+    if upstream is not None:
+        if upstream.artifact:
+            compiled = "a tarball build"
+        elif upstream.git:
+            compiled = "a build from a git tag"
+        elif upstream.extra_artifacts:
+            compiled = "a build with extra artifacts"
+    if source_release and upstream is not None and compiled is None:
+        r.add("source-release", "needs upstream.artifact with a pinned sha256, upstream.git or upstream.extra-artifacts")
     copyleft = sorted({t for t in re.findall(r"[A-Za-z0-9.+-]+", license_ or "") if t.startswith(("GPL-", "LGPL-", "AGPL-"))})
-    if copyleft and upstream is not None and upstream.artifact is not None and not source_release:
+    if copyleft and compiled and not source_release:
         r.add(
             "source-release",
-            f"must be true: a tarball build under {', '.join(copyleft)} has to publish the source it compiled",
+            f"must be true: {compiled} under {', '.join(copyleft)} has to publish the source it compiled",
         )
+    if source_release and compiled:
+        _check_release_files(r, upstream)
 
     combos = []
     raw_combos = data.get("combos", [])
@@ -510,7 +595,7 @@ def parse_package(data: Any, origin: str, distros: Distros) -> Package:
     )
 
 
-def _parse_upstream(r: _Reader, raw: Any, path: str) -> Upstream | None:
+def _parse_upstream(r: _Reader, raw: Any, path: str, distros: Distros) -> Upstream | None:
     raw = r.mapping(raw, path, UPSTREAM_KEYS, ("source", "versioning", "version"))
     source = r.text(raw, "source", path)
     if source is not None and source not in SOURCES:
@@ -580,6 +665,10 @@ def _parse_upstream(r: _Reader, raw: Any, path: str) -> Upstream | None:
     artifact = None
     if "artifact" in raw:
         artifact = _parse_artifact(r, raw["artifact"], f"{path}.artifact")
+    git = _parse_git(r, raw["git"], f"{path}.git") if "git" in raw else None
+    if "artifact" in raw and "git" in raw:
+        r.add(path, "set either 'artifact' or 'git', not both")
+    extras = _parse_extras(r, raw["extra-artifacts"], f"{path}.extra-artifacts", distros) if "extra-artifacts" in raw else ()
     if source == "html-index" and pattern is not None and not index_dated(pattern) and "artifact" not in raw:
         r.add(path, "html-index upstreams without a 'date' group in 'pattern' need 'artifact'; its Last-Modified is the release date")
 
@@ -599,6 +688,8 @@ def _parse_upstream(r: _Reader, raw: Any, path: str) -> Upstream | None:
         server=server,
         url=url,
         pattern=pattern,
+        git=git,
+        extra_artifacts=extras,
     )
 
 
@@ -644,7 +735,10 @@ def _check_url_template(r: _Reader, value: str | None, path: str) -> str | None:
 
 
 def _parse_artifact(r: _Reader, raw: Any, path: str) -> Artifact | None:
-    raw = r.mapping(raw, path, ("url", "checksums", "sha256", "signature"), ("url", "sha256"))
+    return _artifact_fields(r, r.mapping(raw, path, ARTIFACT_KEYS, ("url", "sha256")), path)
+
+
+def _artifact_fields(r: _Reader, raw: dict, path: str) -> Artifact | None:
     url = _check_url_template(r, r.text(raw, "url", path, limit=512), f"{path}.url")
     signature = _check_url_template(r, r.text(raw, "signature", path, limit=512), f"{path}.signature")
     sha256 = r.pattern(raw, "sha256", path, names.SHA256_HEX, "lowercase sha256 hex digest")
@@ -661,6 +755,106 @@ def _parse_artifact(r: _Reader, raw: Any, path: str) -> Artifact | None:
     if url and sha256:
         return Artifact(url=url, sha256=sha256, checksums=checksums, signature=signature)
     return None
+
+
+def _parse_git(r: _Reader, raw: Any, path: str) -> GitSource | None:
+    raw = r.mapping(raw, path, ("url", "tag", "commit"), ("url", "tag", "commit"))
+    url = r.pattern(raw, "url", path, names.GIT_URL, "https URL of a git repository")
+    tag = _check_tag_template(r, r.text(raw, "tag", path, limit=128), f"{path}.tag")
+    commit = r.pattern(raw, "commit", path, names.GIT_SHA, "full commit id (40 lowercase hex digits)")
+    if url and tag and commit:
+        return GitSource(url, tag, commit)
+    return None
+
+
+def _check_tag_template(r: _Reader, value: str | None, path: str) -> str | None:
+    if value is None:
+        return None
+    try:
+        fields = [f for _, f, _, _ in string.Formatter().parse(value) if f is not None]
+    except ValueError as exc:
+        r.add(path, f"is not a valid template: {exc}")
+        return None
+    unknown = [f for f in fields if f not in URL_FIELDS]
+    if unknown:
+        r.add(path, f"uses unknown placeholders {unknown}; allowed: {', '.join(URL_FIELDS)}")
+        return None
+    if not fields:
+        r.add(path, "needs a placeholder such as {version}, so that each version has its own tag")
+        return None
+    if not names.is_git_tag(expand_url(value, "1.2.3")):
+        r.add(path, f"{value!r} does not give a valid tag name")
+        return None
+    return value
+
+
+def _parse_extras(r: _Reader, raw: Any, path: str, distros: Distros) -> tuple[ExtraArtifact, ...]:
+    if not isinstance(raw, dict) or not raw:
+        r.add(path, "must be a non-empty mapping of names to artifacts")
+        return ()
+    out = []
+    prefixes: dict[str, str] = {}
+    for name, spec in raw.items():
+        where = f"{path}.{name}"
+        if not isinstance(name, str) or not names.EXTRA_NAME.match(name) or len(name) > 32:
+            r.add(where, "the name must be lowercase letters and digits joined by - or _, at most 32 characters")
+            continue
+        if name in RESERVED_EXTRA:
+            r.add(where, f"{name!r} is reserved for the main source")
+            continue
+        prefix = arg_prefix(name)
+        if prefix in prefixes:
+            r.add(where, f"gives the same build arguments ({prefix}_*) as {prefixes[prefix]!r}")
+            continue
+        prefixes[prefix] = name
+        spec = r.mapping(spec, where, EXTRA_KEYS, ("url", "sha256"))
+        version = r.pattern(spec, "version", where, names.PINNED_VERSION, "version")
+        if "version" in spec and version is None:
+            continue
+        url = spec.get("url")
+        if version is not None and "checksums" in spec:
+            r.add(f"{where}.checksums", "is only read when the reconciler pins the file, which it does for artifacts without 'version'")
+        if version is None and isinstance(url, str) and not any(f"{{{f}}}" in url for f in URL_FIELDS):
+            r.add(f"{where}.url", "needs a placeholder such as {version}, since without 'version' the file follows the package version")
+            continue
+        artifact = _artifact_fields(r, spec, where)
+        selected = r.str_list(spec, "distros", where, nonempty=True)
+        for distro_id in selected:
+            if distro_id not in distros.ids:
+                r.add(f"{where}.distros", f"{distro_id!r} is not a distro in distros.yml")
+        if len(set(selected)) != len(selected):
+            r.add(f"{where}.distros", "lists a distro more than once")
+        if artifact is not None:
+            out.append(ExtraArtifact(name, artifact, version, tuple(selected)))
+    return tuple(out)
+
+
+def release_files(upstream: Upstream, version: str) -> list[tuple[str, str | None]]:
+    """(what, file name) of every asset the source release of this version attaches; None when a URL has no file name."""
+    files = []
+    if upstream.artifact:
+        files.append(("artifact.url", names.url_file_name(upstream.artifact.url_for(version))))
+        if upstream.artifact.signature:
+            files.append(("artifact.signature", names.url_file_name(upstream.artifact.signature_for(version))))
+    if upstream.git:
+        archive = f"{upstream.git.archive_stem(version)}.tar.gz"
+        files.append(("git.url", archive if names.FILE_NAME.match(archive) else None))
+    for extra in upstream.extra_artifacts:
+        files.append((f"extra-artifacts.{extra.name}.url", names.url_file_name(extra.url_for(version))))
+        if extra.artifact.signature:
+            files.append((f"extra-artifacts.{extra.name}.signature", names.url_file_name(extra.signature_for(version))))
+    return files
+
+
+def _check_release_files(r: _Reader, upstream: Upstream) -> None:
+    seen: dict[str, str] = {}
+    for what, name in release_files(upstream, upstream.version):
+        if name is None:
+            r.add(f"upstream.{what}", "must end in a file name, which becomes the name of the release asset")
+        elif name in seen:
+            r.add(f"upstream.{what}", f"gives the release asset {name}, like upstream.{seen[name]}")
+        else:
+            seen[name] = what
 
 
 def _parse_combo(r: _Reader, raw: Any, path: str, owner: str, distros: Distros) -> Combo | None:

@@ -1,8 +1,10 @@
-"""Edit upstream.version and upstream.artifact.sha256 in package.yml as text.
+"""Edit the values the reconciler pins in package.yml, as text.
 
+These are upstream.version, upstream.artifact.sha256, upstream.git.commit
+and the sha256 of each extra artifact that follows the package version.
 Comments and layout stay as they are. After the edit the file is parsed
-again, and the result must equal the old definition with only those two
-values changed; anything else is refused.
+again, and the result must equal the old definition with only those values
+changed; anything else is refused.
 """
 
 import dataclasses
@@ -63,43 +65,73 @@ def _replace(lines: list[str], index: int, value: str) -> None:
     lines[index] = line
 
 
-def update_upstream(text: str, distros: Distros, *, version: str | None = None, sha256: str | None = None) -> str:
+def _edit(lines: list[str], block: tuple[int, int, int] | None, keys: list[str], value: str, what: str) -> None:
+    """Replace the value at a path of mapping keys below a block."""
+    for key in keys:
+        block = _block(lines, block[1], block[2], key) if block else None
+    if block is None:
+        raise RcError(f"package.yml has no {what}")
+    _replace(lines, block[0], value)
+
+
+def update_upstream(
+    text: str,
+    distros: Distros,
+    *,
+    version: str | None = None,
+    sha256: str | None = None,
+    commit: str | None = None,
+    extras: dict[str, str] | None = None,
+) -> str:
     before = parse_package(yamlio.load_text(text, "package.yml"), "package.yml", distros)
+    extras = extras or {}
     if version is not None:
         try:
             versions.validate(before.versioning, version)
         except versions.VersionError as exc:
             raise RcError(f"refusing to write version: {exc}") from None
-    if sha256 is not None and not names.SHA256_HEX.match(sha256):
-        raise RcError(f"refusing to write sha256 {sha256!r}")
+    for digest in (sha256, *extras.values()):
+        if digest is not None and not names.SHA256_HEX.match(digest):
+            raise RcError(f"refusing to write sha256 {digest!r}")
+    if commit is not None and not names.GIT_SHA.match(commit):
+        raise RcError(f"refusing to write commit {commit!r}")
+    for name in extras:
+        extra = before.upstream.extra(name)
+        if extra is None or extra.pinned_by_hand:
+            raise RcError(f"refusing to pin {name!r}: it is not an extra artifact that follows the package version")
     lines = text.split("\n")
     upstream = _block(lines, 0, len(lines), "upstream")
     if upstream is None:
         raise RcError("package.yml has no upstream section")
-    _, ustart, uend = upstream
     if version is not None:
-        found = _block(lines, ustart, uend, "version")
-        if found is None:
-            raise RcError("package.yml has no upstream.version")
-        _replace(lines, found[0], version)
+        _edit(lines, upstream, ["version"], version, "upstream.version")
     if sha256 is not None:
-        artifact = _block(lines, ustart, uend, "artifact")
-        found = _block(lines, artifact[1], artifact[2], "sha256") if artifact else None
-        if found is None:
-            raise RcError("package.yml has no upstream.artifact.sha256")
-        _replace(lines, found[0], sha256)
+        _edit(lines, upstream, ["artifact", "sha256"], sha256, "upstream.artifact.sha256")
+    if commit is not None:
+        _edit(lines, upstream, ["git", "commit"], commit, "upstream.git.commit")
+    for name, digest in extras.items():
+        _edit(lines, upstream, ["extra-artifacts", name, "sha256"], digest, f"upstream.extra-artifacts.{name}.sha256")
     result = "\n".join(lines)
     after = parse_package(yamlio.load_text(result, "package.yml"), "package.yml", distros)
-    expected = _expected(before, version, sha256)
-    if after != expected:
-        raise RcError("editing package.yml changed more than upstream.version and upstream.artifact.sha256")
+    if after != _expected(before, version, sha256, commit, extras):
+        raise RcError("editing package.yml changed more than the version and the pinned digests")
     return result
 
 
-def _expected(package: Package, version: str | None, sha256: str | None) -> Package:
+def _expected(package: Package, version: str | None, sha256: str | None, commit: str | None, extras: dict[str, str]) -> Package:
     upstream = package.upstream
     if version is not None:
         upstream = dataclasses.replace(upstream, version=version)
     if sha256 is not None:
         upstream = dataclasses.replace(upstream, artifact=dataclasses.replace(upstream.artifact, sha256=sha256))
+    if commit is not None:
+        upstream = dataclasses.replace(upstream, git=dataclasses.replace(upstream.git, commit=commit))
+    if extras:
+        upstream = dataclasses.replace(
+            upstream,
+            extra_artifacts=tuple(
+                dataclasses.replace(e, artifact=dataclasses.replace(e.artifact, sha256=extras[e.name])) if e.name in extras else e
+                for e in upstream.extra_artifacts
+            ),
+        )
     return dataclasses.replace(package, upstream=upstream)

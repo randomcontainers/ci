@@ -16,9 +16,11 @@ _FROM = re.compile(r"^\s*FROM\s+(?:--\S+\s+)*\S+(?:\s+AS\s+(\S+))?\s*$", re.M | 
 
 def package_problems(package: Package, directory: Path, distros: Distros) -> list[str]:
     problems = []
-    required = ["BASE_IMAGE", "VERSION"]
+    common = ["BASE_IMAGE", "VERSION"]
     if package.upstream.artifact:
-        required.append("SOURCE_SHA256")
+        common.append("SOURCE_SHA256")
+    if package.upstream.git:
+        common.append("SOURCE_COMMIT")
     for distro in distros.items:
         name = f"Dockerfile.{distro.id}"
         path = directory / name
@@ -27,6 +29,8 @@ def package_problems(package: Package, directory: Path, distros: Distros) -> lis
             continue
         text = path.read_text(encoding="utf-8")
         declared = set(_ARG.findall(text))
+        extras = [e for e in package.upstream.extra_artifacts if e.used_on(distro.id)]
+        required = common + [f"{e.prefix}_SHA256" for e in extras]
         for arg in required:
             if arg not in declared:
                 problems.append(f"{name} does not declare ARG {arg}")

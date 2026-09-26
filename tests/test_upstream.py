@@ -5,7 +5,7 @@ from datetime import UTC, timedelta, timezone
 
 import pytest
 
-from fakegithub import NOW, FakeGitHub, FakeWeb, Router, iso
+from fakegithub import NOW, FakeGitHub, FakeWeb, Router, advertisement, iso, pkt, serve_git
 from fakes import FakeRegistry
 from rc import config, upstream
 from rc.errors import RcError
@@ -210,14 +210,20 @@ def test_pin_needs_a_cross_check(packages):
     def fetch(url, algorithms):
         return {a: hashlib.new(a, tarball).hexdigest() for a in algorithms}
 
+    def no_fetch(url, algorithms):
+        raise AssertionError(f"{url} was downloaded")
+
     name = "ImageMagick-7.1.2-32.tar.xz"
     for assets in ([], [{"name": name}], [{"name": name, "digest": None}], [{"name": "other.tar.xz", "digest": f"sha256:{sha256}"}]):
         candidate = upstream.Candidate("7.1.2-32", "7.1.2-32", release={"assets": assets})
-        with pytest.raises(RcError, match="no checksums file, no signature and no digest recorded by GitHub"):
-            upstream.pin_artifact(packages["imagemagick"], candidate, FakeWeb(), fetch)
+        assert upstream.hand_pins(packages["imagemagick"], candidate) == [name]
+        with pytest.raises(upstream.HandPin, match="no checksums file, no signature and no digest recorded by GitHub"):
+            upstream.pin_artifact(packages["imagemagick"], candidate, FakeWeb(), no_fetch)
     candidate = upstream.Candidate("7.1.2-32", "7.1.2-32", release={"assets": [{"name": name, "digest": f"sha256:{sha256}"}]})
+    assert upstream.hand_pins(packages["imagemagick"], candidate) == []
     assert upstream.pin_artifact(packages["imagemagick"], candidate, FakeWeb(), fetch) == sha256
     # ffmpeg has a signature, which the Dockerfile verifies
+    assert upstream.hand_pins(packages["ffmpeg"], upstream.Candidate("9.0.3", "n9.0.3")) == []
     assert upstream.pin_artifact(packages["ffmpeg"], upstream.Candidate("9.0.3", "n9.0.3"), FakeWeb(), fetch) == sha256
 
 
@@ -603,3 +609,149 @@ def test_pin_from_an_openssl_checksums_file(distros):
     assert upstream.pin_artifact(package, upstream.Candidate("13.59", "13.59"), web, fetch) == sha256
     with pytest.raises(RcError, match="is not listed"):
         upstream.pin_artifact(package, upstream.Candidate("13.60", "13.60"), web, fetch)
+
+
+WHISPER = {
+    "source": "github-tag",
+    "repository": "ggml-org/whisper.cpp",
+    "tag-pattern": r"^v(\d+\.\d+\.\d+)$",
+    "versioning": "semver",
+    "version": "1.9.4",
+    "git": {"url": "https://github.com/ggml-org/whisper.cpp.git", "tag": "v{version}", "commit": "a" * 40},
+}
+
+
+def whisper_world(refs):
+    gh = FakeGitHub()
+    gh.tags["ggml-org/whisper.cpp"] = [("v1.9.5", "b" * 40, "tag", OLD), ("v1.9.6", "d" * 40, "commit", OLD)]
+    web = FakeWeb()
+    serve_git(web, WHISPER["git"]["url"], refs)
+    return gh, web
+
+
+def test_git_tags_resolve_to_their_commit(distros):
+    refs = [
+        ("HEAD", "e" * 40),
+        ("refs/heads/master", "e" * 40),
+        ("refs/tags/v1.9.5", "b" * 40),
+        ("refs/tags/v1.9.5^{}", "c" * 40),
+        ("refs/tags/v1.9.6", "d" * 40),
+    ]
+    gh, web = whisper_world(refs)
+    package = package_with(distros, WHISPER)
+    result = checker(gh, web).latest(package)
+    assert (result.chosen.version, result.chosen.commit) == ("1.9.6", "d" * 40)
+    # an annotated tag gives the commit it peels to, not the tag object
+    gh, web = whisper_world(refs[:-1])
+    result = checker(gh, web).latest(package)
+    assert (result.chosen.version, result.chosen.commit) == ("1.9.5", "c" * 40)
+    assert result.waiting == [f"1.9.6 has no tag v1.9.6 at {WHISPER['git']['url']} yet"]
+    # the refs are read once per pass, however many versions are checked
+    assert len([u for _, u in web.requests if u.endswith("/info/refs?service=git-upload-pack")]) == 1
+
+
+def test_git_tag_must_be_the_tag_the_version_came_from(distros):
+    gh, web = whisper_world([("refs/tags/1.9.6", "d" * 40), ("refs/tags/1.9.5", "c" * 40)])
+    package = package_with(distros, WHISPER, git={**WHISPER["git"], "tag": "{version}"})
+    result = checker(gh, web).latest(package)
+    assert result.chosen is None
+    assert result.refused == ["1.9.6 is tagged v1.9.6, but git.tag gives 1.9.6", "1.9.5 is tagged v1.9.5, but git.tag gives 1.9.5"]
+
+
+def test_advertisement_parsing():
+    refs = upstream.parse_advertisement(advertisement([("refs/tags/v1", "1" * 40), ("refs/tags/v1^{}", "2" * 40), ("HEAD", "3" * 40)]))
+    assert refs == {"refs/tags/v1": "1" * 40, "refs/tags/v1^{}": "2" * 40}
+    assert upstream.parse_advertisement(b"0000") == {}
+    # capabilities and odd lines are ignored
+    assert upstream.parse_advertisement(pkt(b"x" * 40 + b" refs/tags/v1\n") + pkt(b"\n")) == {}
+    for body, message in [
+        (b"<html>", "not a git ref advertisement"),
+        (b"00ff" + b"1" * 40, "truncated"),
+        (b"0003", "truncated"),
+        (pkt(b"ERR access denied\n"), "the server answered: access denied"),
+    ]:
+        with pytest.raises(RcError, match=message):
+            upstream.parse_advertisement(body)
+
+
+def test_tag_lookup_problems():
+    web = FakeWeb()
+    url = "https://codeberg.org/a/b.git"
+    with pytest.raises(RcError, match="HTTP 404"):
+        upstream.tag_commit(web, url, "v1")
+    web.urls[f"{url}/info/refs?service=git-upload-pack"] = b"1111111111111111111111111111111111111111\trefs/tags/v1\n"
+    with pytest.raises(RcError, match="not a git repository served over smart HTTP"):
+        upstream.tag_commit(web, url, "v1")
+    web.headers[f"{url}/info/refs?service=git-upload-pack"] = {"content-type": "application/x-git-upload-pack-advertisement; charset=x"}
+    with pytest.raises(RcError, match=f"{url}: truncated git ref advertisement"):
+        upstream.tag_commit(web, url, "v1")
+    sent = len(web.requests)
+    for bad_url, tag in [("http://codeberg.org/a/b.git", "v1"), (url, "v1/../x"), (url, "v1^{}"), (url, "-v1"), (url, "v1 ")]:
+        with pytest.raises(RcError, match="refusing to look up"):
+            upstream.tag_commit(web, bad_url, tag)
+    assert len(web.requests) == sent
+
+
+GS_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{nodots}"
+GS_EXTRAS = {
+    "pdf-docs": {
+        "url": GS_BASE + "/ghostpdl-{version}.tar.xz",
+        "checksums": {"url": GS_BASE + "/SHA512SUMS", "algorithm": "sha512"},
+        "sha256": "1" * 64,
+    },
+    "gts": {"version": "0.7.6", "url": "https://downloads.sourceforge.net/project/gts/gts/{version}/gts-{version}.tar.gz", "sha256": "2" * 64},
+}
+
+
+def test_extra_artifacts_that_follow_the_version_must_be_published(distros):
+    data = {**BASE, "upstream": {
+        "source": "github-release",
+        "repository": "ArtifexSoftware/ghostpdl-downloads",
+        "tag-pattern": r"^gs(\d+)(\d{2})(\d)$",
+        "version-template": "{1}.{2}.{3}",
+        "versioning": "loose",
+        "version": "10.08.0",
+        "artifact": {"url": GS_BASE + "/ghostscript-{version}.tar.xz", "sha256": "0" * 64},
+        "extra-artifacts": GS_EXTRAS,
+    }}
+    package = config.parse_package(data, "package.yml", distros)
+    gh = FakeGitHub()
+    gh.releases["ArtifexSoftware/ghostpdl-downloads"] = [World.release("gs10090", OLD, assets=["ghostscript-10.09.0.tar.xz"])]
+    result = checker(gh).latest(package)
+    assert result.chosen is None
+    assert result.waiting == ["10.09.0 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10090/ghostpdl-10.09.0.tar.xz is not available yet"]
+    gh.releases["ArtifexSoftware/ghostpdl-downloads"][0]["assets"].append({"name": "ghostpdl-10.09.0.tar.xz", "state": "uploaded"})
+    # the hand-pinned gts is not looked up: its URL would answer 404 here
+    result = checker(gh).latest(package)
+    assert result.chosen.version == "10.09.0"
+
+    files = {"ghostscript-10.09.0.tar.xz": b"gs", "ghostpdl-10.09.0.tar.xz": b"pdl"}
+    web = FakeWeb()
+    sums = "".join(f"{hashlib.sha512(v).hexdigest()}  {k}\n" for k, v in files.items())
+    web.urls[GS_BASE.format(nodots="10090") + "/SHA512SUMS"] = sums.encode()
+
+    def fetch(url, algorithms):
+        return {a: hashlib.new(a, files[url.rsplit("/", 1)[1]]).hexdigest() for a in algorithms}
+
+    assert upstream.pin_extras(package, result.chosen, web, fetch) == {"pdf-docs": hashlib.sha256(b"pdl").hexdigest()}
+    files["ghostpdl-10.09.0.tar.xz"] = b"changed"
+    with pytest.raises(RcError, match="ghostpdl-10.09.0.tar.xz does not match its sha512"):
+        upstream.pin_extras(package, result.chosen, web, fetch)
+    # without a checksums file, the digest GitHub recorded for the asset is the check
+    data["upstream"]["extra-artifacts"] = {"pdf-docs": {"url": GS_EXTRAS["pdf-docs"]["url"], "sha256": "1" * 64}}
+    package = config.parse_package(data, "package.yml", distros)
+    with pytest.raises(RcError, match="pin it by hand"):
+        upstream.pin_extras(package, result.chosen, web, fetch)
+    asset = result.chosen.release["assets"][1]
+    asset["digest"] = f"sha256:{hashlib.sha256(b'changed').hexdigest()}"
+    assert upstream.pin_extras(package, result.chosen, web, fetch) == {"pdf-docs": hashlib.sha256(b"changed").hexdigest()}
+
+
+def test_git_tag_of_a_version_read_from_a_page(distros):
+    web = FakeWeb()
+    web.urls[POPPLER["url"]] = POPPLER_PAGE
+    git = {"url": "https://gitlab.freedesktop.org/poppler/poppler.git", "tag": "poppler-{version}", "commit": "a" * 40}
+    serve_git(web, git["url"], [("refs/tags/poppler-26.09.0", "9" * 40)])
+    result = checker(FakeGitHub(), web).latest(package_with(distros, POPPLER, git=git))
+    # a version from a page has no tag of its own to compare git.tag with
+    assert (result.chosen.version, result.chosen.tag, result.chosen.commit) == ("26.09.0", "26.09.0", "9" * 40)

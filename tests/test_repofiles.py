@@ -1,4 +1,8 @@
+import yaml
+
+from conftest import FIXTURES
 from rc import repofiles
+from rc.config import parse_package
 
 GOOD = """# syntax=docker/dockerfile:1
 ARG BASE_IMAGE
@@ -60,3 +64,27 @@ def test_distro_releases_follow_distros_yml(tmp_path, distros):
         "Dockerfile.alpine: ARG BASE_IMAGE defaults to alpine:3.23, not alpine:3.24 from distros.yml",
         "README.md names alpine 3.23, but distros.yml builds on 3.24",
     ]
+
+
+def test_git_and_extra_artifact_arguments(tmp_path, distros):
+    data = yaml.safe_load((FIXTURES / "ffmpeg" / "package.yml").read_text())
+    data["upstream"].pop("artifact")
+    data["upstream"]["git"] = {"url": "https://github.com/FFmpeg/FFmpeg.git", "tag": "n{version}", "commit": "c" * 40}
+    data["upstream"]["extra-artifacts"] = {
+        "gts": {"version": "0.7.6", "url": "https://e.org/gts-{version}.tar.gz", "sha256": "a" * 64, "distros": ["alpine"]},
+        "nv-codec": {"version": "13.0", "url": "https://e.org/nv-{version}.tar.gz", "sha256": "b" * 64},
+    }
+    package = parse_package(data, "package.yml", distros)
+    plain = GOOD.replace("ARG SOURCE_SHA256\n", "")
+    root = write(tmp_path / "ffmpeg", {"Dockerfile.ubuntu": plain, "Dockerfile.alpine": plain})
+    assert repofiles.package_problems(package, root, distros) == [
+        "Dockerfile.ubuntu does not declare ARG SOURCE_COMMIT",
+        "Dockerfile.ubuntu does not declare ARG NV_CODEC_SHA256",
+        "Dockerfile.alpine does not declare ARG SOURCE_COMMIT",
+        "Dockerfile.alpine does not declare ARG GTS_SHA256",
+        "Dockerfile.alpine does not declare ARG NV_CODEC_SHA256",
+    ]
+    ubuntu = plain.replace("ARG VERSION\n", "ARG VERSION\nARG SOURCE_COMMIT\nARG NV_CODEC_SHA256\n")
+    alpine = ubuntu.replace("ARG VERSION\n", "ARG VERSION\nARG GTS_SHA256\n")
+    root = write(tmp_path / "ffmpeg", {"Dockerfile.ubuntu": ubuntu, "Dockerfile.alpine": alpine})
+    assert repofiles.package_problems(package, root, distros) == []

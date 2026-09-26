@@ -461,7 +461,7 @@ def cmd_source_release(args) -> int:
     gha.set_output("title", info["title"])
     gha.set_output("notes", str(notes_path))
     for f in files:
-        print(f)
+        print(f.path)
     return 0
 
 
@@ -708,7 +708,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--digests", required=True, help="directory with <flavour>-<arch> digest files")
     p.add_argument("--output", required=True, help="file for the NUL-separated arguments")
 
-    p = add("source-release", cmd_source_release, "Download and verify the upstream source for the release.")
+    p = add("source-release", cmd_source_release, "Download and verify the upstream sources for the release.")
     p.add_argument("--plan", required=True)
     p.add_argument("--output-dir", required=True)
 

@@ -174,6 +174,11 @@ class Planner:
         args = {"BASE_IMAGE": base_image, "VERSION": package.version}
         if package.upstream.artifact:
             args["SOURCE_SHA256"] = package.upstream.artifact.sha256
+        if package.upstream.git:
+            args["SOURCE_COMMIT"] = package.upstream.git.commit
+        for extra in package.upstream.extra_artifacts:
+            if extra.used_on(distro.id):
+                args.update(extra.build_args(package.version))
         return {
             "id": f"slim-{distro.id}",
             "flavour": "slim",
@@ -357,15 +362,8 @@ class Planner:
             self.notices.append(f"{package.name} has no default combo; nothing to rebuild with default-only")
 
         release = None
-        if package.source_release and self.run.publish and not self.run.default_only and package.upstream.artifact:
-            artifact = package.upstream.artifact
-            release = {
-                "tag": f"v{package.version}",
-                "title": f"{package.title} {package.version} source",
-                "url": artifact.url_for(package.version),
-                "sha256": artifact.sha256,
-                "signature": artifact.signature_for(package.version),
-            }
+        if package.source_release and self.run.publish and not self.run.default_only:
+            release = source_release(package, self.distros)
         return self._document("package", package.name, package, targets, skipped, release)
 
     def plan_combo(self, combo_file: ComboFile) -> dict:
@@ -411,6 +409,41 @@ class Planner:
             "targets": targets,
             "skipped": skipped,
         }
+
+
+def source_release(package: Package, distros: Distros) -> dict | None:
+    """What the release job attaches to v<version>: the main source and every extra artifact."""
+    upstream, version = package.upstream, package.version
+    artifact, git = upstream.artifact, upstream.git
+    if not (artifact or git or upstream.extra_artifacts):
+        return None
+    return {
+        "tag": f"v{version}",
+        "title": f"{package.title} {version} source",
+        "url": artifact.url_for(version) if artifact else None,
+        "sha256": artifact.sha256 if artifact else None,
+        "signature": artifact.signature_for(version) if artifact else None,
+        "git": {
+            "url": git.url,
+            "tag": git.tag_for(version),
+            "commit": git.commit,
+            "archive": git.archive_stem(version),
+        }
+        if git
+        else None,
+        "extras": [
+            {
+                "name": extra.name,
+                "version": extra.version_for(version),
+                "url": extra.url_for(version),
+                "sha256": extra.artifact.sha256,
+                "signature": extra.signature_for(version),
+                "distros": [d.id for d in distros.items if d.id in extra.distros],
+                "pinned_by_hand": extra.pinned_by_hand,
+            }
+            for extra in upstream.extra_artifacts
+        ],
+    }
 
 
 # Reading a plan back
