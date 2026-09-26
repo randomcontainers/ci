@@ -159,7 +159,7 @@ python3 -m venv .venv
 .venv/bin/pip install --no-deps -e .   # puts rc on the venv's PATH
 ```
 
-The tests use an in-memory registry, GitHub and PyPI and never touch the network. `requirements.txt`, `requirements-dev.txt` and `requirements-reconcile.txt` (the uv that the reconciler runs) are generated from the `.in` files with the `uv pip compile` command at the top of each file. If a change to `rc render` is intended, update the files in `tests/golden/`.
+The tests use an in-memory registry, GitHub and PyPI and never touch the network. They read the catalog in `tests/fixtures/ci` and the packages in `tests/fixtures/packages`, not `packages.yml`, so listing a new package does not change them. `requirements.txt`, `requirements-dev.txt` and `requirements-reconcile.txt` (the uv that the reconciler runs) are generated from the `.in` files with the `uv pip compile` command at the top of each file. If a change to `rc render` is intended, update the files in `tests/golden/`.
 
 ## License
 

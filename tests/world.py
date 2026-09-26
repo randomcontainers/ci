@@ -3,7 +3,7 @@
 import hashlib
 from datetime import timedelta
 
-from conftest import FIXTURES, ROOT, publish_bases
+from conftest import CI_DIR, FIXTURES, ROOT, publish_bases
 from fakegithub import NOW, FakeGitHub, FakeWeb, Router
 from fakes import FakeRegistry
 from rc import commits, locks, reposetup, upstream
@@ -45,7 +45,7 @@ class World:
         self.web = FakeWeb()
         self.router = Router(self.registry, self.github, self.web)
         self.distros = load_distros(ROOT / "distros.yml")
-        self.listed = load_package_list(ROOT / "packages.yml")
+        self.listed = load_package_list(CI_DIR / "packages.yml")
         self.packages = {p.name: load_package(p / "package.yml", self.distros) for p in FIXTURES.iterdir()}
         self.generation = 0
         self.bases = publish_bases(self.registry)
@@ -86,7 +86,7 @@ class World:
         now = now or self.now
         gh = GitHub(self.router, "dispatch-token")
         return Reconciler(
-            ci_dir=ROOT,
+            ci_dir=CI_DIR,
             gh=gh,
             ci_gh=GitHub(self.router),
             registry=RegistryState(Registry(self.router), ORG),

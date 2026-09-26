@@ -1,0 +1,8 @@
+# The catalog the tests run against: the packages in tests/fixtures/packages.
+# distros.yml links to the real one, so the tests follow its distro versions.
+packages:
+  - yt-dlp
+  - ffmpeg
+  - imagemagick
+  - ghostscript
+  - streamlink

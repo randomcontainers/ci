@@ -3,7 +3,7 @@ import copy
 import pytest
 import yaml
 
-from conftest import FIXTURES, ROOT
+from conftest import CI_DIR, FIXTURES, ROOT
 from rc import config, yamlio
 from rc.errors import RcError, ValidationError
 
@@ -51,7 +51,8 @@ def test_distro_version_must_be_quoted():
 
 
 def test_package_list():
-    assert config.load_package_list(ROOT / "packages.yml") == ("yt-dlp", "ffmpeg", "imagemagick", "ghostscript", "streamlink")
+    assert config.load_package_list(CI_DIR / "packages.yml") == ("yt-dlp", "ffmpeg", "imagemagick", "ghostscript", "streamlink")
+    assert set(config.load_package_list(CI_DIR / "packages.yml")) <= set(config.load_package_list(ROOT / "packages.yml"))
 
 
 @pytest.mark.parametrize(

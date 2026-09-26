@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from conftest import FIXTURES, ROOT
+from conftest import CI_DIR, FIXTURES
 from rc import cli, release
 from rc.errors import RcError
 
@@ -49,7 +49,7 @@ def test_asset_name():
 
 
 def test_cli_validate_catalog(capsys):
-    code = cli.main(["--ci-dir", str(ROOT), "validate", *map(str, sorted(FIXTURES.iterdir())), "--catalog",
+    code = cli.main(["--ci-dir", str(CI_DIR), "validate", *map(str, sorted(FIXTURES.iterdir())), "--catalog",
                      "--packages-dir", str(FIXTURES)])
     out = capsys.readouterr().out
     assert code == 0, out
@@ -59,24 +59,24 @@ def test_cli_validate_catalog(capsys):
 def test_cli_validate_reports_problems(tmp_path, capsys):
     bad = tmp_path / "package.yml"
     bad.write_text((FIXTURES / "ffmpeg" / "package.yml").read_text().replace("name: ffmpeg", "name: ci"))
-    assert cli.main(["--ci-dir", str(ROOT), "validate", str(bad)]) == 1
+    assert cli.main(["--ci-dir", str(CI_DIR), "validate", str(bad)]) == 1
     assert "reserved name" in capsys.readouterr().err
 
 
 def test_cli_render_repo_files(tmp_path, capsys):
     out = tmp_path / "combo"
-    code = cli.main(["--ci-dir", str(ROOT), "render", "--package-file", str(FIXTURES / "yt-dlp" / "package.yml"),
+    code = cli.main(["--ci-dir", str(CI_DIR), "render", "--package-file", str(FIXTURES / "yt-dlp" / "package.yml"),
                      "--packages-dir", str(FIXTURES), "--repo-files", str(out)])
     assert code == 0
     assert (out / "Dockerfile.alpine").is_file() and (out / ".github" / "workflows" / "build.yml").is_file()
-    code = cli.main(["--ci-dir", str(ROOT), "render", "--combo-file", str(out / "combo.yml"),
+    code = cli.main(["--ci-dir", str(CI_DIR), "render", "--combo-file", str(out / "combo.yml"),
                      "--packages-dir", str(FIXTURES), "--distro", "alpine"])
     assert code == 0
     assert capsys.readouterr().out.endswith((out / "Dockerfile.alpine").read_text())
 
 
 def test_cli_tags_json(capsys):
-    code = cli.main(["--ci-dir", str(ROOT), "tags", "--package-file", str(FIXTURES / "ffmpeg" / "package.yml"),
+    code = cli.main(["--ci-dir", str(CI_DIR), "tags", "--package-file", str(FIXTURES / "ffmpeg" / "package.yml"),
                      "--distro", "ubuntu", "--json"])
     assert code == 0
     rows = json.loads(capsys.readouterr().out)
@@ -96,7 +96,7 @@ def package_checkout(root, name):
 def test_cli_plan_checks_repository_files(tmp_path, capsys):
     source = package_checkout(tmp_path / "src", "yt-dlp")
     (source / "Dockerfile.alpine").unlink()
-    code = cli.main(["--ci-dir", str(ROOT), "plan", "--source", str(source), "--offline",
+    code = cli.main(["--ci-dir", str(CI_DIR), "plan", "--source", str(source), "--offline",
                      "--packages-dir", str(FIXTURES)])
     assert code == 1
     assert "Dockerfile.alpine is missing" in capsys.readouterr().err
@@ -107,11 +107,11 @@ def test_old_distro_release_warns_in_plan_and_fails_validate(tmp_path, monkeypat
         monkeypatch.delenv(key, raising=False)
     source = package_checkout(tmp_path / "src", "yt-dlp")
     (source / "README.md").write_text("Built on Ubuntu 26.04 and Alpine 3.23.\n")
-    code = cli.main(["--ci-dir", str(ROOT), "plan", "--source", str(source), "--offline",
+    code = cli.main(["--ci-dir", str(CI_DIR), "plan", "--source", str(source), "--offline",
                      "--packages-dir", str(FIXTURES), "--member-image", "ffmpeg=rclocal/ffmpeg:slim"])
     assert code == 0
     assert "warning: README.md names alpine 3.23, but distros.yml builds on 3.24" in capsys.readouterr().err
-    assert cli.main(["--ci-dir", str(ROOT), "validate", str(source), "--files"]) == 1
+    assert cli.main(["--ci-dir", str(CI_DIR), "validate", str(source), "--files"]) == 1
     assert "README.md names alpine 3.23" in capsys.readouterr().err
 
 
@@ -120,14 +120,14 @@ def test_cli_offline_plan_and_bake(tmp_path, monkeypatch, capsys):
         monkeypatch.delenv(key, raising=False)
     plan_file = tmp_path / "plan.json"
     source = package_checkout(tmp_path / "src", "yt-dlp")
-    code = cli.main(["--ci-dir", str(ROOT), "plan", "--source", str(source), "--offline",
+    code = cli.main(["--ci-dir", str(CI_DIR), "plan", "--source", str(source), "--offline",
                      "--packages-dir", str(FIXTURES), "--member-image", "ffmpeg=rclocal/ffmpeg:slim",
                      "--output-file", str(plan_file)])
     assert code == 0
     out = capsys.readouterr().out
     assert "build=true" in out and "publish=false" in out
     monkeypatch.chdir(tmp_path)
-    code = cli.main(["--ci-dir", str(ROOT), "bake", "--plan", str(plan_file), "--distro", "ubuntu",
+    code = cli.main(["--ci-dir", str(CI_DIR), "bake", "--plan", str(plan_file), "--distro", "ubuntu",
                      "--platform", "linux/amd64", "--mode", "load", "--output", "bake.json"])
     assert code == 0
     doc = json.loads((tmp_path / "bake.json").read_text())
@@ -136,6 +136,6 @@ def test_cli_offline_plan_and_bake(tmp_path, monkeypatch, capsys):
 
 
 def test_cli_errors_are_reported(capsys):
-    assert cli.main(["--ci-dir", str(ROOT), "check-image", "--plan", "/nonexistent.json", "--target", "slim",
+    assert cli.main(["--ci-dir", str(CI_DIR), "check-image", "--plan", "/nonexistent.json", "--target", "slim",
                      "--distro", "ubuntu"]) == 1
     assert "cannot read plan" in capsys.readouterr().err

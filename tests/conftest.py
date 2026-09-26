@@ -11,6 +11,7 @@ from rc.sources import PackageSource
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures" / "packages"
+CI_DIR = ROOT / "tests" / "fixtures" / "ci"  # --ci-dir with the fixture catalog
 GOLDEN = ROOT / "tests" / "golden"
 NOW = datetime(2026, 9, 24, 12, 0, 0, tzinfo=UTC)
 SHA = "a" * 40
@@ -30,7 +31,7 @@ def distros():
 
 @pytest.fixture
 def listed():
-    return load_package_list(ROOT / "packages.yml")
+    return load_package_list(CI_DIR / "packages.yml")
 
 
 @pytest.fixture

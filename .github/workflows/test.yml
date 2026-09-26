@@ -49,12 +49,12 @@ jobs:
       - name: Set up rc
         uses: ./setup-rc
       - name: Validate the fixture catalog
-        run: rc validate tests/fixtures/packages/* --catalog --packages-dir tests/fixtures/packages
+        run: rc --ci-dir tests/fixtures/ci validate tests/fixtures/packages/* --catalog --packages-dir tests/fixtures/packages
       - name: Render every combo and compare with the golden files
         run: |
           for owner in yt-dlp imagemagick streamlink; do
             out="$RUNNER_TEMP/render/$owner"
-            rc render --package-file "tests/fixtures/packages/$owner/package.yml" \
+            rc --ci-dir tests/fixtures/ci render --package-file "tests/fixtures/packages/$owner/package.yml" \
               --packages-dir tests/fixtures/packages --repo-files "$out"
             combo="$(sed -n 's/^name: //p' "$out/combo.yml")"
             for distro in ubuntu alpine; do
