@@ -7,3 +7,21 @@ packages:
   - imagemagick
   - ghostscript
   - streamlink
+  - qpdf
+  - 7zip
+  - mupdf
+  - iperf3
+  - yamllint
+  - exiftool
+  - jpegoptim
+  - weasyprint
+  - rsync
+  - tcpdump
+  - mediainfo
+  - poppler
+  - tesseract
+  - whisper-cpp
+  - nmap
+  - graphviz
+  - doxygen
+  - mkvtoolnix
