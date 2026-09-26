@@ -15,6 +15,9 @@ from rc.config import Distros, Package, parse_package
 from rc.errors import RcError
 
 _KEY = re.compile(r"^(?P<indent> *)(?P<key>[A-Za-z0-9_-]+):(?P<rest>.*)$")
+# A value the reconciler may replace: a plain or quoted scalar without `#`,
+# optionally followed by a comment, which is kept.
+_VALUE = re.compile(r"""^(?P<value>"[^"#\\]*"|'[^'#]*'|[^\s#'"][^\s#]*)(?P<gap>\s*)(?P<comment>#.*)?$""")
 
 
 def _scalar(value: str, quoted: bool) -> str:
@@ -46,12 +49,18 @@ def _block(lines: list[str], start: int, end: int, key: str) -> tuple[int, int, 
 
 
 def _replace(lines: list[str], index: int, value: str) -> None:
+    """Write a new value, keeping a trailing comment at its column where there is room."""
     m = _KEY.match(lines[index])
-    rest = m.group("rest").strip()
-    if "#" in rest or not rest:
+    rest = m.group("rest")
+    old = _VALUE.match(rest.strip())
+    if old is None or (old.group("comment") and not old.group("gap")):
         raise RcError(f"package.yml: cannot edit {m.group('key')!r} on line {index + 1}")
-    quoted = rest[:1] in ("'", '"')
-    lines[index] = f"{m.group('indent')}{m.group('key')}: {_scalar(value, quoted)}"
+    quoted = old.group("value")[:1] in ("'", '"')
+    line = f"{m.group('indent')}{m.group('key')}: {_scalar(value, quoted)}"
+    if old.group("comment"):
+        column = m.start("rest") + len(rest) - len(rest.lstrip()) + old.start("comment")
+        line += " " * max(1, column - len(line)) + old.group("comment")
+    lines[index] = line
 
 
 def update_upstream(text: str, distros: Distros, *, version: str | None = None, sha256: str | None = None) -> str:

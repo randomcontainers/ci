@@ -38,10 +38,21 @@ def test_refuses_bad_digest(distros):
         pkgedit.update_upstream(text("ffmpeg"), distros, sha256="F" * 64)
 
 
+def test_trailing_comments_are_kept(distros):
+    before = text("ffmpeg").replace("  version: 9.0.2\n", "  version: 9.0.2        # updated by the reconciler\n")
+    after = pkgedit.update_upstream(before, distros, version="9.1")
+    assert '  version: "9.1"        # updated by the reconciler\n' in after
+    # a longer value pushes the comment to the right
+    after = pkgedit.update_upstream(before.replace("9.0.2        #", "9.0.2 #"), distros, version="10.10.10")
+    assert "  version: 10.10.10 # updated by the reconciler\n" in after
+    quoted = before.replace("9.0.2", "'9.0.2'")
+    assert '  version: "9.1"' in pkgedit.update_upstream(quoted, distros, version="9.1")
+
+
 def test_refuses_files_it_cannot_edit_safely(distros):
-    odd = text("ffmpeg").replace("  version: 9.0.2", "  version: 9.0.2  # pinned")
-    with pytest.raises(RcError, match="cannot edit"):
-        pkgedit.update_upstream(odd, distros, version="9.1")
+    for odd in ("  version: &v 9.0.2", "  version: !!str 9.0.2", "  version: '9.0.2'#x"):
+        with pytest.raises(RcError, match="cannot edit"):
+            pkgedit.update_upstream(text("ffmpeg").replace("  version: 9.0.2", odd), distros, version="9.1")
     missing = text("streamlink").replace("  version: 8.6.1\n", "  version:\n    8.6.1\n")
     with pytest.raises(RcError):
         pkgedit.update_upstream(missing, distros, version="8.7.0")
