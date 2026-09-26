@@ -84,7 +84,7 @@ A run has five jobs:
 1. `plan` runs hadolint on the repository's `Dockerfile.*` with its `.hadolint.yaml`. It then reads `package.yml` (or `combo.yml`), resolves each base image and each member's `slim-<distro>` image to an index digest once, and decides what to build. A default image whose members cannot be pulled anonymously, or were built on another distro release, is skipped with a notice. A combo that fails the `rc validate --catalog` checks against the listed packages is never built: in a combo repository the plan fails, and in a package repository only the slim images are built, with an error annotation.
 2. `build` runs per distro and platform on native runners (`ubuntu-24.04`, `ubuntu-24.04-arm`). It builds the slim and default targets with `docker buildx bake`, loads them, runs `rc check-image` and `rc test-image`, and only then logs in and pushes by digest with provenance and an SBOM.
 3. `merge` creates the multi-platform index and tags per distro and flavour, and attests it. It publishes only from `main`, only if the run's commit is still the head of `main`, and never moves a floating tag to an older version.
-4. `release` attaches the verified upstream source to the `v<version>` release once the images are published, for packages with `source-release: true`.
+4. `release` attaches the verified upstream sources to the `v<version>` release once the images are published, for packages with `source-release: true`: the tarball or an archive of the pinned git commit, and every extra artifact. It uploads only the files the release does not have yet.
 5. `scan` runs Grype on the published images and uploads the results to code scanning. It never fails the run.
 
 Pull requests build and test both images on both platforms but push nothing.
@@ -93,9 +93,9 @@ Every job that runs `rc` (`plan`, `build`, `merge`, `release`) checks out this r
 
 ## The reconciler
 
-`reconcile.yml` runs `rc reconcile` from `main` of this repository. Each pass reads every listed `package.yml` and compares it with PyPI or GitHub and with what is published on ghcr.io. It then:
+`reconcile.yml` runs `rc reconcile` from `main` of this repository. Each pass reads every listed `package.yml` and compares it with its upstream (PyPI, GitHub, GitLab, a Forgejo server such as Codeberg, or a download page) and with what is published on ghcr.io. It then:
 
-- commits a new upstream version to the package repository, after the release has passed its cooldown, its files are published and, on PyPI, its provenance names the expected publisher. Tarballs are downloaded once and their sha256 pinned in `package.yml`; Python lock files are regenerated with uv.
+- commits a new upstream version to the package repository, after the release has passed its cooldown, its files are published and, on PyPI, its provenance names the expected publisher. Tarballs are downloaded once and their sha256 pinned in `package.yml`, a git tag is resolved to the commit it points to and that commit is pinned, and Python lock files are regenerated with uv.
 - re-locks the Python dependencies of a package once a week and commits the result when it changed.
 - creates missing combo repositories and commits their generated files when they changed. It only writes to a combo repository whose `combo.yml` names the same owner.
 - dispatches `build.yml` where the published image differs from what it should be: another version or commit, a new base image or member image, or an image older than 7 days.
@@ -115,7 +115,7 @@ rc test-image --plan FILE --target T --distro D         run the package tests in
 rc tags --package-file FILE                             print the tags each image gets
 rc digests ...                                          record pushed digests for the merge job
 rc merge ...                                            decide the tags and write the imagetools arguments
-rc source-release ...                                   download and verify the upstream source
+rc source-release ...                                   download and verify the upstream sources
 rc reconcile [--dry-run] [--output-dir DIR]             update packages and combos, dispatch due builds
 rc apply-commits FILE                                   make the commits rc reconcile planned
 rc setup-repos FILE                                     make the repository changes rc reconcile asked for
@@ -133,7 +133,7 @@ rc reconcile --dry-run --packages-dir ..
 
 The reconciler never gets a token that can write to a repository. `rc reconcile --commit-file FILE` writes the commits it plans to `FILE`, and `rc apply-commits FILE` makes them with `RC_WRITE_TOKEN`, which `reconcile.yml` mints only when the file exists and only for the repositories it names. In the same way, `rc reconcile --setup-file FILE` writes the combo repositories to create and the topics to set, and `rc setup-repos FILE` makes those changes with `RC_ADMIN_TOKEN`, the only token with the Administration permission.
 
-`rc plan` and `rc validate --files` also check the package repository itself: a `Dockerfile.<distro>` for every distro that declares `ARG BASE_IMAGE` and `ARG VERSION` (plus `ARG SOURCE_SHA256` for tarball builds) and ends in a stage named `slim`, and any requirements file a combo installs. They also compare the `ARG BASE_IMAGE` defaults and the distro releases named in `README.md` with `distros.yml`: `rc validate --files` reports a difference as an error, `rc plan` as a warning. `rc validate --catalog` needs `--packages-dir`.
+`rc plan` and `rc validate --files` also check the package repository itself: a `Dockerfile.<distro>` for every distro that declares `ARG BASE_IMAGE` and `ARG VERSION` (plus `ARG SOURCE_SHA256` for tarball builds, `ARG SOURCE_COMMIT` for git tag builds and `ARG <NAME>_SHA256` for each extra artifact the distro uses) and ends in a stage named `slim`, and any requirements file a combo installs. They also compare the `ARG BASE_IMAGE` defaults and the distro releases named in `README.md` with `distros.yml`: `rc validate --files` reports a difference as an error, `rc plan` as a warning. `rc validate --catalog` needs `--packages-dir`.
 
 ## Building an image locally
 

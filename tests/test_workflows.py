@@ -21,6 +21,19 @@ def test_hadolint_is_pinned_once():
     assert build == test
 
 
+def test_documented_dockerfile_snippets_are_linted():
+    doc = (ROOT / "docs" / "adding-a-package.md").read_text()
+    snippets = [b.split("```")[0] for b in doc.split("```dockerfile\n")[1:]]
+    assert len(snippets) == 2
+    for distro in ("ubuntu", "alpine"):
+        fixture = (ROOT / "tests" / "fixtures" / "docs" / f"Dockerfile.{distro}").read_text()
+        assert all(snippet in fixture for snippet in snippets)
+        assert not re.search(r"^SHELL", fixture, re.M)
+    steps = yaml.safe_load((WORKFLOWS / "test.yml").read_text())["jobs"]["render"]["steps"]
+    lint = next(step for step in steps if step.get("name") == "Lint the rendered and documented Dockerfiles")
+    assert '"$PWD/tests/fixtures/docs/"' in lint["run"]
+
+
 def test_dockerfile_frontend_is_pinned():
     # BuildKit pulls the frontend named on the syntax line and runs it in the job that pushes.
     assert re.fullmatch(r"docker/dockerfile:1\.[0-9]+\.[0-9]+@sha256:[a-f0-9]{64}", render.DOCKERFILE_SYNTAX)

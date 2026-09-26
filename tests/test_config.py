@@ -426,3 +426,15 @@ def test_extra_artifacts_alone_can_make_a_source_release(distros):
     assert "must be true: a build with extra artifacts under LGPL-2.1-or-later" in problems_for(data, distros)
     data["source-release"] = True
     assert config.parse_package(data, "package.yml", distros).upstream.extra("gts").version == "0.7.6"
+
+
+def test_documented_examples_parse(distros):
+    text = (ROOT / "docs" / "adding-a-package.md").read_text()
+    blocks = [b.split("```")[0] for b in text.split("```yaml\n")[1:]]
+    git = next(yaml.safe_load(b) for b in blocks if "# whisper-cpp" in b)
+    assert config.parse_package({**whisper(), "upstream": git["upstream"]}, "package.yml", distros).upstream.git
+    extras = next(yaml.safe_load(b.replace("<hex>", "a" * 64)) for b in blocks if "# graphviz\n  # source" in b)
+    data = raw("ghostscript")
+    data["upstream"]["extra-artifacts"] = extras["upstream"]["extra-artifacts"]
+    upstream = config.parse_package(data, "package.yml", distros).upstream
+    assert [e.name for e in upstream.extra_artifacts] == ["gts", "docs"]

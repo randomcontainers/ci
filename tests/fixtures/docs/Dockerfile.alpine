@@ -1,0 +1,24 @@
+# The Dockerfile snippets of docs/adding-a-package.md, linted by test.yml.
+# There is no SHELL line: the snippets must pass without pipefail.
+
+ARG BASE_IMAGE=alpine:3.24
+
+FROM ${BASE_IMAGE} AS build
+RUN apk add --no-cache ca-certificates git
+ARG VERSION
+ARG SOURCE_COMMIT
+RUN set -eu; \
+    case "${SOURCE_COMMIT}" in \
+      *[!0-9a-f]*|'') false ;; \
+      *) test "${#SOURCE_COMMIT}" -eq 40 ;; \
+    esac || { echo "SOURCE_COMMIT must be a full commit id" >&2; exit 1; }; \
+    git -c advice.detachedHead=false clone --quiet --depth 1 --branch "v${VERSION}" \
+      https://github.com/ggml-org/whisper.cpp.git /src/whisper.cpp; \
+    test "$(git -C /src/whisper.cpp rev-parse HEAD)" = "${SOURCE_COMMIT}" \
+      || { echo "tag v${VERSION} is not commit ${SOURCE_COMMIT}" >&2; exit 1; }
+ARG GTS_VERSION
+ARG GTS_SHA256
+ADD --checksum=sha256:${GTS_SHA256} https://downloads.sourceforge.net/project/gts/gts/${GTS_VERSION}/gts-${GTS_VERSION}.tar.gz /src/
+
+FROM ${BASE_IMAGE} AS slim
+COPY --from=build /src /src

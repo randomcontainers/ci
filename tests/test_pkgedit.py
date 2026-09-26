@@ -1,7 +1,9 @@
 import pytest
+import yaml
 
-from conftest import FIXTURES
-from rc import pkgedit
+from conftest import FIXTURES, ROOT
+from rc import pkgedit, yamlio
+from rc.config import parse_package
 from rc.errors import RcError
 
 
@@ -130,3 +132,53 @@ def test_extra_artifacts_that_follow_the_version(distros):
     assert flow != before
     with pytest.raises(RcError, match="no upstream.extra-artifacts.ghostpdl.sha256"):
         pkgedit.update_upstream(flow, distros, extras={"ghostpdl": "e" * 64})
+
+
+def doc_blocks():
+    doc = (ROOT / "docs" / "adding-a-package.md").read_text()
+    return [b.split("```")[0] for b in doc.split("```yaml\n")[1:]]
+
+
+def documented_package(block):
+    """A package.yml around a YAML block of docs/adding-a-package.md, framed by the ghostscript fixture."""
+    head, rest = text("ghostscript").split("upstream:\n", 1)
+    head = head.replace("source-release: true\n", "")
+    body, tail = rest.split("image:\n", 1)
+    tail = "image:\n" + tail
+    block = block.replace("<hex>", "b" * 64).replace("https://...", "https://example.org/")
+    if block.startswith("name:"):
+        return block
+    if block.startswith("  artifact:"):
+        return head + "upstream:\n" + body[: body.index("  artifact:\n")] + block + tail
+    block = block.replace("  # source, project, artifact ...\n", body)
+    if {"artifact", "git", "extra-artifacts"} & set(yaml.safe_load(block)["upstream"]):
+        head += "source-release: true\n"
+    return head + block + tail
+
+
+NEW_VERSION = {"semver": "99.1.0", "loose": "99.1.0", "calver": "2099.01.01"}
+
+
+@pytest.mark.parametrize("index", range(len(doc_blocks())))
+def test_documented_examples_can_be_updated(distros, index):
+    before = documented_package(doc_blocks()[index])
+    upstream = parse_package(yamlio.load_text(before, "package.yml"), "package.yml", distros).upstream
+    changes = {"version": NEW_VERSION[upstream.versioning]}
+    if upstream.artifact:
+        changes["sha256"] = "c" * 64
+    if upstream.git:
+        changes["commit"] = "d" * 40
+    extras = {e.name: "e" * 64 for e in upstream.extra_artifacts if not e.pinned_by_hand}
+    after = pkgedit.update_upstream(before, distros, **changes, extras=extras)
+    changed = [(a, b) for a, b in zip(before.splitlines(), after.splitlines(), strict=True) if a != b]
+    assert len(changed) == len(changes) + len(extras)
+    for a, b in changed:
+        assert ("#" in a) == ("#" in b)
+        if "#" in a:
+            assert (a.index("#"), a.split("#", 1)[1]) == (b.index("#"), b.split("#", 1)[1])
+
+
+def test_every_documented_example_is_covered():
+    blocks = doc_blocks()
+    assert len(blocks) >= 8
+    assert sum("# pinned by the reconciler" in b or "# updated by the reconciler" in b for b in blocks) >= 4
