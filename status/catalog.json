@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-09-28T07:42:30Z",
+  "generated": "2026-09-28T16:03:12Z",
   "registry": {
     "alias": "randomcontainers.com",
     "ghcr": "ghcr.io/randomcontainers"
@@ -724,7 +724,7 @@
       "homepage": "https://imagemagick.org/",
       "repository": "https://github.com/randomcontainers/imagemagick",
       "license": "ImageMagick AND LGPL-3.0-or-later",
-      "version": "7.1.2-31",
+      "version": "7.1.2-32",
       "versioning": "loose",
       "examples": [
         {
@@ -761,88 +761,88 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-09-26T15:57:30Z",
+      "updated": "2026-09-28T16:03:12Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "7.1.2-31",
+          "version": "7.1.2-32",
           "tags": [
             "latest",
-            "7.1.2-31",
+            "7.1.2-32",
             "7.1.2",
             "7.1",
             "7",
             "ubuntu",
-            "7.1.2-31-ubuntu",
+            "7.1.2-32-ubuntu",
             "7.1.2-ubuntu",
             "7.1-ubuntu",
             "7-ubuntu",
-            "7.1.2-31-ubuntu26.04"
+            "7.1.2-32-ubuntu26.04"
           ],
-          "digest": "sha256:f7d4348384f35046c5addb148884c056a34cc301e56f1bad68bdb79f306550f0",
+          "digest": "sha256:c35886fb99a0f9bb5631e24844ce6959a6bcdf02ac4dae2d6206c53db279a8f1",
           "size": {
-            "linux/amd64": 72898865,
-            "linux/arm64": 70400039
+            "linux/amd64": 72901780,
+            "linux/arm64": 70403082
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "7.1.2-31",
+          "version": "7.1.2-32",
           "tags": [
             "alpine",
-            "7.1.2-31-alpine",
+            "7.1.2-32-alpine",
             "7.1.2-alpine",
             "7.1-alpine",
             "7-alpine",
-            "7.1.2-31-alpine3.24"
+            "7.1.2-32-alpine3.24"
           ],
-          "digest": "sha256:4210cb2d94aea84a3d74daeebba4122e0b8678c71d201028f4a69badf0400670",
+          "digest": "sha256:3e5bb74558a9d16279e0aa31092025a7742f8816f11d50c33ee532777a212ace",
           "size": {
-            "linux/amd64": 38501855,
-            "linux/arm64": 38169172
+            "linux/amd64": 38505288,
+            "linux/arm64": 38173109
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "7.1.2-31",
+          "version": "7.1.2-32",
           "tags": [
             "slim",
-            "7.1.2-31-slim",
+            "7.1.2-32-slim",
             "7.1.2-slim",
             "7.1-slim",
             "7-slim",
             "slim-ubuntu",
-            "7.1.2-31-slim-ubuntu",
+            "7.1.2-32-slim-ubuntu",
             "7.1.2-slim-ubuntu",
             "7.1-slim-ubuntu",
             "7-slim-ubuntu",
-            "7.1.2-31-slim-ubuntu26.04"
+            "7.1.2-32-slim-ubuntu26.04"
           ],
-          "digest": "sha256:fc2177976b047fbabe0656a8e37d9d26a52bf41ec2a030bcb31878f90350b85a",
+          "digest": "sha256:8ebe6ca1f266d460823d74230d6d6872489685db828bc6097f9e77564ba71f74",
           "size": {
-            "linux/amd64": 60146645,
-            "linux/arm64": 57737261
+            "linux/amd64": 60149304,
+            "linux/arm64": 57740218
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "7.1.2-31",
+          "version": "7.1.2-32",
           "tags": [
             "slim-alpine",
-            "7.1.2-31-slim-alpine",
+            "7.1.2-32-slim-alpine",
             "7.1.2-slim-alpine",
             "7.1-slim-alpine",
             "7-slim-alpine",
-            "7.1.2-31-slim-alpine3.24"
+            "7.1.2-32-slim-alpine3.24"
           ],
-          "digest": "sha256:e6bebc2f7934aee80ce86f95f0524eb8ed04c4b264a614f3066f11a947c37c94",
+          "digest": "sha256:8e09af4c38df4300c2047652f9a7b598c51dcb96724273de76bc9e9c111b7cbe",
           "size": {
-            "linux/amd64": 25773199,
-            "linux/arm64": 25524325
+            "linux/amd64": 25776665,
+            "linux/arm64": 25528280
           }
         }
       ]
@@ -2878,7 +2878,7 @@
       "summary": "ImageMagick with Ghostscript, for reading and writing PDF, PostScript and EPS files.",
       "repository": "https://github.com/randomcontainers/imagemagick-ghostscript",
       "license": "ImageMagick AND LGPL-3.0-or-later AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
-      "version": "7.1.2-31",
+      "version": "7.1.2-32",
       "public": true,
       "updated": "2026-09-26T16:43:10Z",
       "variants": [
