@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-09-26T16:46:28Z",
+  "generated": "2026-09-28T01:46:25Z",
   "registry": {
     "alias": "randomcontainers.com",
     "ghcr": "ghcr.io/randomcontainers"
@@ -1691,7 +1691,7 @@
       "homepage": "https://qpdf.sourceforge.io/",
       "repository": "https://github.com/randomcontainers/qpdf",
       "license": "Apache-2.0",
-      "version": "12.4.1",
+      "version": "12.4.2",
       "versioning": "semver",
       "examples": [
         {
@@ -1732,82 +1732,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-09-26T16:05:24Z",
+      "updated": "2026-09-28T01:46:25Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "12.4.1",
+          "version": "12.4.2",
           "tags": [
             "latest",
-            "12.4.1",
+            "12.4.2",
             "12.4",
             "12",
             "ubuntu",
-            "12.4.1-ubuntu",
+            "12.4.2-ubuntu",
             "12.4-ubuntu",
             "12-ubuntu",
-            "12.4.1-ubuntu26.04"
+            "12.4.2-ubuntu26.04"
           ],
-          "digest": "sha256:8de5bcb407352ad905135ba10c851b1931d97405847dee8aa38d1db55d499367",
+          "digest": "sha256:dfd1d10af8e46b09c3fa0c8fb31ff82f83acf024086a82d29523b6004d8ba139",
           "size": {
-            "linux/amd64": 61464929,
-            "linux/arm64": 60330485
+            "linux/amd64": 61466143,
+            "linux/arm64": 60334687
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "12.4.1",
+          "version": "12.4.2",
           "tags": [
             "alpine",
-            "12.4.1-alpine",
+            "12.4.2-alpine",
             "12.4-alpine",
             "12-alpine",
-            "12.4.1-alpine3.24"
+            "12.4.2-alpine3.24"
           ],
-          "digest": "sha256:fd0f8cec33393ff48a884ee7dbe24ca26af8d60dc6effa9aca187cc4a554a543",
+          "digest": "sha256:d6edeba2009439ca490aeafee942fbb113e1395f4259163b954e9e2c220b24c5",
           "size": {
-            "linux/amd64": 21846937,
-            "linux/arm64": 21913442
+            "linux/amd64": 21845586,
+            "linux/arm64": 21917278
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "12.4.1",
+          "version": "12.4.2",
           "tags": [
             "slim",
-            "12.4.1-slim",
+            "12.4.2-slim",
             "12.4-slim",
             "12-slim",
             "slim-ubuntu",
-            "12.4.1-slim-ubuntu",
+            "12.4.2-slim-ubuntu",
             "12.4-slim-ubuntu",
             "12-slim-ubuntu",
-            "12.4.1-slim-ubuntu26.04"
+            "12.4.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:a8e9e9e126cd9664d2d8553c8ec08821cae3d094a0db7e4b2cad92def812eb2c",
+          "digest": "sha256:dde9eaf9e5801a90dc9054d93b84d638c42ce7a9633f65eb2fad91907bb50c1d",
           "size": {
-            "linux/amd64": 44420196,
-            "linux/arm64": 43486542
+            "linux/amd64": 44421355,
+            "linux/arm64": 43490681
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "12.4.1",
+          "version": "12.4.2",
           "tags": [
             "slim-alpine",
-            "12.4.1-slim-alpine",
+            "12.4.2-slim-alpine",
             "12.4-slim-alpine",
             "12-slim-alpine",
-            "12.4.1-slim-alpine3.24"
+            "12.4.2-slim-alpine3.24"
           ],
-          "digest": "sha256:08983fa329a15ffd2487c81160caef9b5ea2b924be8cc30ce2af090ab11274eb",
+          "digest": "sha256:d6caf9cccff7b3a7a56add65478fd6143ccea57a6b706e0d8d94107176659c98",
           "size": {
-            "linux/amd64": 6954348,
-            "linux/arm64": 7155366
+            "linux/amd64": 6953015,
+            "linux/arm64": 7159178
           }
         }
       ]
@@ -3083,7 +3083,7 @@
       "summary": "qpdf with Ghostscript, for PDF work that also needs rendering, compression or PostScript conversion.",
       "repository": "https://github.com/randomcontainers/qpdf-ghostscript",
       "license": "Apache-2.0 AND AGPL-3.0-or-later AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
-      "version": "12.4.1",
+      "version": "12.4.2",
       "public": true,
       "updated": "2026-09-26T16:46:18Z",
       "variants": [
