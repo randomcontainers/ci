@@ -169,7 +169,7 @@ def test_combo_repository(distros, listed, packages, fake):
     assert labels["com.randomcontainers.variant"] == "combo"
     assert labels["com.randomcontainers.package"] == "imagemagick"
     assert labels["org.opencontainers.image.title"] == "ImageMagick + Ghostscript"
-    assert labels["org.opencontainers.image.url"] == "https://randomcontainers.com/imagemagick-ghostscript/"
+    assert labels["org.opencontainers.image.url"] == "https://github.com/randomcontainers/imagemagick-ghostscript"
     assert set(json.loads(labels["com.randomcontainers.members"])) == {"imagemagick", "ghostscript"}
     assert labels["org.opencontainers.image.licenses"] == "ImageMagick AND AGPL-3.0-or-later"
 

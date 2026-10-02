@@ -118,8 +118,7 @@ def test_repo_files(packages, distros):
     assert "tags ending in `ubuntu26.04` or `alpine3.24` stay on that release" in readme
     assert "Only the tags of the yt-dlp version currently in [yt-dlp's package.yml]" in readme
     assert "(https://github.com/orgs/randomcontainers/packages/container/package/yt-dlp-ffmpeg)" in readme
-    assert readme.count("randomcontainers.com/yt-dlp-ffmpeg") == 1
-    assert "The same images can also be pulled as `randomcontainers.com/yt-dlp-ffmpeg`." in readme
+    assert "```\n\nThe examples in the [yt-dlp README](https://github.com/randomcontainers/yt-dlp#readme) work" in readme
     assert "All tags" not in readme and "existing tags" not in readme
     assert yaml.safe_load(files[".hadolint.yaml"]) == {"ignored": ["DL3006", "DL3008", "DL3018"]}
     assert yaml.safe_load(files[".github/zizmor.yml"])["rules"]["unpinned-uses"]["config"]["policies"] == {
@@ -153,8 +152,11 @@ def test_quick_start_uses_the_owner_example(packages):
     quick = lambda command: render._quick_start(example(command), "yt-dlp-ffmpeg", "randomcontainers")
     combo = "ghcr.io/randomcontainers/yt-dlp-ffmpeg"
     assert quick("docker run --rm ghcr.io/randomcontainers/yt-dlp -F URL") == f"docker run --rm {combo} -F URL"
-    assert quick("docker run --rm randomcontainers.com/yt-dlp -F URL") == f"docker run --rm {combo} -F URL"
-    for command in ("docker run --rm randomcontainers.com/yt-dlp:slim -F URL", "echo randomcontainers.com/yt-dlp-x"):
+    for command in (
+        "docker run --rm ghcr.io/randomcontainers/yt-dlp:slim -F URL",
+        "echo ghcr.io/randomcontainers/yt-dlp-x",
+        "docker run --rm docker.io/randomcontainers/yt-dlp -F URL",
+    ):
         assert quick(command) == f"docker run --rm {combo}"
 
 

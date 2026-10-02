@@ -92,8 +92,8 @@ def test_jobs_of_a_run():
 def test_new_repository_and_topics():
     fake = FakeGitHub()
     gh = GitHub(fake, "token")
-    gh.create_repository("randomcontainers", "a-b", "A with B.", "https://randomcontainers.com/a-b/")
+    gh.create_repository("randomcontainers", "a-b", "A with B.")
     gh.set_topics("randomcontainers/a-b", ["randomcontainers", "Not A Topic", "a"])
     assert fake.created[0]["visibility"] == "public" and fake.created[0]["auto_init"] is True
     assert fake.topics["randomcontainers/a-b"] == ["randomcontainers", "a"]
-    assert gh.repository("randomcontainers/a-b")["homepage"] == "https://randomcontainers.com/a-b/"
+    assert "homepage" not in fake.created[0] and gh.repository("randomcontainers/a-b")["description"] == "A with B."

@@ -42,7 +42,7 @@ from pathlib import Path
 
 from rc import catalog, commits, locks, names, pkgedit, render, reposetup, status, upstream, yamlio
 from rc.config import Combo, Distro, Distros, Package, load_distros, load_package_list, parse_combo_file, parse_package
-from rc.constants import ORG, RESERVED_NAMES, SITE
+from rc.constants import ORG, RESERVED_NAMES
 from rc.errors import RcError, TransientError
 from rc.github import Commit, GitHub, Job, Run, blob_sha
 from rc.state import RegistryState
@@ -575,7 +575,7 @@ class Reconciler:
         if set(tree) != {"README.md"}:
             return False
         info = self.gh.repository(repo.repo) or {}
-        return info.get("homepage") == f"{SITE}/{combo.name}/" or TOPICS[0] in (info.get("topics") or [])
+        return info.get("description") == combo.summary or TOPICS[0] in (info.get("topics") or [])
 
     def _set_up(self, combo: Combo, repo: Repo, files: dict[str, bytes]) -> None:
         message = f"Add files generated from {combo.owner} package.yml"

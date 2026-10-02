@@ -288,8 +288,8 @@ class GitHub:
             ok=(200, 204),
         )
 
-    def create_repository(self, org: str, name: str, description: str, homepage: str) -> None:
-        """A public repository with a README on main."""
+    def create_repository(self, org: str, name: str, description: str) -> None:
+        """A public repository with a README on main and no homepage."""
         if not names.NAME.match(name) or not names.NAME.match(org):
             raise RcError(f"bad repository name {org}/{name}")
         self.call(
@@ -298,7 +298,6 @@ class GitHub:
             {
                 "name": name,
                 "description": description,
-                "homepage": homepage,
                 "visibility": "public",
                 "auto_init": True,
                 "has_issues": False,

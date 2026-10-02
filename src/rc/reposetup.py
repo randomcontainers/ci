@@ -11,7 +11,6 @@ import json
 from pathlib import Path
 
 from rc import names
-from rc.constants import SITE
 from rc.errors import RcError
 from rc.github import GitHub
 
@@ -22,7 +21,7 @@ MAX_DESCRIPTION = 160
 
 
 def create(name: str, description: str) -> dict:
-    return {"kind": "create", "name": name, "description": description, "homepage": f"{SITE}/{name}/"}
+    return {"kind": "create", "name": name, "description": description}
 
 
 def topics(name: str, values: list[str]) -> dict:
@@ -38,15 +37,13 @@ def check(request) -> dict:
     if problem:
         raise RcError(problem)
     if request["kind"] == "create":
-        if set(request) != {"kind", "name", "description", "homepage"}:
+        if set(request) != {"kind", "name", "description"}:
             raise RcError(f"{name}: unexpected keys in the create request")
         description = request["description"]
         if not isinstance(description, str) or not description or len(description) > MAX_DESCRIPTION:
             raise RcError(f"{name}: the description must be 1 to {MAX_DESCRIPTION} characters")
         if any(ord(c) < 32 for c in description):
             raise RcError(f"{name}: the description contains control characters")
-        if request["homepage"] != f"{SITE}/{name}/":
-            raise RcError(f"{name}: the homepage must be {SITE}/{name}/")
     else:
         if set(request) != {"kind", "name", "topics"}:
             raise RcError(f"{name}: unexpected keys in the topics request")
@@ -81,7 +78,7 @@ def apply(requests: list[dict], admin: GitHub, org: str) -> list[str]:
         name = request["name"]
         try:
             if request["kind"] == "create":
-                admin.create_repository(org, name, request["description"], request["homepage"])
+                admin.create_repository(org, name, request["description"])
             else:
                 admin.set_topics(f"{org}/{name}", request["topics"])
         except RcError as exc:

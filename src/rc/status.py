@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 
 from rc import catalog, names, tags, versions
 from rc.config import Combo, Distros, Package
-from rc.constants import ALIAS, ORG, PLATFORMS, REGISTRY
+from rc.constants import ORG, PLATFORMS, REGISTRY
 from rc.state import Published, RegistryState
 
 SCHEMA = 1
@@ -31,7 +31,7 @@ SECTIONS = (
 def empty(distros: Distros, org: str = ORG) -> dict:
     return {
         "schema": SCHEMA,
-        "registry": {"alias": ALIAS, "ghcr": f"{REGISTRY}/{org}"},
+        "registry": {"ghcr": f"{REGISTRY}/{org}"},
         "distros": [{"id": d.id, "version": d.version, "default": d.id == distros.default} for d in distros.items],
         "platforms": [p.platform for p in PLATFORMS],
         "images": [],

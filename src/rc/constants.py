@@ -7,8 +7,6 @@ from dataclasses import dataclass
 
 ORG = "randomcontainers"
 REGISTRY = "ghcr.io"
-SITE = "https://randomcontainers.com"
-ALIAS = "randomcontainers.com"
 VENDOR = "randomcontainers"
 
 METADATA_DIR = "/usr/local/share/randomcontainers"
@@ -20,7 +18,7 @@ CACHE_DIR = "/cache"
 
 RAW_PACKAGE_URL = "https://raw.githubusercontent.com/{org}/{name}/{ref}/package.yml"
 
-# Names reserved for project paths, which no package or combo can use.
+# Names the project keeps for itself. No package or combo can use them.
 RESERVED_NAMES = frozenset(
     {
         "ci",

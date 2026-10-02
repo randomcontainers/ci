@@ -12,7 +12,7 @@ These are unofficial builds, not affiliated with or endorsed by the upstream pro
 $quick_start
 ```
 
-The same images can also be pulled as `$alias/$name`. The examples in the [$owner README](https://github.com/$org/$owner#readme) work with this image too.
+The examples in the [$owner README](https://github.com/$org/$owner#readme) work with this image too.
 
 ## Tags
 

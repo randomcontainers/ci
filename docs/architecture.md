@@ -74,11 +74,11 @@ A commit to a package repository starts its build through the `push` trigger, so
 
 Every combo declared in any `package.yml` gets a repository named after it. The pass renders its files (`combo.yml`, both Dockerfiles, README, `LICENSE`, `.hadolint.yaml`, the caller workflow and `.github/zizmor.yml`), compares their git blob ids with the tree at the head of `main`, and commits the files that differ. The files contain no package versions, so a version bump changes nothing here. A combo repository's workflow has no `push` trigger, so the build of such a commit is dispatched by the next pass.
 
-A missing repository is created with a README, the combo summary as description and `https://randomcontainers.com/<name>/` as homepage. The next pass mints a token that covers the new repository, commits the generated files and asks for the repository's topics. Until that commit succeeds, a repository that has only the initial README and the homepage or topics set by the reconciler counts as newly created, so a failed first commit is retried on the following pass. The pass after the commit dispatches the first build. A managed combo repository that lacks one of its topics (`randomcontainers`, `container-image`, `docker` and the member names) gets them back; other topics are kept.
+A missing repository is created with a README, the combo summary as description and no homepage. The next pass mints a token that covers the new repository, commits the generated files and asks for the repository's topics. Until that commit succeeds, a repository that has only the initial README and the description or topics set by the reconciler counts as newly created, so a failed first commit is retried on the following pass. The pass after the commit dispatches the first build. A managed combo repository that lacks one of its topics (`randomcontainers`, `container-image`, `docker` and the member names) gets them back; other topics are kept.
 
 An existing repository is written only when its `combo.yml` names the same owner. The pass never deletes a repository. A combo repository that is no longer declared is listed in the tracking issue, and combos that `rc validate --catalog` rejects, such as two with the same members, are neither created nor built. `rc plan` makes the same checks, so a build started by hand refuses such a combo too; for a package's default combo it builds only the slim images, and the pass lists the default image as blocked.
 
-Creating a repository and setting topics need the App's Administration permission. The pass itself does not have it: it writes those changes to a file, and a later step of the same job mints a token with only Administration and runs `rc setup-repos` on the file. That step reads no upstream data, and it checks each request again (a valid, unreserved name, the homepage `https://randomcontainers.com/<name>/`, valid topics).
+Creating a repository and setting topics need the App's Administration permission. The pass itself does not have it: it writes those changes to a file, and a later step of the same job mints a token with only Administration and runs `rc setup-repos` on the file. That step reads no upstream data, and it checks each request again (a valid, unreserved name, a description of at most 160 characters, valid topics).
 
 ### 4. Published images
 
@@ -118,7 +118,7 @@ A run that failed, or finished while the images still differ, is listed in the t
 `status/catalog.json` is the machine-readable list of the published images and their tags. Its format (schema 1):
 
 ```
-schema, generated, registry {alias, ghcr}, distros [{id, version, default}], platforms
+schema, generated, registry {ghcr}, distros [{id, version, default}], platforms
 images[]:
   package: name, kind, title, summary, homepage, repository, license, version, versioning,
            examples [{title, command}], source_release,

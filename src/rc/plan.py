@@ -206,7 +206,6 @@ class Planner:
             "floating": ts.floating,
             "primary": tags.primary_tag("slim", package.version, distro),
             "labels": self._labels(
-                name=package.name,
                 title=package.title,
                 description=package.summary,
                 version=package.version,
@@ -291,7 +290,6 @@ class Planner:
             "floating": ts.floating,
             "primary": primary,
             "labels": self._labels(
-                name=name,
                 title=title,
                 description=combo.summary,
                 version=version,

@@ -45,7 +45,7 @@ def test_first_pass_creates_combos_and_builds_packages():
 
     assert sorted(c["name"] for c in world.github.created) == ["imagemagick-ghostscript", "streamlink-ffmpeg", "yt-dlp-ffmpeg"]
     created = next(c for c in world.github.created if c["name"] == "yt-dlp-ffmpeg")
-    assert created["auto_init"] is True and created["homepage"] == "https://randomcontainers.com/yt-dlp-ffmpeg/"
+    assert created["auto_init"] is True and "homepage" not in created
     assert sorted(world.github.files(f"{ORG}/yt-dlp-ffmpeg")) == ["README.md"]
 
     # Nothing is published yet: every package is built, no combo can be.
@@ -699,7 +699,7 @@ DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
 
 
 def check_catalog_schema(doc):
-    assert doc["schema"] == 1 and set(doc["registry"]) == {"alias", "ghcr"}
+    assert doc["schema"] == 1 and set(doc["registry"]) == {"ghcr"}
     assert all(set(d) == {"id", "version", "default"} for d in doc["distros"])
     for image in doc["images"]:
         assert NAME.match(image["name"]) and image["kind"] in ("package", "combo")

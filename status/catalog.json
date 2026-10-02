@@ -2,7 +2,6 @@
   "schema": 1,
   "generated": "2026-10-02T06:25:17Z",
   "registry": {
-    "alias": "randomcontainers.com",
     "ghcr": "ghcr.io/randomcontainers"
   },
   "distros": [

@@ -79,7 +79,7 @@ def test_package_list():
         (lambda d: d.update(test=[]), "must not be empty"),
         (lambda d: d.update(test=[{"grep -q": "x"}]), "read as a mapping"),
         (
-            lambda d: d["examples"].append({"title": "t", "command": 'docker run --rm -v "$PWD:/work" randomcontainers.com/yt-dlp -v URL'}),
+            lambda d: d["examples"].append({"title": "t", "command": 'docker run --rm -v "$PWD:/work" ghcr.io/randomcontainers/yt-dlp -v URL'}),
             "must also pass --user",
         ),
         (lambda d: d["combos"].append(copy.deepcopy(d["combos"][0])), "declared twice"),

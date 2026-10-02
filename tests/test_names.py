@@ -29,12 +29,12 @@ def test_spdx_and():
 @pytest.mark.parametrize(
     "command,bad",
     [
-        ('docker run --rm -v "$PWD:/work" randomcontainers.com/yt-dlp URL', True),
-        ('docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" randomcontainers.com/yt-dlp URL', False),
-        ('podman run --rm --userns=keep-id -v "$PWD:/work" randomcontainers.com/ffmpeg -version', False),
-        ('docker run --rm --mount type=bind,src=.,dst=/work randomcontainers.com/ffmpeg -i a b', True),
-        ("docker run --rm randomcontainers.com/ffmpeg -version", False),
-        ("docker run --rm randomcontainers.com/yt-dlp -v URL", False),
+        ('docker run --rm -v "$PWD:/work" ghcr.io/randomcontainers/yt-dlp URL', True),
+        ('docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" ghcr.io/randomcontainers/yt-dlp URL', False),
+        ('podman run --rm --userns=keep-id -v "$PWD:/work" ghcr.io/randomcontainers/ffmpeg -version', False),
+        ('docker run --rm --mount type=bind,src=.,dst=/work ghcr.io/randomcontainers/ffmpeg -i a b', True),
+        ("docker run --rm ghcr.io/randomcontainers/ffmpeg -version", False),
+        ("docker run --rm ghcr.io/randomcontainers/yt-dlp -v URL", False),
         ('docker run --rm -v"$PWD:/work" ghcr.io/randomcontainers/yt-dlp URL', True),
     ],
 )

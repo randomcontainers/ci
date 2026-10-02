@@ -14,7 +14,7 @@ from importlib import resources
 
 from rc import catalog, names
 from rc.config import Combo, Distro, Distros, Package
-from rc.constants import ALIAS, IMAGE_USER, METADATA_DIR, ORG, REGISTRY
+from rc.constants import IMAGE_USER, METADATA_DIR, ORG, REGISTRY
 from rc.errors import RcError
 
 _SIMPLE_ENV = re.compile(r"^[A-Za-z0-9_./:@%+,=-]+$")
@@ -257,7 +257,6 @@ def combo_repo_files(
         org=org,
         owner=combo.owner,
         owner_title=owner.title,
-        alias=ALIAS,
         registry=REGISTRY,
         tag_rows="\n".join(tag_rows),
         default_distro=_distro_label(distros.get(distros.default)),
@@ -276,8 +275,8 @@ def _agpl_terms(expression: str) -> list[str]:
 
 def _quick_start(owner: Package, name: str, org: str) -> str:
     """The owner's first example that runs its image, pointed at the combo image."""
-    names_ = rf"(?:{re.escape(ALIAS)}|{re.escape(REGISTRY)}/{re.escape(org)})/{re.escape(owner.name)}"
-    image = re.compile(rf"(?<![\w./-]){names_}(?![\w./:@-])")
+    owner_image = re.escape(f"{REGISTRY}/{org}/{owner.name}")
+    image = re.compile(rf"(?<![\w./-]){owner_image}(?![\w./:@-])")
     for example in owner.examples:
         if image.search(example.command):
             return image.sub(f"{REGISTRY}/{org}/{name}", example.command, count=1)

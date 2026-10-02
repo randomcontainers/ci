@@ -6,14 +6,13 @@ image or a combo member.
 
 import json
 
-from rc.constants import SITE, VENDOR
+from rc.constants import VENDOR
 
 LABEL_PREFIXES = ("org.opencontainers.image.", "com.randomcontainers.")
 
 
 def image_labels(
     *,
-    name: str,
     title: str,
     description: str,
     repository: str,
@@ -32,7 +31,7 @@ def image_labels(
     return {
         "org.opencontainers.image.title": title,
         "org.opencontainers.image.description": description,
-        "org.opencontainers.image.url": f"{SITE}/{name}/",
+        "org.opencontainers.image.url": f"https://github.com/{repository}",
         "org.opencontainers.image.source": f"https://github.com/{repository}",
         "org.opencontainers.image.documentation": f"https://github.com/{repository}#readme",
         "org.opencontainers.image.version": version,

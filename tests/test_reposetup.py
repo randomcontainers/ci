@@ -13,7 +13,7 @@ def test_requests_round_trip(tmp_path):
     path = tmp_path / "setup.json"
     reposetup.dump(requests, path)
     assert reposetup.load(path) == requests
-    assert requests[0]["homepage"] == "https://randomcontainers.com/a-b/"
+    assert requests[0] == {"kind": "create", "name": "a-b", "description": "A with B."}
 
 
 @pytest.mark.parametrize(
