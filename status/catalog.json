@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-04T12:51:09Z",
+  "generated": "2026-10-06T16:02:06Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1570,7 +1570,7 @@
       "homepage": "https://poppler.freedesktop.org/",
       "repository": "https://github.com/randomcontainers/poppler",
       "license": "(GPL-2.0-only OR GPL-3.0-only) AND MIT",
-      "version": "26.09.0",
+      "version": "26.10.0",
       "versioning": "loose",
       "examples": [
         {
@@ -1602,82 +1602,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-04T06:26:02Z",
+      "updated": "2026-10-06T16:02:06Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "26.09.0",
+          "version": "26.10.0",
           "tags": [
             "latest",
-            "26.09.0",
-            "26.09",
+            "26.10.0",
+            "26.10",
             "26",
             "ubuntu",
-            "26.09.0-ubuntu",
-            "26.09-ubuntu",
+            "26.10.0-ubuntu",
+            "26.10-ubuntu",
             "26-ubuntu",
-            "26.09.0-ubuntu26.04"
+            "26.10.0-ubuntu26.04"
           ],
-          "digest": "sha256:7c1789dedc94c363968f034760c028e00edd1233af3f4238e97d68dddbb96154",
+          "digest": "sha256:3d93ae9485473db4de0663716f939dd5e8faed2154cd42d0db8c152fdac3a909",
           "size": {
-            "linux/amd64": 65450559,
-            "linux/arm64": 64379461
+            "linux/amd64": 65454891,
+            "linux/arm64": 64384705
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "26.09.0",
+          "version": "26.10.0",
           "tags": [
             "alpine",
-            "26.09.0-alpine",
-            "26.09-alpine",
+            "26.10.0-alpine",
+            "26.10-alpine",
             "26-alpine",
-            "26.09.0-alpine3.24"
+            "26.10.0-alpine3.24"
           ],
-          "digest": "sha256:1c8db0ce27954875fe6ef25b4f7fb4d7c640179eed2dcdedce7b0026fb9a4e2d",
+          "digest": "sha256:e5022cb0a735599d65303221cbb550a88a9bc911f1b56f6a8f4596aaa4a89208",
           "size": {
-            "linux/amd64": 25656372,
-            "linux/arm64": 25576552
+            "linux/amd64": 25658190,
+            "linux/arm64": 25581818
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "26.09.0",
+          "version": "26.10.0",
           "tags": [
             "slim",
-            "26.09.0-slim",
-            "26.09-slim",
+            "26.10.0-slim",
+            "26.10-slim",
             "26-slim",
             "slim-ubuntu",
-            "26.09.0-slim-ubuntu",
-            "26.09-slim-ubuntu",
+            "26.10.0-slim-ubuntu",
+            "26.10-slim-ubuntu",
             "26-slim-ubuntu",
-            "26.09.0-slim-ubuntu26.04"
+            "26.10.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:7c1789dedc94c363968f034760c028e00edd1233af3f4238e97d68dddbb96154",
+          "digest": "sha256:3d93ae9485473db4de0663716f939dd5e8faed2154cd42d0db8c152fdac3a909",
           "size": {
-            "linux/amd64": 65450559,
-            "linux/arm64": 64379461
+            "linux/amd64": 65454891,
+            "linux/arm64": 64384705
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "26.09.0",
+          "version": "26.10.0",
           "tags": [
             "slim-alpine",
-            "26.09.0-slim-alpine",
-            "26.09-slim-alpine",
+            "26.10.0-slim-alpine",
+            "26.10-slim-alpine",
             "26-slim-alpine",
-            "26.09.0-slim-alpine3.24"
+            "26.10.0-slim-alpine3.24"
           ],
-          "digest": "sha256:1c8db0ce27954875fe6ef25b4f7fb4d7c640179eed2dcdedce7b0026fb9a4e2d",
+          "digest": "sha256:e5022cb0a735599d65303221cbb550a88a9bc911f1b56f6a8f4596aaa4a89208",
           "size": {
-            "linux/amd64": 25656372,
-            "linux/arm64": 25576552
+            "linux/amd64": 25658190,
+            "linux/arm64": 25581818
           }
         }
       ]
