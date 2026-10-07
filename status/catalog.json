@@ -2412,7 +2412,7 @@
       "homepage": "https://github.com/ggml-org/whisper.cpp",
       "repository": "https://github.com/randomcontainers/whisper-cpp",
       "license": "MIT AND (MIT-0 OR Unlicense)",
-      "version": "1.9.4",
+      "version": "1.9.5",
       "versioning": "semver",
       "examples": [
         {
@@ -3286,7 +3286,7 @@
       "summary": "whisper.cpp with FFmpeg, for transcribing video files and audio formats that whisper-cli cannot read, such as AAC and Opus.",
       "repository": "https://github.com/randomcontainers/whisper-cpp-ffmpeg",
       "license": "((MIT AND (MIT-0 OR Unlicense)) AND GPL-3.0-or-later)",
-      "version": "1.9.4",
+      "version": "1.9.5",
       "public": true,
       "updated": "2026-10-04T12:50:14Z",
       "variants": [
