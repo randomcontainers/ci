@@ -2448,7 +2448,7 @@
       ],
       "public": true,
       "default_ready": true,
-      "stale": false,
+      "stale": true,
       "updated": "2026-10-04T12:49:51Z",
       "variants": [
         {
