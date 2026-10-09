@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-09T01:02:57Z",
+  "generated": "2026-10-09T03:43:54Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -132,6 +132,725 @@
       ]
     },
     {
+      "name": "audiowaveform",
+      "kind": "package",
+      "title": "audiowaveform",
+      "summary": "Generates waveform data and PNG images from MP3, WAV, FLAC, Ogg Vorbis and Opus audio, in the binary and JSON formats that Peaks.js reads.",
+      "homepage": "https://codeberg.org/chrisn/audiowaveform",
+      "repository": "https://github.com/randomcontainers/audiowaveform",
+      "license": "GPL-3.0-or-later AND BSD-3-Clause AND Unlicense",
+      "version": "1.11.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Write waveform data for Peaks.js to input.dat",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/audiowaveform -i input.mp3 -o input.dat -z 256 -b 8"
+        },
+        {
+          "title": "Write the waveform as JSON, 20 points per second",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/audiowaveform -i input.wav -o input.json --pixels-per-second 20 -b 8"
+        },
+        {
+          "title": "Render a waveform image without axis labels",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/audiowaveform -i input.flac -o input.png -z auto -w 1800 -h 280 --no-axis-labels"
+        },
+        {
+          "title": "Read an M4A file through FFmpeg (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/audiowaveform -c 'ffmpeg -loglevel error -i input.m4a -f wav - | audiowaveform --input-format wav --output-format dat -z 256 -b 8 > input.dat'"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "audiowaveform-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "audiowaveform with FFmpeg, for waveforms of AAC, M4A and video files that audiowaveform cannot read.",
+        "license": "GPL-3.0-or-later AND BSD-3-Clause AND Unlicense AND MPL-2.0 AND Zlib"
+      },
+      "combos": [
+        "audiowaveform-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:09:40Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.11.1",
+          "tags": [
+            "latest",
+            "1.11.1",
+            "1.11",
+            "1",
+            "ubuntu",
+            "1.11.1-ubuntu",
+            "1.11-ubuntu",
+            "1-ubuntu",
+            "1.11.1-ubuntu26.04"
+          ],
+          "digest": "sha256:575c4d6f192e076ce5dd447027f8d38d236397a9dfd5b9e014ceca1e8f5dbff9",
+          "size": {
+            "linux/amd64": 95590652,
+            "linux/arm64": 93786570
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.11.1",
+          "tags": [
+            "alpine",
+            "1.11.1-alpine",
+            "1.11-alpine",
+            "1-alpine",
+            "1.11.1-alpine3.24"
+          ],
+          "digest": "sha256:7b9674507796b8d322b617455a2ce69b8739312a4b680abb5439de726da24ea6",
+          "size": {
+            "linux/amd64": 53572220,
+            "linux/arm64": 51649584
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.11.1",
+          "tags": [
+            "slim",
+            "1.11.1-slim",
+            "1.11-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.11.1-slim-ubuntu",
+            "1.11-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.11.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:deca9f760d42d2426ecd760838ac2f0380b1efd1da1c4d9ae9124c2863ee960f",
+          "size": {
+            "linux/amd64": 60414175,
+            "linux/arm64": 59347034
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.11.1",
+          "tags": [
+            "slim-alpine",
+            "1.11.1-slim-alpine",
+            "1.11-slim-alpine",
+            "1-slim-alpine",
+            "1.11.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:63fffc046ad8b32858f5e66feb3e227f8b5d79d52ad6151fe2239c9c97a64460",
+          "size": {
+            "linux/amd64": 16229288,
+            "linux/arm64": 16286266
+          }
+        }
+      ]
+    },
+    {
+      "name": "check-jsonschema",
+      "kind": "package",
+      "title": "check-jsonschema",
+      "summary": "Validates JSON, YAML and TOML files against a JSON Schema, with built-in schemas for GitHub Actions, GitLab CI, Renovate, Dependabot and more.",
+      "homepage": "https://github.com/python-jsonschema/check-jsonschema",
+      "repository": "https://github.com/randomcontainers/check-jsonschema",
+      "license": "Apache-2.0 AND MIT AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND Apache-2.0 WITH LLVM-exception AND AGPL-3.0-only AND GPL-3.0-only AND CC-BY-4.0 AND GPL-3.0-or-later WITH GCC-exception-3.1",
+      "version": "0.38.2",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Check the GitHub Actions workflows of a repository",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/check-jsonschema --builtin-schema vendor.github-workflows .github/workflows/*.yml"
+        },
+        {
+          "title": "Check the Dependabot configuration",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/check-jsonschema --builtin-schema vendor.dependabot .github/dependabot.yml"
+        },
+        {
+          "title": "Check a Renovate configuration",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/check-jsonschema --builtin-schema vendor.renovate renovate.json"
+        },
+        {
+          "title": "Check GitLab CI configuration that uses !reference tags",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/check-jsonschema --builtin-schema vendor.gitlab-ci --data-transform gitlab-ci .gitlab-ci.yml"
+        },
+        {
+          "title": "Validate YAML files against your own schema",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/check-jsonschema --schemafile schema.json data.yaml"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [
+        "check-jsonschema-yamllint"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:08:25Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "0.38.2",
+          "tags": [
+            "latest",
+            "0.38.2",
+            "0.38",
+            "0",
+            "ubuntu",
+            "0.38.2-ubuntu",
+            "0.38-ubuntu",
+            "0-ubuntu",
+            "0.38.2-ubuntu26.04"
+          ],
+          "digest": "sha256:2255e242a9205a5bae9aa99c5ce4824a61e4c9107cf4301ab1d9c4c88f40af75",
+          "size": {
+            "linux/amd64": 67596105,
+            "linux/arm64": 66952405
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "0.38.2",
+          "tags": [
+            "alpine",
+            "0.38.2-alpine",
+            "0.38-alpine",
+            "0-alpine",
+            "0.38.2-alpine3.24"
+          ],
+          "digest": "sha256:dc8d2c93a0e84d0a6d3e9bdbe80e516d9e242a7f714a2ab11a04c72ee73b5e64",
+          "size": {
+            "linux/amd64": 28129319,
+            "linux/arm64": 28258555
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "0.38.2",
+          "tags": [
+            "slim",
+            "0.38.2-slim",
+            "0.38-slim",
+            "0-slim",
+            "slim-ubuntu",
+            "0.38.2-slim-ubuntu",
+            "0.38-slim-ubuntu",
+            "0-slim-ubuntu",
+            "0.38.2-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:2255e242a9205a5bae9aa99c5ce4824a61e4c9107cf4301ab1d9c4c88f40af75",
+          "size": {
+            "linux/amd64": 67596105,
+            "linux/arm64": 66952405
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "0.38.2",
+          "tags": [
+            "slim-alpine",
+            "0.38.2-slim-alpine",
+            "0.38-slim-alpine",
+            "0-slim-alpine",
+            "0.38.2-slim-alpine3.24"
+          ],
+          "digest": "sha256:dc8d2c93a0e84d0a6d3e9bdbe80e516d9e242a7f714a2ab11a04c72ee73b5e64",
+          "size": {
+            "linux/amd64": 28129319,
+            "linux/arm64": 28258555
+          }
+        }
+      ]
+    },
+    {
+      "name": "clang-format",
+      "kind": "package",
+      "title": "clang-format",
+      "summary": "Formats C, C++, Objective-C, C#, Java, JavaScript, JSON and Protocol Buffers code to the style in .clang-format, for whole files or changed lines only.",
+      "homepage": "https://clang.llvm.org/docs/ClangFormat.html",
+      "repository": "https://github.com/randomcontainers/clang-format",
+      "license": "Apache-2.0 WITH LLVM-exception AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT AND MPL-2.0 AND PSF-2.0 AND Unicode-DFS-2015 AND Unicode-DFS-2016 AND GPL-3.0-or-later WITH GCC-exception-3.1",
+      "version": "23.1.3",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Format the C and C++ files of a git repository in place, using its .clang-format",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/clang-format -i $(git ls-files '*.c' '*.cpp' '*.h')"
+        },
+        {
+          "title": "Fail when a file is not formatted, as a CI check",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/clang-format --dry-run --Werror $(git ls-files '*.c' '*.cpp' '*.h')"
+        },
+        {
+          "title": "Show the formatting fixes for the lines changed since the branch left origin/main",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint git ghcr.io/randomcontainers/clang-format clang-format --diff \"$(git merge-base origin/main HEAD)\""
+        },
+        {
+          "title": "Format code from standard input",
+          "command": "docker run --rm -i ghcr.io/randomcontainers/clang-format --assume-filename=main.cpp < main.cpp"
+        },
+        {
+          "title": "Write a .clang-format with every option of the Google style",
+          "command": "docker run --rm ghcr.io/randomcontainers/clang-format --style=Google --dump-config > .clang-format"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:37:58Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "23.1.3",
+          "tags": [
+            "latest",
+            "23.1.3",
+            "23.1",
+            "23",
+            "ubuntu",
+            "23.1.3-ubuntu",
+            "23.1-ubuntu",
+            "23-ubuntu",
+            "23.1.3-ubuntu26.04"
+          ],
+          "digest": "sha256:4e4dd219da960cff9b2d4e612be22a09ab686393aceabf2526dfda19464adc35",
+          "size": {
+            "linux/amd64": 93064317,
+            "linux/arm64": 91936729
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "23.1.3",
+          "tags": [
+            "alpine",
+            "23.1.3-alpine",
+            "23.1-alpine",
+            "23-alpine",
+            "23.1.3-alpine3.24"
+          ],
+          "digest": "sha256:4b1a6572899e31358dec0cfb09c9365bed1bba98b951d66b4fd4329c81f27f4f",
+          "size": {
+            "linux/amd64": 33219417,
+            "linux/arm64": 33410516
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "23.1.3",
+          "tags": [
+            "slim",
+            "23.1.3-slim",
+            "23.1-slim",
+            "23-slim",
+            "slim-ubuntu",
+            "23.1.3-slim-ubuntu",
+            "23.1-slim-ubuntu",
+            "23-slim-ubuntu",
+            "23.1.3-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:4e4dd219da960cff9b2d4e612be22a09ab686393aceabf2526dfda19464adc35",
+          "size": {
+            "linux/amd64": 93064317,
+            "linux/arm64": 91936729
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "23.1.3",
+          "tags": [
+            "slim-alpine",
+            "23.1.3-slim-alpine",
+            "23.1-slim-alpine",
+            "23-slim-alpine",
+            "23.1.3-slim-alpine3.24"
+          ],
+          "digest": "sha256:4b1a6572899e31358dec0cfb09c9365bed1bba98b951d66b4fd4329c81f27f4f",
+          "size": {
+            "linux/amd64": 33219417,
+            "linux/arm64": 33410516
+          }
+        }
+      ]
+    },
+    {
+      "name": "codespell",
+      "kind": "package",
+      "title": "codespell",
+      "summary": "Finds common misspellings in source code, documentation and other text files, and fixes them in place with -w.",
+      "homepage": "https://github.com/codespell-project/codespell",
+      "repository": "https://github.com/randomcontainers/codespell",
+      "license": "GPL-2.0-only AND CC-BY-SA-3.0",
+      "version": "2.4.3",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Check the files in the current directory and below, except hidden ones",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/codespell ."
+        },
+        {
+          "title": "Fix the misspellings that have a single suggestion, in place",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/codespell -w ."
+        },
+        {
+          "title": "Skip vendored and minified files and accept the words inout and ser",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/codespell --skip './vendor,*.min.js' -L inout,ser ."
+        },
+        {
+          "title": "Check text from standard input",
+          "command": "printf 'recieve\\n' | docker run --rm -i ghcr.io/randomcontainers/codespell -"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:08:43Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2.4.3",
+          "tags": [
+            "latest",
+            "2.4.3",
+            "2.4",
+            "2",
+            "ubuntu",
+            "2.4.3-ubuntu",
+            "2.4-ubuntu",
+            "2-ubuntu",
+            "2.4.3-ubuntu26.04"
+          ],
+          "digest": "sha256:e3d9778a9e52cdf79b47f165273b61bcf581f8ebf981c36001032d4ddfedd392",
+          "size": {
+            "linux/amd64": 60435794,
+            "linux/arm64": 59766281
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2.4.3",
+          "tags": [
+            "alpine",
+            "2.4.3-alpine",
+            "2.4-alpine",
+            "2-alpine",
+            "2.4.3-alpine3.24"
+          ],
+          "digest": "sha256:48b001b962ebc2c8337d4c17ce5c474f116d1a3daf4646fe324dc50da1fc33a7",
+          "size": {
+            "linux/amd64": 20260582,
+            "linux/arm64": 20456746
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "2.4.3",
+          "tags": [
+            "slim",
+            "2.4.3-slim",
+            "2.4-slim",
+            "2-slim",
+            "slim-ubuntu",
+            "2.4.3-slim-ubuntu",
+            "2.4-slim-ubuntu",
+            "2-slim-ubuntu",
+            "2.4.3-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:e3d9778a9e52cdf79b47f165273b61bcf581f8ebf981c36001032d4ddfedd392",
+          "size": {
+            "linux/amd64": 60435794,
+            "linux/arm64": 59766281
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "2.4.3",
+          "tags": [
+            "slim-alpine",
+            "2.4.3-slim-alpine",
+            "2.4-slim-alpine",
+            "2-slim-alpine",
+            "2.4.3-slim-alpine3.24"
+          ],
+          "digest": "sha256:48b001b962ebc2c8337d4c17ce5c474f116d1a3daf4646fe324dc50da1fc33a7",
+          "size": {
+            "linux/amd64": 20260582,
+            "linux/arm64": 20456746
+          }
+        }
+      ]
+    },
+    {
+      "name": "cppcheck",
+      "kind": "package",
+      "title": "Cppcheck",
+      "summary": "Static analysis for C and C++ that finds undefined behavior, out-of-bounds access and leaks, with the Python addons and HTML reports.",
+      "homepage": "https://cppcheck.sourceforge.io/",
+      "repository": "https://github.com/randomcontainers/cppcheck",
+      "license": "GPL-3.0-or-later AND Zlib AND BSD-2-Clause AND 0BSD",
+      "version": "2.22.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Check the sources in src for bugs and style issues, failing on any finding",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/cppcheck --enable=warning,style --error-exitcode=1 src"
+        },
+        {
+          "title": "Check C code against MISRA C 2012 with the misra addon",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/cppcheck --addon=misra src"
+        },
+        {
+          "title": "Check a CMake project from its compile_commands.json on all CPU cores",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:$PWD\" -w \"$PWD\" ghcr.io/randomcontainers/cppcheck --project=build/compile_commands.json -j \"$(nproc)\""
+        },
+        {
+          "title": "Write the results as XML and turn them into an HTML report in html/",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/cppcheck -c 'cppcheck --enable=warning,style --xml src 2> report.xml && cppcheck-htmlreport --file=report.xml --report-dir=html --source-dir=.'"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:09:05Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2.22.0",
+          "tags": [
+            "latest",
+            "2.22.0",
+            "2.22",
+            "2",
+            "ubuntu",
+            "2.22.0-ubuntu",
+            "2.22-ubuntu",
+            "2-ubuntu",
+            "2.22.0-ubuntu26.04"
+          ],
+          "digest": "sha256:e9eb4a1363ecd1eee1ecdcebbb26eed7d4c5c576ccdbf8ac0423e72245ac4486",
+          "size": {
+            "linux/amd64": 66382461,
+            "linux/arm64": 65411380
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2.22.0",
+          "tags": [
+            "alpine",
+            "2.22.0-alpine",
+            "2.22-alpine",
+            "2-alpine",
+            "2.22.0-alpine3.24"
+          ],
+          "digest": "sha256:7fb6c6d537925ba0833227effe19ffe50984963b370c01081c00a14b9a4257b7",
+          "size": {
+            "linux/amd64": 26226287,
+            "linux/arm64": 26133530
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "2.22.0",
+          "tags": [
+            "slim",
+            "2.22.0-slim",
+            "2.22-slim",
+            "2-slim",
+            "slim-ubuntu",
+            "2.22.0-slim-ubuntu",
+            "2.22-slim-ubuntu",
+            "2-slim-ubuntu",
+            "2.22.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:e9eb4a1363ecd1eee1ecdcebbb26eed7d4c5c576ccdbf8ac0423e72245ac4486",
+          "size": {
+            "linux/amd64": 66382461,
+            "linux/arm64": 65411380
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "2.22.0",
+          "tags": [
+            "slim-alpine",
+            "2.22.0-slim-alpine",
+            "2.22-slim-alpine",
+            "2-slim-alpine",
+            "2.22.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:7fb6c6d537925ba0833227effe19ffe50984963b370c01081c00a14b9a4257b7",
+          "size": {
+            "linux/amd64": 26226287,
+            "linux/arm64": 26133530
+          }
+        }
+      ]
+    },
+    {
+      "name": "dig",
+      "kind": "package",
+      "title": "dig (BIND 9 client tools)",
+      "summary": "Queries DNS servers with dig, host, nslookup and delv, and sends dynamic updates with nsupdate. Built from the signed ISC BIND 9 release.",
+      "homepage": "https://www.isc.org/bind/",
+      "repository": "https://github.com/randomcontainers/dig",
+      "license": "MPL-2.0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND MIT AND CC0-1.0",
+      "version": "9.20.29",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Print only the addresses of a name",
+          "command": "docker run --rm ghcr.io/randomcontainers/dig +short example.org"
+        },
+        {
+          "title": "Ask a public resolver over DNS over HTTPS and check its certificate",
+          "command": "docker run --rm ghcr.io/randomcontainers/dig @dns.quad9.net +https +tls-ca example.org"
+        },
+        {
+          "title": "Show the DNSSEC keys of a zone",
+          "command": "docker run --rm ghcr.io/randomcontainers/dig +dnssec +multi isc.org DNSKEY"
+        },
+        {
+          "title": "Check the DNSSEC chain of trust of an answer with delv",
+          "command": "docker run --rm --entrypoint delv ghcr.io/randomcontainers/dig isc.org"
+        },
+        {
+          "title": "Send a dynamic update signed with a TSIG key",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work:ro\" --entrypoint nsupdate ghcr.io/randomcontainers/dig -k tsig.key update.txt"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:10:31Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "9.20.29",
+          "tags": [
+            "latest",
+            "9.20.29",
+            "9.20",
+            "9",
+            "ubuntu",
+            "9.20.29-ubuntu",
+            "9.20-ubuntu",
+            "9-ubuntu",
+            "9.20.29-ubuntu26.04"
+          ],
+          "digest": "sha256:6a1427752f87db7e559d71c0e1acabf2f1e1331ad3eb0fce63ed95fedb425a6b",
+          "size": {
+            "linux/amd64": 49791273,
+            "linux/arm64": 49065109
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "9.20.29",
+          "tags": [
+            "alpine",
+            "9.20.29-alpine",
+            "9.20-alpine",
+            "9-alpine",
+            "9.20.29-alpine3.24"
+          ],
+          "digest": "sha256:db3ecf99b3a90871e9cc5282d981c5a5a1615d4bcc8fbc2fd078dcbad2de8044",
+          "size": {
+            "linux/amd64": 8109433,
+            "linux/arm64": 8440051
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "9.20.29",
+          "tags": [
+            "slim",
+            "9.20.29-slim",
+            "9.20-slim",
+            "9-slim",
+            "slim-ubuntu",
+            "9.20.29-slim-ubuntu",
+            "9.20-slim-ubuntu",
+            "9-slim-ubuntu",
+            "9.20.29-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:6a1427752f87db7e559d71c0e1acabf2f1e1331ad3eb0fce63ed95fedb425a6b",
+          "size": {
+            "linux/amd64": 49791273,
+            "linux/arm64": 49065109
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "9.20.29",
+          "tags": [
+            "slim-alpine",
+            "9.20.29-slim-alpine",
+            "9.20-slim-alpine",
+            "9-slim-alpine",
+            "9.20.29-slim-alpine3.24"
+          ],
+          "digest": "sha256:db3ecf99b3a90871e9cc5282d981c5a5a1615d4bcc8fbc2fd078dcbad2de8044",
+          "size": {
+            "linux/amd64": 8109433,
+            "linux/arm64": 8440051
+          }
+        }
+      ]
+    },
+    {
       "name": "doxygen",
       "kind": "package",
       "title": "Doxygen",
@@ -253,6 +972,122 @@
       ]
     },
     {
+      "name": "duckdb",
+      "kind": "package",
+      "title": "DuckDB",
+      "summary": "Analytical SQL database in a single binary, with a shell that queries CSV, Parquet and JSON files in place.",
+      "homepage": "https://duckdb.org/",
+      "repository": "https://github.com/randomcontainers/duckdb",
+      "license": "MIT AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND BSL-1.0 AND Zlib AND PostgreSQL AND Unicode-DFS-2016 AND ICU AND Unicode-DFS-2015",
+      "version": "1.5.6",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Query a CSV file in the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/duckdb -c \"SELECT * FROM 'sales.csv' LIMIT 10\""
+        },
+        {
+          "title": "Convert a CSV file to Parquet",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/duckdb -c \"COPY (FROM 'sales.csv') TO 'sales.parquet' (FORMAT parquet)\""
+        },
+        {
+          "title": "Open the interactive shell on a database file",
+          "command": "docker run --rm -it --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/duckdb analytics.duckdb"
+        },
+        {
+          "title": "Run a SQL script against a database file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/duckdb -f report.sql analytics.duckdb"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:12:09Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.5.6",
+          "tags": [
+            "latest",
+            "1.5.6",
+            "1.5",
+            "1",
+            "ubuntu",
+            "1.5.6-ubuntu",
+            "1.5-ubuntu",
+            "1-ubuntu",
+            "1.5.6-ubuntu26.04"
+          ],
+          "digest": "sha256:a625cecc800f121d610978ad4809493ba86acc48735f4ca79a195ba0775dad08",
+          "size": {
+            "linux/amd64": 67856194,
+            "linux/arm64": 65368767
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.5.6",
+          "tags": [
+            "alpine",
+            "1.5.6-alpine",
+            "1.5-alpine",
+            "1-alpine",
+            "1.5.6-alpine3.24"
+          ],
+          "digest": "sha256:022692718ec0e543ba12650fb3b4c4264802f74caf979ae55e7b5042847c4e8f",
+          "size": {
+            "linux/amd64": 28340600,
+            "linux/arm64": 26942960
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.5.6",
+          "tags": [
+            "slim",
+            "1.5.6-slim",
+            "1.5-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.5.6-slim-ubuntu",
+            "1.5-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.5.6-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:a625cecc800f121d610978ad4809493ba86acc48735f4ca79a195ba0775dad08",
+          "size": {
+            "linux/amd64": 67856194,
+            "linux/arm64": 65368767
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.5.6",
+          "tags": [
+            "slim-alpine",
+            "1.5.6-slim-alpine",
+            "1.5-slim-alpine",
+            "1-slim-alpine",
+            "1.5.6-slim-alpine3.24"
+          ],
+          "digest": "sha256:022692718ec0e543ba12650fb3b4c4264802f74caf979ae55e7b5042847c4e8f",
+          "size": {
+            "linux/amd64": 28340600,
+            "linux/arm64": 26942960
+          }
+        }
+      ]
+    },
+    {
       "name": "exiftool",
       "kind": "package",
       "title": "ExifTool",
@@ -297,7 +1132,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-04T12:49:02Z",
+      "updated": "2026-10-09T03:15:01Z",
       "variants": [
         {
           "flavour": "default",
@@ -312,10 +1147,10 @@
             "13-ubuntu",
             "13.59-ubuntu26.04"
           ],
-          "digest": "sha256:707cfd2156fe5b9dc9a8c064577ef2734e7290807069f8c340d952350e5b0d53",
+          "digest": "sha256:4ac5c0175f24e74561f1c2c123638590a1707e9209bda53bbba50051f7213667",
           "size": {
-            "linux/amd64": 81340574,
-            "linux/arm64": 79072493
+            "linux/amd64": 82634217,
+            "linux/arm64": 80352428
           }
         },
         {
@@ -328,10 +1163,10 @@
             "13-alpine",
             "13.59-alpine3.24"
           ],
-          "digest": "sha256:ef8ce391e863fd6a62423fc9d2ee83c24cc7375d19b8c03280dc34657da7fae7",
+          "digest": "sha256:fed0aeeed369ceb3755b7c79c88c2137413d86b9129eeaba45de416d875b724c",
           "size": {
-            "linux/amd64": 41847516,
-            "linux/arm64": 41537362
+            "linux/amd64": 41847427,
+            "linux/arm64": 41537167
           }
         },
         {
@@ -347,10 +1182,10 @@
             "13-slim-ubuntu",
             "13.59-slim-ubuntu26.04"
           ],
-          "digest": "sha256:823ca3b20aaa8b6a60e520b5525cc3432649e122f769b037c0cb23b925b3b547",
+          "digest": "sha256:b10e98b09f786c8c9bcc98e922c3802632cff62d06826a94d5639aa1e9847b34",
           "size": {
-            "linux/amd64": 63777085,
-            "linux/arm64": 63084038
+            "linux/amd64": 63777235,
+            "linux/arm64": 63083906
           }
         },
         {
@@ -363,10 +1198,10 @@
             "13-slim-alpine",
             "13.59-slim-alpine3.24"
           ],
-          "digest": "sha256:ebff50dcfd5122f90946d62a8f679ef52b63578780f00e788a4d12d90d051ce2",
+          "digest": "sha256:a11518825a24d7846ba0079c00e5ffd68f936db1c2464159ff693b85633f314d",
           "size": {
-            "linux/amd64": 20190471,
-            "linux/arm64": 20466733
+            "linux/amd64": 20190380,
+            "linux/arm64": 20466762
           }
         }
       ]
@@ -378,7 +1213,7 @@
       "summary": "Converts, filters and streams audio and video. Built from the signed FFmpeg release, with x264, x265, VP9, AV1, Opus, MP3 and subtitle rendering.",
       "homepage": "https://ffmpeg.org/",
       "repository": "https://github.com/randomcontainers/ffmpeg",
-      "license": "GPL-3.0-or-later",
+      "license": "GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
       "version": "9.0.2",
       "versioning": "semver",
       "examples": [
@@ -403,7 +1238,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-04T06:25:14Z",
+      "updated": "2026-10-09T03:36:10Z",
       "variants": [
         {
           "flavour": "default",
@@ -420,10 +1255,10 @@
             "9-ubuntu",
             "9.0.2-ubuntu26.04"
           ],
-          "digest": "sha256:879fddcd3b0f632ee5396a99353666747060a80d3d5931d8f1e8f1ad681a49f4",
+          "digest": "sha256:a548e87c65274810bc19aaa5a73d896fee4c62ab24598d45b9872fdd6bc8828b",
           "size": {
-            "linux/amd64": 90605559,
-            "linux/arm64": 88955749
+            "linux/amd64": 90667262,
+            "linux/arm64": 89006272
           }
         },
         {
@@ -437,10 +1272,10 @@
             "9-alpine",
             "9.0.2-alpine3.24"
           ],
-          "digest": "sha256:90a5fe5fe8e6857a8a707423d4c111f3e3528cc76d42fff47d5ec40db1ebe73a",
+          "digest": "sha256:9ac2d728661ffcafdb7d8f90ca7b7e4733a52e71f8b68d16136dcf35d1ef7a81",
           "size": {
-            "linux/amd64": 49840792,
-            "linux/arm64": 48090103
+            "linux/amd64": 49870671,
+            "linux/arm64": 48118716
           }
         },
         {
@@ -458,10 +1293,10 @@
             "9-slim-ubuntu",
             "9.0.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:879fddcd3b0f632ee5396a99353666747060a80d3d5931d8f1e8f1ad681a49f4",
+          "digest": "sha256:a548e87c65274810bc19aaa5a73d896fee4c62ab24598d45b9872fdd6bc8828b",
           "size": {
-            "linux/amd64": 90605559,
-            "linux/arm64": 88955749
+            "linux/amd64": 90667262,
+            "linux/arm64": 89006272
           }
         },
         {
@@ -475,10 +1310,10 @@
             "9-slim-alpine",
             "9.0.2-slim-alpine3.24"
           ],
-          "digest": "sha256:90a5fe5fe8e6857a8a707423d4c111f3e3528cc76d42fff47d5ec40db1ebe73a",
+          "digest": "sha256:9ac2d728661ffcafdb7d8f90ca7b7e4733a52e71f8b68d16136dcf35d1ef7a81",
           "size": {
-            "linux/amd64": 49840792,
-            "linux/arm64": 48090103
+            "linux/amd64": 49870671,
+            "linux/arm64": 48118716
           }
         }
       ]
@@ -635,7 +1470,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-04T06:29:57Z",
+      "updated": "2026-10-09T03:12:07Z",
       "variants": [
         {
           "flavour": "default",
@@ -652,10 +1487,10 @@
             "16-ubuntu",
             "16.1.0-ubuntu26.04"
           ],
-          "digest": "sha256:e0d5d27d531f7033ff11d5b398f6d50c8c750769a2d1bc246f32c28e745b484f",
+          "digest": "sha256:4553ec85124c43d8edb06d28186b6df248dbb5f28a56dbc654e673ae10bfbf52",
           "size": {
-            "linux/amd64": 77515617,
-            "linux/arm64": 75239850
+            "linux/amd64": 77487541,
+            "linux/arm64": 75191001
           }
         },
         {
@@ -669,10 +1504,10 @@
             "16-alpine",
             "16.1.0-alpine3.24"
           ],
-          "digest": "sha256:e7c4ee0a19f10c715842853568cde548865ac6e9a69ae5a35dbc176a27da9ea6",
+          "digest": "sha256:5977b1bb2ba301549d88dbcbf140c47df93262524d267c83591cd098bf4a2fa7",
           "size": {
-            "linux/amd64": 34804496,
-            "linux/arm64": 34590577
+            "linux/amd64": 34806916,
+            "linux/arm64": 34600685
           }
         },
         {
@@ -690,10 +1525,10 @@
             "16-slim-ubuntu",
             "16.1.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:e0d5d27d531f7033ff11d5b398f6d50c8c750769a2d1bc246f32c28e745b484f",
+          "digest": "sha256:4553ec85124c43d8edb06d28186b6df248dbb5f28a56dbc654e673ae10bfbf52",
           "size": {
-            "linux/amd64": 77515617,
-            "linux/arm64": 75239850
+            "linux/amd64": 77487541,
+            "linux/arm64": 75191001
           }
         },
         {
@@ -707,10 +1542,10 @@
             "16-slim-alpine",
             "16.1.0-slim-alpine3.24"
           ],
-          "digest": "sha256:e7c4ee0a19f10c715842853568cde548865ac6e9a69ae5a35dbc176a27da9ea6",
+          "digest": "sha256:5977b1bb2ba301549d88dbcbf140c47df93262524d267c83591cd098bf4a2fa7",
           "size": {
-            "linux/amd64": 34804496,
-            "linux/arm64": 34590577
+            "linux/amd64": 34806916,
+            "linux/arm64": 34600685
           }
         }
       ]
@@ -1086,6 +1921,612 @@
       ]
     },
     {
+      "name": "jsonnet",
+      "kind": "package",
+      "title": "Jsonnet (Go implementation)",
+      "summary": "Evaluates, formats and lints Jsonnet with jsonnet, jsonnetfmt, jsonnet-lint and jsonnet-deps from go-jsonnet, the Go implementation.",
+      "homepage": "https://jsonnet.org/",
+      "repository": "https://github.com/randomcontainers/jsonnet",
+      "license": "Apache-2.0 AND MIT AND BSD-3-Clause",
+      "version": "0.22.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Evaluate main.jsonnet with the libraries in vendor/ and print the JSON",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/jsonnet -J vendor main.jsonnet"
+        },
+        {
+          "title": "Write each field of the result to its own file in out/",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/jsonnet -J vendor -c -m out main.jsonnet"
+        },
+        {
+          "title": "Reformat Jsonnet files in place",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint jsonnetfmt ghcr.io/randomcontainers/jsonnet -i main.jsonnet lib.libsonnet"
+        },
+        {
+          "title": "Lint a Jsonnet file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint jsonnet-lint ghcr.io/randomcontainers/jsonnet -J vendor main.jsonnet"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:11:06Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "0.22.0",
+          "tags": [
+            "latest",
+            "0.22.0",
+            "0.22",
+            "0",
+            "ubuntu",
+            "0.22.0-ubuntu",
+            "0.22-ubuntu",
+            "0-ubuntu",
+            "0.22.0-ubuntu26.04"
+          ],
+          "digest": "sha256:16a52192b539b87ce0070cc69750651ab2836b6fbba886cd405422f29564a74b",
+          "size": {
+            "linux/amd64": 52942536,
+            "linux/arm64": 51657460
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "0.22.0",
+          "tags": [
+            "alpine",
+            "0.22.0-alpine",
+            "0.22-alpine",
+            "0-alpine",
+            "0.22.0-alpine3.24"
+          ],
+          "digest": "sha256:61af4deaf20154b08974e942007d5960e54d087d01270797b8aed02ac597b174",
+          "size": {
+            "linux/amd64": 11140787,
+            "linux/arm64": 10832187
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "0.22.0",
+          "tags": [
+            "slim",
+            "0.22.0-slim",
+            "0.22-slim",
+            "0-slim",
+            "slim-ubuntu",
+            "0.22.0-slim-ubuntu",
+            "0.22-slim-ubuntu",
+            "0-slim-ubuntu",
+            "0.22.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:16a52192b539b87ce0070cc69750651ab2836b6fbba886cd405422f29564a74b",
+          "size": {
+            "linux/amd64": 52942536,
+            "linux/arm64": 51657460
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "0.22.0",
+          "tags": [
+            "slim-alpine",
+            "0.22.0-slim-alpine",
+            "0.22-slim-alpine",
+            "0-slim-alpine",
+            "0.22.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:61af4deaf20154b08974e942007d5960e54d087d01270797b8aed02ac597b174",
+          "size": {
+            "linux/amd64": 11140787,
+            "linux/arm64": 10832187
+          }
+        }
+      ]
+    },
+    {
+      "name": "libheif",
+      "kind": "package",
+      "title": "libheif",
+      "summary": "Converts HEIC and AVIF images to JPEG, PNG, TIFF and WebP with heif-dec, and encodes images as HEIC or AVIF with heif-enc.",
+      "homepage": "https://github.com/strukturag/libheif",
+      "repository": "https://github.com/randomcontainers/libheif",
+      "license": "LGPL-3.0-or-later AND MIT AND GPL-2.0-or-later",
+      "version": "1.23.6",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Convert a HEIC photo to JPEG",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libheif photo.heic photo.jpg"
+        },
+        {
+          "title": "Convert every HEIC file in the current directory to JPEG",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/libheif -c 'for f in *.[hH][eE][iI][cC]; do heif-dec --quiet \"$f\" \"${f%.*}.jpg\"; done'"
+        },
+        {
+          "title": "Encode a PNG as AVIF",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint heif-enc ghcr.io/randomcontainers/libheif -q 60 input.png -o output.avif"
+        },
+        {
+          "title": "Convert a HEIC photo to JPEG without its GPS position (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/libheif -c 'heif-dec --quiet photo.heic photo.jpg && exiftool -overwrite_original \"-gps*=\" photo.jpg'"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "libheif-exiftool",
+        "with": [
+          "exiftool"
+        ],
+        "base": "libheif",
+        "summary": "libheif tools with ExifTool, for converting HEIC photos and editing or removing their metadata.",
+        "license": "(LGPL-3.0-or-later AND MIT AND GPL-2.0-or-later AND ((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0))"
+      },
+      "combos": [
+        "libheif-exiftool"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:18:50Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.23.6",
+          "tags": [
+            "latest",
+            "1.23.6",
+            "1.23",
+            "1",
+            "ubuntu",
+            "1.23.6-ubuntu",
+            "1.23-ubuntu",
+            "1-ubuntu",
+            "1.23.6-ubuntu26.04"
+          ],
+          "digest": "sha256:f2faf9a3343a18a0cc4b15e67c31fcf36adf50723a533800d37256da0baecd15",
+          "size": {
+            "linux/amd64": 72440810,
+            "linux/arm64": 72539426
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.23.6",
+          "tags": [
+            "alpine",
+            "1.23.6-alpine",
+            "1.23-alpine",
+            "1-alpine",
+            "1.23.6-alpine3.24"
+          ],
+          "digest": "sha256:4ecbc4a9cb6e2cba5583ae38756d3bb8475b16551477b84ad8695a1c6677ad1c",
+          "size": {
+            "linux/amd64": 32381876,
+            "linux/arm64": 31856943
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.23.6",
+          "tags": [
+            "slim",
+            "1.23.6-slim",
+            "1.23-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.23.6-slim-ubuntu",
+            "1.23-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.23.6-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:4def601c0e73d28ba03e1107352c4d6d3ada9ef9ac908af4dc0f417699750690",
+          "size": {
+            "linux/amd64": 54503946,
+            "linux/arm64": 54657840
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.23.6",
+          "tags": [
+            "slim-alpine",
+            "1.23.6-slim-alpine",
+            "1.23-slim-alpine",
+            "1-slim-alpine",
+            "1.23.6-slim-alpine3.24"
+          ],
+          "digest": "sha256:1e9b09710896574d511b8128af3bb2551333bd503b85d3a0848b8b721561b988",
+          "size": {
+            "linux/amd64": 16281924,
+            "linux/arm64": 15822020
+          }
+        }
+      ]
+    },
+    {
+      "name": "libjpeg-turbo",
+      "kind": "package",
+      "title": "libjpeg-turbo",
+      "summary": "jpegtran rotates, crops and optimizes JPEG files without recompressing them, and cjpeg and djpeg convert JPEG to and from PNG, BMP, GIF, PPM and Targa.",
+      "homepage": "https://libjpeg-turbo.org/",
+      "repository": "https://github.com/randomcontainers/libjpeg-turbo",
+      "license": "IJG AND BSD-3-Clause AND Zlib AND BSD-2-Clause AND libpng-2.0",
+      "version": "3.2.0",
+      "versioning": "loose",
+      "examples": [
+        {
+          "title": "Rotate a photo by 90 degrees without recompressing it",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libjpeg-turbo -rotate 90 -copy all -outfile rotated.jpg photo.jpg"
+        },
+        {
+          "title": "Remove all metadata and make a smaller progressive JPEG with the same pixels",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libjpeg-turbo -copy none -optimize -progressive -outfile small.jpg photo.jpg"
+        },
+        {
+          "title": "Crop a photo to 1200x800 pixels from its top left corner without recompressing it",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libjpeg-turbo -crop 1200x800+0+0 -copy all -outfile cropped.jpg photo.jpg"
+        },
+        {
+          "title": "Convert a PNG to a JPEG at quality 85",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint cjpeg ghcr.io/randomcontainers/libjpeg-turbo -quality 85 -outfile photo.jpg photo.png"
+        },
+        {
+          "title": "Turn a photo upright and reset its Exif orientation (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/libjpeg-turbo -c 'jpegtran -rotate 90 -copy all -outfile upright.jpg photo.jpg && exiftool -overwrite_original -n -Orientation=1 upright.jpg'"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "libjpeg-turbo-exiftool",
+        "with": [
+          "exiftool"
+        ],
+        "base": "libjpeg-turbo",
+        "summary": "libjpeg-turbo's jpegtran, cjpeg and djpeg with ExifTool, for turning photos upright losslessly and then resetting their Exif orientation.",
+        "license": "(IJG AND BSD-3-Clause AND Zlib AND BSD-2-Clause AND libpng-2.0 AND ((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0))"
+      },
+      "combos": [
+        "libjpeg-turbo-exiftool"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:43:53Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.2.0",
+          "tags": [
+            "latest",
+            "3.2.0",
+            "3.2",
+            "3",
+            "ubuntu",
+            "3.2.0-ubuntu",
+            "3.2-ubuntu",
+            "3-ubuntu",
+            "3.2.0-ubuntu26.04"
+          ],
+          "digest": "sha256:d08fc5b9f0d5bfb7dfdc89c2f6e82a391810fb6589250a9c99c0c695ccfa74f4",
+          "size": {
+            "linux/amd64": 64850832,
+            "linux/arm64": 64272662
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.2.0",
+          "tags": [
+            "alpine",
+            "3.2.0-alpine",
+            "3.2-alpine",
+            "3-alpine",
+            "3.2.0-alpine3.24"
+          ],
+          "digest": "sha256:bb502ab0e9993ec1c390d232f3d6c3693124180790632223b82d90f35a58065e",
+          "size": {
+            "linux/amd64": 21234378,
+            "linux/arm64": 21603233
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "3.2.0",
+          "tags": [
+            "slim",
+            "3.2.0-slim",
+            "3.2-slim",
+            "3-slim",
+            "slim-ubuntu",
+            "3.2.0-slim-ubuntu",
+            "3.2-slim-ubuntu",
+            "3-slim-ubuntu",
+            "3.2.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:3ede669431518eb989657c3eadbb3d09076e648b0a29e5bad2a308088d320605",
+          "size": {
+            "linux/amd64": 46920309,
+            "linux/arm64": 46397513
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "3.2.0",
+          "tags": [
+            "slim-alpine",
+            "3.2.0-slim-alpine",
+            "3.2-slim-alpine",
+            "3-slim-alpine",
+            "3.2.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:7bd797e8cb5db39f9269616d2cb37d25b9a30392fe503c1a0b07470ded1a4348",
+          "size": {
+            "linux/amd64": 5134184,
+            "linux/arm64": 5573529
+          }
+        }
+      ]
+    },
+    {
+      "name": "libvips",
+      "kind": "package",
+      "title": "libvips",
+      "summary": "Converts, resizes and processes images with the vips and vipsthumbnail tools, including HEIC, AVIF, JPEG XL, JPEG 2000, SVG and OpenEXR files.",
+      "homepage": "https://www.libvips.org/",
+      "repository": "https://github.com/randomcontainers/libvips",
+      "license": "LGPL-2.1-or-later AND MIT AND BSD-3-Clause-LBNL AND LicenseRef-Radiance-1.0 AND CC0-1.0 AND LicenseRef-Public-Domain AND LGPL-3.0-or-later AND GPL-2.0-or-later AND GPL-3.0-or-later",
+      "version": "8.18.7",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Make an 800-pixel thumbnail of a photo",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint vipsthumbnail ghcr.io/randomcontainers/libvips photo.jpg -s 800 --path photo-800.jpg"
+        },
+        {
+          "title": "Convert a HEIC photo to AVIF",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libvips copy photo.heic photo.avif"
+        },
+        {
+          "title": "Make a Deep Zoom tile pyramid of a large scan",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libvips dzsave scan.tif scan"
+        },
+        {
+          "title": "Print the size and format of an image",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint vipsheader ghcr.io/randomcontainers/libvips photo.jpg"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:38:06Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "8.18.7",
+          "tags": [
+            "latest",
+            "8.18.7",
+            "8.18",
+            "8",
+            "ubuntu",
+            "8.18.7-ubuntu",
+            "8.18-ubuntu",
+            "8-ubuntu",
+            "8.18.7-ubuntu26.04"
+          ],
+          "digest": "sha256:4f3e3e18c54c4f8285980ed53264cd5e0d2fc47e7a9f51daae5aaede6f14791e",
+          "size": {
+            "linux/amd64": 91579351,
+            "linux/arm64": 89707750
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "8.18.7",
+          "tags": [
+            "alpine",
+            "8.18.7-alpine",
+            "8.18-alpine",
+            "8-alpine",
+            "8.18.7-alpine3.24"
+          ],
+          "digest": "sha256:cea20cd3459347c6f2a8ca8171cd182f038441b4b4ed783ff668e02cfdc5cc0f",
+          "size": {
+            "linux/amd64": 46191866,
+            "linux/arm64": 44570869
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "8.18.7",
+          "tags": [
+            "slim",
+            "8.18.7-slim",
+            "8.18-slim",
+            "8-slim",
+            "slim-ubuntu",
+            "8.18.7-slim-ubuntu",
+            "8.18-slim-ubuntu",
+            "8-slim-ubuntu",
+            "8.18.7-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:4f3e3e18c54c4f8285980ed53264cd5e0d2fc47e7a9f51daae5aaede6f14791e",
+          "size": {
+            "linux/amd64": 91579351,
+            "linux/arm64": 89707750
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "8.18.7",
+          "tags": [
+            "slim-alpine",
+            "8.18.7-slim-alpine",
+            "8.18-slim-alpine",
+            "8-slim-alpine",
+            "8.18.7-slim-alpine3.24"
+          ],
+          "digest": "sha256:cea20cd3459347c6f2a8ca8171cd182f038441b4b4ed783ff668e02cfdc5cc0f",
+          "size": {
+            "linux/amd64": 46191866,
+            "linux/arm64": 44570869
+          }
+        }
+      ]
+    },
+    {
+      "name": "libxml2",
+      "kind": "package",
+      "title": "libxml2",
+      "summary": "Checks, validates, formats and queries XML files with xmllint, and runs XSLT 1.0 transforms with xsltproc.",
+      "homepage": "https://gitlab.gnome.org/GNOME/libxml2",
+      "repository": "https://github.com/randomcontainers/libxml2",
+      "license": "MIT AND ISC-Veillard AND X11",
+      "version": "2.15.4",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Check that an XML file is well formed",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libxml2 --noout document.xml"
+        },
+        {
+          "title": "Validate a file against an XML Schema",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libxml2 --noout --schema schema.xsd document.xml"
+        },
+        {
+          "title": "Indent an XML file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libxml2 --format --output formatted.xml document.xml"
+        },
+        {
+          "title": "Print the result of an XPath expression",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/libxml2 --xpath 'string(/feed/title)' document.xml"
+        },
+        {
+          "title": "Transform a file with an XSLT stylesheet",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint xsltproc ghcr.io/randomcontainers/libxml2 -o output.html style.xsl document.xml"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:08:52Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2.15.4",
+          "tags": [
+            "latest",
+            "2.15.4",
+            "2.15",
+            "2",
+            "ubuntu",
+            "2.15.4-ubuntu",
+            "2.15-ubuntu",
+            "2-ubuntu",
+            "2.15.4-ubuntu26.04"
+          ],
+          "digest": "sha256:e7b187c328462bad6af595bd1cf1fb12e4bb886352a82cbfe54c6a3d235c46f6",
+          "size": {
+            "linux/amd64": 46728380,
+            "linux/arm64": 46066272
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2.15.4",
+          "tags": [
+            "alpine",
+            "2.15.4-alpine",
+            "2.15-alpine",
+            "2-alpine",
+            "2.15.4-alpine3.24"
+          ],
+          "digest": "sha256:5a17aaf64985248167c2e11dfd292e9590997d211b420f6da1ec0e8accfb97e7",
+          "size": {
+            "linux/amd64": 4925719,
+            "linux/arm64": 5240446
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "2.15.4",
+          "tags": [
+            "slim",
+            "2.15.4-slim",
+            "2.15-slim",
+            "2-slim",
+            "slim-ubuntu",
+            "2.15.4-slim-ubuntu",
+            "2.15-slim-ubuntu",
+            "2-slim-ubuntu",
+            "2.15.4-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:e7b187c328462bad6af595bd1cf1fb12e4bb886352a82cbfe54c6a3d235c46f6",
+          "size": {
+            "linux/amd64": 46728380,
+            "linux/arm64": 46066272
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "2.15.4",
+          "tags": [
+            "slim-alpine",
+            "2.15.4-slim-alpine",
+            "2.15-slim-alpine",
+            "2-slim-alpine",
+            "2.15.4-slim-alpine3.24"
+          ],
+          "digest": "sha256:5a17aaf64985248167c2e11dfd292e9590997d211b420f6da1ec0e8accfb97e7",
+          "size": {
+            "linux/amd64": 4925719,
+            "linux/arm64": 5240446
+          }
+        }
+      ]
+    },
+    {
       "name": "mediainfo",
       "kind": "package",
       "title": "MediaInfo",
@@ -1126,7 +2567,7 @@
         ],
         "base": "ffmpeg",
         "summary": "MediaInfo with FFmpeg, for checking files with both mediainfo and ffprobe and for measuring black borders.",
-        "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause AND GPL-3.0-or-later"
+        "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Unlicense"
       },
       "combos": [
         "mediainfo-ffmpeg"
@@ -1254,7 +2695,7 @@
         ],
         "base": "ffmpeg",
         "summary": "MKVToolNix with FFmpeg and MediaInfo, for converting, remuxing and checking video files in one image.",
-        "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0 AND GPL-3.0-or-later AND BSD-2-Clause AND Zlib AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause"
+        "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0 AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense AND BSD-2-Clause AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause"
       },
       "combos": [
         "mkvtoolnix-ffmpeg-mediainfo"
@@ -1262,7 +2703,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-04T12:49:47Z",
+      "updated": "2026-10-09T02:18:04Z",
       "variants": [
         {
           "flavour": "default",
@@ -1277,10 +2718,10 @@
             "102-ubuntu",
             "102.0-ubuntu26.04"
           ],
-          "digest": "sha256:d03e34df8cf5c118ff0e9591cdd47ca6764b572c591d88d1f1cd34241438babb",
+          "digest": "sha256:258ddebf0656b0f8c724ae967a128fdf991aed43b7f34fb0d477cd772e084666",
           "size": {
-            "linux/amd64": 125126782,
-            "linux/arm64": 122414282
+            "linux/amd64": 126623237,
+            "linux/arm64": 123892464
           }
         },
         {
@@ -1293,10 +2734,10 @@
             "102-alpine",
             "102.0-alpine3.24"
           ],
-          "digest": "sha256:13cecfa1d9adb477d556e3673d946512e1c39decf0d90dab0836e2b7222a321e",
+          "digest": "sha256:8e829a18987897c1720ceed67b2d37dc800ad416e3482a6dc87bcb9da57c6b49",
           "size": {
-            "linux/amd64": 75188110,
-            "linux/arm64": 72475582
+            "linux/amd64": 75256910,
+            "linux/arm64": 72540088
           }
         },
         {
@@ -1563,6 +3004,232 @@
       ]
     },
     {
+      "name": "openssh-client",
+      "kind": "package",
+      "title": "OpenSSH client",
+      "summary": "Logs in to SSH servers and copies files with scp and sftp; creates and manages keys with ssh-keygen, ssh-agent and ssh-add.",
+      "homepage": "https://www.openssh.com/",
+      "repository": "https://github.com/randomcontainers/openssh-client",
+      "license": "SSH-OpenSSH AND MIT",
+      "version": "10.5p1",
+      "versioning": "loose",
+      "examples": [
+        {
+          "title": "Run a command on a server with a key and known_hosts file from ~/.ssh",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$HOME/.ssh:/ssh:ro\" ghcr.io/randomcontainers/openssh-client -i /ssh/id_ed25519 -o UserKnownHostsFile=/ssh/known_hosts deploy@example.com uptime"
+        },
+        {
+          "title": "Log in with the keys loaded in your ssh-agent",
+          "command": "docker run --rm -it --user \"$(id -u):$(id -g)\" -v \"$SSH_AUTH_SOCK:/agent.sock\" -e SSH_AUTH_SOCK=/agent.sock -v \"$HOME/.ssh/known_hosts:/ssh/known_hosts:ro\" ghcr.io/randomcontainers/openssh-client -o UserKnownHostsFile=/ssh/known_hosts deploy@example.com"
+        },
+        {
+          "title": "Copy a file to a server with scp",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" -v \"$HOME/.ssh:/ssh:ro\" --entrypoint scp ghcr.io/randomcontainers/openssh-client -i /ssh/id_ed25519 -o UserKnownHostsFile=/ssh/known_hosts report.pdf deploy@example.com:/srv/reports/"
+        },
+        {
+          "title": "Create an Ed25519 key pair in the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint ssh-keygen ghcr.io/randomcontainers/openssh-client -t ed25519 -N \"\" -C deploy -f deploy_key"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:10:26Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "10.5p1",
+          "tags": [
+            "latest",
+            "10.5p1",
+            "10",
+            "ubuntu",
+            "10.5p1-ubuntu",
+            "10-ubuntu",
+            "10.5p1-ubuntu26.04"
+          ],
+          "digest": "sha256:67d3fe00b1d4b763c55867de444f0d8e1ea9d328336f49e10bd96c4efe72de57",
+          "size": {
+            "linux/amd64": 48070610,
+            "linux/arm64": 47396171
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "10.5p1",
+          "tags": [
+            "alpine",
+            "10.5p1-alpine",
+            "10-alpine",
+            "10.5p1-alpine3.24"
+          ],
+          "digest": "sha256:cf3295a5a274d734c26c0c3792d3f89f97dfa1b0bcb4e5bd1eb3cd6101870d90",
+          "size": {
+            "linux/amd64": 6498682,
+            "linux/arm64": 6798928
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "10.5p1",
+          "tags": [
+            "slim",
+            "10.5p1-slim",
+            "10-slim",
+            "slim-ubuntu",
+            "10.5p1-slim-ubuntu",
+            "10-slim-ubuntu",
+            "10.5p1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:67d3fe00b1d4b763c55867de444f0d8e1ea9d328336f49e10bd96c4efe72de57",
+          "size": {
+            "linux/amd64": 48070610,
+            "linux/arm64": 47396171
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "10.5p1",
+          "tags": [
+            "slim-alpine",
+            "10.5p1-slim-alpine",
+            "10-slim-alpine",
+            "10.5p1-slim-alpine3.24"
+          ],
+          "digest": "sha256:cf3295a5a274d734c26c0c3792d3f89f97dfa1b0bcb4e5bd1eb3cd6101870d90",
+          "size": {
+            "linux/amd64": 6498682,
+            "linux/arm64": 6798928
+          }
+        }
+      ]
+    },
+    {
+      "name": "openssl",
+      "kind": "package",
+      "title": "OpenSSL",
+      "summary": "The openssl command for keys, certificates, TLS testing and file encryption, built from the signed release of the newest stable OpenSSL series.",
+      "homepage": "https://openssl-library.org/",
+      "repository": "https://github.com/randomcontainers/openssl",
+      "license": "Apache-2.0",
+      "version": "4.0.3",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Print a certificate",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/openssl x509 -in cert.pem -noout -text"
+        },
+        {
+          "title": "Make a key and a self-signed certificate for localhost",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -keyout key.pem -out cert.pem -days 30 -subj /CN=localhost -addext subjectAltName=DNS:localhost"
+        },
+        {
+          "title": "Check which TLS version, cipher and key exchange a server uses",
+          "command": "docker run --rm ghcr.io/randomcontainers/openssl s_client -connect example.org:443 -brief"
+        },
+        {
+          "title": "Generate an ML-DSA-65 private key",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/openssl genpkey -algorithm ML-DSA-65 -out mldsa.key"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:09:11Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "4.0.3",
+          "tags": [
+            "latest",
+            "4.0.3",
+            "4.0",
+            "4",
+            "ubuntu",
+            "4.0.3-ubuntu",
+            "4.0-ubuntu",
+            "4-ubuntu",
+            "4.0.3-ubuntu26.04"
+          ],
+          "digest": "sha256:2fc482af920419cb15e3d2e8e850d94b784afaa87101964c7a7cf86b7eb0a7db",
+          "size": {
+            "linux/amd64": 49365338,
+            "linux/arm64": 49108934
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "4.0.3",
+          "tags": [
+            "alpine",
+            "4.0.3-alpine",
+            "4.0-alpine",
+            "4-alpine",
+            "4.0.3-alpine3.24"
+          ],
+          "digest": "sha256:3940d180a8894ef36bd4c9c36b17a609b1e271d411107c3538079026ec1c7ce1",
+          "size": {
+            "linux/amd64": 7600182,
+            "linux/arm64": 8312883
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "4.0.3",
+          "tags": [
+            "slim",
+            "4.0.3-slim",
+            "4.0-slim",
+            "4-slim",
+            "slim-ubuntu",
+            "4.0.3-slim-ubuntu",
+            "4.0-slim-ubuntu",
+            "4-slim-ubuntu",
+            "4.0.3-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:2fc482af920419cb15e3d2e8e850d94b784afaa87101964c7a7cf86b7eb0a7db",
+          "size": {
+            "linux/amd64": 49365338,
+            "linux/arm64": 49108934
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "4.0.3",
+          "tags": [
+            "slim-alpine",
+            "4.0.3-slim-alpine",
+            "4.0-slim-alpine",
+            "4-slim-alpine",
+            "4.0.3-slim-alpine3.24"
+          ],
+          "digest": "sha256:3940d180a8894ef36bd4c9c36b17a609b1e271d411107c3538079026ec1c7ce1",
+          "size": {
+            "linux/amd64": 7600182,
+            "linux/arm64": 8312883
+          }
+        }
+      ]
+    },
+    {
       "name": "poppler",
       "kind": "package",
       "title": "Poppler",
@@ -1678,6 +3345,112 @@
           "size": {
             "linux/amd64": 25658190,
             "linux/arm64": 25581818
+          }
+        }
+      ]
+    },
+    {
+      "name": "protoc",
+      "kind": "package",
+      "title": "protoc",
+      "summary": "Compiles Protocol Buffers .proto files into C++, C#, Java, Kotlin, Objective-C, PHP, Python and Ruby code, and runs protoc plugins for other languages.",
+      "homepage": "https://protobuf.dev/",
+      "repository": "https://github.com/randomcontainers/protoc",
+      "license": "BSD-3-Clause AND Apache-2.0 AND MIT",
+      "version": "36.2",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Generate Python modules and type stubs from the .proto files in proto/",
+          "command": "mkdir -p gen && docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/protoc -I proto --python_out=gen --pyi_out=gen proto/*.proto"
+        },
+        {
+          "title": "Write a descriptor set with every imported file included",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/protoc -I proto --include_imports --descriptor_set_out=api.pb proto/*.proto"
+        },
+        {
+          "title": "Decode a binary message to text format",
+          "command": "docker run --rm -i --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/protoc -I proto --decode=demo.Event proto/event.proto < event.bin"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:10:41Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "36.2",
+          "tags": [
+            "latest",
+            "36.2",
+            "36",
+            "ubuntu",
+            "36.2-ubuntu",
+            "36-ubuntu",
+            "36.2-ubuntu26.04"
+          ],
+          "digest": "sha256:693a9536ed73cc38010faa9f3b7dc9ef01c8e1a35e2666b5a346f8a44c854f7a",
+          "size": {
+            "linux/amd64": 50080165,
+            "linux/arm64": 49138003
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "36.2",
+          "tags": [
+            "alpine",
+            "36.2-alpine",
+            "36-alpine",
+            "36.2-alpine3.24"
+          ],
+          "digest": "sha256:73e72857694274b7e30fd2e92939641b8442a8c516f9ba0857a86a4c0a6cf336",
+          "size": {
+            "linux/amd64": 8994761,
+            "linux/arm64": 8977918
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "36.2",
+          "tags": [
+            "slim",
+            "36.2-slim",
+            "36-slim",
+            "slim-ubuntu",
+            "36.2-slim-ubuntu",
+            "36-slim-ubuntu",
+            "36.2-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:693a9536ed73cc38010faa9f3b7dc9ef01c8e1a35e2666b5a346f8a44c854f7a",
+          "size": {
+            "linux/amd64": 50080165,
+            "linux/arm64": 49138003
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "36.2",
+          "tags": [
+            "slim-alpine",
+            "36.2-slim-alpine",
+            "36-slim-alpine",
+            "36.2-slim-alpine3.24"
+          ],
+          "digest": "sha256:73e72857694274b7e30fd2e92939641b8442a8c516f9ba0857a86a4c0a6cf336",
+          "size": {
+            "linux/amd64": 8994761,
+            "linux/arm64": 8977918
           }
         }
       ]
@@ -1928,6 +3701,381 @@
       ]
     },
     {
+      "name": "shaka-packager",
+      "kind": "package",
+      "title": "Shaka Packager",
+      "summary": "Packages and encrypts video, audio and subtitles for DASH and HLS with Shaka Packager, together with mpd_generator and pssh-box.py.",
+      "homepage": "https://github.com/shaka-project/shaka-packager",
+      "repository": "https://github.com/randomcontainers/shaka-packager",
+      "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND ISC-Veillard AND curl AND Zlib AND libpng-2.0",
+      "version": "3.9.3",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Package an MP4 file for DASH and HLS",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/shaka-packager 'in=input.mp4,stream=video,output=video.mp4,playlist_name=video.m3u8' 'in=input.mp4,stream=audio,output=audio.mp4,playlist_name=audio.m3u8' --mpd_output manifest.mpd --hls_master_playlist_output master.m3u8"
+        },
+        {
+          "title": "Encrypt an MP4 file with a raw key (CENC)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/shaka-packager 'in=input.mp4,stream=video,output=video.mp4' --enable_raw_key_encryption --keys 'label=:key_id=<32 hex digits>:key=<32 hex digits>' --protection_scheme cenc"
+        },
+        {
+          "title": "Print a Widevine PSSH box for a key ID",
+          "command": "docker run --rm --entrypoint pssh-box.py ghcr.io/randomcontainers/shaka-packager --widevine-system-id --key-id 00112233445566778899aabbccddeeff --base64"
+        },
+        {
+          "title": "Encode a video with FFmpeg and package it for HLS (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/shaka-packager -c 'ffmpeg -loglevel error -i input.mov -c:v libx264 -g 50 -c:a aac encoded.mp4 && packager in=encoded.mp4,stream=video,output=video.mp4,playlist_name=video.m3u8 in=encoded.mp4,stream=audio,output=audio.mp4,playlist_name=audio.m3u8 --hls_master_playlist_output master.m3u8'"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "shaka-packager-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "Shaka Packager with FFmpeg, for encoding renditions and packaging them for DASH and HLS in one container.",
+        "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND ISC-Veillard AND curl AND Zlib AND libpng-2.0 AND GPL-3.0-or-later AND MPL-2.0 AND Unlicense"
+      },
+      "combos": [
+        "shaka-packager-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:11:23Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.9.3",
+          "tags": [
+            "latest",
+            "3.9.3",
+            "3.9",
+            "3",
+            "ubuntu",
+            "3.9.3-ubuntu",
+            "3.9-ubuntu",
+            "3-ubuntu",
+            "3.9.3-ubuntu26.04"
+          ],
+          "digest": "sha256:094ea4e2c780e2c364443b4ca94a6410c1d56bd899791b0c4e9ab200c3427f63",
+          "size": {
+            "linux/amd64": 114228051,
+            "linux/arm64": 112323004
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.9.3",
+          "tags": [
+            "alpine",
+            "3.9.3-alpine",
+            "3.9-alpine",
+            "3-alpine",
+            "3.9.3-alpine3.24"
+          ],
+          "digest": "sha256:65cda4f2930776ae8ef9b2de73b06a6c73ebbe17c9c4bda004072278231a3bd7",
+          "size": {
+            "linux/amd64": 72290363,
+            "linux/arm64": 70237299
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "3.9.3",
+          "tags": [
+            "slim",
+            "3.9.3-slim",
+            "3.9-slim",
+            "3-slim",
+            "slim-ubuntu",
+            "3.9.3-slim-ubuntu",
+            "3.9-slim-ubuntu",
+            "3-slim-ubuntu",
+            "3.9.3-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:17839342e9ea68387df7608950a2e3d0c5d61fa9a8bebe038a75c029a92a8b29",
+          "size": {
+            "linux/amd64": 67878937,
+            "linux/arm64": 66989522
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "3.9.3",
+          "tags": [
+            "slim-alpine",
+            "3.9.3-slim-alpine",
+            "3.9-slim-alpine",
+            "3-slim-alpine",
+            "3.9.3-slim-alpine3.24"
+          ],
+          "digest": "sha256:6594a81ad6b478c2014803213ab724d9c3e36e4004eb01ae50bc4230c944e2dc",
+          "size": {
+            "linux/amd64": 27837413,
+            "linux/arm64": 27808128
+          }
+        }
+      ]
+    },
+    {
+      "name": "sphinx",
+      "kind": "package",
+      "title": "Sphinx",
+      "summary": "Builds documentation written in reStructuredText into HTML, LaTeX, ePub and man pages, with cross-references, search and API pages from Python docstrings.",
+      "homepage": "https://www.sphinx-doc.org/",
+      "repository": "https://github.com/randomcontainers/sphinx",
+      "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND 0BSD AND Unicode-3.0 AND LicenseRef-Public-Domain",
+      "version": "9.1.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Build the HTML pages of the project in the current directory into _build/html",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/sphinx"
+        },
+        {
+          "title": "Build docs/ and fail on any warning",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/sphinx -W -b html docs docs/_build/html"
+        },
+        {
+          "title": "Start a new project in docs/",
+          "command": "docker run --rm -it --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sphinx-quickstart ghcr.io/randomcontainers/sphinx docs"
+        },
+        {
+          "title": "Write API pages for the package in src/mypackage",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sphinx-apidoc ghcr.io/randomcontainers/sphinx -o docs/api src/mypackage"
+        },
+        {
+          "title": "Check the external links in docs/",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/sphinx -b linkcheck docs docs/_build/linkcheck"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "sphinx-graphviz",
+        "with": [
+          "graphviz"
+        ],
+        "base": "graphviz",
+        "summary": "Sphinx with Graphviz, for the graphviz and inheritance_diagram extensions.",
+        "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND 0BSD AND Unicode-3.0 AND LicenseRef-Public-Domain AND EPL-2.0 AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree"
+      },
+      "combos": [
+        "sphinx-graphviz"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:08:32Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "9.1.0",
+          "tags": [
+            "latest",
+            "9.1.0",
+            "9.1",
+            "9",
+            "ubuntu",
+            "9.1.0-ubuntu",
+            "9.1-ubuntu",
+            "9-ubuntu",
+            "9.1.0-ubuntu26.04"
+          ],
+          "digest": "sha256:f294d7fecae63e8e9afec60a41ea783e9d3ebe7e979afb3a82bce3bdcaa19484",
+          "size": {
+            "linux/amd64": 121382160,
+            "linux/arm64": 118945654
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "9.1.0",
+          "tags": [
+            "alpine",
+            "9.1.0-alpine",
+            "9.1-alpine",
+            "9-alpine",
+            "9.1.0-alpine3.24"
+          ],
+          "digest": "sha256:8126504126cc2de7b58c01981f54659d6d006525a247cf234b8a8036a605a537",
+          "size": {
+            "linux/amd64": 75474868,
+            "linux/arm64": 75178933
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "9.1.0",
+          "tags": [
+            "slim",
+            "9.1.0-slim",
+            "9.1-slim",
+            "9-slim",
+            "slim-ubuntu",
+            "9.1.0-slim-ubuntu",
+            "9.1-slim-ubuntu",
+            "9-slim-ubuntu",
+            "9.1.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:3c97741a2837a0b3b0f5b1ab0af1b8256f7e42a34994c72c59c926a3dc38ad51",
+          "size": {
+            "linux/amd64": 85973158,
+            "linux/arm64": 85293462
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "9.1.0",
+          "tags": [
+            "slim-alpine",
+            "9.1.0-slim-alpine",
+            "9.1-slim-alpine",
+            "9-slim-alpine",
+            "9.1.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:c64bfd743a5914a4529fdc601da6b7303a5233b9f1aa25fc38be0ff2f7ae3f97",
+          "size": {
+            "linux/amd64": 46056925,
+            "linux/arm64": 46250232
+          }
+        }
+      ]
+    },
+    {
+      "name": "srt",
+      "kind": "package",
+      "title": "SRT (Secure Reliable Transport) tools",
+      "summary": "Streams live video over SRT with srt-live-transmit, and sends files and tunnels TCP connections over SRT with srt-file-transmit and srt-tunnel.",
+      "homepage": "https://github.com/Haivision/srt",
+      "repository": "https://github.com/randomcontainers/srt",
+      "license": "MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
+      "version": "1.5.7",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Receive a stream on UDP port 9000 and write it to stream.ts",
+          "command": "docker run --rm -p 9000:9000/udp ghcr.io/randomcontainers/srt 'srt://:9000' file://con > stream.ts"
+        },
+        {
+          "title": "Send a stream that arrives on local UDP port 5000 to an SRT listener",
+          "command": "docker run --rm --network host ghcr.io/randomcontainers/srt udp://127.0.0.1:5000 'srt://<host>:9000'"
+        },
+        {
+          "title": "Record a stream that arrives on UDP port 9000 to an MKV file with FFmpeg (default image)",
+          "command": "docker run --rm --init -p 9000:9000/udp --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/srt -c 'srt-live-transmit -a:no srt://:9000 file://con | ffmpeg -loglevel error -i - -c copy recording.mkv'"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "srt-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "SRT tools with FFmpeg, for encoding streams and sending or receiving them over SRT.",
+        "license": "MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense AND GPL-3.0-or-later"
+      },
+      "combos": [
+        "srt-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:43:54Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.5.7",
+          "tags": [
+            "latest",
+            "1.5.7",
+            "1.5",
+            "1",
+            "ubuntu",
+            "1.5.7-ubuntu",
+            "1.5-ubuntu",
+            "1-ubuntu",
+            "1.5.7-ubuntu26.04"
+          ],
+          "digest": "sha256:ee25b8547cf9e7d525e84b1b3ca8e1f7e1a8877a76e2c6a0251e524b411acc64",
+          "size": {
+            "linux/amd64": 93813967,
+            "linux/arm64": 92064519
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.5.7",
+          "tags": [
+            "alpine",
+            "1.5.7-alpine",
+            "1.5-alpine",
+            "1-alpine",
+            "1.5.7-alpine3.24"
+          ],
+          "digest": "sha256:eeca750ce7b6d4f44a8d978600121578b0100379425a22a6477438b9622a4d74",
+          "size": {
+            "linux/amd64": 51561455,
+            "linux/arm64": 49713969
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.5.7",
+          "tags": [
+            "slim",
+            "1.5.7-slim",
+            "1.5-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.5.7-slim-ubuntu",
+            "1.5-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.5.7-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:eeb784232369907c3a199719fb22ba0bf24afe394d032612f9ac4f69b1901f88",
+          "size": {
+            "linux/amd64": 47583175,
+            "linux/arm64": 46850121
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.5.7",
+          "tags": [
+            "slim-alpine",
+            "1.5.7-slim-alpine",
+            "1.5-slim-alpine",
+            "1-slim-alpine",
+            "1.5.7-slim-alpine3.24"
+          ],
+          "digest": "sha256:9ff26e0769bcd9203d2044683d86354c72787e0cdf3ec0ba3049f6b9dceb6df6",
+          "size": {
+            "linux/amd64": 6866472,
+            "linux/arm64": 7045754
+          }
+        }
+      ]
+    },
+    {
       "name": "streamlink",
       "kind": "package",
       "title": "Streamlink",
@@ -2084,7 +4232,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-04T06:27:37Z",
+      "updated": "2026-10-09T03:13:51Z",
       "variants": [
         {
           "flavour": "default",
@@ -2101,10 +4249,10 @@
             "4-ubuntu",
             "4.99.7-ubuntu26.04"
           ],
-          "digest": "sha256:da3c222871ffb953550b7d160cedbe62ea704d2615e8b87ca09f44d9b023f29b",
+          "digest": "sha256:9e79be77a44e8b85f5e323742364f0385a31d524609e1afa89e75f67ca1499d3",
           "size": {
-            "linux/amd64": 47209357,
-            "linux/arm64": 46573104
+            "linux/amd64": 47209326,
+            "linux/arm64": 46573039
           }
         },
         {
@@ -2118,10 +4266,10 @@
             "4-alpine",
             "4.99.7-alpine3.24"
           ],
-          "digest": "sha256:9cdf56fe7016c24ba7c140981fcb0d8709724275c805d2f63868376893caec41",
+          "digest": "sha256:14254ad5d4b3c29b73a998662054b75f05bd3c2683e29d52f8958c8cd42db10e",
           "size": {
-            "linux/amd64": 4768555,
-            "linux/arm64": 5106779
+            "linux/amd64": 4768565,
+            "linux/arm64": 5106778
           }
         },
         {
@@ -2139,10 +4287,10 @@
             "4-slim-ubuntu",
             "4.99.7-slim-ubuntu26.04"
           ],
-          "digest": "sha256:da3c222871ffb953550b7d160cedbe62ea704d2615e8b87ca09f44d9b023f29b",
+          "digest": "sha256:9e79be77a44e8b85f5e323742364f0385a31d524609e1afa89e75f67ca1499d3",
           "size": {
-            "linux/amd64": 47209357,
-            "linux/arm64": 46573104
+            "linux/amd64": 47209326,
+            "linux/arm64": 46573039
           }
         },
         {
@@ -2156,10 +4304,10 @@
             "4-slim-alpine",
             "4.99.7-slim-alpine3.24"
           ],
-          "digest": "sha256:9cdf56fe7016c24ba7c140981fcb0d8709724275c805d2f63868376893caec41",
+          "digest": "sha256:14254ad5d4b3c29b73a998662054b75f05bd3c2683e29d52f8958c8cd42db10e",
           "size": {
-            "linux/amd64": 4768555,
-            "linux/arm64": 5106779
+            "linux/amd64": 4768565,
+            "linux/arm64": 5106778
           }
         }
       ]
@@ -2285,6 +4433,372 @@
           "size": {
             "linux/amd64": 18456902,
             "linux/arm64": 18583128
+          }
+        }
+      ]
+    },
+    {
+      "name": "tshark",
+      "kind": "package",
+      "title": "TShark (Wireshark command-line tools)",
+      "summary": "Decodes, filters and converts packet captures with Wireshark's dissectors and captures live traffic. Built from the verified Wireshark source release.",
+      "homepage": "https://www.wireshark.org/",
+      "repository": "https://github.com/randomcontainers/tshark",
+      "license": "GPL-2.0-or-later AND BSD-1-Clause AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND ISC AND Kazlib AND LGPL-2.1-or-later AND MIT AND Zlib AND dtoa",
+      "version": "4.6.9",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Print the packets in a capture file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/tshark -r capture.pcapng"
+        },
+        {
+          "title": "Print the DNS queries in a capture file as tab-separated fields",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/tshark -r capture.pcapng -Y 'dns.flags.response == 0' -T fields -e frame.time_epoch -e ip.src -e dns.qry.name"
+        },
+        {
+          "title": "List the IP conversations in a capture file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/tshark -r capture.pcapng -q -z conv,ip"
+        },
+        {
+          "title": "Watch the traffic of a running container named web",
+          "command": "docker run --rm --user 0 --cap-add NET_RAW --network container:web ghcr.io/randomcontainers/tshark -i eth0 -l"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "tshark-tcpdump",
+        "with": [
+          "tcpdump"
+        ],
+        "base": "tshark",
+        "summary": "TShark with tcpdump, for capturing and filtering with tcpdump and decoding with Wireshark's dissectors in one image.",
+        "license": "GPL-2.0-or-later AND BSD-1-Clause AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND ISC AND Kazlib AND LGPL-2.1-or-later AND MIT AND Zlib AND dtoa AND BSD-4-Clause AND BSD-4-Clause-UC AND NTP"
+      },
+      "combos": [
+        "tshark-tcpdump"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:12:25Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "4.6.9",
+          "tags": [
+            "latest",
+            "4.6.9",
+            "4.6",
+            "4",
+            "ubuntu",
+            "4.6.9-ubuntu",
+            "4.6-ubuntu",
+            "4-ubuntu",
+            "4.6.9-ubuntu26.04"
+          ],
+          "digest": "sha256:da660244daad2de9d24d05524735544061422e59c18b175b607d0b1f8ffcf4ea",
+          "size": {
+            "linux/amd64": 88041171,
+            "linux/arm64": 86162154
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "4.6.9",
+          "tags": [
+            "alpine",
+            "4.6.9-alpine",
+            "4.6-alpine",
+            "4-alpine",
+            "4.6.9-alpine3.24"
+          ],
+          "digest": "sha256:c8464f06225d81eb5cc6a17a2c59b9ab173feaab564e8f64394c3514473e7b11",
+          "size": {
+            "linux/amd64": 49154991,
+            "linux/arm64": 48071802
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "4.6.9",
+          "tags": [
+            "slim",
+            "4.6.9-slim",
+            "4.6-slim",
+            "4-slim",
+            "slim-ubuntu",
+            "4.6.9-slim-ubuntu",
+            "4.6-slim-ubuntu",
+            "4-slim-ubuntu",
+            "4.6.9-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:50e1b2b5d98fb95148ddbcf78a3c473136760e9864056def823bbe3ba16a8359",
+          "size": {
+            "linux/amd64": 87504466,
+            "linux/arm64": 85616622
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "4.6.9",
+          "tags": [
+            "slim-alpine",
+            "4.6.9-slim-alpine",
+            "4.6-slim-alpine",
+            "4-slim-alpine",
+            "4.6.9-slim-alpine3.24"
+          ],
+          "digest": "sha256:9d76fc0daf1e2764c03f3524e97bf22019e5b090dbb52895ac571580a70f9b64",
+          "size": {
+            "linux/amd64": 48584579,
+            "linux/arm64": 47503324
+          }
+        }
+      ]
+    },
+    {
+      "name": "vale",
+      "kind": "package",
+      "title": "Vale",
+      "summary": "Checks prose in Markdown, MDX, HTML and code comments against your own style rules with Vale. Styles are not included.",
+      "homepage": "https://vale.sh/",
+      "repository": "https://github.com/randomcontainers/vale",
+      "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND Apache-2.0 AND Unicode-DFS-2016",
+      "version": "3.24.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Check the files in docs/ against the styles named in .vale.ini",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/vale docs/"
+        },
+        {
+          "title": "Download the style packages listed in .vale.ini into its StylesPath",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/vale sync"
+        },
+        {
+          "title": "Print the alerts as JSON",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/vale --output=JSON docs/"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:12:45Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.24.0",
+          "tags": [
+            "latest",
+            "3.24.0",
+            "3.24",
+            "3",
+            "ubuntu",
+            "3.24.0-ubuntu",
+            "3.24-ubuntu",
+            "3-ubuntu",
+            "3.24.0-ubuntu26.04"
+          ],
+          "digest": "sha256:a663ba1b954b6046abc807aa2319b072221c62f6849a75f5d1016063daba9310",
+          "size": {
+            "linux/amd64": 59639130,
+            "linux/arm64": 58224976
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.24.0",
+          "tags": [
+            "alpine",
+            "3.24.0-alpine",
+            "3.24-alpine",
+            "3-alpine",
+            "3.24.0-alpine3.24"
+          ],
+          "digest": "sha256:4cfd932e80d711dd133f42dab2c30331db31d0e195acfca2b52b144fd832d46c",
+          "size": {
+            "linux/amd64": 18917333,
+            "linux/arm64": 18414223
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "3.24.0",
+          "tags": [
+            "slim",
+            "3.24.0-slim",
+            "3.24-slim",
+            "3-slim",
+            "slim-ubuntu",
+            "3.24.0-slim-ubuntu",
+            "3.24-slim-ubuntu",
+            "3-slim-ubuntu",
+            "3.24.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:a663ba1b954b6046abc807aa2319b072221c62f6849a75f5d1016063daba9310",
+          "size": {
+            "linux/amd64": 59639130,
+            "linux/arm64": 58224976
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "3.24.0",
+          "tags": [
+            "slim-alpine",
+            "3.24.0-slim-alpine",
+            "3.24-slim-alpine",
+            "3-slim-alpine",
+            "3.24.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:4cfd932e80d711dd133f42dab2c30331db31d0e195acfca2b52b144fd832d46c",
+          "size": {
+            "linux/amd64": 18917333,
+            "linux/arm64": 18414223
+          }
+        }
+      ]
+    },
+    {
+      "name": "vmaf",
+      "kind": "package",
+      "title": "VMAF",
+      "summary": "Scores the quality of an encoded video against its source with Netflix's VMAF, and computes PSNR, SSIM, MS-SSIM, CIEDE2000 and CAMBI.",
+      "homepage": "https://github.com/Netflix/vmaf",
+      "repository": "https://github.com/randomcontainers/vmaf",
+      "license": "BSD-2-Clause-Patent AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT AND Unlicense",
+      "version": "3.2.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Score a distorted Y4M video against its reference and write the result as JSON",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/vmaf -r reference.y4m -d distorted.y4m --json -o vmaf.json"
+        },
+        {
+          "title": "Add PSNR, SSIM and MS-SSIM to the report",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/vmaf -r reference.y4m -d distorted.y4m --feature psnr --feature float_ssim --feature float_ms_ssim --json -o vmaf.json"
+        },
+        {
+          "title": "Score 1080p video with the VMAF v1 model",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/vmaf -r reference.y4m -d distorted.y4m --model version=vmaf_v1.0.16_3d0h --json -o vmaf.json"
+        },
+        {
+          "title": "Score raw 8-bit 4:2:0 YUV files",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/vmaf -r reference.yuv -d distorted.yuv --width 1920 --height 1080 --pixel_format 420 --bitdepth 8 -o vmaf.xml"
+        },
+        {
+          "title": "Score an encode against its source, both decoded by FFmpeg (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/vmaf -c 'ffmpeg -loglevel error -y -i source.mp4 -pix_fmt yuv420p -f yuv4mpegpipe reference.y4m && ffmpeg -loglevel error -y -i encoded.mp4 -pix_fmt yuv420p -f yuv4mpegpipe distorted.y4m && vmaf -r reference.y4m -d distorted.y4m --json -o vmaf.json'"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "vmaf-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "VMAF with FFmpeg, which decodes encoded videos to the Y4M input that vmaf reads.",
+        "license": "BSD-2-Clause-Patent AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT AND Unlicense AND GPL-3.0-or-later AND MPL-2.0 AND Zlib"
+      },
+      "combos": [
+        "vmaf-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-09T03:12:47Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.2.1",
+          "tags": [
+            "latest",
+            "3.2.1",
+            "3.2",
+            "3",
+            "ubuntu",
+            "3.2.1-ubuntu",
+            "3.2-ubuntu",
+            "3-ubuntu",
+            "3.2.1-ubuntu26.04"
+          ],
+          "digest": "sha256:e7e8d917d3af5cb33697db197b1ab634def527c915fffcf9f9e8f8db9fe1bd68",
+          "size": {
+            "linux/amd64": 92780278,
+            "linux/arm64": 90918174
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.2.1",
+          "tags": [
+            "alpine",
+            "3.2.1-alpine",
+            "3.2-alpine",
+            "3-alpine",
+            "3.2.1-alpine3.24"
+          ],
+          "digest": "sha256:e5599bcc535ec4574655f61770c3afd241d5a5e203aaf863a233965bf92ad6b3",
+          "size": {
+            "linux/amd64": 50524662,
+            "linux/arm64": 48563024
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "3.2.1",
+          "tags": [
+            "slim",
+            "3.2.1-slim",
+            "3.2-slim",
+            "3-slim",
+            "slim-ubuntu",
+            "3.2.1-slim-ubuntu",
+            "3.2-slim-ubuntu",
+            "3-slim-ubuntu",
+            "3.2.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:b21318d5aeef56ea8f9d32f48dc3ed47a36028c9c10baf5fd3886751c4a7bd43",
+          "size": {
+            "linux/amd64": 46549476,
+            "linux/arm64": 45703859
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "3.2.1",
+          "tags": [
+            "slim-alpine",
+            "3.2.1-slim-alpine",
+            "3.2-slim-alpine",
+            "3-slim-alpine",
+            "3.2.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:9049c3d16b4cd9e49a37e62cdfe32a432222547157844dc0383798477c790efd",
+          "size": {
+            "linux/amd64": 5829652,
+            "linux/arm64": 5894817
           }
         }
       ]
@@ -2441,7 +4955,7 @@
         ],
         "base": "ffmpeg",
         "summary": "whisper.cpp with FFmpeg, for transcribing video files and audio formats that whisper-cli cannot read, such as AAC and Opus.",
-        "license": "((MIT AND (MIT-0 OR Unlicense)) AND GPL-3.0-or-later)"
+        "license": "((MIT AND (MIT-0 OR Unlicense)) AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense)"
       },
       "combos": [
         "whisper-cpp-ffmpeg"
@@ -2569,7 +5083,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-04T06:25:32Z",
+      "updated": "2026-10-09T03:12:26Z",
       "variants": [
         {
           "flavour": "default",
@@ -2586,10 +5100,10 @@
             "1-ubuntu",
             "1.38.0-ubuntu26.04"
           ],
-          "digest": "sha256:57cd4e65f470e4ae0cd7c1f8ff77937e58795cc83d35c44e4cdb13aa5602cbbb",
+          "digest": "sha256:b469b5e9b13b9eb10ae27a9b486b878331044142f5f14309693ad85430bfc7c4",
           "size": {
-            "linux/amd64": 64853372,
-            "linux/arm64": 64156561
+            "linux/amd64": 64853317,
+            "linux/arm64": 64156628
           }
         },
         {
@@ -2603,10 +5117,10 @@
             "1-alpine",
             "1.38.0-alpine3.24"
           ],
-          "digest": "sha256:4192497e51bc75fec28f5814ba4c9fcc7f2c9b6e54cb464195dab786b1de9614",
+          "digest": "sha256:b3a9c0aaae146d3420d16d1297113d3709bf7845f2d5b4b78d09fb0bc56c04c7",
           "size": {
-            "linux/amd64": 24941960,
-            "linux/arm64": 25103767
+            "linux/amd64": 24941921,
+            "linux/arm64": 25103746
           }
         },
         {
@@ -2624,10 +5138,10 @@
             "1-slim-ubuntu",
             "1.38.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:57cd4e65f470e4ae0cd7c1f8ff77937e58795cc83d35c44e4cdb13aa5602cbbb",
+          "digest": "sha256:b469b5e9b13b9eb10ae27a9b486b878331044142f5f14309693ad85430bfc7c4",
           "size": {
-            "linux/amd64": 64853372,
-            "linux/arm64": 64156561
+            "linux/amd64": 64853317,
+            "linux/arm64": 64156628
           }
         },
         {
@@ -2641,10 +5155,10 @@
             "1-slim-alpine",
             "1.38.0-slim-alpine3.24"
           ],
-          "digest": "sha256:4192497e51bc75fec28f5814ba4c9fcc7f2c9b6e54cb464195dab786b1de9614",
+          "digest": "sha256:b3a9c0aaae146d3420d16d1297113d3709bf7845f2d5b4b78d09fb0bc56c04c7",
           "size": {
-            "linux/amd64": 24941960,
-            "linux/arm64": 25103767
+            "linux/amd64": 24941921,
+            "linux/arm64": 25103746
           }
         }
       ]
@@ -2761,6 +5275,42 @@
           }
         }
       ]
+    },
+    {
+      "name": "audiowaveform-ffmpeg",
+      "kind": "combo",
+      "owner": "audiowaveform",
+      "members": [
+        "audiowaveform",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "audiowaveform + FFmpeg",
+      "summary": "audiowaveform with FFmpeg, for waveforms of AAC, M4A and video files that audiowaveform cannot read.",
+      "repository": "https://github.com/randomcontainers/audiowaveform-ffmpeg",
+      "license": "GPL-3.0-or-later AND BSD-3-Clause AND Unlicense AND MPL-2.0 AND Zlib",
+      "version": "1.11.1",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "check-jsonschema-yamllint",
+      "kind": "combo",
+      "owner": "check-jsonschema",
+      "members": [
+        "check-jsonschema",
+        "yamllint"
+      ],
+      "base": "check-jsonschema",
+      "title": "check-jsonschema + yamllint",
+      "summary": "check-jsonschema with yamllint, to lint YAML files and validate them against a JSON Schema in one image.",
+      "repository": "https://github.com/randomcontainers/check-jsonschema-yamllint",
+      "license": "Apache-2.0 AND MIT AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND Apache-2.0 WITH LLVM-exception AND AGPL-3.0-only AND GPL-3.0-only AND CC-BY-4.0 AND GPL-3.0-or-later WITH GCC-exception-3.1 AND GPL-3.0-or-later",
+      "version": "0.38.2",
+      "public": false,
+      "updated": null,
+      "variants": []
     },
     {
       "name": "doxygen-graphviz",
@@ -2967,6 +5517,42 @@
       ]
     },
     {
+      "name": "libheif-exiftool",
+      "kind": "combo",
+      "owner": "libheif",
+      "members": [
+        "libheif",
+        "exiftool"
+      ],
+      "base": "libheif",
+      "title": "libheif + ExifTool",
+      "summary": "libheif tools with ExifTool, for converting HEIC photos and editing or removing their metadata.",
+      "repository": "https://github.com/randomcontainers/libheif-exiftool",
+      "license": "(LGPL-3.0-or-later AND MIT AND GPL-2.0-or-later AND ((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0))",
+      "version": "1.23.6",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "libjpeg-turbo-exiftool",
+      "kind": "combo",
+      "owner": "libjpeg-turbo",
+      "members": [
+        "libjpeg-turbo",
+        "exiftool"
+      ],
+      "base": "libjpeg-turbo",
+      "title": "libjpeg-turbo + ExifTool",
+      "summary": "libjpeg-turbo's jpegtran, cjpeg and djpeg with ExifTool, for turning photos upright losslessly and then resetting their Exif orientation.",
+      "repository": "https://github.com/randomcontainers/libjpeg-turbo-exiftool",
+      "license": "(IJG AND BSD-3-Clause AND Zlib AND BSD-2-Clause AND libpng-2.0 AND ((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0))",
+      "version": "3.2.0",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
       "name": "mediainfo-ffmpeg",
       "kind": "combo",
       "owner": "mediainfo",
@@ -2978,41 +5564,41 @@
       "title": "MediaInfo + FFmpeg",
       "summary": "MediaInfo with FFmpeg, for checking files with both mediainfo and ffprobe and for measuring black borders.",
       "repository": "https://github.com/randomcontainers/mediainfo-ffmpeg",
-      "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause AND GPL-3.0-or-later",
+      "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Unlicense",
       "version": "26.10",
       "public": true,
-      "updated": "2026-10-04T12:50:38Z",
+      "updated": "2026-10-09T02:18:14Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "26.05",
+          "version": "26.10",
           "tags": [
             "latest",
-            "26.05",
+            "26.10",
             "ubuntu",
-            "26.05-ubuntu",
-            "26.05-ubuntu26.04"
+            "26.10-ubuntu",
+            "26.10-ubuntu26.04"
           ],
-          "digest": "sha256:a2088daaea40fd13aeae807eaacd95e670d2574dcfe47509df8c8a2a5a0bbb8f",
+          "digest": "sha256:6a96213ca108c6c0606319b41418409acdae036ee6c963f75beb6e3a5bfdb819",
           "size": {
-            "linux/amd64": 96513795,
-            "linux/arm64": 94518620
+            "linux/amd64": 98007472,
+            "linux/arm64": 96000726
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "26.05",
+          "version": "26.10",
           "tags": [
             "alpine",
-            "26.05-alpine",
-            "26.05-alpine3.24"
+            "26.10-alpine",
+            "26.10-alpine3.24"
           ],
-          "digest": "sha256:22464b2174554b2a767db6bb59555ad1c11ce6dbf037d8b39aecbfda522a77e8",
+          "digest": "sha256:2a9da4afe463296c052231e5fa1435880d71b08be1f3863a9ab0f7191ba4ea2b",
           "size": {
-            "linux/amd64": 56422822,
-            "linux/arm64": 54349509
+            "linux/amd64": 56491648,
+            "linux/arm64": 54413995
           }
         }
       ]
@@ -3030,10 +5616,10 @@
       "title": "MKVToolNix + FFmpeg + MediaInfo",
       "summary": "MKVToolNix with FFmpeg and MediaInfo, for converting, remuxing and checking video files in one image.",
       "repository": "https://github.com/randomcontainers/mkvtoolnix-ffmpeg-mediainfo",
-      "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0 AND GPL-3.0-or-later AND BSD-2-Clause AND Zlib AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause",
+      "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0 AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense AND BSD-2-Clause AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause",
       "version": "102.0",
       "public": true,
-      "updated": "2026-10-04T12:50:21Z",
+      "updated": "2026-10-09T02:18:12Z",
       "variants": [
         {
           "flavour": "default",
@@ -3046,10 +5632,10 @@
             "102.0-ubuntu",
             "102.0-ubuntu26.04"
           ],
-          "digest": "sha256:f410609afed9535e93b566f29985090f9c80e3de9d3ceec081435cdaa66f594c",
+          "digest": "sha256:f619597fe74d1ea93dae372ce06dd871df5997cd67a108d0d43916a698de62e3",
           "size": {
-            "linux/amd64": 125126826,
-            "linux/arm64": 122414970
+            "linux/amd64": 126623030,
+            "linux/arm64": 123892382
           }
         },
         {
@@ -3061,10 +5647,10 @@
             "102.0-alpine",
             "102.0-alpine3.24"
           ],
-          "digest": "sha256:78791df526deefa3c682e4b2a40d62171376b5eca22ac552695d8945144bb559",
+          "digest": "sha256:3c8994a9d8900ba4e45699d2e3e1171f98eb5b3ec74fd2b96fe9f87383e0a7b3",
           "size": {
-            "linux/amd64": 75188344,
-            "linux/arm64": 72475791
+            "linux/amd64": 75257180,
+            "linux/arm64": 72540284
           }
         }
       ]
@@ -3121,6 +5707,60 @@
       ]
     },
     {
+      "name": "shaka-packager-ffmpeg",
+      "kind": "combo",
+      "owner": "shaka-packager",
+      "members": [
+        "shaka-packager",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "Shaka Packager + FFmpeg",
+      "summary": "Shaka Packager with FFmpeg, for encoding renditions and packaging them for DASH and HLS in one container.",
+      "repository": "https://github.com/randomcontainers/shaka-packager-ffmpeg",
+      "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND ISC-Veillard AND curl AND Zlib AND libpng-2.0 AND GPL-3.0-or-later AND MPL-2.0 AND Unlicense",
+      "version": "3.9.3",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "sphinx-graphviz",
+      "kind": "combo",
+      "owner": "sphinx",
+      "members": [
+        "sphinx",
+        "graphviz"
+      ],
+      "base": "graphviz",
+      "title": "Sphinx + Graphviz",
+      "summary": "Sphinx with Graphviz, for the graphviz and inheritance_diagram extensions.",
+      "repository": "https://github.com/randomcontainers/sphinx-graphviz",
+      "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND 0BSD AND Unicode-3.0 AND LicenseRef-Public-Domain AND EPL-2.0 AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
+      "version": "9.1.0",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "srt-ffmpeg",
+      "kind": "combo",
+      "owner": "srt",
+      "members": [
+        "srt",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "SRT (Secure Reliable Transport) tools + FFmpeg",
+      "summary": "SRT tools with FFmpeg, for encoding streams and sending or receiving them over SRT.",
+      "repository": "https://github.com/randomcontainers/srt-ffmpeg",
+      "license": "MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense AND GPL-3.0-or-later",
+      "version": "1.5.7",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
       "name": "streamlink-ffmpeg",
       "kind": "combo",
       "owner": "streamlink",
@@ -3135,38 +5775,38 @@
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later AND GPL-3.0-or-later",
       "version": "8.6.2",
       "public": true,
-      "updated": "2026-10-07T13:37:56Z",
+      "updated": "2026-10-09T02:18:14Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "8.6.1",
+          "version": "8.6.2",
           "tags": [
             "latest",
-            "8.6.1",
+            "8.6.2",
             "ubuntu",
-            "8.6.1-ubuntu",
-            "8.6.1-ubuntu26.04"
+            "8.6.2-ubuntu",
+            "8.6.2-ubuntu26.04"
           ],
-          "digest": "sha256:d94943acfa036339591176b67db0ad198a34d32e01a1492b13943765c0f0c616",
+          "digest": "sha256:65132a9f5c15083ef079cc02b9994b19654b3b69def2b78561c650f705d9ddc4",
           "size": {
-            "linux/amd64": 130329281,
-            "linux/arm64": 128400546
+            "linux/amd64": 131178433,
+            "linux/arm64": 129249403
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "8.6.1",
+          "version": "8.6.2",
           "tags": [
             "alpine",
-            "8.6.1-alpine",
-            "8.6.1-alpine3.24"
+            "8.6.2-alpine",
+            "8.6.2-alpine3.24"
           ],
-          "digest": "sha256:c428ed39c86337464bfe65bdfba59c0e57cdb91885eb54905183a5e002d8290d",
+          "digest": "sha256:2a1c298ff911d889550e0b26cd6400e105a72816854a20d962259d7f0b8ba6e7",
           "size": {
-            "linux/amd64": 89378739,
-            "linux/arm64": 87340392
+            "linux/amd64": 89387750,
+            "linux/arm64": 87349936
           }
         }
       ]
@@ -3221,6 +5861,42 @@
           }
         }
       ]
+    },
+    {
+      "name": "tshark-tcpdump",
+      "kind": "combo",
+      "owner": "tshark",
+      "members": [
+        "tshark",
+        "tcpdump"
+      ],
+      "base": "tshark",
+      "title": "TShark (Wireshark command-line tools) + tcpdump",
+      "summary": "TShark with tcpdump, for capturing and filtering with tcpdump and decoding with Wireshark's dissectors in one image.",
+      "repository": "https://github.com/randomcontainers/tshark-tcpdump",
+      "license": "GPL-2.0-or-later AND BSD-1-Clause AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND ISC AND Kazlib AND LGPL-2.1-or-later AND MIT AND Zlib AND dtoa AND BSD-4-Clause AND BSD-4-Clause-UC AND NTP",
+      "version": "4.6.9",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "vmaf-ffmpeg",
+      "kind": "combo",
+      "owner": "vmaf",
+      "members": [
+        "vmaf",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "VMAF + FFmpeg",
+      "summary": "VMAF with FFmpeg, which decodes encoded videos to the Y4M input that vmaf reads.",
+      "repository": "https://github.com/randomcontainers/vmaf-ffmpeg",
+      "license": "BSD-2-Clause-Patent AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT AND Unlicense AND GPL-3.0-or-later AND MPL-2.0 AND Zlib",
+      "version": "3.2.1",
+      "public": false,
+      "updated": null,
+      "variants": []
     },
     {
       "name": "weasyprint-qpdf",
@@ -3285,41 +5961,41 @@
       "title": "whisper.cpp + FFmpeg",
       "summary": "whisper.cpp with FFmpeg, for transcribing video files and audio formats that whisper-cli cannot read, such as AAC and Opus.",
       "repository": "https://github.com/randomcontainers/whisper-cpp-ffmpeg",
-      "license": "((MIT AND (MIT-0 OR Unlicense)) AND GPL-3.0-or-later)",
+      "license": "((MIT AND (MIT-0 OR Unlicense)) AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense)",
       "version": "1.9.5",
       "public": true,
-      "updated": "2026-10-04T12:50:14Z",
+      "updated": "2026-10-09T02:18:21Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "1.9.4",
+          "version": "1.9.5",
           "tags": [
             "latest",
-            "1.9.4",
+            "1.9.5",
             "ubuntu",
-            "1.9.4-ubuntu",
-            "1.9.4-ubuntu26.04"
+            "1.9.5-ubuntu",
+            "1.9.5-ubuntu26.04"
           ],
-          "digest": "sha256:3cae4ee36ab693e7af7222200036efbd66ee80170e86ab487e4afdc119301b2b",
+          "digest": "sha256:c4c7cb56e12465218b93a478dfd34d1f2d607a6e1d0bc313bf8f3d445034053f",
           "size": {
-            "linux/amd64": 99531893,
-            "linux/arm64": 94470584
+            "linux/amd64": 101663295,
+            "linux/arm64": 96023975
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "1.9.4",
+          "version": "1.9.5",
           "tags": [
             "alpine",
-            "1.9.4-alpine",
-            "1.9.4-alpine3.24"
+            "1.9.5-alpine",
+            "1.9.5-alpine3.24"
           ],
-          "digest": "sha256:bf050c375486e5390f30e1fa576470d63e1fb68a976c06a8daccc7135540160a",
+          "digest": "sha256:a69ca80ab18b09f4ec0191121156115d58aa211292bf2471c10571ca35d00ab5",
           "size": {
-            "linux/amd64": 58700477,
-            "linux/arm64": 53771609
+            "linux/amd64": 59320288,
+            "linux/arm64": 53814654
           }
         }
       ]
