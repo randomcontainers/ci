@@ -26,6 +26,7 @@ packages:
   - doxygen
   - mkvtoolnix
   - check-jsonschema
+  - clang-format
   - sphinx
   - codespell
   - libxml2
@@ -41,6 +42,7 @@ packages:
   - tshark
   - protoc
   - shaka-packager
+  - libvips
   - duckdb
   - vale
   - jsonnet
