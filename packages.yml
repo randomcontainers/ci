@@ -25,3 +25,22 @@ packages:
   - graphviz
   - doxygen
   - mkvtoolnix
+  - check-jsonschema
+  - sphinx
+  - codespell
+  - libxml2
+  - openssl
+  - cppcheck
+  - libjpeg-turbo
+  - libheif
+  - vmaf
+  - audiowaveform
+  - srt
+  - dig
+  - openssh-client
+  - tshark
+  - protoc
+  - shaka-packager
+  - duckdb
+  - vale
+  - jsonnet
