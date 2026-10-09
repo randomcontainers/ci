@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-07T13:38:14Z",
+  "generated": "2026-10-09T01:02:57Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1093,7 +1093,7 @@
       "homepage": "https://mediaarea.net/en/MediaInfo",
       "repository": "https://github.com/randomcontainers/mediainfo",
       "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause",
-      "version": "26.05",
+      "version": "26.10",
       "versioning": "loose",
       "examples": [
         {
@@ -1134,76 +1134,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-04T12:49:11Z",
+      "updated": "2026-10-09T01:02:57Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "26.05",
+          "version": "26.10",
           "tags": [
             "latest",
-            "26.05",
+            "26.10",
             "26",
             "ubuntu",
-            "26.05-ubuntu",
+            "26.10-ubuntu",
             "26-ubuntu",
-            "26.05-ubuntu26.04"
+            "26.10-ubuntu26.04"
           ],
-          "digest": "sha256:2b96e677687024c20ef2d7057ef3a795fddd5a511209f1644bba867959e029f4",
+          "digest": "sha256:815892a16cf99314abb57ea4148e56d2e35812a3756ed52f833e4b5de053bc34",
           "size": {
-            "linux/amd64": 96513595,
-            "linux/arm64": 94518482
+            "linux/amd64": 98007329,
+            "linux/arm64": 96000572
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "26.05",
+          "version": "26.10",
           "tags": [
             "alpine",
-            "26.05-alpine",
+            "26.10-alpine",
             "26-alpine",
-            "26.05-alpine3.24"
+            "26.10-alpine3.24"
           ],
-          "digest": "sha256:b9c4a7b42fe22279e78249ab512aebc03c5c89d1c1d3467b933222a850de9a8d",
+          "digest": "sha256:121f3b926aa9ffcf5a5f7d551ba1701b69289d1dc5aebd1a2d15a244f1a2556c",
           "size": {
-            "linux/amd64": 56422655,
-            "linux/arm64": 54349376
+            "linux/amd64": 56491490,
+            "linux/arm64": 54413836
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "26.05",
+          "version": "26.10",
           "tags": [
             "slim",
-            "26.05-slim",
+            "26.10-slim",
             "26-slim",
             "slim-ubuntu",
-            "26.05-slim-ubuntu",
+            "26.10-slim-ubuntu",
             "26-slim-ubuntu",
-            "26.05-slim-ubuntu26.04"
+            "26.10-slim-ubuntu26.04"
           ],
-          "digest": "sha256:b563ea7f7bdf05046c9fca96e536cb367509c6112880c1d6f68cda91b89bda1c",
+          "digest": "sha256:97eacebcc03f0022cb186b559572a4dfbcb5ef4aec4c24185e38d933041af87a",
           "size": {
-            "linux/amd64": 55706166,
-            "linux/arm64": 54633592
+            "linux/amd64": 55776423,
+            "linux/arm64": 54697178
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "26.05",
+          "version": "26.10",
           "tags": [
             "slim-alpine",
-            "26.05-slim-alpine",
+            "26.10-slim-alpine",
             "26-slim-alpine",
-            "26.05-slim-alpine3.24"
+            "26.10-slim-alpine3.24"
           ],
-          "digest": "sha256:3506d543c9a519ea37c46cfc63832bfa58c210bb31302d256713afcccc9e6e77",
+          "digest": "sha256:3dd95cc25e52bfcefb4ca138c679100c7f63f28f22effcb6300fc32ee5285c81",
           "size": {
-            "linux/amd64": 12162507,
-            "linux/arm64": 12120425
+            "linux/amd64": 12231383,
+            "linux/arm64": 12184870
           }
         }
       ]
@@ -1935,7 +1935,7 @@
       "homepage": "https://streamlink.github.io/",
       "repository": "https://github.com/randomcontainers/streamlink",
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later",
-      "version": "8.6.1",
+      "version": "8.6.2",
       "versioning": "semver",
       "examples": [
         {
@@ -1968,82 +1968,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-07T06:22:42Z",
+      "updated": "2026-10-08T22:22:35Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "8.6.1",
+          "version": "8.6.2",
           "tags": [
             "latest",
-            "8.6.1",
+            "8.6.2",
             "8.6",
             "8",
             "ubuntu",
-            "8.6.1-ubuntu",
+            "8.6.2-ubuntu",
             "8.6-ubuntu",
             "8-ubuntu",
-            "8.6.1-ubuntu26.04"
+            "8.6.2-ubuntu26.04"
           ],
-          "digest": "sha256:10fbf6cc8f46a7a8c5f5c50f94471e77fda06ee25d5fd0e69a9706670a8cd01b",
+          "digest": "sha256:d78a975b93c92895e252d424845ebbcddc5bc3d3471371c7f62a1c57de532305",
           "size": {
-            "linux/amd64": 130329109,
-            "linux/arm64": 128400501
+            "linux/amd64": 131178375,
+            "linux/arm64": 129249167
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "8.6.1",
+          "version": "8.6.2",
           "tags": [
             "alpine",
-            "8.6.1-alpine",
+            "8.6.2-alpine",
             "8.6-alpine",
             "8-alpine",
-            "8.6.1-alpine3.24"
+            "8.6.2-alpine3.24"
           ],
-          "digest": "sha256:e6926557f846978a800a4973af90dba80a241f2b57b5e07d14697e104dc3736d",
+          "digest": "sha256:d567bb71770fc02678adb1baf081e5d8c92a4469519c97921ebc86b66bf189fe",
           "size": {
-            "linux/amd64": 89378597,
-            "linux/arm64": 87340277
+            "linux/amd64": 89387475,
+            "linux/arm64": 87349669
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "8.6.1",
+          "version": "8.6.2",
           "tags": [
             "slim",
-            "8.6.1-slim",
+            "8.6.2-slim",
             "8.6-slim",
             "8-slim",
             "slim-ubuntu",
-            "8.6.1-slim-ubuntu",
+            "8.6.2-slim-ubuntu",
             "8.6-slim-ubuntu",
             "8-slim-ubuntu",
-            "8.6.1-slim-ubuntu26.04"
+            "8.6.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:cad1dc59d9c539f49537d1d1a8e893bd28bd624e693f40de6c5aaa361cf57a99",
+          "digest": "sha256:66f6b0a2fff313153a1fec9537edaacd294b336fcf2fc8a7480a6180112b1cd1",
           "size": {
-            "linux/amd64": 84815391,
-            "linux/arm64": 83905374
+            "linux/amd64": 84829439,
+            "linux/arm64": 83916014
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "8.6.1",
+          "version": "8.6.2",
           "tags": [
             "slim-alpine",
-            "8.6.1-slim-alpine",
+            "8.6.2-slim-alpine",
             "8.6-slim-alpine",
             "8-slim-alpine",
-            "8.6.1-slim-alpine3.24"
+            "8.6.2-slim-alpine3.24"
           ],
-          "digest": "sha256:9791b0368c5916766c36a92a39f0211138abaa30e1e868702f54c33c595e3052",
+          "digest": "sha256:d36c7ed23d035177449d699a08567621e918ad298f2d6acdbdbe0be92f366e50",
           "size": {
-            "linux/amd64": 44925426,
-            "linux/arm64": 44910968
+            "linux/amd64": 44934463,
+            "linux/arm64": 44920294
           }
         }
       ]
@@ -2448,83 +2448,83 @@
       ],
       "public": true,
       "default_ready": true,
-      "stale": true,
-      "updated": "2026-10-04T12:49:51Z",
+      "stale": false,
+      "updated": "2026-10-09T01:01:54Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "1.9.4",
+          "version": "1.9.5",
           "tags": [
             "latest",
-            "1.9.4",
+            "1.9.5",
             "1.9",
             "1",
             "ubuntu",
-            "1.9.4-ubuntu",
+            "1.9.5-ubuntu",
             "1.9-ubuntu",
             "1-ubuntu",
-            "1.9.4-ubuntu26.04"
+            "1.9.5-ubuntu26.04"
           ],
-          "digest": "sha256:8a6f943bcc1bb32ca59c7c1538f9463c3c7c70b5c633e19ac26a13a6d5773433",
+          "digest": "sha256:1bcd90ca4892bbf78b775daf1ed9b4e1085313ae3692aa7d31b5423b93aed1f4",
           "size": {
-            "linux/amd64": 99531744,
-            "linux/arm64": 94470422
+            "linux/amd64": 101663159,
+            "linux/arm64": 96023779
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "1.9.4",
+          "version": "1.9.5",
           "tags": [
             "alpine",
-            "1.9.4-alpine",
+            "1.9.5-alpine",
             "1.9-alpine",
             "1-alpine",
-            "1.9.4-alpine3.24"
+            "1.9.5-alpine3.24"
           ],
-          "digest": "sha256:41f0f147b321cdb54f5c50dc9d4d7d576b60133438257dcac6d64ffcc91c7a38",
+          "digest": "sha256:e30b08635e2a5b935f1d7d313e49e911183b8fbfcc219a3c448acfcf845a7471",
           "size": {
-            "linux/amd64": 58700322,
-            "linux/arm64": 53771455
+            "linux/amd64": 59320129,
+            "linux/arm64": 53814510
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "1.9.4",
+          "version": "1.9.5",
           "tags": [
             "slim",
-            "1.9.4-slim",
+            "1.9.5-slim",
             "1.9-slim",
             "1-slim",
             "slim-ubuntu",
-            "1.9.4-slim-ubuntu",
+            "1.9.5-slim-ubuntu",
             "1.9-slim-ubuntu",
             "1-slim-ubuntu",
-            "1.9.4-slim-ubuntu26.04"
+            "1.9.5-slim-ubuntu26.04"
           ],
-          "digest": "sha256:2813a4d529d21125e7187fafac3db264974080559b1df7c801a7ccd97e9eeeb2",
+          "digest": "sha256:2a27770a005ca9ec6e7e6140c616e40011001fcfc20e3c995bf8422ec36c9a4d",
           "size": {
-            "linux/amd64": 55013935,
-            "linux/arm64": 50962042
+            "linux/amd64": 55615893,
+            "linux/arm64": 50988775
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "1.9.4",
+          "version": "1.9.5",
           "tags": [
             "slim-alpine",
-            "1.9.4-slim-alpine",
+            "1.9.5-slim-alpine",
             "1.9-slim-alpine",
             "1-slim-alpine",
-            "1.9.4-slim-alpine3.24"
+            "1.9.5-slim-alpine3.24"
           ],
-          "digest": "sha256:93b8eff13da5adab6eeed718f60831f671c35f1ee775ce28db3301f6df9aeada",
+          "digest": "sha256:9143a52c45df21cb0467c30fdbb934ec58d9619596752b5c13e1537e04a207cb",
           "size": {
-            "linux/amd64": 14163347,
-            "linux/arm64": 11255297
+            "linux/amd64": 14783159,
+            "linux/arm64": 11298363
           }
         }
       ]
@@ -2979,7 +2979,7 @@
       "summary": "MediaInfo with FFmpeg, for checking files with both mediainfo and ffprobe and for measuring black borders.",
       "repository": "https://github.com/randomcontainers/mediainfo-ffmpeg",
       "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause AND GPL-3.0-or-later",
-      "version": "26.05",
+      "version": "26.10",
       "public": true,
       "updated": "2026-10-04T12:50:38Z",
       "variants": [
@@ -3133,7 +3133,7 @@
       "summary": "Streamlink with FFmpeg, which it needs for streams that deliver video and audio separately.",
       "repository": "https://github.com/randomcontainers/streamlink-ffmpeg",
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later AND GPL-3.0-or-later",
-      "version": "8.6.1",
+      "version": "8.6.2",
       "public": true,
       "updated": "2026-10-07T13:37:56Z",
       "variants": [
