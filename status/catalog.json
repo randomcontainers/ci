@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-09T16:19:08Z",
+  "generated": "2026-10-10T06:27:37Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -5290,9 +5290,42 @@
       "repository": "https://github.com/randomcontainers/audiowaveform-ffmpeg",
       "license": "GPL-3.0-or-later AND BSD-3-Clause AND Unlicense AND MPL-2.0 AND Zlib",
       "version": "1.11.1",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-10T06:27:09Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.11.1",
+          "tags": [
+            "latest",
+            "1.11.1",
+            "ubuntu",
+            "1.11.1-ubuntu",
+            "1.11.1-ubuntu26.04"
+          ],
+          "digest": "sha256:3c6e8b9ed1d4302181e744f9aebb9f855d49b9312f7153cabfaffe6226cca065",
+          "size": {
+            "linux/amd64": 94230357,
+            "linux/arm64": 92418069
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.11.1",
+          "tags": [
+            "alpine",
+            "1.11.1-alpine",
+            "1.11.1-alpine3.24"
+          ],
+          "digest": "sha256:c6f434caf6d3ee5a40ff93bef1563961b17647480ba75cf03280029d343adcfb",
+          "size": {
+            "linux/amd64": 53602021,
+            "linux/arm64": 51677798
+          }
+        }
+      ]
     },
     {
       "name": "check-jsonschema-yamllint",
@@ -5308,9 +5341,42 @@
       "repository": "https://github.com/randomcontainers/check-jsonschema-yamllint",
       "license": "Apache-2.0 AND MIT AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND Apache-2.0 WITH LLVM-exception AND AGPL-3.0-only AND GPL-3.0-only AND CC-BY-4.0 AND GPL-3.0-or-later WITH GCC-exception-3.1 AND GPL-3.0-or-later",
       "version": "0.38.2",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-10T06:27:15Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "0.38.2",
+          "tags": [
+            "latest",
+            "0.38.2",
+            "ubuntu",
+            "0.38.2-ubuntu",
+            "0.38.2-ubuntu26.04"
+          ],
+          "digest": "sha256:d78d56a49af26a40e16334e0bd97f27d2d0181a970f77f67a95731f34d0c6fb0",
+          "size": {
+            "linux/amd64": 72416637,
+            "linux/arm64": 71738351
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "0.38.2",
+          "tags": [
+            "alpine",
+            "0.38.2-alpine",
+            "0.38.2-alpine3.24"
+          ],
+          "digest": "sha256:229bb8200184d02ba59c7e6a0326f8f43bf61309a4780eb9d26d6ff45de9ca4b",
+          "size": {
+            "linux/amd64": 33252230,
+            "linux/arm64": 33354459
+          }
+        }
+      ]
     },
     {
       "name": "doxygen-graphviz",
@@ -5530,9 +5596,42 @@
       "repository": "https://github.com/randomcontainers/libheif-exiftool",
       "license": "(LGPL-3.0-or-later AND MIT AND GPL-2.0-or-later AND ((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0))",
       "version": "1.23.6",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-10T06:27:20Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.23.6",
+          "tags": [
+            "latest",
+            "1.23.6",
+            "ubuntu",
+            "1.23.6-ubuntu",
+            "1.23.6-ubuntu26.04"
+          ],
+          "digest": "sha256:4babf4591c1ea43f840dcd95333a67db79520d7bf6b83c6d9a5abc1a79a92d3d",
+          "size": {
+            "linux/amd64": 72440797,
+            "linux/arm64": 72539651
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.23.6",
+          "tags": [
+            "alpine",
+            "1.23.6-alpine",
+            "1.23.6-alpine3.24"
+          ],
+          "digest": "sha256:3b229652c2da0c39ea65844be2029682588280f8d9fc4395e2b6fa7fdddce4ee",
+          "size": {
+            "linux/amd64": 32382072,
+            "linux/arm64": 31857268
+          }
+        }
+      ]
     },
     {
       "name": "libjpeg-turbo-exiftool",
@@ -5548,9 +5647,42 @@
       "repository": "https://github.com/randomcontainers/libjpeg-turbo-exiftool",
       "license": "(IJG AND BSD-3-Clause AND Zlib AND BSD-2-Clause AND libpng-2.0 AND ((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0))",
       "version": "3.2.0",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-10T06:27:16Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.2.0",
+          "tags": [
+            "latest",
+            "3.2.0",
+            "ubuntu",
+            "3.2.0-ubuntu",
+            "3.2.0-ubuntu26.04"
+          ],
+          "digest": "sha256:7e0f7d9714459b26e7b3efbc38057dfbc73428b9419f0aa4175791b0317a35e2",
+          "size": {
+            "linux/amd64": 64851079,
+            "linux/arm64": 64272898
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.2.0",
+          "tags": [
+            "alpine",
+            "3.2.0-alpine",
+            "3.2.0-alpine3.24"
+          ],
+          "digest": "sha256:ac38a8d6c57be689b9cca4e36104b29a48a6e24128c9fc6188cc92e6faf7519f",
+          "size": {
+            "linux/amd64": 21234669,
+            "linux/arm64": 21603450
+          }
+        }
+      ]
     },
     {
       "name": "mediainfo-ffmpeg",
@@ -5720,9 +5852,42 @@
       "repository": "https://github.com/randomcontainers/shaka-packager-ffmpeg",
       "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND ISC-Veillard AND curl AND Zlib AND libpng-2.0 AND GPL-3.0-or-later AND MPL-2.0 AND Unlicense",
       "version": "3.9.3",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-10T06:27:20Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.9.3",
+          "tags": [
+            "latest",
+            "3.9.3",
+            "ubuntu",
+            "3.9.3-ubuntu",
+            "3.9.3-ubuntu26.04"
+          ],
+          "digest": "sha256:0f0153465db7473b50807c97ce94d58ab953fc9c1383c9a8c4c0f425e6f4a22e",
+          "size": {
+            "linux/amd64": 112866186,
+            "linux/arm64": 110953785
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.9.3",
+          "tags": [
+            "alpine",
+            "3.9.3-alpine",
+            "3.9.3-alpine3.24"
+          ],
+          "digest": "sha256:27b093e7dde8956fe3bc9cf7243f96abaa5f6e85350e6d9a1ab9da69b47b5701",
+          "size": {
+            "linux/amd64": 72320250,
+            "linux/arm64": 70266204
+          }
+        }
+      ]
     },
     {
       "name": "sphinx-graphviz",
@@ -5738,9 +5903,42 @@
       "repository": "https://github.com/randomcontainers/sphinx-graphviz",
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND 0BSD AND Unicode-3.0 AND LicenseRef-Public-Domain AND EPL-2.0 AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
       "version": "9.1.0",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-10T06:27:27Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "9.1.0",
+          "tags": [
+            "latest",
+            "9.1.0",
+            "ubuntu",
+            "9.1.0-ubuntu",
+            "9.1.0-ubuntu26.04"
+          ],
+          "digest": "sha256:48dd110356b345d6645f304299a927a84e7a0e88cc2b7f64c0b25040adcba6e6",
+          "size": {
+            "linux/amd64": 117771027,
+            "linux/arm64": 115441926
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "9.1.0",
+          "tags": [
+            "alpine",
+            "9.1.0-alpine",
+            "9.1.0-alpine3.24"
+          ],
+          "digest": "sha256:4b5145ab3883cf2c1e167758ebaff09812ff16be677efbb4f0ed0b3ca6ca7b80",
+          "size": {
+            "linux/amd64": 75485995,
+            "linux/arm64": 75194533
+          }
+        }
+      ]
     },
     {
       "name": "srt-ffmpeg",
@@ -5756,9 +5954,42 @@
       "repository": "https://github.com/randomcontainers/srt-ffmpeg",
       "license": "MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense AND GPL-3.0-or-later",
       "version": "1.5.7",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-10T06:27:28Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.5.7",
+          "tags": [
+            "latest",
+            "1.5.7",
+            "ubuntu",
+            "1.5.7-ubuntu",
+            "1.5.7-ubuntu26.04"
+          ],
+          "digest": "sha256:93aac3cd0ced21a3616b82bbd4348452e0225f7496b1ec3db11d46168bda0619",
+          "size": {
+            "linux/amd64": 92346353,
+            "linux/arm64": 90588311
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.5.7",
+          "tags": [
+            "alpine",
+            "1.5.7-alpine",
+            "1.5.7-alpine3.24"
+          ],
+          "digest": "sha256:eefd157e4ef7299b0f90b707f24871455cc3102c5033813111ce036c3ac3afc9",
+          "size": {
+            "linux/amd64": 51591154,
+            "linux/arm64": 49742415
+          }
+        }
+      ]
     },
     {
       "name": "streamlink-ffmpeg",
@@ -5876,9 +6107,42 @@
       "repository": "https://github.com/randomcontainers/tshark-tcpdump",
       "license": "GPL-2.0-or-later AND BSD-1-Clause AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND ISC AND Kazlib AND LGPL-2.1-or-later AND MIT AND Zlib AND dtoa AND BSD-4-Clause AND BSD-4-Clause-UC AND NTP",
       "version": "4.6.9",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-10T06:27:37Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "4.6.9",
+          "tags": [
+            "latest",
+            "4.6.9",
+            "ubuntu",
+            "4.6.9-ubuntu",
+            "4.6.9-ubuntu26.04"
+          ],
+          "digest": "sha256:e10266d1201436be64973d5a3e092d4b3236210cd716d77e28da210a8f0ffb1a",
+          "size": {
+            "linux/amd64": 88041341,
+            "linux/arm64": 86162396
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "4.6.9",
+          "tags": [
+            "alpine",
+            "4.6.9-alpine",
+            "4.6.9-alpine3.24"
+          ],
+          "digest": "sha256:2f7f5dec76ce17299e49cb1b894a13ca6a7c7c7af0e9c728e74215582dde6620",
+          "size": {
+            "linux/amd64": 49155169,
+            "linux/arm64": 48071979
+          }
+        }
+      ]
     },
     {
       "name": "vmaf-ffmpeg",
@@ -5894,9 +6158,42 @@
       "repository": "https://github.com/randomcontainers/vmaf-ffmpeg",
       "license": "BSD-2-Clause-Patent AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT AND Unlicense AND GPL-3.0-or-later AND MPL-2.0 AND Zlib",
       "version": "3.2.1",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-10T06:27:36Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.2.1",
+          "tags": [
+            "latest",
+            "3.2.1",
+            "ubuntu",
+            "3.2.1-ubuntu",
+            "3.2.1-ubuntu26.04"
+          ],
+          "digest": "sha256:1f6ea71b7979541b0e692c0cd1b6acf43c89a4e7d0c11ec3e00b8d436b1e20ff",
+          "size": {
+            "linux/amd64": 91312676,
+            "linux/arm64": 89442021
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.2.1",
+          "tags": [
+            "alpine",
+            "3.2.1-alpine",
+            "3.2.1-alpine3.24"
+          ],
+          "digest": "sha256:ccf5e82f389e8bdc9abfb2dbc852d5d92022b7f6867589b2c23a277eb72fe822",
+          "size": {
+            "linux/amd64": 50554386,
+            "linux/arm64": 48591486
+          }
+        }
+      ]
     },
     {
       "name": "weasyprint-qpdf",
