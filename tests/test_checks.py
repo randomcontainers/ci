@@ -1,5 +1,8 @@
+import pytest
+
 from rc import checks
 from rc.checks import Report
+from rc.docker import Result
 
 EXPECT = {
     "entrypoint": ["tini", "--", "yt-dlp"],
@@ -183,6 +186,87 @@ def test_elf_failures_but_not_python_symbols():
     assert not any("lxml" in p for p in problems)
     assert any("ffmpeg" in p and "libx264" in p for p in problems)
     assert any("heif_init" in p for p in problems)
+
+
+PLUGINS = ["/usr/local/libexec/bcftools"]
+
+
+def elf_problems(files, plugin_dirs=()):
+    """check_elf problems for an elf section of (path, ldd lines) pairs."""
+    probe = "@@section elf\n" + "".join(f"@@file {path}\n" + "".join(f"{line}\n" for line in lines) for path, lines in files)
+    report = Report()
+    checks.check_elf(checks.parse_sections(probe), report, plugin_dirs=plugin_dirs)
+    return report.problems
+
+
+def relocating(path, symbol):
+    return f"Error relocating {path}: {symbol}: symbol not found"
+
+
+def test_elf_accepts_missing_symbols_in_plugins():
+    plugin = "/usr/local/libexec/bcftools/fill-tags.so"
+    nested = "/usr/local/libexec/bcftools/extra/split-vep.so"
+    files = [
+        (plugin, ["\t/lib/ld-musl-x86_64.so.1 (0x7f)", relocating(plugin, "bcf_hdr_append"), relocating(plugin, "bcftools_version")]),
+        (nested, [relocating(nested, "hts_open")]),
+    ]
+    assert elf_problems(files, PLUGINS) == []
+    problems = elf_problems(files)
+    assert len(problems) == 2 and "bcftools_version" in problems[0]
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        "/usr/local/bin/bcftools",
+        "/usr/local/libexec/bcftools/helper",
+        "/usr/local/libexec/bcftools/libhelper.so.1",
+        "/usr/local/libexec/bcftools-extra/fill-tags.so",
+        "/usr/local/libexec/bcftools/../evil.so",
+        "/usr/local/libexec/fill-tags.so",
+    ],
+)
+def test_elf_plugin_rule_covers_only_so_files_in_the_directories(path):
+    problems = elf_problems([(path, [relocating(path, "hts_open")])], PLUGINS)
+    assert len(problems) == 1 and "hts_open" in problems[0]
+
+
+@pytest.mark.parametrize(
+    "line",
+    [
+        "Error loading shared library libgsl.so.28: No such file or directory (needed by /usr/local/libexec/bcftools/peakfit.so)",
+        "\tlibgsl.so.28 => not found",
+    ],
+)
+def test_elf_plugins_still_need_their_libraries(line):
+    plugin = "/usr/local/libexec/bcftools/peakfit.so"
+    problems = elf_problems([(plugin, [line, relocating(plugin, "gsl_vector_alloc")])], PLUGINS)
+    assert len(problems) == 1 and "libgsl.so.28" in problems[0]
+
+
+class FakeDocker:
+    def __init__(self, probe):
+        self.probe = probe
+
+    def inspect(self, image):
+        return config()
+
+    def exists(self, image):
+        return True
+
+    def shell(self, image, script, **kw):
+        if script == checks.BASE_SCRIPT:
+            return Result(0, "apt\nbash\n", "")
+        return Result(0, self.probe, "")
+
+
+def test_check_image_reads_the_plugin_dirs_from_the_plan():
+    plugin = "/usr/local/libexec/yt-dlp/plugin.so"
+    docker = FakeDocker(PROBE + f"@@file {plugin}\n{relocating(plugin, 'hts_open')}\n")
+    target = {"expect": dict(EXPECT), "labels": LABELS, "distro_base": "ubuntu:26.04", "family": "debian"}
+    assert len(checks.check_image(docker, "img", target).problems) == 1
+    target["expect"]["plugin_dirs"] = ["/usr/local/libexec/yt-dlp"]
+    assert checks.check_image(docker, "img", target).problems == []
 
 
 def test_probe_script_is_posix_sh():

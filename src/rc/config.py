@@ -192,6 +192,7 @@ class ImageSpec:
     entrypoint: tuple[str, ...]
     cmd: tuple[str, ...] = ()
     env: tuple[tuple[str, str], ...] = ()
+    plugins: tuple[str, ...] = ()
 
     @property
     def env_map(self) -> dict[str, str]:
@@ -518,14 +519,14 @@ def parse_package(data: Any, origin: str, distros: Distros) -> Package:
 
     image = None
     if "image" in data:
-        raw = r.mapping(data["image"], "image", ("entrypoint", "cmd", "env"), ("entrypoint",))
+        raw = r.mapping(data["image"], "image", ("entrypoint", "cmd", "env", "plugins"), ("entrypoint",))
         entrypoint = r.str_list(raw, "entrypoint", "image", required=True, nonempty=True)
         cmd = r.str_list(raw, "cmd", "image")
         for key, items in (("entrypoint", entrypoint), ("cmd", cmd)):
             for i, item in enumerate(items):
                 if not item or not all(ch.isprintable() for ch in item) or len(item) > 256:
                     r.add(f"image.{key}[{i}]", "must be printable and at most 256 characters")
-        image = ImageSpec(tuple(entrypoint), tuple(cmd), r.env(raw, "env", "image"))
+        image = ImageSpec(tuple(entrypoint), tuple(cmd), r.env(raw, "env", "image"), _parse_plugins(r, raw))
 
     test = r.commands(data, "test", "", required=True)
 
@@ -593,6 +594,31 @@ def parse_package(data: Any, origin: str, distros: Distros) -> Package:
         combos=tuple(combos),
         source_release=source_release,
     )
+
+
+def _parse_plugins(r: _Reader, raw: dict) -> tuple[str, ...]:
+    """image.plugins: directories under /usr/local whose .so files are dlopen plugins."""
+    found: list[str] = []
+    for i, item in enumerate(r.str_list(raw, "plugins", "image", nonempty=True)):
+        where = f"image.plugins[{i}]"
+        parts = item.split("/")
+        if item.startswith("/"):
+            r.add(where, f"{item!r} must be relative to /usr/local, such as libexec/bcftools")
+        elif any(part in ("", ".", "..") for part in parts):
+            r.add(where, f"{item!r} must not have empty, '.' or '..' components")
+        elif len(parts) < 2:
+            r.add(where, f"{item!r} would cover all of /usr/local/{item}; name the tool's own directory, such as libexec/bcftools")
+        elif len(item) > 200 or not names.PLUGIN_DIR.match(item):
+            r.add(
+                where,
+                f"{item!r} must be at most 200 characters of letters, digits, '.', '_', '+' and '-',"
+                " each component starting with a letter, digit or '_'",
+            )
+        elif item in found:
+            r.add("image.plugins", f"lists {item!r} more than once")
+        else:
+            found.append(item)
+    return tuple(found)
 
 
 def _parse_upstream(r: _Reader, raw: Any, path: str, distros: Distros) -> Upstream | None:

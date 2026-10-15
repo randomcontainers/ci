@@ -241,6 +241,18 @@ A rebuild of the same version uploads only the files the release does not have y
 
 `source-release: true` is required when `license` contains a GPL, LGPL or AGPL term and the build compiles `artifact`, `git` or `extra-artifacts`: the release holds the corresponding source of the compiled binaries. `rc validate` reports an error when it is missing.
 
+### Plugins
+
+`rc check-image` runs `ldd` on every executable and shared library under `/usr/local` and fails when a library or symbol does not resolve. On Alpine, musl's `ldd` also reports the symbols a plugin takes from the program that loads it with `dlopen`, such as the htslib functions a bcftools plugin calls in `bcftools` itself. List the directories that hold such plugins, relative to `/usr/local`:
+
+```yaml
+image:
+  entrypoint: [bcftools]
+  plugins: [libexec/bcftools]    # the .so files in /usr/local/libexec/bcftools
+```
+
+For `.so` files in these directories and below them, `rc check-image` accepts `Error relocating <file>: <symbol>: symbol not found`. A missing library still fails the check. Each entry has at least two components, so it cannot cover all of `/usr/local/lib`; absolute paths and `..` are refused. A default or combo image applies the `plugins` of every member, from the `package.yml` that member's image was built from. The check does not verify those symbols, so the tests have to load every plugin, for example by comparing the number of plugins `bcftools plugin -l` lists with the number of `.so` files in the directory.
+
 ### Python packages
 
 The Dockerfile installs `requirements.lock` with `pip install --require-hashes --no-deps --only-binary=:all:`. The reconciler regenerates the lock on every version bump and once a week, with the command named on the file's second line. Create the first lock with `rc lock`, which needs uv and writes that line:

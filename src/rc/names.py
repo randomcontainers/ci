@@ -43,6 +43,9 @@ GIT_URL = re.compile(r"^https://[A-Za-z0-9.-]+(?::[0-9]{1,5})?(?:/[A-Za-z0-9_~-]
 # A tag name that git accepts and that is safe on a command line: components
 # separated by single slashes, none starting with a dot or a dash.
 GIT_TAG = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9._+-]*(?:/[A-Za-z0-9_][A-Za-z0-9._+-]*)*$")
+# A directory under /usr/local named in image.plugins, such as libexec/bcftools:
+# two or more components, each starting with a letter, digit or underscore.
+PLUGIN_DIR = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9._+-]*(?:/[A-Za-z0-9_][A-Za-z0-9._+-]*)+$")
 # The name of an extra artifact; upper-cased with _ for -, it prefixes the build arguments.
 EXTRA_NAME = re.compile(r"^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$")
 # A version pinned by hand for an extra artifact.

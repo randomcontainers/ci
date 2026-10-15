@@ -76,6 +76,17 @@ def test_package_list():
         (lambda d: d["image"].update(env={"X": 1}), "must be a string"),
         (lambda d: d["image"].update(env={"X": "a\nb"}), "printable ASCII"),
         (lambda d: d["image"].update(entrypoint=[]), "must not be empty"),
+        (lambda d: d["image"].update(plugins="libexec/yt-dlp"), "image.plugins: must be a list of strings"),
+        (lambda d: d["image"].update(plugins=[]), "image.plugins: must not be empty"),
+        (lambda d: d["image"].update(plugins=["/usr/local/libexec/yt-dlp"]), "must be relative to /usr/local"),
+        (lambda d: d["image"].update(plugins=["libexec/../bin"]), "must not have empty, '.' or '..' components"),
+        (lambda d: d["image"].update(plugins=["libexec/yt-dlp/"]), "must not have empty"),
+        (lambda d: d["image"].update(plugins=["./libexec"]), "'.'"),
+        (lambda d: d["image"].update(plugins=["lib"]), "would cover all of /usr/local/lib"),
+        (lambda d: d["image"].update(plugins=["libexec/yt dlp"]), "letters, digits"),
+        (lambda d: d["image"].update(plugins=["libexec/.hidden"]), "each component starting with"),
+        (lambda d: d["image"].update(plugins=["libexec/" + "x" * 200]), "at most 200 characters"),
+        (lambda d: d["image"].update(plugins=["libexec/yt-dlp", "libexec/yt-dlp"]), "lists 'libexec/yt-dlp' more than once"),
         (lambda d: d.update(test=[]), "must not be empty"),
         (lambda d: d.update(test=[{"grep -q": "x"}]), "read as a mapping"),
         (
@@ -125,6 +136,14 @@ def test_artifact_problems(distros, mutate, expected):
 )
 def test_expand_url(template, expected):
     assert config.expand_url(template, "1.18.0") == expected
+
+
+def test_image_plugins(distros, packages):
+    assert packages["yt-dlp"].image.plugins == ()
+    data = raw("yt-dlp")
+    data["image"]["plugins"] = ["libexec/yt-dlp", "lib/yt-dlp/plugins_2.0+x"]
+    package = config.parse_package(data, "package.yml", distros)
+    assert package.image.plugins == ("libexec/yt-dlp", "lib/yt-dlp/plugins_2.0+x")
 
 
 def test_source_release_needs_artifact(distros):

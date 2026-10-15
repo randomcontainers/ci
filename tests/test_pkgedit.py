@@ -148,6 +148,10 @@ def documented_package(block):
     block = block.replace("<hex>", "b" * 64).replace("https://...", "https://example.org/")
     if block.startswith("name:"):
         return block
+    if block.startswith("image:"):
+        whole = text("ghostscript")
+        start = whole.index("image:\n")
+        return whole[:start] + block + whole[whole.index("\ntest:", start) + 1 :]
     if block.startswith("  artifact:"):
         return head + "upstream:\n" + body[: body.index("  artifact:\n")] + block + tail
     block = block.replace("  # source, project, artifact ...\n", body)

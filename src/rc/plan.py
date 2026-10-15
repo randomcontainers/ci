@@ -170,7 +170,7 @@ class Planner:
             **kw,
         )
 
-    def _expect(self, package_env: dict[str, str], entrypoint, cmd, installed: dict[str, str], extras, distro) -> dict:
+    def _expect(self, package_env: dict[str, str], entrypoint, cmd, installed: dict[str, str], extras, distro, plugins) -> dict:
         env = dict(COMMON_ENV)
         env.update(package_env)
         return {
@@ -182,6 +182,7 @@ class Planner:
             "packages": installed,
             "extra_packages": list(extras),
             "os_version": distro.version,
+            "plugin_dirs": sorted({f"/usr/local/{d}" for d in plugins}),
         }
 
     def slim_target(self, package: Package, distro: Distro, with_default_tags: bool) -> dict:
@@ -227,6 +228,7 @@ class Planner:
                 {package.name: package.version},
                 [],
                 distro,
+                package.image.plugins,
             ),
             "tests": [
                 {"package": package.name, "version": package.version, "commands": list(package.test), "require_output": True}
@@ -315,6 +317,7 @@ class Planner:
                 {n: s.version for n, s in states.items()},
                 extras.packages,
                 distro,
+                [d for n in combo.members for d in packages[n].image.plugins],
             ),
             "tests": [
                 {

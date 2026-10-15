@@ -444,6 +444,37 @@ def test_combo_members_are_tested_with_the_package_yml_of_their_images():
     assert tests["imagemagick"] == list(world.packages["imagemagick"].test)
 
 
+def add_plugins(*dirs):
+    return lambda data: data["image"].update(plugins=list(dirs))
+
+
+def test_plugin_dirs_of_every_member_apply_to_the_default_image():
+    world = World()
+    push_package(world, "ffmpeg", add_plugins("lib/frei0r-1"))
+    publish_slim(world.registry, "ffmpeg", "9.0.2", revision=world.github.heads["randomcontainers/ffmpeg"])
+    # Added after the image was built, so it is not in the image yet.
+    push_package(world, "ffmpeg", add_plugins("lib/frei0r-1", "lib/ladspa"))
+    checkout = push_package(world, "yt-dlp", add_plugins("libexec/yt-dlp"))
+    doc = github_planner(world, "randomcontainers/yt-dlp").plan_package(checkout)
+    t = targets_by_id(doc)
+    for distro in ("ubuntu", "alpine"):
+        assert t[f"slim-{distro}"]["expect"]["plugin_dirs"] == ["/usr/local/libexec/yt-dlp"]
+        assert t[f"default-{distro}"]["expect"]["plugin_dirs"] == ["/usr/local/lib/frei0r-1", "/usr/local/libexec/yt-dlp"]
+
+
+def test_combo_repository_applies_the_plugin_dirs_of_its_members():
+    world = World()
+    push_package(world, "ghostscript", add_plugins("lib/ghostscript/plugins"))
+    for name, version in (("imagemagick", "7.1.2-31"), ("ghostscript", "10.08.0")):
+        publish_slim(world.registry, name, version, revision=world.github.heads[f"randomcontainers/{name}"])
+    doc = github_planner(world, "randomcontainers/imagemagick-ghostscript").plan_combo(
+        ComboFile("imagemagick-ghostscript", "imagemagick", ("ghostscript",))
+    )
+    for target in doc["targets"]:
+        assert target["expect"]["plugin_dirs"] == ["/usr/local/lib/ghostscript/plugins"]
+    assert len(doc["targets"]) == 2
+
+
 def test_member_without_a_revision_label_is_tested_with_main():
     world = World()
     publish_slim(world.registry, "ffmpeg", "9.0.2")

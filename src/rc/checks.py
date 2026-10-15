@@ -6,6 +6,7 @@ so it sees the image exactly as shipped.
 """
 
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 
 from rc.constants import COMMON_PACKAGES, METADATA_DIR
@@ -58,6 +59,10 @@ FORBIDDEN_BIN = re.compile(r"^(python[0-9.]*|pip[0-9.]*|activate.*|easy_install.
 # musl's ldd reports the CPython API as unresolved in every extension module;
 # the interpreter provides those symbols at import time.
 _PY_SYMBOL = re.compile(r"Error relocating .*: _?Py[A-Za-z0-9_]*: symbol not found")
+# It does the same in a dlopen plugin for the symbols the loading program
+# provides, such as the htslib functions bcftools gives its plugins. Those
+# lines are accepted only for .so files in the image.plugins directories.
+_RELOCATION = re.compile(r"^Error relocating (/.+): [^:\s]+: symbol not found$")
 _APK_CONSTRAINT = re.compile(r"[<>=~].*$")
 
 
@@ -182,7 +187,18 @@ def check_bin(sections: dict[str, list[str]], report: Report) -> None:
             report.add(f"/usr/local/bin/{name} points outside /usr/local ({parts[2]})")
 
 
-def check_elf(sections: dict[str, list[str]], report: Report, limit: int = 20) -> None:
+def _plugin_symbol(line: str, plugin_dirs: Iterable[str]) -> bool:
+    """True for a missing symbol in a .so file inside one of the plugin directories."""
+    match = _RELOCATION.match(line)
+    if not match:
+        return False
+    path = match[1]
+    if not path.endswith(".so") or "/../" in path or "/./" in path:
+        return False
+    return any(path.startswith(d.rstrip("/") + "/") for d in plugin_dirs)
+
+
+def check_elf(sections: dict[str, list[str]], report: Report, limit: int = 20, plugin_dirs: Iterable[str] = ()) -> None:
     failures: dict[str, list[str]] = {}
     current = None
     for line in sections.get("elf", []):
@@ -192,7 +208,7 @@ def check_elf(sections: dict[str, list[str]], report: Report, limit: int = 20) -
         if current is None:
             continue
         if "Error relocating" in line:
-            bad = not _PY_SYMBOL.search(line)
+            bad = not (_PY_SYMBOL.search(line) or _plugin_symbol(line.strip(), plugin_dirs))
         else:
             bad = "not found" in line or "Error loading shared library" in line
         if bad:
@@ -225,5 +241,5 @@ def check_image(docker: Docker, image: str, target: dict) -> Report:
     check_metadata(sections, expect["packages"], report)
     check_dirs(sections, report)
     check_bin(sections, report)
-    check_elf(sections, report)
+    check_elf(sections, report, plugin_dirs=expect.get("plugin_dirs", ()))
     return report
