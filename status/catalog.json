@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-17T10:41:16Z",
+  "generated": "2026-10-17T16:58:53Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -3995,7 +3995,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T10:35:14Z",
+      "updated": "2026-10-17T16:58:53Z",
       "variants": [
         {
           "flavour": "default",
@@ -4012,10 +4012,10 @@
             "1-ubuntu",
             "1.5.7-ubuntu26.04"
           ],
-          "digest": "sha256:97b3addf88fb7bc0915d28059a6e568beb64c49552ce5ecfe25877ccbb2a6ca4",
+          "digest": "sha256:07258b49ed4f8fda466aa348b6de79dfe4484548f032981e2a2163edba6eb844",
           "size": {
-            "linux/amd64": 89679388,
-            "linux/arm64": 87490437
+            "linux/amd64": 89679386,
+            "linux/arm64": 87490439
           }
         },
         {
@@ -4029,10 +4029,10 @@
             "1-alpine",
             "1.5.7-alpine3.24"
           ],
-          "digest": "sha256:881857d506b8253b1b8ef0775ccb771c1dfec30a1e93d81b7fbbb7c4a09791f4",
+          "digest": "sha256:1defb03ba3986a02b1e468c432f4a89e7214bf8ad331cd135e6b177c5858d363",
           "size": {
-            "linux/amd64": 51591045,
-            "linux/arm64": 49742260
+            "linux/amd64": 51591013,
+            "linux/arm64": 49742692
           }
         },
         {
