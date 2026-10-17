@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-17T19:12:47Z",
+  "generated": "2026-10-17T21:32:31Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -6210,7 +6210,7 @@
       "license": "BSD-3-Clause AND MIT AND MIT-CMU AND Apache-2.0 AND BSD-2-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND LGPL-2.1-or-later AND GPL-2.0-or-later AND GPL-3.0-only AND FTL AND MIT-Modern-Variant AND IJG AND Zlib AND libpng-2.0 AND libtiff AND bzip2-1.0.6",
       "version": "70.0",
       "public": true,
-      "updated": "2026-10-17T10:41:16Z",
+      "updated": "2026-10-17T21:32:31Z",
       "variants": [
         {
           "flavour": "default",
@@ -6223,10 +6223,10 @@
             "70.0-ubuntu",
             "70.0-ubuntu26.04"
           ],
-          "digest": "sha256:68066654821e27d84b0e8c0373a6c7c3da9bb4d99bb7623c7253485cc9334245",
+          "digest": "sha256:4029ed0c0cafd5b0aa7645f792d6650d8d9dda2059bd9961907e038ba80abc97",
           "size": {
-            "linux/amd64": 89999703,
-            "linux/arm64": 88361212
+            "linux/amd64": 90002618,
+            "linux/arm64": 88367005
           }
         },
         {
@@ -6238,10 +6238,10 @@
             "70.0-alpine",
             "70.0-alpine3.24"
           ],
-          "digest": "sha256:8227f4ea7a81bce3cf7f8c81bdcbe7e20695c1ac33ee38589540742d166f844a",
+          "digest": "sha256:be8639a603632c59a30408d1008f52cc273c5fd5d45dc1f004cecc44ded170af",
           "size": {
-            "linux/amd64": 60323417,
-            "linux/arm64": 59614860
+            "linux/amd64": 60335622,
+            "linux/arm64": 59622562
           }
         }
       ]
