@@ -46,3 +46,19 @@ packages:
   - duckdb
   - vale
   - jsonnet
+  - postgresql-client
+  - pgcli
+  - thrift
+  - fio
+  - sipp
+  - ugrep
+  - yara
+  - gifsicle
+  - fluidsynth
+  - gnupg
+  - lnav
+  - sleuthkit
+  - bcftools
+  - samtools
+  - opentofu
+  - typos
