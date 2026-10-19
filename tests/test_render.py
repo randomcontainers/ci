@@ -37,6 +37,16 @@ def test_shape(packages, distros):
     assert "LABEL" not in text
 
 
+def test_member_stage_names_start_with_a_letter(packages, distros):
+    ytdlp = packages["yt-dlp"]
+    seven = dataclasses.replace(ytdlp, name="7zip", combos=())
+    combo = dataclasses.replace(ytdlp.default_combo, with_=(*ytdlp.default_combo.with_, "7zip"))
+    pk = dict(packages, **{"7zip": seven})
+    lines = render.combo_dockerfile(combo, pk, distros.get("ubuntu")).splitlines()
+    assert "FROM 7zip AS pkg-7zip" in lines
+    assert "COPY --link --from=pkg-7zip /usr/local/ /usr/local/" in lines
+
+
 def test_base_member_env_is_inherited_not_repeated(packages, distros):
     ffmpeg = packages["ffmpeg"]
     env_ffmpeg = dataclasses.replace(ffmpeg, image=dataclasses.replace(ffmpeg.image, env=(("FFREPORT", "level=32"),)))

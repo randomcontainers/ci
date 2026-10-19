@@ -100,11 +100,11 @@ def combo_dockerfile(combo: Combo, packages: Mapping[str, Package], distro: Dist
         f"# Generated from {org}/{combo.owner} package.yml by {org}/ci. Do not edit.",
         f"FROM {base} AS base",
     ]
-    lines += [f"FROM {name} AS {name}" for name in others]
+    lines += [f"FROM {name} AS {_stage(name)}" for name in others]
     lines += ["FROM base", "USER 0:0"]
     if distro.family == "debian":
         lines.append("ARG DEBIAN_FRONTEND=noninteractive")
-    lines += [f"COPY --link --from={name} /usr/local/ /usr/local/" for name in others]
+    lines += [f"COPY --link --from={_stage(name)} /usr/local/ /usr/local/" for name in others]
 
     deps = "/tmp/runtime-deps"
     steps = [
@@ -145,6 +145,11 @@ def combo_dockerfile(combo: Combo, packages: Mapping[str, Package], distro: Dist
         f"CMD {_exec_form(owner.image.cmd)}",
     ]
     return "\n".join(lines) + "\n"
+
+
+def _stage(name: str) -> str:
+    """A build stage name for a member: Dockerfile stage names must start with a letter."""
+    return name if name[0].isalpha() else f"pkg-{name}"
 
 
 def _template(name: str) -> str:
