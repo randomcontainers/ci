@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-19T20:15:16Z",
+  "generated": "2026-10-19T21:27:25Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -5166,10 +5166,31 @@
       },
       "combos": [],
       "public": true,
-      "default_ready": false,
+      "default_ready": true,
       "stale": false,
-      "updated": "2026-10-19T20:12:53Z",
+      "updated": "2026-10-19T21:27:25Z",
       "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "4.15.0",
+          "tags": [
+            "latest",
+            "4.15.0",
+            "4.15",
+            "4",
+            "ubuntu",
+            "4.15.0-ubuntu",
+            "4.15-ubuntu",
+            "4-ubuntu",
+            "4.15.0-ubuntu26.04"
+          ],
+          "digest": "sha256:dd11df11cde1d7cd7a705723cf1a047178132b26d1e4fa8b4705fb911652a392",
+          "size": {
+            "linux/amd64": 53975618,
+            "linux/arm64": 52809448
+          }
+        },
         {
           "flavour": "default",
           "distro": "alpine",
@@ -5181,10 +5202,31 @@
             "4-alpine",
             "4.15.0-alpine3.24"
           ],
-          "digest": "sha256:36de35445cec0cab4912d48f7f38ca5624b030d792fb4524c848094c3951cef3",
+          "digest": "sha256:8557fdb513afc89d02623f8664099af2804df195e113ad98b9a96251921538aa",
           "size": {
-            "linux/amd64": 18413186,
-            "linux/arm64": 18612264
+            "linux/amd64": 18413257,
+            "linux/arm64": 18612130
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "4.15.0",
+          "tags": [
+            "slim",
+            "4.15.0-slim",
+            "4.15-slim",
+            "4-slim",
+            "slim-ubuntu",
+            "4.15.0-slim-ubuntu",
+            "4.15-slim-ubuntu",
+            "4-slim-ubuntu",
+            "4.15.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:dd11df11cde1d7cd7a705723cf1a047178132b26d1e4fa8b4705fb911652a392",
+          "size": {
+            "linux/amd64": 53975618,
+            "linux/arm64": 52809448
           }
         },
         {
@@ -5198,10 +5240,10 @@
             "4-slim-alpine",
             "4.15.0-slim-alpine3.24"
           ],
-          "digest": "sha256:36de35445cec0cab4912d48f7f38ca5624b030d792fb4524c848094c3951cef3",
+          "digest": "sha256:8557fdb513afc89d02623f8664099af2804df195e113ad98b9a96251921538aa",
           "size": {
-            "linux/amd64": 18413186,
-            "linux/arm64": 18612264
+            "linux/amd64": 18413257,
+            "linux/arm64": 18612130
           }
         }
       ]
@@ -7353,9 +7395,42 @@
       "repository": "https://github.com/randomcontainers/fluidsynth-ffmpeg",
       "license": "LGPL-2.1-or-later AND Apache-2.0 AND CC0-1.0 AND LicenseRef-Public-Domain AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
       "version": "2.6.1",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-19T21:17:36Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2.6.1",
+          "tags": [
+            "latest",
+            "2.6.1",
+            "ubuntu",
+            "2.6.1-ubuntu",
+            "2.6.1-ubuntu26.04"
+          ],
+          "digest": "sha256:6f6f571a1da0c3c09fe380939907a141a53b83f735b53d1539766265937b43b0",
+          "size": {
+            "linux/amd64": 88937609,
+            "linux/arm64": 86804143
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2.6.1",
+          "tags": [
+            "alpine",
+            "2.6.1-alpine",
+            "2.6.1-alpine3.24"
+          ],
+          "digest": "sha256:ec061126662bd8a34dfc4d3d00d24d4e0fdf677fb65b93b3dd90895ef9d0fb06",
+          "size": {
+            "linux/amd64": 51405956,
+            "linux/arm64": 49609121
+          }
+        }
+      ]
     },
     {
       "name": "gifsicle-ffmpeg",
@@ -7371,9 +7446,42 @@
       "repository": "https://github.com/randomcontainers/gifsicle-ffmpeg",
       "license": "GPL-2.0-only AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
       "version": "1.98",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-19T21:17:38Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.98",
+          "tags": [
+            "latest",
+            "1.98",
+            "ubuntu",
+            "1.98-ubuntu",
+            "1.98-ubuntu26.04"
+          ],
+          "digest": "sha256:4844dffbd18ebc302f47283398a6cb644a5acf31dcef9469c9f2a7b221e2bf43",
+          "size": {
+            "linux/amd64": 88171480,
+            "linux/arm64": 86073757
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.98",
+          "tags": [
+            "alpine",
+            "1.98-alpine",
+            "1.98-alpine3.24"
+          ],
+          "digest": "sha256:7faf508b5a19745d4917e5e49ec4005a870409d1161d4aa56efc46021ca3104a",
+          "size": {
+            "linux/amd64": 50078233,
+            "linux/arm64": 48320836
+          }
+        }
+      ]
     },
     {
       "name": "imagemagick-ghostscript",
@@ -7696,9 +7804,42 @@
       "repository": "https://github.com/randomcontainers/opentofu-openssh-client",
       "license": "MPL-2.0 AND Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND ISC AND Unicode-DFS-2016 AND Unicode-3.0 AND SSH-OpenSSH AND GPL-2.0-only",
       "version": "1.13.1",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-19T21:17:48Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.13.1",
+          "tags": [
+            "latest",
+            "1.13.1",
+            "ubuntu",
+            "1.13.1-ubuntu",
+            "1.13.1-ubuntu26.04"
+          ],
+          "digest": "sha256:372b4a62f22b91a618d37ebccb7b027f093c13dfebc6cf785a0d376b92e75c29",
+          "size": {
+            "linux/amd64": 111304609,
+            "linux/arm64": 106043613
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.13.1",
+          "tags": [
+            "alpine",
+            "1.13.1-alpine",
+            "1.13.1-alpine3.24"
+          ],
+          "digest": "sha256:5e7d9591a4770d84ece565d9afe3fbc7d9ba524ebb33a86bca562b045fb88399",
+          "size": {
+            "linux/amd64": 51247649,
+            "linux/arm64": 47868163
+          }
+        }
+      ]
     },
     {
       "name": "pgcli-postgresql-client",
@@ -7714,9 +7855,42 @@
       "repository": "https://github.com/randomcontainers/pgcli-postgresql-client",
       "license": "BSD-3-Clause AND BSD-2-Clause AND MIT AND HPND-Markus-Kuhn AND Unicode-3.0 AND PostgreSQL AND LGPL-3.0-only AND Apache-2.0 AND ISC AND MPL-2.0 AND PSF-2.0 AND LicenseRef-pg-dump AND LicenseRef-Public-Domain",
       "version": "4.7.1",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-19T21:17:56Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "4.7.1",
+          "tags": [
+            "latest",
+            "4.7.1",
+            "ubuntu",
+            "4.7.1-ubuntu",
+            "4.7.1-ubuntu26.04"
+          ],
+          "digest": "sha256:1510ce39de2c16d281678e7de9618935a446ddb905358120d2d3058943b34f1b",
+          "size": {
+            "linux/amd64": 71596029,
+            "linux/arm64": 70476165
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "4.7.1",
+          "tags": [
+            "alpine",
+            "4.7.1-alpine",
+            "4.7.1-alpine3.24"
+          ],
+          "digest": "sha256:eb1f819f4c8eedb26cf1473c1f9bea08b94ceb8468f969807a2b5a1a96102508",
+          "size": {
+            "linux/amd64": 34655816,
+            "linux/arm64": 34853323
+          }
+        }
+      ]
     },
     {
       "name": "qpdf-ghostscript",
@@ -7783,9 +7957,42 @@
       "repository": "https://github.com/randomcontainers/samtools-bcftools",
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain AND BSD-1-Clause",
       "version": "1.24",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-19T21:17:59Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.24",
+          "tags": [
+            "latest",
+            "1.24",
+            "ubuntu",
+            "1.24-ubuntu",
+            "1.24-ubuntu26.04"
+          ],
+          "digest": "sha256:9bf2e5c84a31b215e4a0c549eed29a758e7b2bfdc99944bd38a55635771f5a7c",
+          "size": {
+            "linux/amd64": 54266784,
+            "linux/arm64": 52823322
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.24",
+          "tags": [
+            "alpine",
+            "1.24-alpine",
+            "1.24-alpine3.24"
+          ],
+          "digest": "sha256:07483d931d491d55014a1382f415f1bebdb7cf970c5d234bb9eef19000c4dd9c",
+          "size": {
+            "linux/amd64": 12761989,
+            "linux/arm64": 12792957
+          }
+        }
+      ]
     },
     {
       "name": "shaka-packager-ffmpeg",
@@ -8107,9 +8314,42 @@
       "repository": "https://github.com/randomcontainers/ugrep-poppler",
       "license": "(BSD-3-Clause AND LicenseRef-Public-Domain AND Unicode-3.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))",
       "version": "7.8.5",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-19T21:18:06Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "7.8.5",
+          "tags": [
+            "latest",
+            "7.8.5",
+            "ubuntu",
+            "7.8.5-ubuntu",
+            "7.8.5-ubuntu26.04"
+          ],
+          "digest": "sha256:66a40ee02f543cfa42abc7fd39bf18147b8674d389cb7ae7b324e4eb6819ee08",
+          "size": {
+            "linux/amd64": 64178517,
+            "linux/arm64": 62579664
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "7.8.5",
+          "tags": [
+            "alpine",
+            "7.8.5-alpine",
+            "7.8.5-alpine3.24"
+          ],
+          "digest": "sha256:2df827a16b053cb595baa05a4c3280d789533c4d25827e48c23843e4275f0bc9",
+          "size": {
+            "linux/amd64": 27204211,
+            "linux/arm64": 27035338
+          }
+        }
+      ]
     },
     {
       "name": "vmaf-ffmpeg",
@@ -8278,9 +8518,42 @@
       "repository": "https://github.com/randomcontainers/yara-7zip",
       "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
       "version": "4.5.8",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-19T21:18:09Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "4.5.8",
+          "tags": [
+            "latest",
+            "4.5.8",
+            "ubuntu",
+            "4.5.8-ubuntu",
+            "4.5.8-ubuntu26.04"
+          ],
+          "digest": "sha256:46cd8dddce3991f555a432a602922409c73254c5e1883a395bad34473956d5fa",
+          "size": {
+            "linux/amd64": 45844752,
+            "linux/arm64": 44732719
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "4.5.8",
+          "tags": [
+            "alpine",
+            "4.5.8-alpine",
+            "4.5.8-alpine3.24"
+          ],
+          "digest": "sha256:c01877e0ce127d88f3ab9c739ff7e1914d475d98e0dc9f546733d885777dcc98",
+          "size": {
+            "linux/amd64": 7842845,
+            "linux/arm64": 8068583
+          }
+        }
+      ]
     },
     {
       "name": "yt-dlp-ffmpeg",
