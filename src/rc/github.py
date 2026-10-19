@@ -250,7 +250,8 @@ class GitHub:
 
     def releases(self, repo: str) -> list[dict]:
         """The newest 100 releases; drafts are only visible with push access and are skipped."""
-        data = self.get(f"/repos/{check_repo(repo)}/releases?per_page=100")
+        # 25 per page: 100 releases with long notes (opentofu) exceed the response size limit.
+        data = self.pages(f"/repos/{check_repo(repo)}/releases?per_page=25", limit=4)
         return [r for r in data if isinstance(r, dict) and not r.get("draft")]
 
     def tags(self, repo: str, prefix: str = "") -> list[tuple[str, str, str]]:

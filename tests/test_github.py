@@ -60,6 +60,24 @@ def test_pagination_follows_link_headers():
     assert len(transport.calls) == 2
 
 
+def test_releases_are_read_in_pages_of_25():
+    class Releases:
+        def __init__(self):
+            self.calls = []
+
+        def request(self, method, url, headers, body=None):
+            self.calls.append(url)
+            page = int(url.rsplit("page=", 1)[1]) if "&page=" in url else 1
+            link = f'<https://api.github.com/repos/o/r/releases?per_page=25&page={page + 1}>; rel="next"'
+            items = [{"tag_name": f"v{page}.{i}", "draft": i == 0} for i in range(25)]
+            return Response(200, {"link": link}, json.dumps(items).encode())
+
+    transport = Releases()
+    releases = GitHub(transport).releases("o/r")
+    assert len(transport.calls) == 4 and "per_page=25" in transport.calls[0]
+    assert len(releases) == 96 and releases[0]["tag_name"] == "v1.1"
+
+
 def test_errors_carry_status():
     class Denied:
         def request(self, method, url, headers, body=None):
