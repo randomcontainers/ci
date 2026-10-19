@@ -32,7 +32,7 @@ Only the tags of the $owner_title version currently in [$owner's package.yml](ht
 
 ## Files and permissions
 
-The working directory is `/work`. The image runs as UID 1000, and any other UID works too: `HOME` is then `/`, and caches go to `/cache`, which anyone can write to. How to get output files owned by you depends on how you run containers:
+The working directory is `/work`. The image runs as UID 1000, and any other UID works too: $home_text, which anyone can write to. How to get output files owned by you depends on how you run containers:
 
 | Runtime | Flag |
 |---|---|

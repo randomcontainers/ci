@@ -146,6 +146,21 @@ def test_readme_of_a_combo_with_agpl_software(packages, distros):
     assert "Also installed" not in readme and "plus" not in readme.split("\n")[4]
 
 
+def test_readme_home_follows_the_owner_env(packages, distros):
+    combo = packages["yt-dlp"].default_combo
+    readme = render.combo_repo_files(combo, packages, distros)["README.md"]
+    assert "any other UID works too: `HOME` is then `/`, and caches go to `/cache`, which anyone" in readme
+    cases = (
+        ("/cache", "`HOME` and the caches are in `/cache`, which anyone"),
+        ("/home/x", "`HOME` is `/home/x`, and caches"),
+    )
+    for home, text in cases:
+        image = dataclasses.replace(packages["yt-dlp"].image, env=(("HOME", home),))
+        owner = dataclasses.replace(packages["yt-dlp"], image=image)
+        readme = render.combo_repo_files(combo, {**packages, "yt-dlp": owner}, distros)["README.md"]
+        assert f"any other UID works too: {text}" in readme
+
+
 def test_quick_start_uses_the_owner_example(packages):
     ytdlp = packages["yt-dlp"]
     example = lambda command: dataclasses.replace(ytdlp, examples=(Example("x", command),))

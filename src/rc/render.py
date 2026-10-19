@@ -244,8 +244,17 @@ def combo_repo_files(
     ]
     sources_text = "Corresponding source:\n\n" + "\n".join(sources) + "\n\n" if sources else ""
 
+    home = owner.image.env_map.get("HOME")
+    if home == "/cache":
+        home_text = "`HOME` and the caches are in `/cache`"
+    elif home:
+        home_text = f"`HOME` is `{home}`, and caches go to `/cache`"
+    else:
+        home_text = "`HOME` is then `/`, and caches go to `/cache`"
+
     files["README.md"] = string.Template(_template("README.md")).substitute(
         name=combo.name,
+        home_text=home_text,
         intro=intro,
         agpl=agpl,
         quick_start=_quick_start(owner, combo.name, org),
