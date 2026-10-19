@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-18T19:35:34Z",
+  "generated": "2026-10-19T19:31:52Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -57,7 +57,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:06:20Z",
+      "updated": "2026-10-19T18:44:08Z",
       "variants": [
         {
           "flavour": "default",
@@ -72,10 +72,10 @@
             "26-ubuntu",
             "26.04-ubuntu26.04"
           ],
-          "digest": "sha256:b3781433aefd134403941ffb15ef060bfd3579ac5f4163ab7c4516d0438b6215",
+          "digest": "sha256:53cd8049a95dec671e43ed8efa3d1c46aed7bb070d03616f3ef0da675939b230",
           "size": {
-            "linux/amd64": 44659589,
-            "linux/arm64": 43539973
+            "linux/amd64": 44659594,
+            "linux/arm64": 43539953
           }
         },
         {
@@ -88,10 +88,10 @@
             "26-alpine",
             "26.04-alpine3.24"
           ],
-          "digest": "sha256:f1dacd7c64e8c736d1a3c0a35d4a1fff7072d99de4b708360d087b70a0e6268b",
+          "digest": "sha256:832c634e1024d3f9b9eaf50ed303ac41758802ea1a2deabea786f6b3db4c7ce9",
           "size": {
-            "linux/amd64": 6636191,
-            "linux/arm64": 6852494
+            "linux/amd64": 6636202,
+            "linux/arm64": 6852505
           }
         },
         {
@@ -107,10 +107,10 @@
             "26-slim-ubuntu",
             "26.04-slim-ubuntu26.04"
           ],
-          "digest": "sha256:b3781433aefd134403941ffb15ef060bfd3579ac5f4163ab7c4516d0438b6215",
+          "digest": "sha256:53cd8049a95dec671e43ed8efa3d1c46aed7bb070d03616f3ef0da675939b230",
           "size": {
-            "linux/amd64": 44659589,
-            "linux/arm64": 43539973
+            "linux/amd64": 44659594,
+            "linux/arm64": 43539953
           }
         },
         {
@@ -123,10 +123,10 @@
             "26-slim-alpine",
             "26.04-slim-alpine3.24"
           ],
-          "digest": "sha256:f1dacd7c64e8c736d1a3c0a35d4a1fff7072d99de4b708360d087b70a0e6268b",
+          "digest": "sha256:832c634e1024d3f9b9eaf50ed303ac41758802ea1a2deabea786f6b3db4c7ce9",
           "size": {
-            "linux/amd64": 6636191,
-            "linux/arm64": 6852494
+            "linux/amd64": 6636202,
+            "linux/arm64": 6852505
           }
         }
       ]
@@ -257,6 +257,120 @@
       ]
     },
     {
+      "name": "bcftools",
+      "kind": "package",
+      "title": "BCFtools",
+      "summary": "Calls, filters, merges and queries genetic variants in VCF and BCF files, with bgzip and tabix from HTSlib.",
+      "homepage": "https://samtools.github.io/bcftools/",
+      "repository": "https://github.com/randomcontainers/bcftools",
+      "license": "MIT AND BSD-3-Clause AND BSD-1-Clause AND CC0-1.0 AND LicenseRef-Public-Domain",
+      "version": "1.24",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Print the header of a VCF or BCF file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/bcftools view -h in.vcf.gz"
+        },
+        {
+          "title": "Keep the variants that pass all filters, as compressed VCF with an index",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/bcftools view -f PASS -Oz -o pass.vcf.gz -W in.vcf.gz"
+        },
+        {
+          "title": "Split multiallelic sites and left-align indels against the reference",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/bcftools norm -m-any -f ref.fa -Oz -o norm.vcf.gz -W in.vcf.gz"
+        },
+        {
+          "title": "Add allele counts and frequencies with the fill-tags plugin",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/bcftools +fill-tags -Oz -o tagged.vcf.gz in.vcf.gz -- -t AC,AN,AF"
+        },
+        {
+          "title": "Compress and index a VCF file with bgzip and tabix",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/bcftools -c 'bgzip in.vcf && tabix -p vcf in.vcf.gz'"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:36:52Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.24",
+          "tags": [
+            "latest",
+            "1.24",
+            "1",
+            "ubuntu",
+            "1.24-ubuntu",
+            "1-ubuntu",
+            "1.24-ubuntu26.04"
+          ],
+          "digest": "sha256:195693ba1b342a7e9ba5be96fa89d848997e5ac4d38b11968fc79c42454208c9",
+          "size": {
+            "linux/amd64": 51276508,
+            "linux/arm64": 50003410
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.24",
+          "tags": [
+            "alpine",
+            "1.24-alpine",
+            "1-alpine",
+            "1.24-alpine3.24"
+          ],
+          "digest": "sha256:8073aafbfdf3e4d875322b8537004dffcd7590a145fba48abb5f1f32308b4ea0",
+          "size": {
+            "linux/amd64": 9470062,
+            "linux/arm64": 9702772
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.24",
+          "tags": [
+            "slim",
+            "1.24-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.24-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.24-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:195693ba1b342a7e9ba5be96fa89d848997e5ac4d38b11968fc79c42454208c9",
+          "size": {
+            "linux/amd64": 51276508,
+            "linux/arm64": 50003410
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.24",
+          "tags": [
+            "slim-alpine",
+            "1.24-slim-alpine",
+            "1-slim-alpine",
+            "1.24-slim-alpine3.24"
+          ],
+          "digest": "sha256:8073aafbfdf3e4d875322b8537004dffcd7590a145fba48abb5f1f32308b4ea0",
+          "size": {
+            "linux/amd64": 9470062,
+            "linux/arm64": 9702772
+          }
+        }
+      ]
+    },
+    {
       "name": "check-jsonschema",
       "kind": "package",
       "title": "check-jsonschema",
@@ -298,7 +412,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-18T17:45:42Z",
+      "updated": "2026-10-19T18:40:31Z",
       "variants": [
         {
           "flavour": "default",
@@ -315,10 +429,10 @@
             "0-ubuntu",
             "0.38.2-ubuntu26.04"
           ],
-          "digest": "sha256:707cae881c225142edde29be6540393387a9e75a1f51fbdb35de20a9389a70e6",
+          "digest": "sha256:366b42244433d5ad1d075e6d9519b1bdd73fa78336f32de3194ef2355b66cfc7",
           "size": {
-            "linux/amd64": 64943705,
-            "linux/arm64": 63874602
+            "linux/amd64": 64943720,
+            "linux/arm64": 63874357
           }
         },
         {
@@ -332,10 +446,10 @@
             "0-alpine",
             "0.38.2-alpine3.24"
           ],
-          "digest": "sha256:d5098eabf82d14129620771096646c69c9541b794814700060de0018f95406a5",
+          "digest": "sha256:c2cfd8389614f2c7a5623d83335500c8650f49dfe008c9c22561ca1ea1049a68",
           "size": {
-            "linux/amd64": 28134394,
-            "linux/arm64": 28269850
+            "linux/amd64": 28134512,
+            "linux/arm64": 28270163
           }
         },
         {
@@ -353,10 +467,10 @@
             "0-slim-ubuntu",
             "0.38.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:707cae881c225142edde29be6540393387a9e75a1f51fbdb35de20a9389a70e6",
+          "digest": "sha256:366b42244433d5ad1d075e6d9519b1bdd73fa78336f32de3194ef2355b66cfc7",
           "size": {
-            "linux/amd64": 64943705,
-            "linux/arm64": 63874602
+            "linux/amd64": 64943720,
+            "linux/arm64": 63874357
           }
         },
         {
@@ -370,10 +484,10 @@
             "0-slim-alpine",
             "0.38.2-slim-alpine3.24"
           ],
-          "digest": "sha256:d5098eabf82d14129620771096646c69c9541b794814700060de0018f95406a5",
+          "digest": "sha256:c2cfd8389614f2c7a5623d83335500c8650f49dfe008c9c22561ca1ea1049a68",
           "size": {
-            "linux/amd64": 28134394,
-            "linux/arm64": 28269850
+            "linux/amd64": 28134512,
+            "linux/arm64": 28270163
           }
         }
       ]
@@ -418,7 +532,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:17:04Z",
+      "updated": "2026-10-19T18:41:32Z",
       "variants": [
         {
           "flavour": "default",
@@ -435,10 +549,10 @@
             "23-ubuntu",
             "23.1.3-ubuntu26.04"
           ],
-          "digest": "sha256:8fe3058f69cae3a2081c8bda17af64f042e0fd68ca4bca64816fd7bd25edbf0d",
+          "digest": "sha256:9c95c308e430c39745d6d705d216557e84fc14627031d57f0e63807898415cbd",
           "size": {
-            "linux/amd64": 90399147,
-            "linux/arm64": 88843984
+            "linux/amd64": 90391767,
+            "linux/arm64": 88838473
           }
         },
         {
@@ -452,10 +566,10 @@
             "23-alpine",
             "23.1.3-alpine3.24"
           ],
-          "digest": "sha256:fc31b6372515ac73f714c5e9988132a19a742edd6417c295ca3bb3ef61d219c5",
+          "digest": "sha256:8f714dbc1b31a60f3377b1e762e306a41b627405878da301f85c9808ad91ef11",
           "size": {
-            "linux/amd64": 33219403,
-            "linux/arm64": 33410618
+            "linux/amd64": 33220289,
+            "linux/arm64": 33413152
           }
         },
         {
@@ -473,10 +587,10 @@
             "23-slim-ubuntu",
             "23.1.3-slim-ubuntu26.04"
           ],
-          "digest": "sha256:8fe3058f69cae3a2081c8bda17af64f042e0fd68ca4bca64816fd7bd25edbf0d",
+          "digest": "sha256:9c95c308e430c39745d6d705d216557e84fc14627031d57f0e63807898415cbd",
           "size": {
-            "linux/amd64": 90399147,
-            "linux/arm64": 88843984
+            "linux/amd64": 90391767,
+            "linux/arm64": 88838473
           }
         },
         {
@@ -490,10 +604,10 @@
             "23-slim-alpine",
             "23.1.3-slim-alpine3.24"
           ],
-          "digest": "sha256:fc31b6372515ac73f714c5e9988132a19a742edd6417c295ca3bb3ef61d219c5",
+          "digest": "sha256:8f714dbc1b31a60f3377b1e762e306a41b627405878da301f85c9808ad91ef11",
           "size": {
-            "linux/amd64": 33219403,
-            "linux/arm64": 33410618
+            "linux/amd64": 33220289,
+            "linux/arm64": 33413152
           }
         }
       ]
@@ -534,7 +648,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:08:14Z",
+      "updated": "2026-10-19T18:41:20Z",
       "variants": [
         {
           "flavour": "default",
@@ -551,10 +665,10 @@
             "2-ubuntu",
             "2.4.3-ubuntu26.04"
           ],
-          "digest": "sha256:04f00297e8e718705a132ccab9f14a5e34e88f3e884e87b7c3e79b4f780eb1bd",
+          "digest": "sha256:c5be61a981b0edbd3bd52dc253420dff47daab06125a68a1e9d27f709bc73325",
           "size": {
-            "linux/amd64": 57770418,
-            "linux/arm64": 56678533
+            "linux/amd64": 57770302,
+            "linux/arm64": 56678715
           }
         },
         {
@@ -568,10 +682,10 @@
             "2-alpine",
             "2.4.3-alpine3.24"
           ],
-          "digest": "sha256:34bc8aca47f85b472892bd3396048bf1d4edba6291551641957d42c5af506055",
+          "digest": "sha256:6b88168eaa90d80179f055525c8b6fbd173de74af7b92312da3fcaadf041bd41",
           "size": {
-            "linux/amd64": 20260444,
-            "linux/arm64": 20456776
+            "linux/amd64": 20261041,
+            "linux/arm64": 20457022
           }
         },
         {
@@ -589,10 +703,10 @@
             "2-slim-ubuntu",
             "2.4.3-slim-ubuntu26.04"
           ],
-          "digest": "sha256:04f00297e8e718705a132ccab9f14a5e34e88f3e884e87b7c3e79b4f780eb1bd",
+          "digest": "sha256:c5be61a981b0edbd3bd52dc253420dff47daab06125a68a1e9d27f709bc73325",
           "size": {
-            "linux/amd64": 57770418,
-            "linux/arm64": 56678533
+            "linux/amd64": 57770302,
+            "linux/arm64": 56678715
           }
         },
         {
@@ -606,10 +720,10 @@
             "2-slim-alpine",
             "2.4.3-slim-alpine3.24"
           ],
-          "digest": "sha256:34bc8aca47f85b472892bd3396048bf1d4edba6291551641957d42c5af506055",
+          "digest": "sha256:6b88168eaa90d80179f055525c8b6fbd173de74af7b92312da3fcaadf041bd41",
           "size": {
-            "linux/amd64": 20260444,
-            "linux/arm64": 20456776
+            "linux/amd64": 20261041,
+            "linux/arm64": 20457022
           }
         }
       ]
@@ -1007,7 +1121,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:11:10Z",
+      "updated": "2026-10-19T18:43:32Z",
       "variants": [
         {
           "flavour": "default",
@@ -1024,10 +1138,10 @@
             "1-ubuntu",
             "1.5.6-ubuntu26.04"
           ],
-          "digest": "sha256:623c97116a31278f2d0e4dc3ee00bf6a3b1027a9b2c819f59397420d859d741b",
+          "digest": "sha256:299336f290cc8ddb8a4da9e98ae55efff65df08333b907304c3f235b7e60abab",
           "size": {
-            "linux/amd64": 65185786,
-            "linux/arm64": 62270959
+            "linux/amd64": 65185790,
+            "linux/arm64": 62270945
           }
         },
         {
@@ -1041,10 +1155,10 @@
             "1-alpine",
             "1.5.6-alpine3.24"
           ],
-          "digest": "sha256:956bd1a95d3ee9fc92e7487223601d5ab4b86b05bf22430468e7dd9505e6f65c",
+          "digest": "sha256:21f5552313f9e0754bc8dd8e2404927cc9bffbff8a5180185563fe289aece63f",
           "size": {
-            "linux/amd64": 28340622,
-            "linux/arm64": 26942958
+            "linux/amd64": 28340612,
+            "linux/arm64": 26942984
           }
         },
         {
@@ -1062,10 +1176,10 @@
             "1-slim-ubuntu",
             "1.5.6-slim-ubuntu26.04"
           ],
-          "digest": "sha256:623c97116a31278f2d0e4dc3ee00bf6a3b1027a9b2c819f59397420d859d741b",
+          "digest": "sha256:299336f290cc8ddb8a4da9e98ae55efff65df08333b907304c3f235b7e60abab",
           "size": {
-            "linux/amd64": 65185786,
-            "linux/arm64": 62270959
+            "linux/amd64": 65185790,
+            "linux/arm64": 62270945
           }
         },
         {
@@ -1079,10 +1193,10 @@
             "1-slim-alpine",
             "1.5.6-slim-alpine3.24"
           ],
-          "digest": "sha256:956bd1a95d3ee9fc92e7487223601d5ab4b86b05bf22430468e7dd9505e6f65c",
+          "digest": "sha256:21f5552313f9e0754bc8dd8e2404927cc9bffbff8a5180185563fe289aece63f",
           "size": {
-            "linux/amd64": 28340622,
-            "linux/arm64": 26942958
+            "linux/amd64": 28340612,
+            "linux/arm64": 26942984
           }
         }
       ]
@@ -1132,7 +1246,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T10:33:53Z",
+      "updated": "2026-10-19T18:40:34Z",
       "variants": [
         {
           "flavour": "default",
@@ -1147,10 +1261,10 @@
             "13-ubuntu",
             "13.59-ubuntu26.04"
           ],
-          "digest": "sha256:393739c484db72db2e522e962e64839358e5ae6cb482c520c50d61df4d728a14",
+          "digest": "sha256:fd2fef498ae0727fcd8d33f80cfd8d0e2c5e528d84243c97f2190289dbb0c347",
           "size": {
-            "linux/amd64": 78681483,
-            "linux/arm64": 75990008
+            "linux/amd64": 78681468,
+            "linux/arm64": 75990068
           }
         },
         {
@@ -1163,10 +1277,10 @@
             "13-alpine",
             "13.59-alpine3.24"
           ],
-          "digest": "sha256:a050d5da6b18ef6aeb2a06980055cac3185db4fe95039fa665704480c84832ff",
+          "digest": "sha256:2fe4499b4ace8036c14cb522ea7b5fec7812ad70a64f5d4f1430f1b26af0d7e8",
           "size": {
-            "linux/amd64": 41860013,
-            "linux/arm64": 41546596
+            "linux/amd64": 41860011,
+            "linux/arm64": 41547502
           }
         },
         {
@@ -1182,10 +1296,10 @@
             "13-slim-ubuntu",
             "13.59-slim-ubuntu26.04"
           ],
-          "digest": "sha256:bc4be4370d64623fe2b7cdcda78d6f96f10d6accc5c14589ac4464891f1a5601",
+          "digest": "sha256:b42d85d62dc1ad97520d26e16a8f00ea3a2b6e738eb598facfa669a89549b879",
           "size": {
-            "linux/amd64": 61101021,
-            "linux/arm64": 59986872
+            "linux/amd64": 61101227,
+            "linux/arm64": 59986952
           }
         },
         {
@@ -1198,10 +1312,10 @@
             "13-slim-alpine",
             "13.59-slim-alpine3.24"
           ],
-          "digest": "sha256:ab6162a415e5abf59ae5ba57385bd3cdd29404456fed75056f9e6c5f48d04513",
+          "digest": "sha256:e7f250311066047e5d5bb29cd083c1c7c52ff5831f39558ca592fc882332e0d9",
           "size": {
-            "linux/amd64": 20190436,
-            "linux/arm64": 20466741
+            "linux/amd64": 20190454,
+            "linux/arm64": 20466754
           }
         }
       ]
@@ -1238,7 +1352,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:06:13Z",
+      "updated": "2026-10-19T18:40:59Z",
       "variants": [
         {
           "flavour": "default",
@@ -1255,10 +1369,10 @@
             "9-ubuntu",
             "9.0.2-ubuntu26.04"
           ],
-          "digest": "sha256:6449849a583358a08a147aae5f453800445fcbc10213ae4fb096ea5436a5d204",
+          "digest": "sha256:7c8f2976b1e7c4d62d5be7ddc2b341c05df7ddc47605e1d3ca87e87677d7c3e4",
           "size": {
-            "linux/amd64": 88000454,
-            "linux/arm64": 85908585
+            "linux/amd64": 88000709,
+            "linux/arm64": 85908519
           }
         },
         {
@@ -1272,10 +1386,10 @@
             "9-alpine",
             "9.0.2-alpine3.24"
           ],
-          "digest": "sha256:973a748e5cb916a528fa50a63bee734edf8f64290d084577679a4edccbe78593",
+          "digest": "sha256:536ed7e7a849aecfc935a208820d69b59519c5a490520cca65b59b2881a25a48",
           "size": {
-            "linux/amd64": 49870682,
-            "linux/arm64": 48119143
+            "linux/amd64": 49871182,
+            "linux/arm64": 48119071
           }
         },
         {
@@ -1293,10 +1407,10 @@
             "9-slim-ubuntu",
             "9.0.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:6449849a583358a08a147aae5f453800445fcbc10213ae4fb096ea5436a5d204",
+          "digest": "sha256:7c8f2976b1e7c4d62d5be7ddc2b341c05df7ddc47605e1d3ca87e87677d7c3e4",
           "size": {
-            "linux/amd64": 88000454,
-            "linux/arm64": 85908585
+            "linux/amd64": 88000709,
+            "linux/arm64": 85908519
           }
         },
         {
@@ -1310,10 +1424,249 @@
             "9-slim-alpine",
             "9.0.2-slim-alpine3.24"
           ],
-          "digest": "sha256:973a748e5cb916a528fa50a63bee734edf8f64290d084577679a4edccbe78593",
+          "digest": "sha256:536ed7e7a849aecfc935a208820d69b59519c5a490520cca65b59b2881a25a48",
           "size": {
-            "linux/amd64": 49870682,
-            "linux/arm64": 48119143
+            "linux/amd64": 49871182,
+            "linux/arm64": 48119071
+          }
+        }
+      ]
+    },
+    {
+      "name": "fio",
+      "kind": "package",
+      "title": "fio",
+      "summary": "Flexible I/O tester that benchmarks disks, file systems and storage volumes, with the libaio and io_uring engines and a client/server mode.",
+      "homepage": "https://github.com/axboe/fio",
+      "repository": "https://github.com/randomcontainers/fio",
+      "license": "GPL-2.0-only AND GPL-2.0-or-later AND BSD-2-Clause",
+      "version": "3.43",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Measure random 4 KiB reads and writes on a 1 GiB file in the current directory for 60 seconds",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/fio --name=randrw --filename=fio.dat --size=1G --rw=randrw --bs=4k --ioengine=libaio --iodepth=32 --direct=1 --runtime=60 --time_based"
+        },
+        {
+          "title": "Run a job file and write the results as JSON",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/fio --output-format=json --output=result.json job.fio"
+        },
+        {
+          "title": "Measure sequential reads from a block device without writing to it",
+          "command": "docker run --rm --user 0:0 --device /dev/nvme1n1 ghcr.io/randomcontainers/fio --readonly --name=seqread --filename=/dev/nvme1n1 --rw=read --bs=1M --ioengine=libaio --iodepth=16 --direct=1 --runtime=30 --time_based"
+        },
+        {
+          "title": "Start a server for fio clients against /mnt/data; publish its port only on a trusted network",
+          "command": "docker run --rm -p <address>:8765:8765 --user \"$(id -u):$(id -g)\" -v /mnt/data:/work ghcr.io/randomcontainers/fio --server"
+        },
+        {
+          "title": "Use the io_uring engine, which Docker's default seccomp profile blocks",
+          "command": "docker run --rm --security-opt seccomp=unconfined --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/fio --name=uring --filename=fio.dat --size=1G --rw=randread --bs=4k --ioengine=io_uring --iodepth=32 --direct=1 --runtime=60 --time_based"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:37:52Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.43",
+          "tags": [
+            "latest",
+            "3.43",
+            "3",
+            "ubuntu",
+            "3.43-ubuntu",
+            "3-ubuntu",
+            "3.43-ubuntu26.04"
+          ],
+          "digest": "sha256:e5f0e638461fcbfdf43b4134d5440cd5cf5bcd228ebf83919561c5ff148337f3",
+          "size": {
+            "linux/amd64": 43833713,
+            "linux/arm64": 42792146
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.43",
+          "tags": [
+            "alpine",
+            "3.43-alpine",
+            "3-alpine",
+            "3.43-alpine3.24"
+          ],
+          "digest": "sha256:a697a80c700b45fd681791db1c741cd8a5cccb584634112ea22c423c17c87d42",
+          "size": {
+            "linux/amd64": 4689353,
+            "linux/arm64": 5054322
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "3.43",
+          "tags": [
+            "slim",
+            "3.43-slim",
+            "3-slim",
+            "slim-ubuntu",
+            "3.43-slim-ubuntu",
+            "3-slim-ubuntu",
+            "3.43-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:e5f0e638461fcbfdf43b4134d5440cd5cf5bcd228ebf83919561c5ff148337f3",
+          "size": {
+            "linux/amd64": 43833713,
+            "linux/arm64": 42792146
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "3.43",
+          "tags": [
+            "slim-alpine",
+            "3.43-slim-alpine",
+            "3-slim-alpine",
+            "3.43-slim-alpine3.24"
+          ],
+          "digest": "sha256:a697a80c700b45fd681791db1c741cd8a5cccb584634112ea22c423c17c87d42",
+          "size": {
+            "linux/amd64": 4689353,
+            "linux/arm64": 5054322
+          }
+        }
+      ]
+    },
+    {
+      "name": "fluidsynth",
+      "kind": "package",
+      "title": "FluidSynth",
+      "summary": "Renders MIDI files to WAV, FLAC or Ogg Vorbis with SoundFont 2, SoundFont 3 and DLS instruments, using the FluidSynth software synthesizer.",
+      "homepage": "https://www.fluidsynth.org/",
+      "repository": "https://github.com/randomcontainers/fluidsynth",
+      "license": "LGPL-2.1-or-later AND Apache-2.0 AND CC0-1.0 AND LicenseRef-Public-Domain",
+      "version": "2.6.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Render a MIDI file to WAV with a SoundFont from the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/fluidsynth -ni -F song.wav FluidR3_GM.sf2 song.mid"
+        },
+        {
+          "title": "Render to FLAC at 48 kHz with a higher gain",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/fluidsynth -ni -r 48000 -g 0.6 -F song.flac FluidR3_GM.sf2 song.mid"
+        },
+        {
+          "title": "Mount a SoundFont as the default one, read-only",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" -v \"$HOME/soundfonts/FluidR3_GM.sf2:/usr/local/share/soundfonts/default.sf2:ro\" ghcr.io/randomcontainers/fluidsynth -ni -F song.wav song.mid"
+        },
+        {
+          "title": "Render a MIDI file to MP3 with FFmpeg (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/fluidsynth -c 'fluidsynth -q -ni -r 44100 -T raw -E little -F - FluidR3_GM.sf2 song.mid | ffmpeg -loglevel error -f s16le -ar 44100 -ac 2 -i - -b:a 192k song.mp3'"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "fluidsynth-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "FluidSynth with FFmpeg, for rendering MIDI files to MP3, Opus, AAC and the other formats that FFmpeg encodes.",
+        "license": "LGPL-2.1-or-later AND Apache-2.0 AND CC0-1.0 AND LicenseRef-Public-Domain AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense"
+      },
+      "combos": [
+        "fluidsynth-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:39:09Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2.6.1",
+          "tags": [
+            "latest",
+            "2.6.1",
+            "2.6",
+            "2",
+            "ubuntu",
+            "2.6.1-ubuntu",
+            "2.6-ubuntu",
+            "2-ubuntu",
+            "2.6.1-ubuntu26.04"
+          ],
+          "digest": "sha256:270f5419e0040f4ee9c8d2299534cb9f7b8279bcd58996440edc319272366446",
+          "size": {
+            "linux/amd64": 88937219,
+            "linux/arm64": 86804057
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2.6.1",
+          "tags": [
+            "alpine",
+            "2.6.1-alpine",
+            "2.6-alpine",
+            "2-alpine",
+            "2.6.1-alpine3.24"
+          ],
+          "digest": "sha256:434ad873f1c8ac2b39a0beef4b66fbde580813816692fd65601b5653e38ff787",
+          "size": {
+            "linux/amd64": 51405296,
+            "linux/arm64": 49609031
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "2.6.1",
+          "tags": [
+            "slim",
+            "2.6.1-slim",
+            "2.6-slim",
+            "2-slim",
+            "slim-ubuntu",
+            "2.6.1-slim-ubuntu",
+            "2.6-slim-ubuntu",
+            "2-slim-ubuntu",
+            "2.6.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:4892a07ddab2e4299e4113a88eac6e4ab156e05b4617e05534e15c1cf6036727",
+          "size": {
+            "linux/amd64": 48395975,
+            "linux/arm64": 47255948
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "2.6.1",
+          "tags": [
+            "slim-alpine",
+            "2.6.1-slim-alpine",
+            "2.6-slim-alpine",
+            "2-slim-alpine",
+            "2.6.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:30c0c1144e983c53bd3cc59613a10f39b3261e6c729be8c4f4d77e9a3c5a5471",
+          "size": {
+            "linux/amd64": 7448954,
+            "linux/arm64": 7658093
           }
         }
       ]
@@ -1430,6 +1783,249 @@
           "size": {
             "linux/amd64": 19196107,
             "linux/arm64": 19427263
+          }
+        }
+      ]
+    },
+    {
+      "name": "gifsicle",
+      "kind": "package",
+      "title": "Gifsicle",
+      "summary": "Optimizes, edits and inspects GIF animations, with lossless and lossy compression, color reduction, resizing and frame editing, and gifdiff to compare GIFs.",
+      "homepage": "https://www.lcdf.org/gifsicle/",
+      "repository": "https://github.com/randomcontainers/gifsicle",
+      "license": "GPL-2.0-only",
+      "version": "1.98",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Optimize a GIF animation losslessly",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/gifsicle -O3 input.gif -o output.gif"
+        },
+        {
+          "title": "Shrink an animation further with lossy compression and at most 64 colors",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/gifsicle -O3 --lossy=80 --colors 64 input.gif -o small.gif"
+        },
+        {
+          "title": "Resize an animation to 320 pixels wide",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/gifsicle --resize-width 320 input.gif -o resized.gif"
+        },
+        {
+          "title": "Show the frames, delays and color tables of a GIF",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/gifsicle --info --color-info input.gif"
+        },
+        {
+          "title": "Check that two GIFs look the same with gifdiff",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint gifdiff ghcr.io/randomcontainers/gifsicle input.gif output.gif"
+        },
+        {
+          "title": "Turn a video clip into an optimized GIF with FFmpeg (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/gifsicle -c 'ffmpeg -loglevel error -i clip.mp4 -vf \"fps=10,scale=480:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse\" clip.gif && gifsicle -O3 --lossy=80 clip.gif -o clip-small.gif'"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "gifsicle-ffmpeg",
+        "with": [
+          "ffmpeg"
+        ],
+        "base": "ffmpeg",
+        "summary": "Gifsicle with FFmpeg, for turning video clips into GIF animations and then optimizing them.",
+        "license": "GPL-2.0-only AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense"
+      },
+      "combos": [
+        "gifsicle-ffmpeg"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:39:37Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.98",
+          "tags": [
+            "latest",
+            "1.98",
+            "1",
+            "ubuntu",
+            "1.98-ubuntu",
+            "1-ubuntu",
+            "1.98-ubuntu26.04"
+          ],
+          "digest": "sha256:419a411b3ec46d464171820bcc46107a4f24e61ceeef0692112b6244a2eabc96",
+          "size": {
+            "linux/amd64": 88171080,
+            "linux/arm64": 86073693
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.98",
+          "tags": [
+            "alpine",
+            "1.98-alpine",
+            "1-alpine",
+            "1.98-alpine3.24"
+          ],
+          "digest": "sha256:57599fce21de1f0a447655141cda666a37e1966937703354b1a952cd006a802b",
+          "size": {
+            "linux/amd64": 50077575,
+            "linux/arm64": 48320744
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.98",
+          "tags": [
+            "slim",
+            "1.98-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.98-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.98-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:b3883e12681f0df60adfc9b245f69d80a571507de4c4e09481398f6e96d52961",
+          "size": {
+            "linux/amd64": 43404428,
+            "linux/arm64": 42335541
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.98",
+          "tags": [
+            "slim-alpine",
+            "1.98-slim-alpine",
+            "1-slim-alpine",
+            "1.98-slim-alpine3.24"
+          ],
+          "digest": "sha256:3aa476e3f97841d74ce6b8cbd689f8db0799b827a8afecd25db719977fea095e",
+          "size": {
+            "linux/amd64": 4273531,
+            "linux/arm64": 4608702
+          }
+        }
+      ]
+    },
+    {
+      "name": "gnupg",
+      "kind": "package",
+      "title": "GnuPG",
+      "summary": "Encrypts, signs and verifies files with OpenPGP and S/MIME keys using gpg, gpgv, gpgsm and gpgtar. Built from the signed GnuPG 2.5/2.6 release.",
+      "homepage": "https://gnupg.org/",
+      "repository": "https://github.com/randomcontainers/gnupg",
+      "license": "GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.1-or-later AND (LGPL-3.0-or-later OR GPL-2.0-or-later) AND MIT AND Spencer-86 AND BSD-2-Clause-Views AND Unicode-DFS-2016 AND FSFULLRWD AND CC0-1.0 AND LicenseRef-Public-Domain",
+      "version": "2.5.24",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Verify a detached signature with a keyring file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint gpgv ghcr.io/randomcontainers/gnupg --keyring ./keys.gpg file.tar.gz.sig file.tar.gz"
+        },
+        {
+          "title": "Encrypt a file with a passphrase read from a file",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/gnupg --batch --pinentry-mode loopback --passphrase-file pass.txt --symmetric --output file.gpg file"
+        },
+        {
+          "title": "Look up a key through the Web Key Directory",
+          "command": "docker run --rm ghcr.io/randomcontainers/gnupg --locate-keys torvalds@kernel.org"
+        },
+        {
+          "title": "Import a key into a keyring kept in the mounted directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" -e GNUPGHOME=/work/.gnupg ghcr.io/randomcontainers/gnupg --import key.asc"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T19:31:47Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2.5.24",
+          "tags": [
+            "latest",
+            "2.5.24",
+            "2.5",
+            "2",
+            "ubuntu",
+            "2.5.24-ubuntu",
+            "2.5-ubuntu",
+            "2-ubuntu",
+            "2.5.24-ubuntu26.04"
+          ],
+          "digest": "sha256:1d331f55ea2448fb0e23ecbb10dff5cc7aa4a2beca55cbed4ccf7d5426b45923",
+          "size": {
+            "linux/amd64": 50246956,
+            "linux/arm64": 48981978
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2.5.24",
+          "tags": [
+            "alpine",
+            "2.5.24-alpine",
+            "2.5-alpine",
+            "2-alpine",
+            "2.5.24-alpine3.24"
+          ],
+          "digest": "sha256:d84e79c8ed4801e6d411be8f52f5266f5cd8c5e57315094cb5f45fdff0119277",
+          "size": {
+            "linux/amd64": 12896572,
+            "linux/arm64": 12957841
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "2.5.24",
+          "tags": [
+            "slim",
+            "2.5.24-slim",
+            "2.5-slim",
+            "2-slim",
+            "slim-ubuntu",
+            "2.5.24-slim-ubuntu",
+            "2.5-slim-ubuntu",
+            "2-slim-ubuntu",
+            "2.5.24-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:1d331f55ea2448fb0e23ecbb10dff5cc7aa4a2beca55cbed4ccf7d5426b45923",
+          "size": {
+            "linux/amd64": 50246956,
+            "linux/arm64": 48981978
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "2.5.24",
+          "tags": [
+            "slim-alpine",
+            "2.5.24-slim-alpine",
+            "2.5-slim-alpine",
+            "2-slim-alpine",
+            "2.5.24-slim-alpine3.24"
+          ],
+          "digest": "sha256:d84e79c8ed4801e6d411be8f52f5266f5cd8c5e57315094cb5f45fdff0119277",
+          "size": {
+            "linux/amd64": 12896572,
+            "linux/arm64": 12957841
           }
         }
       ]
@@ -2527,6 +3123,118 @@
       ]
     },
     {
+      "name": "lnav",
+      "kind": "package",
+      "title": "lnav (Logfile Navigator)",
+      "summary": "Log file viewer for the terminal that merges, follows and searches logs and queries them with SQL, interactively or from scripts.",
+      "homepage": "https://lnav.org/",
+      "repository": "https://github.com/randomcontainers/lnav",
+      "license": "BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MIT AND BSL-1.0 AND ISC AND Zlib AND blessing AND CC-BY-SA-4.0 AND CC0-1.0 AND LicenseRef-Public-Domain",
+      "version": "0.14.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Count the responses by HTTP status in an access log",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/lnav -n -c ';SELECT sc_status, count(*) AS hits FROM access_log GROUP BY sc_status' -c ':write-csv-to -' access.log"
+        },
+        {
+          "title": "Print only the errors from every log in a directory, merged by time",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/lnav -n -c ':set-min-log-level error' logs/"
+        },
+        {
+          "title": "Browse the logs in the terminal UI",
+          "command": "docker run --rm -it --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/lnav logs/"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:40:53Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "0.14.1",
+          "tags": [
+            "latest",
+            "0.14.1",
+            "0.14",
+            "0",
+            "ubuntu",
+            "0.14.1-ubuntu",
+            "0.14-ubuntu",
+            "0-ubuntu",
+            "0.14.1-ubuntu26.04"
+          ],
+          "digest": "sha256:654627282cf562893cfdc509ffa118c7ae19248b0b88046e0706e1b4d8855fba",
+          "size": {
+            "linux/amd64": 56919528,
+            "linux/arm64": 55232268
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "0.14.1",
+          "tags": [
+            "alpine",
+            "0.14.1-alpine",
+            "0.14-alpine",
+            "0-alpine",
+            "0.14.1-alpine3.24"
+          ],
+          "digest": "sha256:e9559b8b32c75b7c1ade97604b1b3a0946f305a01321a68b2c2193569e6bbee2",
+          "size": {
+            "linux/amd64": 16425342,
+            "linux/arm64": 16280409
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "0.14.1",
+          "tags": [
+            "slim",
+            "0.14.1-slim",
+            "0.14-slim",
+            "0-slim",
+            "slim-ubuntu",
+            "0.14.1-slim-ubuntu",
+            "0.14-slim-ubuntu",
+            "0-slim-ubuntu",
+            "0.14.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:654627282cf562893cfdc509ffa118c7ae19248b0b88046e0706e1b4d8855fba",
+          "size": {
+            "linux/amd64": 56919528,
+            "linux/arm64": 55232268
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "0.14.1",
+          "tags": [
+            "slim-alpine",
+            "0.14.1-slim-alpine",
+            "0.14-slim-alpine",
+            "0-slim-alpine",
+            "0.14.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:e9559b8b32c75b7c1ade97604b1b3a0946f305a01321a68b2c2193569e6bbee2",
+          "size": {
+            "linux/amd64": 16425342,
+            "linux/arm64": 16280409
+          }
+        }
+      ]
+    },
+    {
       "name": "mediainfo",
       "kind": "package",
       "title": "MediaInfo",
@@ -2657,7 +3365,7 @@
       "homepage": "https://mkvtoolnix.download/",
       "repository": "https://github.com/randomcontainers/mkvtoolnix",
       "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0",
-      "version": "102.0",
+      "version": "103.0",
       "versioning": "semver",
       "examples": [
         {
@@ -2703,76 +3411,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T10:34:19Z",
+      "updated": "2026-10-19T14:35:07Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "102.0",
+          "version": "103.0",
           "tags": [
             "latest",
-            "102.0",
-            "102",
+            "103.0",
+            "103",
             "ubuntu",
-            "102.0-ubuntu",
-            "102-ubuntu",
-            "102.0-ubuntu26.04"
+            "103.0-ubuntu",
+            "103-ubuntu",
+            "103.0-ubuntu26.04"
           ],
-          "digest": "sha256:b391058409612adb6d3ad8e26ab0b2cbb212703953591a51bdaa9ba077f765d4",
+          "digest": "sha256:3f103acada150d05a4e4123151b21f767b4f46efc276d6e66292b0d02f99fbaf",
           "size": {
-            "linux/amd64": 122592854,
-            "linux/arm64": 119432494
+            "linux/amd64": 122600353,
+            "linux/arm64": 119438324
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "102.0",
+          "version": "103.0",
           "tags": [
             "alpine",
-            "102.0-alpine",
-            "102-alpine",
-            "102.0-alpine3.24"
+            "103.0-alpine",
+            "103-alpine",
+            "103.0-alpine3.24"
           ],
-          "digest": "sha256:11063b8bea1351a98ffb7c52472f6e89fb48f79d3780072c8adefc2a19d6f7b9",
+          "digest": "sha256:8c48cec08634070545b0d4ebc2aa895c03b0bcabc791efa3e10133bea6ce9a70",
           "size": {
-            "linux/amd64": 75286352,
-            "linux/arm64": 72568413
+            "linux/amd64": 75296428,
+            "linux/arm64": 72575289
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "102.0",
+          "version": "103.0",
           "tags": [
             "slim",
-            "102.0-slim",
-            "102-slim",
+            "103.0-slim",
+            "103-slim",
             "slim-ubuntu",
-            "102.0-slim-ubuntu",
-            "102-slim-ubuntu",
-            "102.0-slim-ubuntu26.04"
+            "103.0-slim-ubuntu",
+            "103-slim-ubuntu",
+            "103.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:6b6cea8c0e0701899917660e689e1f3c084971e0accd273d3d93fb6503b377ac",
+          "digest": "sha256:c3f3ce96f4623349f927df7186066c7b3f2baea88231188f438f5ecc399119fc",
           "size": {
-            "linux/amd64": 74576517,
-            "linux/arm64": 72781047
+            "linux/amd64": 74584060,
+            "linux/arm64": 72786857
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "102.0",
+          "version": "103.0",
           "tags": [
             "slim-alpine",
-            "102.0-slim-alpine",
-            "102-slim-alpine",
-            "102.0-slim-alpine3.24"
+            "103.0-slim-alpine",
+            "103-slim-alpine",
+            "103.0-slim-alpine3.24"
           ],
-          "digest": "sha256:a651f1bfab2be294d0ca3d4fb2b0082717571d142755031592fb0cc273b03e3d",
+          "digest": "sha256:b2cb885d8ca528d761f82fe94cca8411440da90156bcbb2e6d6c0cdad73dcab5",
           "size": {
-            "linux/amd64": 29415258,
-            "linux/arm64": 28986538
+            "linux/amd64": 29425274,
+            "linux/arm64": 28993484
           }
         }
       ]
@@ -2929,7 +3637,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:08:04Z",
+      "updated": "2026-10-19T18:42:27Z",
       "variants": [
         {
           "flavour": "default",
@@ -2944,10 +3652,10 @@
             "7-ubuntu",
             "7.992-ubuntu26.04"
           ],
-          "digest": "sha256:24c1192b3e3e0b542fa90c53cea4cb457e3e5931df83a02ca315ee906b6b91fe",
+          "digest": "sha256:c8343313bccd66870cf9834b995ca38eeba83de8c1483c0b301193fd92f252d1",
           "size": {
-            "linux/amd64": 51385507,
-            "linux/arm64": 50249216
+            "linux/amd64": 51385443,
+            "linux/arm64": 50249290
           }
         },
         {
@@ -2960,10 +3668,10 @@
             "7-alpine",
             "7.992-alpine3.24"
           ],
-          "digest": "sha256:60ba4b054e7eb533cf2214e77964efc50bfd8350a257d84c3a443c9ede458230",
+          "digest": "sha256:4455cb7cdc2e7349a799998c9bf2cc5432142efb472b6ee9524663dd3e91e518",
           "size": {
-            "linux/amd64": 12994021,
-            "linux/arm64": 13201842
+            "linux/amd64": 12994041,
+            "linux/arm64": 13201834
           }
         },
         {
@@ -2979,10 +3687,10 @@
             "7-slim-ubuntu",
             "7.992-slim-ubuntu26.04"
           ],
-          "digest": "sha256:24c1192b3e3e0b542fa90c53cea4cb457e3e5931df83a02ca315ee906b6b91fe",
+          "digest": "sha256:c8343313bccd66870cf9834b995ca38eeba83de8c1483c0b301193fd92f252d1",
           "size": {
-            "linux/amd64": 51385507,
-            "linux/arm64": 50249216
+            "linux/amd64": 51385443,
+            "linux/arm64": 50249290
           }
         },
         {
@@ -2995,10 +3703,10 @@
             "7-slim-alpine",
             "7.992-slim-alpine3.24"
           ],
-          "digest": "sha256:60ba4b054e7eb533cf2214e77964efc50bfd8350a257d84c3a443c9ede458230",
+          "digest": "sha256:4455cb7cdc2e7349a799998c9bf2cc5432142efb472b6ee9524663dd3e91e518",
           "size": {
-            "linux/amd64": 12994021,
-            "linux/arm64": 13201842
+            "linux/amd64": 12994041,
+            "linux/arm64": 13201834
           }
         }
       ]
@@ -3039,7 +3747,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:09:46Z",
+      "updated": "2026-10-19T18:40:15Z",
       "variants": [
         {
           "flavour": "default",
@@ -3054,10 +3762,10 @@
             "10-ubuntu",
             "10.6p1-ubuntu26.04"
           ],
-          "digest": "sha256:52e197b8811a8a243a3bb1782ed3642d18ee8ddb570db5d8d9c7834d4ac0e025",
+          "digest": "sha256:6e7c8498f912ae60bf6cf1e6b667693c7b8699cbee348f3df78070983c16a011",
           "size": {
-            "linux/amd64": 45412497,
-            "linux/arm64": 44313155
+            "linux/amd64": 45412481,
+            "linux/arm64": 44313124
           }
         },
         {
@@ -3070,10 +3778,10 @@
             "10-alpine",
             "10.6p1-alpine3.24"
           ],
-          "digest": "sha256:c53708c86bbe25cb3163463ac829e8d5cec03f7d80f593d177c0646050e64c47",
+          "digest": "sha256:a69597e643ce9a7858daf4a31a0993db827572bbd4908e0da536a5594a12eac4",
           "size": {
-            "linux/amd64": 6508218,
-            "linux/arm64": 6807668
+            "linux/amd64": 6508176,
+            "linux/arm64": 6807643
           }
         },
         {
@@ -3089,10 +3797,10 @@
             "10-slim-ubuntu",
             "10.6p1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:52e197b8811a8a243a3bb1782ed3642d18ee8ddb570db5d8d9c7834d4ac0e025",
+          "digest": "sha256:6e7c8498f912ae60bf6cf1e6b667693c7b8699cbee348f3df78070983c16a011",
           "size": {
-            "linux/amd64": 45412497,
-            "linux/arm64": 44313155
+            "linux/amd64": 45412481,
+            "linux/arm64": 44313124
           }
         },
         {
@@ -3105,10 +3813,10 @@
             "10-slim-alpine",
             "10.6p1-slim-alpine3.24"
           ],
-          "digest": "sha256:c53708c86bbe25cb3163463ac829e8d5cec03f7d80f593d177c0646050e64c47",
+          "digest": "sha256:a69597e643ce9a7858daf4a31a0993db827572bbd4908e0da536a5594a12eac4",
           "size": {
-            "linux/amd64": 6508218,
-            "linux/arm64": 6807668
+            "linux/amd64": 6508176,
+            "linux/arm64": 6807643
           }
         }
       ]
@@ -3230,6 +3938,214 @@
       ]
     },
     {
+      "name": "opentofu",
+      "kind": "package",
+      "title": "OpenTofu",
+      "summary": "Plans, applies and tests infrastructure changes described in OpenTofu configuration files, with the tofu command-line tool.",
+      "homepage": "https://opentofu.org/",
+      "repository": "https://github.com/randomcontainers/opentofu",
+      "license": "MPL-2.0 AND Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND ISC AND Unicode-DFS-2016 AND Unicode-3.0",
+      "version": "1.13.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Download the providers and modules of the configuration in the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/opentofu init"
+        },
+        {
+          "title": "Show the changes that applying the configuration would make",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/opentofu plan"
+        },
+        {
+          "title": "Check the formatting of every file below the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/opentofu fmt -check -recursive"
+        },
+        {
+          "title": "Run the tests in tests/",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/opentofu test"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "combo",
+        "combo": "opentofu-openssh-client",
+        "with": [
+          "openssh-client"
+        ],
+        "base": "opentofu",
+        "summary": "OpenTofu with Git and the OpenSSH client, for modules from the OpenTofu registry and from Git repositories over HTTPS or SSH.",
+        "license": "MPL-2.0 AND Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND ISC AND Unicode-DFS-2016 AND Unicode-3.0 AND SSH-OpenSSH AND GPL-2.0-only"
+      },
+      "combos": [
+        "opentofu-openssh-client"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:40:09Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.13.1",
+          "tags": [
+            "latest",
+            "1.13.1",
+            "1.13",
+            "1",
+            "ubuntu",
+            "1.13.1-ubuntu",
+            "1.13-ubuntu",
+            "1-ubuntu",
+            "1.13.1-ubuntu26.04"
+          ],
+          "digest": "sha256:01bc07ed376c3d63ebb59fd7360f43b4aee0284cf259ce7707cfaaeebc574d8a",
+          "size": {
+            "linux/amd64": 111304483,
+            "linux/arm64": 106043327
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.13.1",
+          "tags": [
+            "alpine",
+            "1.13.1-alpine",
+            "1.13-alpine",
+            "1-alpine",
+            "1.13.1-alpine3.24"
+          ],
+          "digest": "sha256:72b47e5b34d43445d74c4cc81f39a8700d8c59e7e09e2d468faa38356fb77fe0",
+          "size": {
+            "linux/amd64": 51247443,
+            "linux/arm64": 47867985
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.13.1",
+          "tags": [
+            "slim",
+            "1.13.1-slim",
+            "1.13-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.13.1-slim-ubuntu",
+            "1.13-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.13.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:3e812b899fa9e0da42555f36a18cea4f513282a51dfe75acd4b148e5001ce084",
+          "size": {
+            "linux/amd64": 81580402,
+            "linux/arm64": 76756739
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.13.1",
+          "tags": [
+            "slim-alpine",
+            "1.13.1-slim-alpine",
+            "1.13-slim-alpine",
+            "1-slim-alpine",
+            "1.13.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:586c4a15af23c998994b05b76fecf6e44b8ec9d29d276aad8802b80ad53e561c",
+          "size": {
+            "linux/amd64": 42449024,
+            "linux/arm64": 39029210
+          }
+        }
+      ]
+    },
+    {
+      "name": "pgcli",
+      "kind": "package",
+      "title": "pgcli",
+      "summary": "Queries PostgreSQL databases with auto-completion and syntax highlighting, interactively or with SQL given on the command line or in a file.",
+      "homepage": "https://www.pgcli.com/",
+      "repository": "https://github.com/randomcontainers/pgcli",
+      "license": "BSD-3-Clause AND BSD-2-Clause AND MIT AND HPND-Markus-Kuhn AND Unicode-3.0 AND PostgreSQL AND LGPL-3.0-only AND Apache-2.0 AND ISC AND MPL-2.0 AND PSF-2.0",
+      "version": "4.7.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Open pgcli on a database",
+          "command": "docker run --rm -it ghcr.io/randomcontainers/pgcli postgresql://app@db.example.com/shop"
+        },
+        {
+          "title": "Run the SQL in a file in the current directory and exit",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" -e PGPASSWORD ghcr.io/randomcontainers/pgcli -h db.example.com -U app -f report.sql shop"
+        },
+        {
+          "title": "Keep the config and history in a volume, and show times in your time zone",
+          "command": "docker run --rm -it --user \"$(id -u):$(id -g)\" -v pgcli-home:/cache -e TZ=Europe/Berlin ghcr.io/randomcontainers/pgcli -h db.example.com -U app shop"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "pgcli-postgresql-client",
+        "with": [
+          "postgresql-client"
+        ],
+        "base": "pgcli",
+        "summary": "pgcli with the PostgreSQL client tools, so psql, pg_dump and pg_restore are in the same image.",
+        "license": "BSD-3-Clause AND BSD-2-Clause AND MIT AND HPND-Markus-Kuhn AND Unicode-3.0 AND PostgreSQL AND LGPL-3.0-only AND Apache-2.0 AND ISC AND MPL-2.0 AND PSF-2.0 AND LicenseRef-pg-dump AND LicenseRef-Public-Domain"
+      },
+      "combos": [
+        "pgcli-postgresql-client"
+      ],
+      "public": true,
+      "default_ready": false,
+      "stale": false,
+      "updated": "2026-10-19T18:37:31Z",
+      "variants": [
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "4.7.1",
+          "tags": [
+            "slim",
+            "4.7.1-slim",
+            "4.7-slim",
+            "4-slim",
+            "slim-ubuntu",
+            "4.7.1-slim-ubuntu",
+            "4.7-slim-ubuntu",
+            "4-slim-ubuntu",
+            "4.7.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:24607cac7bb67046601e1c6d665813721932671d6674edc07673e6dc1a4d3592",
+          "size": {
+            "linux/amd64": 69568102,
+            "linux/arm64": 68474925
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "4.7.1",
+          "tags": [
+            "slim-alpine",
+            "4.7.1-slim-alpine",
+            "4.7-slim-alpine",
+            "4-slim-alpine",
+            "4.7.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:de266a2085064f995fd9161369be6e9dbcd7c78b099c7f0ac180b092e867b927",
+          "size": {
+            "linux/amd64": 31378790,
+            "linux/arm64": 31570647
+          }
+        }
+      ]
+    },
+    {
       "name": "poppler",
       "kind": "package",
       "title": "Poppler",
@@ -3269,7 +4185,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:07:03Z",
+      "updated": "2026-10-19T18:41:37Z",
       "variants": [
         {
           "flavour": "default",
@@ -3286,10 +4202,10 @@
             "26-ubuntu",
             "26.10.0-ubuntu26.04"
           ],
-          "digest": "sha256:87240b646b3360831139b57a7741bbf914e152f9ef97cf676961ede01dace9b4",
+          "digest": "sha256:1498faa4ed94efc0a7a3e0fe981766a6d5c3b3591dd8da81ab6a663f0a59f32c",
           "size": {
-            "linux/amd64": 62794199,
-            "linux/arm64": 61295849
+            "linux/amd64": 62794221,
+            "linux/arm64": 61295900
           }
         },
         {
@@ -3303,10 +4219,10 @@
             "26-alpine",
             "26.10.0-alpine3.24"
           ],
-          "digest": "sha256:2399f4ce29f14d81060b12d8a73888469cb314515506fec3696484d676543dda",
+          "digest": "sha256:0e5ceed1278bee8f747e7b4ecb541f81b05d66d99b4fee2535ecf96416d6ca4d",
           "size": {
-            "linux/amd64": 25660829,
-            "linux/arm64": 25583925
+            "linux/amd64": 25661921,
+            "linux/arm64": 25581672
           }
         },
         {
@@ -3324,10 +4240,10 @@
             "26-slim-ubuntu",
             "26.10.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:87240b646b3360831139b57a7741bbf914e152f9ef97cf676961ede01dace9b4",
+          "digest": "sha256:1498faa4ed94efc0a7a3e0fe981766a6d5c3b3591dd8da81ab6a663f0a59f32c",
           "size": {
-            "linux/amd64": 62794199,
-            "linux/arm64": 61295849
+            "linux/amd64": 62794221,
+            "linux/arm64": 61295900
           }
         },
         {
@@ -3341,10 +4257,120 @@
             "26-slim-alpine",
             "26.10.0-slim-alpine3.24"
           ],
-          "digest": "sha256:2399f4ce29f14d81060b12d8a73888469cb314515506fec3696484d676543dda",
+          "digest": "sha256:0e5ceed1278bee8f747e7b4ecb541f81b05d66d99b4fee2535ecf96416d6ca4d",
           "size": {
-            "linux/amd64": 25660829,
-            "linux/arm64": 25583925
+            "linux/amd64": 25661921,
+            "linux/arm64": 25581672
+          }
+        }
+      ]
+    },
+    {
+      "name": "postgresql-client",
+      "kind": "package",
+      "title": "PostgreSQL client tools",
+      "summary": "Queries PostgreSQL servers with psql and backs up and restores databases with pg_dump, pg_restore and pg_basebackup. Built from the PostgreSQL source release.",
+      "homepage": "https://www.postgresql.org/",
+      "repository": "https://github.com/randomcontainers/postgresql-client",
+      "license": "PostgreSQL AND BSD-3-Clause AND ISC AND MIT AND Unicode-3.0 AND LicenseRef-pg-dump AND LicenseRef-Public-Domain",
+      "version": "18.6",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Open psql on a database",
+          "command": "docker run --rm -it ghcr.io/randomcontainers/postgresql-client -h db.example.com -U app shop"
+        },
+        {
+          "title": "Dump a database to a compressed archive",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" -e PGPASSWORD --entrypoint pg_dump ghcr.io/randomcontainers/postgresql-client -h db.example.com -U app -Fc -f shop.dump shop"
+        },
+        {
+          "title": "Restore an archive into an existing database",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" -e PGPASSWORD --entrypoint pg_restore ghcr.io/randomcontainers/postgresql-client -h db.example.com -U app -d shop --no-owner shop.dump"
+        },
+        {
+          "title": "Check whether a server accepts connections",
+          "command": "docker run --rm --entrypoint pg_isready ghcr.io/randomcontainers/postgresql-client -h db.example.com"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:37:16Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "18.6",
+          "tags": [
+            "latest",
+            "18.6",
+            "18",
+            "ubuntu",
+            "18.6-ubuntu",
+            "18-ubuntu",
+            "18.6-ubuntu26.04"
+          ],
+          "digest": "sha256:ffe68c75235f1d62c234978fa3872e007bb789a35ae258a08996421af690fc9e",
+          "size": {
+            "linux/amd64": 45922649,
+            "linux/arm64": 44837867
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "18.6",
+          "tags": [
+            "alpine",
+            "18.6-alpine",
+            "18-alpine",
+            "18.6-alpine3.24"
+          ],
+          "digest": "sha256:7bd02026f476c1343c3b35e9c0449b25c65253c8f94bc6f35f8700327db49d8f",
+          "size": {
+            "linux/amd64": 7502452,
+            "linux/arm64": 7850734
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "18.6",
+          "tags": [
+            "slim",
+            "18.6-slim",
+            "18-slim",
+            "slim-ubuntu",
+            "18.6-slim-ubuntu",
+            "18-slim-ubuntu",
+            "18.6-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:ffe68c75235f1d62c234978fa3872e007bb789a35ae258a08996421af690fc9e",
+          "size": {
+            "linux/amd64": 45922649,
+            "linux/arm64": 44837867
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "18.6",
+          "tags": [
+            "slim-alpine",
+            "18.6-slim-alpine",
+            "18-slim-alpine",
+            "18.6-slim-alpine3.24"
+          ],
+          "digest": "sha256:7bd02026f476c1343c3b35e9c0449b25c65253c8f94bc6f35f8700327db49d8f",
+          "size": {
+            "linux/amd64": 7502452,
+            "linux/arm64": 7850734
           }
         }
       ]
@@ -3701,6 +4727,94 @@
       ]
     },
     {
+      "name": "samtools",
+      "kind": "package",
+      "title": "Samtools",
+      "summary": "Sorts, indexes, views and converts aligned sequencing reads in SAM, BAM and CRAM files, with bgzip, tabix and htsfile from HTSlib.",
+      "homepage": "https://www.htslib.org/",
+      "repository": "https://github.com/randomcontainers/samtools",
+      "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain",
+      "version": "1.24",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Sort a SAM or BAM file by coordinate and index it",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/samtools sort -o sorted.bam --write-index in.bam"
+        },
+        {
+          "title": "Print the reads of a region as SAM",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/samtools view sorted.bam chr1:10000-20000"
+        },
+        {
+          "title": "Convert BAM to CRAM against a reference",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/samtools view -C -T ref.fa -o out.cram sorted.bam"
+        },
+        {
+          "title": "Count reads by mapping status and flags",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/samtools flagstat sorted.bam"
+        },
+        {
+          "title": "Compress and index a BED file with bgzip and tabix",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/samtools -c 'bgzip regions.bed && tabix -p bed regions.bed.gz'"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "samtools-bcftools",
+        "with": [
+          "bcftools"
+        ],
+        "base": "samtools",
+        "summary": "Samtools with BCFtools, for sorting and indexing aligned reads and calling variants from them.",
+        "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain AND BSD-1-Clause"
+      },
+      "combos": [
+        "samtools-bcftools"
+      ],
+      "public": true,
+      "default_ready": false,
+      "stale": false,
+      "updated": "2026-10-19T18:37:08Z",
+      "variants": [
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.24",
+          "tags": [
+            "slim",
+            "1.24-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.24-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.24-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:5df5459df66abec8fa1405478029b5b75824d8c24c82aa216c9219adaed23074",
+          "size": {
+            "linux/amd64": 51473447,
+            "linux/arm64": 50123345
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.24",
+          "tags": [
+            "slim-alpine",
+            "1.24-slim-alpine",
+            "1-slim-alpine",
+            "1.24-slim-alpine3.24"
+          ],
+          "digest": "sha256:7b5c3109941e5146a455e3c7f4feb2eac0ebf8d34f03f4dfb17a97f4eb7cab35",
+          "size": {
+            "linux/amd64": 9899087,
+            "linux/arm64": 10038192
+          }
+        }
+      ]
+    },
+    {
       "name": "shaka-packager",
       "kind": "package",
       "title": "Shaka Packager",
@@ -3826,6 +4940,200 @@
       ]
     },
     {
+      "name": "sipp",
+      "kind": "package",
+      "title": "SIPp",
+      "summary": "Generates SIP traffic and runs SIP call scenarios from XML files, for load and functional tests of VoIP servers and proxies.",
+      "homepage": "https://github.com/SIPp/sipp",
+      "repository": "https://github.com/randomcontainers/sipp",
+      "license": "GPL-2.0-or-later AND BSD-3-Clause AND GPL-3.0-or-later",
+      "version": "3.8.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Answer calls with the built-in UAS scenario on port 5060",
+          "command": "docker run --rm --network host ghcr.io/randomcontainers/sipp -sn uas -p 5060"
+        },
+        {
+          "title": "Place 100 calls at 10 calls per second with the built-in UAC scenario",
+          "command": "docker run --rm --network host ghcr.io/randomcontainers/sipp -sn uac -r 10 -m 100 <server>:5060"
+        },
+        {
+          "title": "Run a scenario file with values from a CSV file in the current directory",
+          "command": "docker run --rm --network host --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/sipp -sf scenario.xml -inf users.csv -m 50 <server>:5060"
+        },
+        {
+          "title": "Watch the live statistics screen while calls run",
+          "command": "docker run --rm -it --network host ghcr.io/randomcontainers/sipp -sn uac -r 10 <server>:5060"
+        },
+        {
+          "title": "Play RTP audio from a capture file during the call (needs root and NET_RAW)",
+          "command": "docker run --rm --user 0 --cap-add NET_RAW --network host -w /usr/local/share/sipp ghcr.io/randomcontainers/sipp -sn uac_pcap -m 1 <server>:5060"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:39:21Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "3.8.0",
+          "tags": [
+            "latest",
+            "3.8.0",
+            "3.8",
+            "3",
+            "ubuntu",
+            "3.8.0-ubuntu",
+            "3.8-ubuntu",
+            "3-ubuntu",
+            "3.8.0-ubuntu26.04"
+          ],
+          "digest": "sha256:abc03c24368406cfe61f093ad19c80d75b087b5343a2eaf0ca8465b9102f8393",
+          "size": {
+            "linux/amd64": 46301659,
+            "linux/arm64": 45066031
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "3.8.0",
+          "tags": [
+            "alpine",
+            "3.8.0-alpine",
+            "3.8-alpine",
+            "3-alpine",
+            "3.8.0-alpine3.24"
+          ],
+          "digest": "sha256:6ec8c48068528b6f741695a05afce768dc177e8a34501f3399d496073cd0df88",
+          "size": {
+            "linux/amd64": 7346273,
+            "linux/arm64": 7530478
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "3.8.0",
+          "tags": [
+            "slim",
+            "3.8.0-slim",
+            "3.8-slim",
+            "3-slim",
+            "slim-ubuntu",
+            "3.8.0-slim-ubuntu",
+            "3.8-slim-ubuntu",
+            "3-slim-ubuntu",
+            "3.8.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:abc03c24368406cfe61f093ad19c80d75b087b5343a2eaf0ca8465b9102f8393",
+          "size": {
+            "linux/amd64": 46301659,
+            "linux/arm64": 45066031
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "3.8.0",
+          "tags": [
+            "slim-alpine",
+            "3.8.0-slim-alpine",
+            "3.8-slim-alpine",
+            "3-slim-alpine",
+            "3.8.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:6ec8c48068528b6f741695a05afce768dc177e8a34501f3399d496073cd0df88",
+          "size": {
+            "linux/amd64": 7346273,
+            "linux/arm64": 7530478
+          }
+        }
+      ]
+    },
+    {
+      "name": "sleuthkit",
+      "kind": "package",
+      "title": "The Sleuth Kit",
+      "summary": "Forensic tools for disk images, such as mmls, fls, icat, tsk_recover and mactime, that read partitions and file systems and recover deleted files.",
+      "homepage": "https://www.sleuthkit.org/sleuthkit/",
+      "repository": "https://github.com/randomcontainers/sleuthkit",
+      "license": "CPL-1.0 AND IPL-1.0 AND GPL-2.0-or-later AND LGPL-3.0-or-later AND BSD-3-Clause AND MIT AND ISC AND RSA-MD AND LicenseRef-IBM-base64 AND LicenseRef-ConvertUTF AND LicenseRef-mactime AND LicenseRef-Public-Domain",
+      "version": "4.15.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Show the partition table of a disk image",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work:ro\" --entrypoint mmls ghcr.io/randomcontainers/sleuthkit disk.img"
+        },
+        {
+          "title": "List every file of the partition at sector 2048, deleted ones included",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work:ro\" ghcr.io/randomcontainers/sleuthkit -r -o 2048 disk.img"
+        },
+        {
+          "title": "Recover the deleted files of that partition into recovered/",
+          "command": "mkdir -p recovered && docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/evidence:ro\" -v \"$PWD/recovered:/work\" --entrypoint tsk_recover ghcr.io/randomcontainers/sleuthkit -o 2048 /evidence/disk.img ."
+        },
+        {
+          "title": "Write a timeline of the file system as CSV",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work:ro\" --entrypoint sh ghcr.io/randomcontainers/sleuthkit -c 'fls -r -m / -o 2048 disk.img | mactime -d -y' > timeline.csv"
+        }
+      ],
+      "source_release": true,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": false,
+      "stale": false,
+      "updated": "2026-10-19T19:31:52Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "4.15.0",
+          "tags": [
+            "alpine",
+            "4.15.0-alpine",
+            "4.15-alpine",
+            "4-alpine",
+            "4.15.0-alpine3.24"
+          ],
+          "digest": "sha256:d79bd8833123d0000e06225b39ad9ea579a93e8aff006513347083a4f828df22",
+          "size": {
+            "linux/amd64": 18413122,
+            "linux/arm64": 18612181
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "4.15.0",
+          "tags": [
+            "slim-alpine",
+            "4.15.0-slim-alpine",
+            "4.15-slim-alpine",
+            "4-slim-alpine",
+            "4.15.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:d79bd8833123d0000e06225b39ad9ea579a93e8aff006513347083a4f828df22",
+          "size": {
+            "linux/amd64": 18413122,
+            "linux/arm64": 18612181
+          }
+        }
+      ]
+    },
+    {
       "name": "sphinx",
       "kind": "package",
       "title": "Sphinx",
@@ -3874,7 +5182,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T10:34:56Z",
+      "updated": "2026-10-19T18:47:21Z",
       "variants": [
         {
           "flavour": "default",
@@ -3891,10 +5199,10 @@
             "9-ubuntu",
             "9.1.0-ubuntu26.04"
           ],
-          "digest": "sha256:da4548a2f84c2b7de70434e10814f855bd9fd936c0f93caa6ad5bda185f8de05",
+          "digest": "sha256:5aaa4e4b5c3fcf73df81ae1f020845c0b19564737738bd93c5582bfde287d016",
           "size": {
-            "linux/amd64": 115100692,
-            "linux/arm64": 112345335
+            "linux/amd64": 115100784,
+            "linux/arm64": 112346498
           }
         },
         {
@@ -3908,10 +5216,10 @@
             "9-alpine",
             "9.1.0-alpine3.24"
           ],
-          "digest": "sha256:d1685633552d7febefe28e7b8495d8d769f51981ffbb3e5085c7e5cb2a56b92b",
+          "digest": "sha256:c1826e8dd82ae1a8b8bfcba82f7e2e0f8d1292b3e73a304290bc759a66b38ad5",
           "size": {
-            "linux/amd64": 75486525,
-            "linux/arm64": 75194476
+            "linux/amd64": 75486346,
+            "linux/arm64": 75194461
           }
         },
         {
@@ -3929,10 +5237,10 @@
             "9-slim-ubuntu",
             "9.1.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:3066b9ea1a45bf7f3d03067dba3f01743d0d83cd6955ce5c60309118fe27c074",
+          "digest": "sha256:c70fb5f1f08185b153528d07d45699540efa82b81c53a4a040666ad468e7af26",
           "size": {
-            "linux/amd64": 83306243,
-            "linux/arm64": 82211749
+            "linux/amd64": 83306055,
+            "linux/arm64": 82212916
           }
         },
         {
@@ -3946,10 +5254,10 @@
             "9-slim-alpine",
             "9.1.0-slim-alpine3.24"
           ],
-          "digest": "sha256:4b2a176c843fa173c1b008cb3da83f219f96bb657ab501d08d07cdf17aa91663",
+          "digest": "sha256:45be02e5de99fc338d1c490f62511ee8b3a6be926d91e2d86eafd57f36d44699",
           "size": {
-            "linux/amd64": 46066289,
-            "linux/arm64": 46255722
+            "linux/amd64": 46066664,
+            "linux/arm64": 46255874
           }
         }
       ]
@@ -4116,7 +5424,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T10:33:49Z",
+      "updated": "2026-10-19T18:41:36Z",
       "variants": [
         {
           "flavour": "default",
@@ -4133,10 +5441,10 @@
             "8-ubuntu",
             "8.6.2-ubuntu26.04"
           ],
-          "digest": "sha256:adc529838700d64f53a17acd5ccae10c9223b1012c090aa442a077611d20cb79",
+          "digest": "sha256:41dfd114263be28a17f43a960ecbf24e00df0b1e0342699eb2f75d220d9a5802",
           "size": {
-            "linux/amd64": 127173050,
-            "linux/arm64": 124787907
+            "linux/amd64": 127173696,
+            "linux/arm64": 124788135
           }
         },
         {
@@ -4150,10 +5458,10 @@
             "8-alpine",
             "8.6.2-alpine3.24"
           ],
-          "digest": "sha256:0830d36b9b0797cc644924b029f21dc47ea71fc21cd104e55e4c8a9c7f7b22a6",
+          "digest": "sha256:5dff98c87435da2c0435bc68a4ebe67430c271948b5930703b38b502d6d0c689",
           "size": {
-            "linux/amd64": 89424498,
-            "linux/arm64": 87394397
+            "linux/amd64": 89424431,
+            "linux/arm64": 87394573
           }
         },
         {
@@ -4171,10 +5479,10 @@
             "8-slim-ubuntu",
             "8.6.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:e24604a0a97a5b6d5573c487e893214314e288acab7d84fcaf00e0baa656a225",
+          "digest": "sha256:afaa34fff67b3b34cc2586e937f96dac57513259794089acae2c03f777dcaa91",
           "size": {
-            "linux/amd64": 82187232,
-            "linux/arm64": 80834899
+            "linux/amd64": 82188340,
+            "linux/arm64": 80835010
           }
         },
         {
@@ -4188,10 +5496,10 @@
             "8-slim-alpine",
             "8.6.2-slim-alpine3.24"
           ],
-          "digest": "sha256:288625d872ddbfac8ad9f1f305a48d676e4debd51de8e6f3ec0db4d6f4cbb1f6",
+          "digest": "sha256:ee41208317c00de9e1fa2a57bb46637e6e9f99832f4540c098131f17a78f61d6",
           "size": {
-            "linux/amd64": 44941795,
-            "linux/arm64": 44935877
+            "linux/amd64": 44942195,
+            "linux/arm64": 44936167
           }
         }
       ]
@@ -4438,6 +5746,118 @@
       ]
     },
     {
+      "name": "thrift",
+      "kind": "package",
+      "title": "Apache Thrift compiler",
+      "summary": "Generates C++, Java, Python, Go, Rust, C#, JavaScript and other code from Thrift IDL files, and checks a changed IDL file for breaking changes.",
+      "homepage": "https://thrift.apache.org/",
+      "repository": "https://github.com/randomcontainers/thrift",
+      "license": "Apache-2.0",
+      "version": "0.25.0",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Generate Python and Go code for api.thrift and the files it includes",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/thrift -r --gen py --gen go api.thrift"
+        },
+        {
+          "title": "Write the generated Java classes into an existing directory",
+          "command": "mkdir -p src/gen && docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/thrift -out src/gen --gen java api.thrift"
+        },
+        {
+          "title": "Check api.thrift, which includes common.thrift, against the main branch for breaking changes",
+          "command": "mkdir -p old && git archive origin/main api.thrift common.thrift | tar -xf - -C old && docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/thrift --audit old/api.thrift api.thrift"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:55:56Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "0.25.0",
+          "tags": [
+            "latest",
+            "0.25.0",
+            "0.25",
+            "0",
+            "ubuntu",
+            "0.25.0-ubuntu",
+            "0.25-ubuntu",
+            "0-ubuntu",
+            "0.25.0-ubuntu26.04"
+          ],
+          "digest": "sha256:15968c06f240c129fce3965951a26473b24b174e1d4006a829f1fbc6f694d8eb",
+          "size": {
+            "linux/amd64": 45551269,
+            "linux/arm64": 44251609
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "0.25.0",
+          "tags": [
+            "alpine",
+            "0.25.0-alpine",
+            "0.25-alpine",
+            "0-alpine",
+            "0.25.0-alpine3.24"
+          ],
+          "digest": "sha256:7c9daba81f6e06d1acdb2a38bf482b84b7720b91b0fc56bfc3e30acf3d2f2016",
+          "size": {
+            "linux/amd64": 7481155,
+            "linux/arm64": 7531814
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "0.25.0",
+          "tags": [
+            "slim",
+            "0.25.0-slim",
+            "0.25-slim",
+            "0-slim",
+            "slim-ubuntu",
+            "0.25.0-slim-ubuntu",
+            "0.25-slim-ubuntu",
+            "0-slim-ubuntu",
+            "0.25.0-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:15968c06f240c129fce3965951a26473b24b174e1d4006a829f1fbc6f694d8eb",
+          "size": {
+            "linux/amd64": 45551269,
+            "linux/arm64": 44251609
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "0.25.0",
+          "tags": [
+            "slim-alpine",
+            "0.25.0-slim-alpine",
+            "0.25-slim-alpine",
+            "0-slim-alpine",
+            "0.25.0-slim-alpine3.24"
+          ],
+          "digest": "sha256:7c9daba81f6e06d1acdb2a38bf482b84b7720b91b0fc56bfc3e30acf3d2f2016",
+          "size": {
+            "linux/amd64": 7481155,
+            "linux/arm64": 7531814
+          }
+        }
+      ]
+    },
+    {
       "name": "tshark",
       "kind": "package",
       "title": "TShark (Wireshark command-line tools)",
@@ -4563,6 +5983,247 @@
       ]
     },
     {
+      "name": "typos",
+      "kind": "package",
+      "title": "typos",
+      "summary": "Finds and fixes misspelled words in source code, comments and documentation, using a list of known typos that keeps false positives low.",
+      "homepage": "https://github.com/crate-ci/typos",
+      "repository": "https://github.com/randomcontainers/typos",
+      "license": "MIT AND Apache-2.0 AND BSD-3-Clause AND Unicode-3.0 AND Apache-2.0 WITH LLVM-exception AND LicenseRef-VarCon AND CC-BY-SA-3.0",
+      "version": "1.51.1",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Check the files in the current directory",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/typos"
+        },
+        {
+          "title": "Fix the typos in place",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/typos --write-changes"
+        },
+        {
+          "title": "Write the results as SARIF for code scanning",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/typos --format sarif > typos.sarif"
+        },
+        {
+          "title": "Correct text on stdin",
+          "command": "echo 'Fix teh bug.' | docker run --rm -i ghcr.io/randomcontainers/typos --write-changes -"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "slim"
+      },
+      "combos": [],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:39:42Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.51.1",
+          "tags": [
+            "latest",
+            "1.51.1",
+            "1.51",
+            "1",
+            "ubuntu",
+            "1.51.1-ubuntu",
+            "1.51-ubuntu",
+            "1-ubuntu",
+            "1.51.1-ubuntu26.04"
+          ],
+          "digest": "sha256:1bb1fc726c4413386b96e742cb4bf77e14ce5b0ec10c04bfe5491c449f0db92d",
+          "size": {
+            "linux/amd64": 51554169,
+            "linux/arm64": 49473198
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.51.1",
+          "tags": [
+            "alpine",
+            "1.51.1-alpine",
+            "1.51-alpine",
+            "1-alpine",
+            "1.51.1-alpine3.24"
+          ],
+          "digest": "sha256:06bdbc3724ff42949cedd13d5f6e8bc22855e920a3ec57fcd2a41b30f3d2977d",
+          "size": {
+            "linux/amd64": 12422830,
+            "linux/arm64": 11745657
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "1.51.1",
+          "tags": [
+            "slim",
+            "1.51.1-slim",
+            "1.51-slim",
+            "1-slim",
+            "slim-ubuntu",
+            "1.51.1-slim-ubuntu",
+            "1.51-slim-ubuntu",
+            "1-slim-ubuntu",
+            "1.51.1-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:1bb1fc726c4413386b96e742cb4bf77e14ce5b0ec10c04bfe5491c449f0db92d",
+          "size": {
+            "linux/amd64": 51554169,
+            "linux/arm64": 49473198
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "1.51.1",
+          "tags": [
+            "slim-alpine",
+            "1.51.1-slim-alpine",
+            "1.51-slim-alpine",
+            "1-slim-alpine",
+            "1.51.1-slim-alpine3.24"
+          ],
+          "digest": "sha256:06bdbc3724ff42949cedd13d5f6e8bc22855e920a3ec57fcd2a41b30f3d2977d",
+          "size": {
+            "linux/amd64": 12422830,
+            "linux/arm64": 11745657
+          }
+        }
+      ]
+    },
+    {
+      "name": "ugrep",
+      "kind": "package",
+      "title": "ugrep",
+      "summary": "Searches files, archives and compressed files with regular expressions, Boolean queries and fuzzy matching, and indexes large trees for faster searches.",
+      "homepage": "https://ugrep.com/",
+      "repository": "https://github.com/randomcontainers/ugrep",
+      "license": "BSD-3-Clause AND LicenseRef-Public-Domain AND Unicode-3.0",
+      "version": "7.8.5",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Search the files in the current directory and below, with line numbers",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/ugrep -rn 'TODO' ."
+        },
+        {
+          "title": "List the files in archives and compressed files that contain a word",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/ugrep -z -rlw 'invoice' backups"
+        },
+        {
+          "title": "Search the text of PDF files and other files with ugrep+ (default image)",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint ugrep+ ghcr.io/randomcontainers/ugrep -rn 'net 30' ."
+        },
+        {
+          "title": "Find lines that contain both words, in any order, and not a third",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" ghcr.io/randomcontainers/ugrep -rn --bool 'error timeout -retry' logs"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "ugrep-poppler",
+        "with": [
+          "poppler"
+        ],
+        "base": "poppler",
+        "summary": "ugrep with Poppler, so that ug+ and ugrep+ search the text of PDF files through pdftotext.",
+        "license": "(BSD-3-Clause AND LicenseRef-Public-Domain AND Unicode-3.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))"
+      },
+      "combos": [
+        "ugrep-poppler"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T18:39:06Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "7.8.5",
+          "tags": [
+            "latest",
+            "7.8.5",
+            "7.8",
+            "7",
+            "ubuntu",
+            "7.8.5-ubuntu",
+            "7.8-ubuntu",
+            "7-ubuntu",
+            "7.8.5-ubuntu26.04"
+          ],
+          "digest": "sha256:4d14e24943cee313837d5c7f8def2d11081d3e9932e3fbee8bafaa5b813b6440",
+          "size": {
+            "linux/amd64": 64178350,
+            "linux/arm64": 62579420
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "7.8.5",
+          "tags": [
+            "alpine",
+            "7.8.5-alpine",
+            "7.8-alpine",
+            "7-alpine",
+            "7.8.5-alpine3.24"
+          ],
+          "digest": "sha256:2e28c6039f99a758df457a2f44775b5aaa44cc6ad4d93bb89cea3c9b56848d7a",
+          "size": {
+            "linux/amd64": 27202960,
+            "linux/arm64": 27037439
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "7.8.5",
+          "tags": [
+            "slim",
+            "7.8.5-slim",
+            "7.8-slim",
+            "7-slim",
+            "slim-ubuntu",
+            "7.8.5-slim-ubuntu",
+            "7.8-slim-ubuntu",
+            "7-slim-ubuntu",
+            "7.8.5-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:9fe5e7c7986b4002576ba3e5407184a15795be986351d44c31cd9d9e368956d0",
+          "size": {
+            "linux/amd64": 44931478,
+            "linux/arm64": 43774587
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "7.8.5",
+          "tags": [
+            "slim-alpine",
+            "7.8.5-slim-alpine",
+            "7.8-slim-alpine",
+            "7-slim-alpine",
+            "7.8.5-slim-alpine3.24"
+          ],
+          "digest": "sha256:b19eb8a8fbd5cde86f3aeee3f94bb067779efdc74016ddd7ef58f478e08ea37a",
+          "size": {
+            "linux/amd64": 7878123,
+            "linux/arm64": 8064502
+          }
+        }
+      ]
+    },
+    {
       "name": "vale",
       "kind": "package",
       "title": "Vale",
@@ -4594,7 +6255,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:09:15Z",
+      "updated": "2026-10-19T18:41:12Z",
       "variants": [
         {
           "flavour": "default",
@@ -4611,10 +6272,10 @@
             "3-ubuntu",
             "3.24.0-ubuntu26.04"
           ],
-          "digest": "sha256:721ae797020f14a0bed23255b5c8c4035f08fdb90b99f1bde70dd95f765e4997",
+          "digest": "sha256:0b8d21dd1c9a666e0ac00d2ebe6dce7cf44ece077da9b25f492aac693f2b2410",
           "size": {
-            "linux/amd64": 56968647,
-            "linux/arm64": 55127212
+            "linux/amd64": 56968638,
+            "linux/arm64": 55127225
           }
         },
         {
@@ -4628,10 +6289,10 @@
             "3-alpine",
             "3.24.0-alpine3.24"
           ],
-          "digest": "sha256:175d0847005cbd2b7775c0850dc7b905dcfe086550d6d4136edd31e9744b4252",
+          "digest": "sha256:21aeb0dfcbf330dba742de142abc714f2be29e1b77f90a22f7155b30d416df03",
           "size": {
-            "linux/amd64": 18917347,
-            "linux/arm64": 18414259
+            "linux/amd64": 18917291,
+            "linux/arm64": 18414235
           }
         },
         {
@@ -4649,10 +6310,10 @@
             "3-slim-ubuntu",
             "3.24.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:721ae797020f14a0bed23255b5c8c4035f08fdb90b99f1bde70dd95f765e4997",
+          "digest": "sha256:0b8d21dd1c9a666e0ac00d2ebe6dce7cf44ece077da9b25f492aac693f2b2410",
           "size": {
-            "linux/amd64": 56968647,
-            "linux/arm64": 55127212
+            "linux/amd64": 56968638,
+            "linux/arm64": 55127225
           }
         },
         {
@@ -4666,10 +6327,10 @@
             "3-slim-alpine",
             "3.24.0-slim-alpine3.24"
           ],
-          "digest": "sha256:175d0847005cbd2b7775c0850dc7b905dcfe086550d6d4136edd31e9744b4252",
+          "digest": "sha256:21aeb0dfcbf330dba742de142abc714f2be29e1b77f90a22f7155b30d416df03",
           "size": {
-            "linux/amd64": 18917347,
-            "linux/arm64": 18414259
+            "linux/amd64": 18917291,
+            "linux/arm64": 18414235
           }
         }
       ]
@@ -4723,7 +6384,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T10:34:41Z",
+      "updated": "2026-10-19T18:46:51Z",
       "variants": [
         {
           "flavour": "default",
@@ -4740,10 +6401,10 @@
             "3-ubuntu",
             "3.2.1-ubuntu26.04"
           ],
-          "digest": "sha256:d8f39c87219eb5606fe0c63b395240a5dff8636d170821843f721aeaf6880254",
+          "digest": "sha256:86ebe6ba68d6dc9394d3b3ac887078857c164fe0aa124f1457a321ac903f1bb7",
           "size": {
-            "linux/amd64": 88645699,
-            "linux/arm64": 86344126
+            "linux/amd64": 88645702,
+            "linux/arm64": 86344128
           }
         },
         {
@@ -4757,10 +6418,10 @@
             "3-alpine",
             "3.2.1-alpine3.24"
           ],
-          "digest": "sha256:e75d6ea512d271904f44397b7e61349f24a2f3eaa38b9fada9ae941a96d3b025",
+          "digest": "sha256:6a3a770a4894951aa6005d48bdf38b5f235cc1f316bc5eed80e639f520853ffb",
           "size": {
-            "linux/amd64": 50554248,
-            "linux/arm64": 48591766
+            "linux/amd64": 50554246,
+            "linux/arm64": 48591762
           }
         },
         {
@@ -4778,10 +6439,10 @@
             "3-slim-ubuntu",
             "3.2.1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:5152a4f8031d2300cfea440b55f0c6b39b6e23565f416494d864a72ec93f9800",
+          "digest": "sha256:0d23a0ffe2b97d25e7acee36a61aa6ee57f91921697fa7c2b2e9cc11808239d6",
           "size": {
-            "linux/amd64": 43879074,
-            "linux/arm64": 42606026
+            "linux/amd64": 43879076,
+            "linux/arm64": 42606036
           }
         },
         {
@@ -4795,10 +6456,10 @@
             "3-slim-alpine",
             "3.2.1-slim-alpine3.24"
           ],
-          "digest": "sha256:e36b326ab2d6c40f03f9c7f4b44228e9d2f760d36bf415b424e424339b591b92",
+          "digest": "sha256:33c682ca081bccaf6e027583996636a07e064d38ea5538906fd164d1941e75cb",
           "size": {
-            "linux/amd64": 5829670,
-            "linux/arm64": 5894795
+            "linux/amd64": 5829645,
+            "linux/arm64": 5894789
           }
         }
       ]
@@ -4844,7 +6505,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T19:12:47Z",
+      "updated": "2026-10-19T18:44:54Z",
       "variants": [
         {
           "flavour": "default",
@@ -4859,10 +6520,10 @@
             "70-ubuntu",
             "70.0-ubuntu26.04"
           ],
-          "digest": "sha256:045de85f71e49d76495de9c56c6de58a56677bacbfc3d11e7a744f68031a6f6e",
+          "digest": "sha256:2cb55044d3d710553c7d61a7aa623db50cbe4a6054f8fad870c0c242fdfb141f",
           "size": {
-            "linux/amd64": 90002493,
-            "linux/arm64": 88366838
+            "linux/amd64": 90002605,
+            "linux/arm64": 88366898
           }
         },
         {
@@ -4875,10 +6536,10 @@
             "70-alpine",
             "70.0-alpine3.24"
           ],
-          "digest": "sha256:ee84e336aaec180ba07715c0291fd96c9c8fa869e88c9b3f7d5ee8d26c2d3df1",
+          "digest": "sha256:52b27f4a94227b1369776f9eb236cfeda293cfb8a6dd010cb8f26c3b20548491",
           "size": {
-            "linux/amd64": 60335453,
-            "linux/arm64": 59622387
+            "linux/amd64": 60337015,
+            "linux/arm64": 59624233
           }
         },
         {
@@ -4894,10 +6555,10 @@
             "70-slim-ubuntu",
             "70.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:9883dec91f2564d36780578fa846091f31a0b9815dacbc2356740c6fb660efcf",
+          "digest": "sha256:5ebb78a27e34b3bea1ea623f2b89f32acf15f1ab0c04694119bc05d5c7ea7ef9",
           "size": {
-            "linux/amd64": 88158317,
-            "linux/arm64": 86615690
+            "linux/amd64": 88158402,
+            "linux/arm64": 86615734
           }
         },
         {
@@ -4910,10 +6571,10 @@
             "70-slim-alpine",
             "70.0-slim-alpine3.24"
           ],
-          "digest": "sha256:186d004bc51f8319cb5a8569d919fef47f693ec01996b8beaf0688e6d53e0935",
+          "digest": "sha256:f05b2ce1b40b784077b853fe6a600b955c527e2649916ebc62c02880c466cf7d",
           "size": {
-            "linux/amd64": 58496545,
-            "linux/arm64": 57851994
+            "linux/amd64": 58498094,
+            "linux/arm64": 57853842
           }
         }
       ]
@@ -5083,7 +6744,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:06:28Z",
+      "updated": "2026-10-19T18:41:24Z",
       "variants": [
         {
           "flavour": "default",
@@ -5100,10 +6761,10 @@
             "1-ubuntu",
             "1.38.0-ubuntu26.04"
           ],
-          "digest": "sha256:9cbdf1d82777e107a19b5a66fc71973dd423e708fd5da57e39b59e35be388164",
+          "digest": "sha256:f824018c4af8e53533dc49a0eb9e195f0acb18607d2fcd7e4ab1564181e0d81f",
           "size": {
-            "linux/amd64": 62187751,
-            "linux/arm64": 61068828
+            "linux/amd64": 62187863,
+            "linux/arm64": 61069141
           }
         },
         {
@@ -5117,10 +6778,10 @@
             "1-alpine",
             "1.38.0-alpine3.24"
           ],
-          "digest": "sha256:c12ac1ec674708a288dd25e95154170edbbe5c07251d6c000aec9e459c60599c",
+          "digest": "sha256:b02dabc88e4ffb404017960eb31a3a14f01dc9620ac6e4a56fe0616bfd6f574c",
           "size": {
-            "linux/amd64": 24941784,
-            "linux/arm64": 25103702
+            "linux/amd64": 24942382,
+            "linux/arm64": 25103835
           }
         },
         {
@@ -5138,10 +6799,10 @@
             "1-slim-ubuntu",
             "1.38.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:9cbdf1d82777e107a19b5a66fc71973dd423e708fd5da57e39b59e35be388164",
+          "digest": "sha256:f824018c4af8e53533dc49a0eb9e195f0acb18607d2fcd7e4ab1564181e0d81f",
           "size": {
-            "linux/amd64": 62187751,
-            "linux/arm64": 61068828
+            "linux/amd64": 62187863,
+            "linux/arm64": 61069141
           }
         },
         {
@@ -5155,10 +6816,135 @@
             "1-slim-alpine",
             "1.38.0-slim-alpine3.24"
           ],
-          "digest": "sha256:c12ac1ec674708a288dd25e95154170edbbe5c07251d6c000aec9e459c60599c",
+          "digest": "sha256:b02dabc88e4ffb404017960eb31a3a14f01dc9620ac6e4a56fe0616bfd6f574c",
           "size": {
-            "linux/amd64": 24941784,
-            "linux/arm64": 25103702
+            "linux/amd64": 24942382,
+            "linux/arm64": 25103835
+          }
+        }
+      ]
+    },
+    {
+      "name": "yara",
+      "kind": "package",
+      "title": "YARA",
+      "summary": "Scans files and directories with YARA rules, which identify malware and other files by their strings and structure. Includes the yarac rule compiler.",
+      "homepage": "https://virustotal.github.io/yara/",
+      "repository": "https://github.com/randomcontainers/yara",
+      "license": "BSD-3-Clause AND Apache-2.0 AND MIT",
+      "version": "4.5.8",
+      "versioning": "semver",
+      "examples": [
+        {
+          "title": "Scan a directory of samples with a rule file, without network access",
+          "command": "docker run --rm --network none --user \"$(id -u):$(id -g)\" -v \"$PWD:/work:ro\" ghcr.io/randomcontainers/yara -r rules.yar samples"
+        },
+        {
+          "title": "Print the strings that matched, with their offsets",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work:ro\" ghcr.io/randomcontainers/yara -s rules.yar sample.bin"
+        },
+        {
+          "title": "Compile a rule file with yarac",
+          "command": "docker run --rm --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint yarac ghcr.io/randomcontainers/yara rules.yar rules.yarc"
+        },
+        {
+          "title": "Unpack an encrypted zip of samples and scan its contents (default image)",
+          "command": "docker run --rm --network none --user \"$(id -u):$(id -g)\" -v \"$PWD:/work\" --entrypoint sh ghcr.io/randomcontainers/yara -c '7zz x -pinfected -osamples samples.zip > /dev/null && yara -r rules.yar samples'"
+        }
+      ],
+      "source_release": false,
+      "default": {
+        "kind": "combo",
+        "combo": "yara-7zip",
+        "with": [
+          "7zip"
+        ],
+        "base": "yara",
+        "summary": "YARA with 7-Zip, for unpacking password-protected sample archives and scanning what they contain.",
+        "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR"
+      },
+      "combos": [
+        "yara-7zip"
+      ],
+      "public": true,
+      "default_ready": true,
+      "stale": false,
+      "updated": "2026-10-19T19:02:05Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "4.5.8",
+          "tags": [
+            "latest",
+            "4.5.8",
+            "4.5",
+            "4",
+            "ubuntu",
+            "4.5.8-ubuntu",
+            "4.5-ubuntu",
+            "4-ubuntu",
+            "4.5.8-ubuntu26.04"
+          ],
+          "digest": "sha256:8d4139070e7de1da259e7e0b7b0a2fe5083ff4ea0c9892f4d2135f8f0eb7c0e1",
+          "size": {
+            "linux/amd64": 45844618,
+            "linux/arm64": 44732581
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "4.5.8",
+          "tags": [
+            "alpine",
+            "4.5.8-alpine",
+            "4.5-alpine",
+            "4-alpine",
+            "4.5.8-alpine3.24"
+          ],
+          "digest": "sha256:08194d212b747a592ea1d0624c663a760b1bb1626b0b9238aed8ddf251442af7",
+          "size": {
+            "linux/amd64": 7842682,
+            "linux/arm64": 8068437
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "ubuntu",
+          "version": "4.5.8",
+          "tags": [
+            "slim",
+            "4.5.8-slim",
+            "4.5-slim",
+            "4-slim",
+            "slim-ubuntu",
+            "4.5.8-slim-ubuntu",
+            "4.5-slim-ubuntu",
+            "4-slim-ubuntu",
+            "4.5.8-slim-ubuntu26.04"
+          ],
+          "digest": "sha256:76be851b0d1f664802ad9807dca4e5e446a0efae75ecb752c08a4d2eebd89628",
+          "size": {
+            "linux/amd64": 44421157,
+            "linux/arm64": 43365377
+          }
+        },
+        {
+          "flavour": "slim",
+          "distro": "alpine",
+          "version": "4.5.8",
+          "tags": [
+            "slim-alpine",
+            "4.5.8-slim-alpine",
+            "4.5-slim-alpine",
+            "4-slim-alpine",
+            "4.5.8-slim-alpine3.24"
+          ],
+          "digest": "sha256:5f6eec523ee6fc1d0a72bdc77e040492b32cd66049705fe5082047804c989568",
+          "size": {
+            "linux/amd64": 5298248,
+            "linux/arm64": 5650097
           }
         }
       ]
@@ -5208,7 +6994,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T10:33:41Z",
+      "updated": "2026-10-19T18:46:44Z",
       "variants": [
         {
           "flavour": "default",
@@ -5221,10 +7007,10 @@
             "2026.08.19-ubuntu",
             "2026.08.19-ubuntu26.04"
           ],
-          "digest": "sha256:f3ecf8428be34da1ff413fe719acf763bc1b0952d3f4f177a5881275e5b8c8a9",
+          "digest": "sha256:614017dc334513602224b60b2ca9bb1f142e879605233afde33e9789851b95f6",
           "size": {
-            "linux/amd64": 177650793,
-            "linux/arm64": 173771557
+            "linux/amd64": 177651652,
+            "linux/arm64": 173771425
           }
         },
         {
@@ -5236,10 +7022,10 @@
             "2026.08.19-alpine",
             "2026.08.19-alpine3.24"
           ],
-          "digest": "sha256:1275b2d9a0fb40130c785a0aa332f0884202ba134ba4b7ea061b3a3d5949e2e0",
+          "digest": "sha256:699b95f71c9df78dc3d43f696e3681fc907a969fafb306cf512221f1e27dfbc7",
           "size": {
-            "linux/amd64": 144726703,
-            "linux/arm64": 141956063
+            "linux/amd64": 144727187,
+            "linux/arm64": 141956223
           }
         },
         {
@@ -5253,10 +7039,10 @@
             "2026.08.19-slim-ubuntu",
             "2026.08.19-slim-ubuntu26.04"
           ],
-          "digest": "sha256:3e0cae6b1fa089c3236d0d1aa26cf25ce99df9b327d127ff724785a3aae30e81",
+          "digest": "sha256:93152743ead79b546b4e058b8946dc8d4ef23ab1fc05a79a8c027369c4141d5a",
           "size": {
-            "linux/amd64": 89887680,
-            "linux/arm64": 88227111
+            "linux/amd64": 89887941,
+            "linux/arm64": 88227306
           }
         },
         {
@@ -5268,10 +7054,10 @@
             "2026.08.19-slim-alpine",
             "2026.08.19-slim-alpine3.24"
           ],
-          "digest": "sha256:6c1a304fae3540122ee2f36898048b0a1125288d74be442c5f673b9d2282924e",
+          "digest": "sha256:b499e7fb6ae173520ec8ce1065ac1542286c426ed1de29801a801dec814a1b5b",
           "size": {
-            "linux/amd64": 52478576,
-            "linux/arm64": 51982230
+            "linux/amd64": 52479772,
+            "linux/arm64": 51982538
           }
         }
       ]
@@ -5479,6 +7265,42 @@
           }
         }
       ]
+    },
+    {
+      "name": "fluidsynth-ffmpeg",
+      "kind": "combo",
+      "owner": "fluidsynth",
+      "members": [
+        "fluidsynth",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "FluidSynth + FFmpeg",
+      "summary": "FluidSynth with FFmpeg, for rendering MIDI files to MP3, Opus, AAC and the other formats that FFmpeg encodes.",
+      "repository": "https://github.com/randomcontainers/fluidsynth-ffmpeg",
+      "license": "LGPL-2.1-or-later AND Apache-2.0 AND CC0-1.0 AND LicenseRef-Public-Domain AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
+      "version": "2.6.1",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "gifsicle-ffmpeg",
+      "kind": "combo",
+      "owner": "gifsicle",
+      "members": [
+        "gifsicle",
+        "ffmpeg"
+      ],
+      "base": "ffmpeg",
+      "title": "Gifsicle + FFmpeg",
+      "summary": "Gifsicle with FFmpeg, for turning video clips into GIF animations and then optimizing them.",
+      "repository": "https://github.com/randomcontainers/gifsicle-ffmpeg",
+      "license": "GPL-2.0-only AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
+      "version": "1.98",
+      "public": false,
+      "updated": null,
+      "variants": []
     },
     {
       "name": "imagemagick-ghostscript",
@@ -5749,7 +7571,7 @@
       "summary": "MKVToolNix with FFmpeg and MediaInfo, for converting, remuxing and checking video files in one image.",
       "repository": "https://github.com/randomcontainers/mkvtoolnix-ffmpeg-mediainfo",
       "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0 AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense AND BSD-2-Clause AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause",
-      "version": "102.0",
+      "version": "103.0",
       "public": true,
       "updated": "2026-10-17T10:35:10Z",
       "variants": [
@@ -5786,6 +7608,42 @@
           }
         }
       ]
+    },
+    {
+      "name": "opentofu-openssh-client",
+      "kind": "combo",
+      "owner": "opentofu",
+      "members": [
+        "opentofu",
+        "openssh-client"
+      ],
+      "base": "opentofu",
+      "title": "OpenTofu + OpenSSH client",
+      "summary": "OpenTofu with Git and the OpenSSH client, for modules from the OpenTofu registry and from Git repositories over HTTPS or SSH.",
+      "repository": "https://github.com/randomcontainers/opentofu-openssh-client",
+      "license": "MPL-2.0 AND Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND ISC AND Unicode-DFS-2016 AND Unicode-3.0 AND SSH-OpenSSH AND GPL-2.0-only",
+      "version": "1.13.1",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
+      "name": "pgcli-postgresql-client",
+      "kind": "combo",
+      "owner": "pgcli",
+      "members": [
+        "pgcli",
+        "postgresql-client"
+      ],
+      "base": "pgcli",
+      "title": "pgcli + PostgreSQL client tools",
+      "summary": "pgcli with the PostgreSQL client tools, so psql, pg_dump and pg_restore are in the same image.",
+      "repository": "https://github.com/randomcontainers/pgcli-postgresql-client",
+      "license": "BSD-3-Clause AND BSD-2-Clause AND MIT AND HPND-Markus-Kuhn AND Unicode-3.0 AND PostgreSQL AND LGPL-3.0-only AND Apache-2.0 AND ISC AND MPL-2.0 AND PSF-2.0 AND LicenseRef-pg-dump AND LicenseRef-Public-Domain",
+      "version": "4.7.1",
+      "public": false,
+      "updated": null,
+      "variants": []
     },
     {
       "name": "qpdf-ghostscript",
@@ -5837,6 +7695,24 @@
           }
         }
       ]
+    },
+    {
+      "name": "samtools-bcftools",
+      "kind": "combo",
+      "owner": "samtools",
+      "members": [
+        "samtools",
+        "bcftools"
+      ],
+      "base": "samtools",
+      "title": "Samtools + BCFtools",
+      "summary": "Samtools with BCFtools, for sorting and indexing aligned reads and calling variants from them.",
+      "repository": "https://github.com/randomcontainers/samtools-bcftools",
+      "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain AND BSD-1-Clause",
+      "version": "1.24",
+      "public": false,
+      "updated": null,
+      "variants": []
     },
     {
       "name": "shaka-packager-ffmpeg",
@@ -6145,6 +8021,24 @@
       ]
     },
     {
+      "name": "ugrep-poppler",
+      "kind": "combo",
+      "owner": "ugrep",
+      "members": [
+        "ugrep",
+        "poppler"
+      ],
+      "base": "poppler",
+      "title": "ugrep + Poppler",
+      "summary": "ugrep with Poppler, so that ug+ and ugrep+ search the text of PDF files through pdftotext.",
+      "repository": "https://github.com/randomcontainers/ugrep-poppler",
+      "license": "(BSD-3-Clause AND LicenseRef-Public-Domain AND Unicode-3.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))",
+      "version": "7.8.5",
+      "public": false,
+      "updated": null,
+      "variants": []
+    },
+    {
       "name": "vmaf-ffmpeg",
       "kind": "combo",
       "owner": "vmaf",
@@ -6296,6 +8190,24 @@
           }
         }
       ]
+    },
+    {
+      "name": "yara-7zip",
+      "kind": "combo",
+      "owner": "yara",
+      "members": [
+        "yara",
+        "7zip"
+      ],
+      "base": "yara",
+      "title": "YARA + 7-Zip",
+      "summary": "YARA with 7-Zip, for unpacking password-protected sample archives and scanning what they contain.",
+      "repository": "https://github.com/randomcontainers/yara-7zip",
+      "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
+      "version": "4.5.8",
+      "public": false,
+      "updated": null,
+      "variants": []
     },
     {
       "name": "yt-dlp-ffmpeg",
