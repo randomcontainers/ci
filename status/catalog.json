@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-19T21:27:25Z",
+  "generated": "2026-10-21T04:33:46Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -5256,7 +5256,7 @@
       "homepage": "https://www.sphinx-doc.org/",
       "repository": "https://github.com/randomcontainers/sphinx",
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND 0BSD AND Unicode-3.0 AND LicenseRef-Public-Domain",
-      "version": "9.1.0",
+      "version": "9.1.1",
       "versioning": "semver",
       "examples": [
         {
@@ -5297,82 +5297,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-19T18:47:21Z",
+      "updated": "2026-10-21T04:33:46Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "9.1.0",
+          "version": "9.1.1",
           "tags": [
             "latest",
-            "9.1.0",
+            "9.1.1",
             "9.1",
             "9",
             "ubuntu",
-            "9.1.0-ubuntu",
+            "9.1.1-ubuntu",
             "9.1-ubuntu",
             "9-ubuntu",
-            "9.1.0-ubuntu26.04"
+            "9.1.1-ubuntu26.04"
           ],
-          "digest": "sha256:5aaa4e4b5c3fcf73df81ae1f020845c0b19564737738bd93c5582bfde287d016",
+          "digest": "sha256:d939a229c817052a402417bcb25e202a934ca85030f2c3372114b1324dff1e59",
           "size": {
-            "linux/amd64": 115100784,
-            "linux/arm64": 112346498
+            "linux/amd64": 115103598,
+            "linux/arm64": 112349366
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "9.1.0",
+          "version": "9.1.1",
           "tags": [
             "alpine",
-            "9.1.0-alpine",
+            "9.1.1-alpine",
             "9.1-alpine",
             "9-alpine",
-            "9.1.0-alpine3.24"
+            "9.1.1-alpine3.24"
           ],
-          "digest": "sha256:c1826e8dd82ae1a8b8bfcba82f7e2e0f8d1292b3e73a304290bc759a66b38ad5",
+          "digest": "sha256:529f8816ed522099e383b6f7c19c8056024255463c92061ac37a61e4386aa996",
           "size": {
-            "linux/amd64": 75486346,
-            "linux/arm64": 75194461
+            "linux/amd64": 75490127,
+            "linux/arm64": 75197765
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "9.1.0",
+          "version": "9.1.1",
           "tags": [
             "slim",
-            "9.1.0-slim",
+            "9.1.1-slim",
             "9.1-slim",
             "9-slim",
             "slim-ubuntu",
-            "9.1.0-slim-ubuntu",
+            "9.1.1-slim-ubuntu",
             "9.1-slim-ubuntu",
             "9-slim-ubuntu",
-            "9.1.0-slim-ubuntu26.04"
+            "9.1.1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:c70fb5f1f08185b153528d07d45699540efa82b81c53a4a040666ad468e7af26",
+          "digest": "sha256:9825922648733a6ef8f59d4fc95f8d9534d0850a0d30cb15b51edda3fb223290",
           "size": {
-            "linux/amd64": 83306055,
-            "linux/arm64": 82212916
+            "linux/amd64": 83306923,
+            "linux/arm64": 82212903
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "9.1.0",
+          "version": "9.1.1",
           "tags": [
             "slim-alpine",
-            "9.1.0-slim-alpine",
+            "9.1.1-slim-alpine",
             "9.1-slim-alpine",
             "9-slim-alpine",
-            "9.1.0-slim-alpine3.24"
+            "9.1.1-slim-alpine3.24"
           ],
-          "digest": "sha256:45be02e5de99fc338d1c490f62511ee8b3a6be926d91e2d86eafd57f36d44699",
+          "digest": "sha256:7ca7b561693507711e045d3d8a2266035ccc9d0381758aed0614406c901a10af",
           "size": {
-            "linux/amd64": 46066664,
-            "linux/arm64": 46255874
+            "linux/amd64": 46067465,
+            "linux/arm64": 46257217
           }
         }
       ]
@@ -8058,7 +8058,7 @@
       "summary": "Sphinx with Graphviz, for the graphviz and inheritance_diagram extensions.",
       "repository": "https://github.com/randomcontainers/sphinx-graphviz",
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND 0BSD AND Unicode-3.0 AND LicenseRef-Public-Domain AND EPL-2.0 AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
-      "version": "9.1.0",
+      "version": "9.1.1",
       "public": true,
       "updated": "2026-10-19T20:14:03Z",
       "variants": [
