@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-21T04:33:46Z",
+  "generated": "2026-10-21T09:35:46Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -852,7 +852,7 @@
       "homepage": "https://www.isc.org/bind/",
       "repository": "https://github.com/randomcontainers/dig",
       "license": "MPL-2.0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND MIT AND CC0-1.0",
-      "version": "9.20.29",
+      "version": "9.20.30",
       "versioning": "semver",
       "examples": [
         {
@@ -884,82 +884,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-17T06:09:37Z",
+      "updated": "2026-10-21T09:35:46Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "9.20.29",
+          "version": "9.20.30",
           "tags": [
             "latest",
-            "9.20.29",
+            "9.20.30",
             "9.20",
             "9",
             "ubuntu",
-            "9.20.29-ubuntu",
+            "9.20.30-ubuntu",
             "9.20-ubuntu",
             "9-ubuntu",
-            "9.20.29-ubuntu26.04"
+            "9.20.30-ubuntu26.04"
           ],
-          "digest": "sha256:b6febcf4d4b038f3b62cac091b4b72e50e0e9c265312787ffaedefdd854baeac",
+          "digest": "sha256:7b5ac2ef8d271c23983ca63a688bc892d536f4b83a5755753e053facb04a5902",
           "size": {
-            "linux/amd64": 47123395,
-            "linux/arm64": 45971781
+            "linux/amd64": 47121020,
+            "linux/arm64": 45967337
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "9.20.29",
+          "version": "9.20.30",
           "tags": [
             "alpine",
-            "9.20.29-alpine",
+            "9.20.30-alpine",
             "9.20-alpine",
             "9-alpine",
-            "9.20.29-alpine3.24"
+            "9.20.30-alpine3.24"
           ],
-          "digest": "sha256:f2ffa3318f82e53890851c454d137368c8c25d7e0135d72ca8c69d68f4b38576",
+          "digest": "sha256:ce9a20f89a37dc8ea1155c924965d3dd423112be7028f47a2df8738f4b4382a6",
           "size": {
-            "linux/amd64": 8109387,
-            "linux/arm64": 8440048
+            "linux/amd64": 8102419,
+            "linux/arm64": 8435068
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "9.20.29",
+          "version": "9.20.30",
           "tags": [
             "slim",
-            "9.20.29-slim",
+            "9.20.30-slim",
             "9.20-slim",
             "9-slim",
             "slim-ubuntu",
-            "9.20.29-slim-ubuntu",
+            "9.20.30-slim-ubuntu",
             "9.20-slim-ubuntu",
             "9-slim-ubuntu",
-            "9.20.29-slim-ubuntu26.04"
+            "9.20.30-slim-ubuntu26.04"
           ],
-          "digest": "sha256:b6febcf4d4b038f3b62cac091b4b72e50e0e9c265312787ffaedefdd854baeac",
+          "digest": "sha256:7b5ac2ef8d271c23983ca63a688bc892d536f4b83a5755753e053facb04a5902",
           "size": {
-            "linux/amd64": 47123395,
-            "linux/arm64": 45971781
+            "linux/amd64": 47121020,
+            "linux/arm64": 45967337
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "9.20.29",
+          "version": "9.20.30",
           "tags": [
             "slim-alpine",
-            "9.20.29-slim-alpine",
+            "9.20.30-slim-alpine",
             "9.20-slim-alpine",
             "9-slim-alpine",
-            "9.20.29-slim-alpine3.24"
+            "9.20.30-slim-alpine3.24"
           ],
-          "digest": "sha256:f2ffa3318f82e53890851c454d137368c8c25d7e0135d72ca8c69d68f4b38576",
+          "digest": "sha256:ce9a20f89a37dc8ea1155c924965d3dd423112be7028f47a2df8738f4b4382a6",
           "size": {
-            "linux/amd64": 8109387,
-            "linux/arm64": 8440048
+            "linux/amd64": 8102419,
+            "linux/arm64": 8435068
           }
         }
       ]
@@ -8060,38 +8060,38 @@
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND 0BSD AND Unicode-3.0 AND LicenseRef-Public-Domain AND EPL-2.0 AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
       "version": "9.1.1",
       "public": true,
-      "updated": "2026-10-19T20:14:03Z",
+      "updated": "2026-10-21T09:35:33Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "9.1.0",
+          "version": "9.1.1",
           "tags": [
             "latest",
-            "9.1.0",
+            "9.1.1",
             "ubuntu",
-            "9.1.0-ubuntu",
-            "9.1.0-ubuntu26.04"
+            "9.1.1-ubuntu",
+            "9.1.1-ubuntu26.04"
           ],
-          "digest": "sha256:51a3baa89f7dbdf07fdcece904bb0a426b0e704deb5cdc78462e82327376a823",
+          "digest": "sha256:7c1f423b9114928c6e0a3875264dd8874d240b011a42eb5d545c0fa2e6af6194",
           "size": {
-            "linux/amd64": 115100643,
-            "linux/arm64": 112346756
+            "linux/amd64": 115103789,
+            "linux/arm64": 112349581
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "9.1.0",
+          "version": "9.1.1",
           "tags": [
             "alpine",
-            "9.1.0-alpine",
-            "9.1.0-alpine3.24"
+            "9.1.1-alpine",
+            "9.1.1-alpine3.24"
           ],
-          "digest": "sha256:d92583f94f6ddf4306afeb0bc11c421e77a06f625d0c5aaa869b126786eb013e",
+          "digest": "sha256:0c23ee05517ba0585cc2099d318e4e8b8ae7b86f5772ce72372f93c8aa9d3957",
           "size": {
-            "linux/amd64": 75486541,
-            "linux/arm64": 75194565
+            "linux/amd64": 75490291,
+            "linux/arm64": 75197920
           }
         }
       ]
