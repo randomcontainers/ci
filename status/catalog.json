@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-22T15:32:02Z",
+  "generated": "2026-10-22T19:19:11Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -3945,7 +3945,7 @@
       "homepage": "https://opentofu.org/",
       "repository": "https://github.com/randomcontainers/opentofu",
       "license": "MPL-2.0 AND Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND ISC AND Unicode-DFS-2016 AND Unicode-3.0",
-      "version": "1.13.1",
+      "version": "1.13.2",
       "versioning": "semver",
       "examples": [
         {
@@ -6984,7 +6984,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-22T15:25:50Z",
+      "updated": "2026-10-22T19:18:53Z",
       "variants": [
         {
           "flavour": "default",
@@ -7001,10 +7001,10 @@
             "4-ubuntu",
             "4.5.8-ubuntu26.04"
           ],
-          "digest": "sha256:1ebf8aeaa964e38d42c2a193726036141bf1b3b2192d02292a5c050ce5c717be",
+          "digest": "sha256:fc5639ad009a53160f61f74eae96ce692391fe7e3c5933a92cd9758bb02a51b4",
           "size": {
-            "linux/amd64": 45842790,
-            "linux/arm64": 44731189
+            "linux/amd64": 45844292,
+            "linux/arm64": 44733276
           }
         },
         {
@@ -7018,10 +7018,10 @@
             "4-alpine",
             "4.5.8-alpine3.24"
           ],
-          "digest": "sha256:a438fb47eaff2ab5f5b9192692c2964cfe63fd242dd2251b12ac5eab3216bbd3",
+          "digest": "sha256:9c0e949da6d3dc69b3cf6232ea411752da71cd691878c2be0bf7e011455d3eb6",
           "size": {
-            "linux/amd64": 7842454,
-            "linux/arm64": 8068206
+            "linux/amd64": 7842852,
+            "linux/arm64": 8068845
           }
         },
         {
@@ -7803,7 +7803,7 @@
       "summary": "OpenTofu with Git and the OpenSSH client, for modules from the OpenTofu registry and from Git repositories over HTTPS or SSH.",
       "repository": "https://github.com/randomcontainers/opentofu-openssh-client",
       "license": "MPL-2.0 AND Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND ISC AND Unicode-DFS-2016 AND Unicode-3.0 AND SSH-OpenSSH AND GPL-2.0-only",
-      "version": "1.13.1",
+      "version": "1.13.2",
       "public": true,
       "updated": "2026-10-22T15:25:59Z",
       "variants": [
@@ -8519,7 +8519,7 @@
       "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
       "version": "4.5.8",
       "public": true,
-      "updated": "2026-10-22T15:29:04Z",
+      "updated": "2026-10-22T19:19:11Z",
       "variants": [
         {
           "flavour": "default",
@@ -8532,10 +8532,10 @@
             "4.5.8-ubuntu",
             "4.5.8-ubuntu26.04"
           ],
-          "digest": "sha256:310b6d34c650ed6e7d411c7076c1173601480d307a35c72700ed49ccd0161932",
+          "digest": "sha256:269f00296347ffd49dd4820783f231a1bb6fe14d02362d8db33a43909e81041f",
           "size": {
-            "linux/amd64": 45842937,
-            "linux/arm64": 44731336
+            "linux/amd64": 45844421,
+            "linux/arm64": 44733431
           }
         },
         {
@@ -8547,10 +8547,10 @@
             "4.5.8-alpine",
             "4.5.8-alpine3.24"
           ],
-          "digest": "sha256:0956bfe755b86235bbea301c3b123d64ba82c56aea422b5324905bac62bbcddc",
+          "digest": "sha256:1afa9996b21b5ad24d84af8af6335a85e4ae84fe79aa4f4bbd7e4d05d020270b",
           "size": {
-            "linux/amd64": 7842590,
-            "linux/arm64": 8068338
+            "linux/amd64": 7842990,
+            "linux/arm64": 8068997
           }
         }
       ]
