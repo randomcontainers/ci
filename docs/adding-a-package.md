@@ -14,6 +14,8 @@ A package is one repository in the organization, named after the tool. Its image
 | `requirements.lock` | Python packages only: the hash-locked install set |
 | `scripts/metadata.py` | Python packages only: writes `source`, `buildinfo` and the license files of the venv (see [Python packages](#python-packages)) |
 | `licenses/<name>-<version>/`, `scripts/bundled-licenses.py` | Python packages whose wheels link libraries without shipping their licenses: those license files for that exact version, and the script that collects them |
+| `keys/rust.gpg`, `scripts/rust-toolchain.sh`, `scripts/cargo-licenses.py` | Rust packages only: the Rust signing key and the two shared scripts (see [Rust packages](#rust-packages)) |
+| `licenses/crates/`, `cargo-config.sha256` | Rust packages only: license files for crates that ship none, and the hash of upstream's `.cargo/config.toml` when the tag has one |
 | `.github/workflows/build.yml` | the caller workflow from the [README](../README.md#using-the-build-workflow), unchanged |
 | `.github/dependabot.yml`, `.github/zizmor.yml`, `LICENSE`, `README.md` | as in the existing package repositories |
 
@@ -319,6 +321,46 @@ python3 scripts/bundled-licenses.py
 ```
 
 Dependencies released in the last 7 days are left out of the lock, but the package itself is not. When the package pins a dependency exactly and releases both on the same day, as yt-dlp does with `yt-dlp-ejs`, a new version cannot be locked until that dependency is a week old. Exempt such a dependency with `--exempt NAME`; it is kept in the header as `--exclude-newer-package NAME=false`, and `rc lock requirements.lock --exempt NAME` adds it to an existing lock.
+
+### Rust packages
+
+A Rust tool is built from its release tag (see [Git tag builds](#git-tag-builds)) with a Rust release from static.rust-lang.org, so both distros use the same compiler. The build uses two extra artifacts:
+
+- `rust-toolchain`, the release manifest `channel-rust-<version>.toml`, tracked as in the example under [Tracked extra artifacts](#tracked-extra-artifacts). The Dockerfile checks it with `ADD --checksum` and with `gpgv` against `keys/rust.gpg`, the Rust signing key (fingerprint `108F 6620 5EAE B0AA A8DD 5E1C 85AB 96E6 FA1B E5FE`, no expiry). `scripts/rust-toolchain.sh` then installs `rustc`, `cargo` and `rust-std` for the build platform and unpacks `rust-src`, each checked against the SHA-256 the manifest lists.
+- `cargo-auditable`, the crates.io `.crate` of cargo-auditable, pinned by hand without `track`. Its `sha256` is the `cksum` of the version in `https://index.crates.io/ca/rg/cargo-auditable`.
+
+The Dockerfiles have these stages:
+
+- `rust` installs the toolchain.
+- `auditable` builds cargo-auditable from its `.crate` and the `Cargo.lock` inside it, while the `build` stage clones and fetches.
+- `build` clones the tag, checks the commit, and runs `cargo fetch --locked --target host-tuple`, which downloads the crates in `Cargo.lock` for the build platform and checks each against the checksum in the lock. `cargo auditable build --frozen --release` then runs under `RUN --network=none`, so build scripts and proc macros run from the verified crates and cannot download anything. The license step after it also runs without network.
+- `slim` is the same as in the other packages.
+
+Linking and upstream configuration:
+
+- Ubuntu links glibc dynamically, which is Rust's default.
+- Alpine sets `RUSTFLAGS="-C target-feature=-crt-static"`, so the binary links Alpine's musl and `libgcc_s` instead of Rust's bundled musl and libunwind. The ELF scan turns both into `so:` lines of `runtime-deps`, and base image updates reach the binary. `RUSTFLAGS` replaces any `rustflags` in upstream's cargo configuration.
+- Both Dockerfiles check upstream's `.cargo/config.toml`. `cargo-config.sha256` pins the file at the release tag with one line, `<sha256>  .cargo/config.toml`, written after reading the file. The build stops when the file appears, changes or goes away. Where the file names a `linker`, the Dockerfiles set `CARGO_TARGET_<TRIPLE>_LINKER=cc` for that target, and the README lists the upstream flags the image drops.
+
+cargo-auditable writes the crate list into the binary's `.dep-v0` section, which the BuildKit SBOM, Grype and Trivy read, so the crates are in the image's SBOM and scan. The Rust standard library is not in that list, so no scanner reports a `std` advisory; only `buildinfo` names the Rust release. A new Rust release fixes such an advisory, and `track` brings it to every Rust package after its cooldown. For an urgent fix, update `rust-toolchain` by hand as below.
+
+`scripts/cargo-licenses.py` reads the crate list from `.dep-v0` and the license fields from `cargo metadata --frozen`, and copies the license files of every crate and of the standard library into the image:
+
+- Every crate must come from crates.io; git dependencies and other registries stop the build.
+- A crate whose SPDX expression is not covered by the terms of `package.yml`'s `license` stops the build. When an update brings in such a crate, add its term to `license`. Crates that are only used to build (proc macros and build script dependencies) get their license files copied but are not checked against `license`.
+- A crate that ships no license files needs them in `licenses/crates/<name>-<version>/`, or in `licenses/crates/<name>/`, which also covers later versions. A directory that matches no crate stops the build.
+- A crate with a `links` key builds or links C code, and needs its own files there or a line for it in `licenses/crates/native-covered` (`name@version`, or `name` for every version).
+- The verified `.crate` of an MPL-2.0 crate is copied to `share/randomcontainers/<name>/crate-sources/` and its URL listed in `source`. GPL, LGPL and AGPL crates are not supported: the script stops on them.
+
+Both scripts are identical in every Rust package and start with a `# version: N` line. The current version is 1, and the canonical copies are in `typos`. A change to either script raises N and goes to every Rust package at once, so `grep '^# version:' scripts/*` finds a stale copy.
+
+To update `rust-toolchain` by hand, for a package on hold or before a release's cooldown has passed:
+
+1. Download `channel-rust-<version>.toml` and its `.sha256` and `.asc` from `https://static.rust-lang.org/dist/`.
+2. Check the file against the `.sha256`, and check the signature with `gpgv --keyring ./keys/rust.gpg channel-rust-<version>.toml.asc channel-rust-<version>.toml`.
+3. Set `version` and `sha256` together and push.
+
+A tool release that needs a newer Rust than the pinned one fails in `cargo` with a message that names the required version, and builds once `rust-toolchain` moves.
 
 ## Listing the package
 
