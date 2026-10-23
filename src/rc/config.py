@@ -8,7 +8,7 @@ with their location and raises one ValidationError, so a single run of
 import re
 import string
 from collections.abc import Iterable
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -43,6 +43,15 @@ URL_FIELDS = ("version", "nodots", "underscored", "major", "minor")
 TAG_SOURCES = ("github-release", "github-tag", "gitlab-release", "forgejo-tag")
 # Extra artifacts cannot use this name: SOURCE_SHA256 and SOURCE_COMMIT belong to the main source.
 RESERVED_EXTRA = ("source",)
+# Upstream keys that an extra artifact's track mapping cannot have, and why.
+TRACK_REFUSED = {
+    "version": "comes from the extra artifact's own 'version'; remove it here",
+    "artifact": "is not used: the extra artifact's url, signature and checksums take its place",
+    "git": "is not used: a tracked extra artifact is a downloaded file",
+    "extra-artifacts": "is not used in track",
+    "publisher": "is not used: pypi cannot be tracked",
+}
+TRACK_COOLDOWN = "7d"
 
 
 @dataclass(frozen=True)
@@ -126,12 +135,15 @@ class ExtraArtifact:
 
     With a version it is pinned by hand. Without one it follows the
     package version and the reconciler pins it with the main artifact.
+    A hand-pinned artifact with `track` follows its own upstream: the
+    reconciler moves its version and sha256 to each new release.
     """
 
     name: str
     artifact: Artifact
     version: str | None = None
     distros: tuple[str, ...] = ()
+    track: "Upstream | None" = None
 
     @property
     def pinned_by_hand(self) -> bool:
@@ -179,6 +191,8 @@ class Upstream:
     git: GitSource | None = None
     extra_artifacts: tuple[ExtraArtifact, ...] = ()
     interval: str | None = None
+    # Versions never chosen; only an extra artifact's track sets them.
+    skip: tuple[str, ...] = ()
 
     @property
     def index_dated(self) -> bool:
@@ -493,7 +507,7 @@ UPSTREAM_KEYS = (
     "interval",
 )
 ARTIFACT_KEYS = ("url", "checksums", "sha256", "signature")
-EXTRA_KEYS = (*ARTIFACT_KEYS, "version", "distros")
+EXTRA_KEYS = (*ARTIFACT_KEYS, "version", "distros", "track")
 COMBO_KEYS = ("with", "default", "base", "summary", "extras", "extras-license", "env", "test")
 
 
@@ -623,7 +637,15 @@ def _parse_plugins(r: _Reader, raw: dict) -> tuple[str, ...]:
     return tuple(found)
 
 
-def _parse_upstream(r: _Reader, raw: Any, path: str, distros: Distros) -> Upstream | None:
+def _parse_upstream(
+    r: _Reader,
+    raw: Any,
+    path: str,
+    distros: Distros,
+    *,
+    default_cooldown: str = "24h",
+    tracked_file: bool = False,
+) -> Upstream | None:
     raw = r.mapping(raw, path, UPSTREAM_KEYS, ("source", "versioning", "version"))
     source = r.text(raw, "source", path)
     if source is not None and source not in SOURCES:
@@ -688,7 +710,7 @@ def _parse_upstream(r: _Reader, raw: Any, path: str, distros: Distros) -> Upstre
         except versions.VersionError as exc:
             r.add(f"{path}.version", str(exc))
             version = None
-    cooldown = r.pattern(raw, "cooldown", path, names.DURATION, "duration like 24h") or "24h"
+    cooldown = r.pattern(raw, "cooldown", path, names.DURATION, "duration like 24h") or default_cooldown
     interval = r.pattern(raw, "interval", path, names.DURATION, "duration like 7d")
 
     artifact = None
@@ -698,7 +720,7 @@ def _parse_upstream(r: _Reader, raw: Any, path: str, distros: Distros) -> Upstre
     if "artifact" in raw and "git" in raw:
         r.add(path, "set either 'artifact' or 'git', not both")
     extras = _parse_extras(r, raw["extra-artifacts"], f"{path}.extra-artifacts", distros) if "extra-artifacts" in raw else ()
-    if source == "html-index" and pattern is not None and not index_dated(pattern) and "artifact" not in raw:
+    if source == "html-index" and pattern is not None and not index_dated(pattern) and "artifact" not in raw and not tracked_file:
         r.add(path, "html-index upstreams without a 'date' group in 'pattern' need 'artifact'; its Last-Modified is the release date")
 
     if source is None or versioning is None or version is None:
@@ -721,6 +743,55 @@ def _parse_upstream(r: _Reader, raw: Any, path: str, distros: Distros) -> Upstre
         extra_artifacts=extras,
         interval=interval,
     )
+
+
+def _parse_track(r: _Reader, raw: Any, path: str, distros: Distros, version: str) -> Upstream | None:
+    """An extra artifact's own upstream: the keys of `upstream` that find versions, plus `skip`.
+
+    The extra's `version` is the current version. Its `url`, `signature`
+    and `checksums` take the place of `artifact`.
+    """
+    if not isinstance(raw, dict):
+        r.add(path, "must be a mapping")
+        return None
+    ok = True
+    for key, why in TRACK_REFUSED.items():
+        if key in raw:
+            r.add(f"{path}.{key}", why)
+            ok = False
+    if raw.get("source") == "pypi":
+        r.add(f"{path}.source", "pypi cannot be tracked: its wheel and provenance checks are for Python packages")
+        ok = False
+    fields = {k: v for k, v in raw.items() if k not in TRACK_REFUSED and k != "skip"}
+    versioning = fields.get("versioning")
+    if isinstance(versioning, str) and versioning in versions.SCHEMES:
+        try:
+            versions.validate(versioning, version)
+        except versions.VersionError as exc:
+            r.add(f"{path.rpartition('.')[0]}.version", f"{exc} (track.versioning is {versioning})")
+            ok = False
+    if not ok:
+        return None
+    upstream = _parse_upstream(
+        r, {**fields, "version": version}, path, distros, default_cooldown=TRACK_COOLDOWN, tracked_file=True
+    )
+    skip = r.str_list(raw, "skip", path)
+    if upstream is None:
+        return None
+    seen: list[str] = []
+    for i, item in enumerate(skip):
+        where = f"{path}.skip[{i}]"
+        try:
+            versions.validate(upstream.versioning, item)
+        except versions.VersionError as exc:
+            r.add(where, str(exc))
+            continue
+        if versions.compare(upstream.versioning, item, version) == 0:
+            r.add(where, f"{item} is the current version; pin another one before skipping it")
+        elif any(versions.compare(upstream.versioning, item, other) == 0 for other in seen):
+            r.add(where, f"lists {item} more than once")
+        seen.append(item)
+    return replace(upstream, skip=tuple(skip))
 
 
 def _index_pattern(r: _Reader, value: str | None, path: str) -> str | None:
@@ -842,11 +913,23 @@ def _parse_extras(r: _Reader, raw: Any, path: str, distros: Distros) -> tuple[Ex
         if "version" in spec and version is None:
             continue
         url = spec.get("url")
-        if version is not None and "checksums" in spec:
-            r.add(f"{where}.checksums", "is only read when the reconciler pins the file, which it does for artifacts without 'version'")
-        if version is None and isinstance(url, str) and not any(f"{{{f}}}" in url for f in URL_FIELDS):
+        placeholder = isinstance(url, str) and any(f"{{{f}}}" in url for f in URL_FIELDS)
+        if version is not None and "checksums" in spec and "track" not in spec:
+            r.add(
+                f"{where}.checksums",
+                "is only read when the reconciler pins the file, which it does for artifacts without 'version' or with 'track'",
+            )
+        if version is None and isinstance(url, str) and not placeholder:
             r.add(f"{where}.url", "needs a placeholder such as {version}, since without 'version' the file follows the package version")
             continue
+        track = None
+        if "track" in spec:
+            if version is None:
+                r.add(f"{where}.track", "needs 'version': an artifact without one follows the package version")
+            elif isinstance(url, str) and not placeholder:
+                r.add(f"{where}.url", "needs a placeholder such as {version}, since 'track' changes the version")
+            else:
+                track = _parse_track(r, spec["track"], f"{where}.track", distros, version)
         artifact = _artifact_fields(r, spec, where)
         selected = r.str_list(spec, "distros", where, nonempty=True)
         for distro_id in selected:
@@ -854,8 +937,8 @@ def _parse_extras(r: _Reader, raw: Any, path: str, distros: Distros) -> tuple[Ex
                 r.add(f"{where}.distros", f"{distro_id!r} is not a distro in distros.yml")
         if len(set(selected)) != len(selected):
             r.add(f"{where}.distros", "lists a distro more than once")
-        if artifact is not None:
-            out.append(ExtraArtifact(name, artifact, version, tuple(selected)))
+        if artifact is not None and (track is not None or "track" not in spec):
+            out.append(ExtraArtifact(name, artifact, version, tuple(selected), track))
     return tuple(out)
 
 

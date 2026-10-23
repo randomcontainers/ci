@@ -23,9 +23,11 @@ When a newer release fails a check, older releases that are still newer
 than the current version are tried, and the reason is reported.
 
 With `interval`, no release is taken until the current version is that
-old.
+old. A hand-pinned extra artifact with `track` is checked the same way
+against its own upstream, without the versions in its `skip` list.
 """
 
+import dataclasses
 import json
 import re
 import urllib.parse
@@ -34,7 +36,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta, timezone
 
 from rc import http, names, versions
-from rc.config import TAG_SOURCES, Artifact, Package, Upstream, expand_url
+from rc.config import TAG_SOURCES, Artifact, ExtraArtifact, Package, Upstream, expand_url
 from rc.errors import RcError, http_error
 from rc.github import GitHub, parse_time
 
@@ -318,6 +320,7 @@ class Checker:
         self.now = now
         self.max_candidates = max_candidates
         self._refs: dict[str, dict[str, str]] = {}
+        self._pages: dict[str, bytes] = {}
 
     # candidates
 
@@ -460,19 +463,23 @@ class Checker:
 
         A version listed more than once takes the latest date found for it.
         A pattern that matches nothing means the page changed, which is an
-        error rather than "no new version".
+        error rather than "no new version". A page is read once per pass,
+        since several packages can track the same one.
         """
-        resp = http.follow(self.web, "GET", upstream.url)
-        if resp.status != 200:
-            raise http_error(upstream.url, resp.status)
-        if len(resp.body) > MAX_INDEX:
-            raise RcError(f"{upstream.url}: larger than {MAX_INDEX} bytes")
+        if upstream.url not in self._pages:
+            resp = http.follow(self.web, "GET", upstream.url)
+            if resp.status != 200:
+                raise http_error(upstream.url, resp.status)
+            if len(resp.body) > MAX_INDEX:
+                raise RcError(f"{upstream.url}: larger than {MAX_INDEX} bytes")
+            self._pages[upstream.url] = resp.body
+        body = self._pages[upstream.url]
         pattern = re.compile(upstream.pattern, re.ASCII)
         group = "version" if "version" in pattern.groupindex else 1
         dated = upstream.index_dated
         found: dict[str, Candidate] = {}
         matched = False
-        for line in resp.body.decode("utf-8", "replace").splitlines():
+        for line in body.decode("utf-8", "replace").splitlines():
             if len(line) > MAX_LINE:
                 continue
             for m in pattern.finditer(line):
@@ -593,12 +600,32 @@ class Checker:
         return f"{upstream.version} was released {hours}h ago; the interval is {upstream.interval}"
 
     def latest(self, package: Package) -> Result:
-        upstream = package.upstream
-        result = Result(package.name, upstream.version)
+        return self._latest(package.name, package.upstream)
+
+    def latest_extra(self, package: Package, extra: ExtraArtifact) -> Result:
+        """The newest release a tracked extra artifact may move to.
+
+        Its `track` mapping is the upstream, its file is the artifact, so the
+        cooldown and the presence of the file and its signature are checked
+        as for a package.
+        """
+        if extra.track is None:
+            raise RcError(f"extra artifact {extra.name!r} of {package.name} has no track")
+        source = dataclasses.replace(extra.track, version=extra.version, artifact=extra.artifact)
+        return self._latest(f"{package.name} {extra.name}", source)
+
+    def _latest(self, name: str, upstream: Upstream) -> Result:
+        result = Result(name, upstream.version)
         candidates = self.candidates(upstream)
         if candidates:
             result.newest = candidates[0].version
-        newer = [c for c in candidates if versions.compare(upstream.versioning, c.version, upstream.version) > 0]
+        skipped = {versions.sort_key(upstream.versioning, v) for v in upstream.skip}
+        newer = [
+            c
+            for c in candidates
+            if versions.compare(upstream.versioning, c.version, upstream.version) > 0
+            and versions.sort_key(upstream.versioning, c.version) not in skipped
+        ]
         if newer and upstream.interval:
             held = self._held(upstream, candidates)
             if held:
@@ -669,6 +696,11 @@ def _checkable(artifact: Artifact, version: str, c: Candidate) -> bool:
     return bool(artifact.checksums or artifact.signature or _recorded_digests(c, _filename(artifact.url_for(version))))
 
 
+def unchecked(artifact: Artifact, c: Candidate) -> str | None:
+    """The file name of version c of the artifact when nothing checks it, else None."""
+    return None if _checkable(artifact, c.version, c) else _filename(artifact.url_for(c.version))
+
+
 def hand_pins(package: Package, c: Candidate) -> list[str]:
     """The files of version c that no checksums file, signature or GitHub digest checks.
 
@@ -678,7 +710,7 @@ def hand_pins(package: Package, c: Candidate) -> list[str]:
     source = package.upstream
     artifacts = [source.artifact] if source.artifact else []
     artifacts += [extra.artifact for extra in source.extra_artifacts if not extra.pinned_by_hand]
-    return [_filename(a.url_for(c.version)) for a in artifacts if not _checkable(a, c.version, c)]
+    return [name for name in (unchecked(a, c) for a in artifacts) if name]
 
 
 def pin_artifact(package: Package, c: Candidate, web: http.Transport, fetch: Fetch) -> str:

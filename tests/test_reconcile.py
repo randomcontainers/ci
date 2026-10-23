@@ -12,7 +12,7 @@ from rc import cli, commits, locks, status
 from rc.errors import RcError
 from rc.github import GitHub, GitHubError
 from rc.reconcile import INDEX_STEP, PUBLISH_JOB, backoff
-from world import LOCKS, ORG, World, lock_bytes
+from world import LOCKS, ORG, RUST_DIST, RUST_EXTRA, RUST_SHA256, World, lock_bytes, publish_rust
 
 
 def dispatched(world, since=0):
@@ -653,6 +653,185 @@ def test_unexpected_lock_header_is_an_error():
     world.github.push(repo, {"requirements.lock": bad}, date=NOW - timedelta(days=8))
     outcome = world.run()
     assert any("unsupported uv option '--index-url'" in n for n in outcome.notes.items["errors"])
+
+
+# extra artifacts with track
+
+LIBFOO = r"""    libfoo:
+      version: 1.2.0
+      url: https://example.org/libfoo-{version}.tar.gz
+      signature: https://example.org/libfoo-{version}.tar.gz.asc
+      sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      track:
+        source: html-index
+        url: https://example.org/libfoo/
+        pattern: 'href="libfoo-(?P<version>\d+\.\d+\.\d+)\.tar\.gz">[^<]*</a> (?P<date>\d{4}-\d{2}-\d{2})'
+        versioning: semver
+        cooldown: 24h
+"""
+
+
+def track(world, extra=RUST_EXTRA, name="ghostscript"):
+    """Give a package of the world extra artifacts, as a push to its repository."""
+    repo = f"{ORG}/{name}"
+    text = world.github.files(repo)["package.yml"].decode().replace("image:\n", extra + "image:\n", 1)
+    world.github.push(repo, {"package.yml": text.encode()})
+
+
+def extra_commits(outcome, name="ghostscript"):
+    return [a for a in outcome.actions if a.kind == "commit" and a.repo == f"{ORG}/{name}"]
+
+
+def test_tracked_extra_is_moved_after_its_cooldown():
+    world = World()
+    track(world)
+    manifest = publish_rust(world.web, "1.100.0", "2026-09-20")
+    # three days old, with a cooldown of a week: only the log says so
+    outcome = world.run()
+    assert not extra_commits(outcome) and "upstream" not in outcome.notes.items
+    assert "ghostscript rust-toolchain: 1.100.0 was released 72h ago; the cooldown is 7d" in outcome.log
+
+    outcome = world.run(now=NOW + timedelta(days=5))
+    (commit,) = extra_commits(outcome)
+    assert commit.message == "Update rust-toolchain to 1.100.0" and sorted(commit.files) == ["package.yml"]
+    after = world.github.files(f"{ORG}/ghostscript")["package.yml"].decode()
+    assert "      version: 1.100.0               # moved by the reconciler\n" in after
+    assert f"      sha256: {hashlib.sha256(manifest).hexdigest()}\n" in after and RUST_SHA256 not in after
+    assert "  version: 10.08.0\n" in after
+    assert "ghostscript" not in dispatched(world, 5)
+    # the next pass finds the extra current
+    outcome = world.run(now=NOW + timedelta(days=5))
+    assert not extra_commits(outcome)
+    assert "ghostscript rust-toolchain: 1.100.0 is current (newest upstream: 1.100.0)" in outcome.log
+
+
+def two_extras():
+    world = World()
+    track(world, RUST_EXTRA + LIBFOO)
+    publish_rust(world.web, "1.100.0", "2026-09-10")
+    world.web.urls["https://example.org/libfoo/"] = (
+        b'<a href="libfoo-1.3.0.tar.gz">libfoo-1.3.0.tar.gz</a> 2026-09-20\n'
+        b'<a href="libfoo-1.2.0.tar.gz">libfoo-1.2.0.tar.gz</a> 2026-06-01\n'
+    )
+    world.web.urls["https://example.org/libfoo-1.3.0.tar.gz"] = b"libfoo 1.3.0"
+    world.web.urls["https://example.org/libfoo-1.3.0.tar.gz.asc"] = b"signature"
+    return world
+
+
+def test_tracked_extras_move_in_one_commit(monkeypatch):
+    world = two_extras()
+    (commit,) = extra_commits(world.run())
+    assert commit.message == "Update rust-toolchain to 1.100.0 and libfoo to 1.3.0"
+    after = world.github.files(f"{ORG}/ghostscript")["package.yml"].decode()
+    assert "      version: 1.3.0\n" in after and f"      sha256: {hashlib.sha256(b'libfoo 1.3.0').hexdigest()}\n" in after
+    # a message that would be too long names the extras only
+    monkeypatch.setattr(commits, "MAX_MESSAGE", 40)
+    (commit,) = extra_commits(two_extras().run())
+    assert commit.message == "Update rust-toolchain and libfoo"
+    monkeypatch.setattr(commits, "MAX_MESSAGE", 30)
+    (commit,) = extra_commits(two_extras().run())
+    assert commit.message == "Update 2 extra artifacts"
+
+
+def test_skipped_release_is_passed_over_for_the_next():
+    world = World()
+    track(world, RUST_EXTRA.replace("        versioning: semver\n", "        versioning: semver\n        skip: [1.100.0]\n"))
+    publish_rust(world.web, "1.100.0", "2026-09-10")
+    outcome = world.run()
+    assert not extra_commits(outcome)
+    assert "ghostscript rust-toolchain: 1.99.1 is current (newest upstream: 1.100.0)" in outcome.log
+    publish_rust(world.web, "1.100.1", "2026-09-10")
+    (commit,) = extra_commits(world.run())
+    assert commit.message == "Update rust-toolchain to 1.100.1"
+    after = world.github.files(f"{ORG}/ghostscript")["package.yml"].decode()
+    assert "        skip: [1.100.0]\n" in after
+
+
+def test_package_update_defers_its_extras_to_the_next_pass():
+    world = World()
+    track(world)
+    publish_rust(world.web, "1.100.0", "2026-09-10")
+    base = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10090"
+    tarball = b"ghostscript 10.09.0 source"
+    world.web.urls[f"{base}/ghostscript-10.09.0.tar.xz"] = tarball
+    world.web.urls[f"{base}/SHA512SUMS"] = f"{hashlib.sha512(tarball).hexdigest()}  ghostscript-10.09.0.tar.xz\n".encode()
+    world.github.releases["ArtifexSoftware/ghostpdl-downloads"].insert(
+        0, World.release("gs10090", NOW - timedelta(days=2), assets=["ghostscript-10.09.0.tar.xz", "SHA512SUMS"])
+    )
+    outcome = world.run()
+    assert [c.message for c in extra_commits(outcome)] == ["Update ghostscript to 10.09.0"]
+    assert "ghostscript: extra artifacts with track are checked on the next pass" in outcome.log
+    assert [c.message for c in extra_commits(world.run())] == ["Update rust-toolchain to 1.100.0"]
+    after = world.github.files(f"{ORG}/ghostscript")["package.yml"].decode()
+    assert "  version: 10.09.0\n" in after and "      version: 1.100.0 " in after
+
+
+def test_extra_without_track_is_left_at_its_pin():
+    world = World()
+    held = RUST_EXTRA.split("      track:\n")[0]
+    held = "".join(line for line in held.splitlines(keepends=True) if "checksums:" not in line)
+    track(world, held)
+    publish_rust(world.web, "1.100.0", "2026-09-10")
+    outcome = world.run()
+    assert not extra_commits(outcome) and "upstream" not in outcome.notes.items
+    assert not any("rust-toolchain" in line for line in outcome.log)
+
+
+def test_tracked_extra_that_nothing_checks_needs_a_hand_pin():
+    world = World()
+    bare = "".join(line for line in RUST_EXTRA.splitlines(keepends=True) if "checksums:" not in line and "signature:" not in line)
+    track(world, bare)
+    publish_rust(world.web, "1.100.0", "2026-09-10")
+
+    def fetch(url, algorithms):
+        raise AssertionError(f"{url} was downloaded")
+
+    world.fetch = fetch
+    note = (
+        "`ghostscript` rust-toolchain 1.100.0 needs a hand pin: no checksums file, signature or digest recorded by GitHub "
+        "checks channel-rust-1.100.0.toml"
+    )
+    for outcome in (world.run(), world.reconciler(dry_run=True).run()):
+        assert note in outcome.notes.items["upstream"]
+        assert not extra_commits(outcome) and "errors" not in outcome.notes.items
+
+
+def test_tracked_extra_problems_are_reported():
+    world = World()
+    track(world)
+    # no signature two weeks after the cooldown: probably a wrong URL template
+    publish_rust(world.web, "1.100.0", "2026-09-08", signature=False)
+    outcome = world.reconciler(dry_run=True).run()
+    assert outcome.notes.items["upstream"] == [
+        f"`ghostscript` rust-toolchain 1.100.0 {RUST_DIST}/channel-rust-1.100.0.toml.asc is not available yet, 15 days after its release"
+    ]
+    # a checksum that does not match stops the update
+    world = World()
+    track(world)
+    publish_rust(world.web, "1.100.0", "2026-09-10")
+    world.web.urls[f"{RUST_DIST}/channel-rust-1.100.0.toml.sha256"] = f"{'0' * 64}  channel-rust-1.100.0.toml\n".encode()
+    outcome = world.run()
+    assert not extra_commits(outcome)
+    assert any(n.startswith("Cannot update `ghostscript` rust-toolchain: channel-rust-1.100.0.toml does not match") for n in outcome.notes.items["errors"])
+    # a page that no longer matches is an error of that extra only
+    world.web.urls[RUST_DIST + "/channel-rust-stable.toml"] = b"moved\n"
+    outcome = world.reconciler(dry_run=True).run()
+    assert any(n.startswith("Cannot check upstream for `ghostscript` rust-toolchain:") for n in outcome.notes.items["errors"])
+
+
+def test_tracked_extra_dry_run_says_what_it_would_download():
+    world = World()
+    track(world)
+    publish_rust(world.web, "1.100.0", "2026-09-10")
+
+    def fetch(url, algorithms):
+        raise AssertionError(f"{url} was downloaded")
+
+    world.fetch = fetch
+    outcome = world.reconciler(dry_run=True).run()
+    assert f"ghostscript: would download {RUST_DIST}/channel-rust-1.100.0.toml and pin its sha256" in outcome.log
+    assert f'would commit "Update rust-toolchain to 1.100.0" to {ORG}/ghostscript (package.yml)' in outcome.log
+    assert not any(a.done for a in outcome.actions)
 
 
 # health and status

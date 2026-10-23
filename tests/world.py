@@ -35,6 +35,50 @@ def lock_bytes(recipe: locks.Recipe, version: str, generation: int = 0) -> bytes
         lines += [f"{pin} \\", f"    --hash=sha256:{digest}"]
     return ("\n".join(lines) + "\n").encode()
 
+RUST_DIST = "https://static.rust-lang.org/dist"
+RUST_STABLE = f"{RUST_DIST}/channel-rust-stable.toml"
+RUST_PATTERN = (
+    r'^url = "https://static\.rust-lang\.org/dist/(?P<date>\d{4}-\d{2}-\d{2})/'
+    r'rustc-(?P<version>\d+\.\d+\.\d+)-x86_64-unknown-linux-gnu\.tar\.gz"$'
+)
+RUST_SHA256 = "fb152be80975c194aa5fc684b2aec3a6e14e2b855efe2faa4e5f8ae6e590f463"
+# The Rust toolchain as a tracked extra artifact, as Rust packages declare it.
+RUST_EXTRA = f"""  extra-artifacts:
+    # Rust release manifest, signed with the Rust key.
+    rust-toolchain:
+      version: 1.99.1                # moved by the reconciler
+      url: {RUST_DIST}/channel-rust-{{version}}.toml
+      checksums: {{url: '{RUST_DIST}/channel-rust-{{version}}.toml.sha256', algorithm: sha256}}
+      signature: {RUST_DIST}/channel-rust-{{version}}.toml.asc
+      sha256: {RUST_SHA256}
+      track:
+        source: html-index
+        url: {RUST_STABLE}
+        pattern: '{RUST_PATTERN}'
+        versioning: semver
+"""
+
+
+def rust_page(version: str, day: str) -> bytes:
+    """Three lines of a stable channel manifest; only the x86_64 glibc rustc line matches RUST_PATTERN."""
+    return "".join(
+        f'url = "{RUST_DIST}/{day}/rustc-{version}-{triple}.tar.gz"\n'
+        for triple in ("aarch64-unknown-linux-gnu", "x86_64-unknown-linux-gnu", "x86_64-unknown-linux-musl")
+    ).encode()
+
+
+def publish_rust(web, version: str, day: str, *, signature: bool = True) -> bytes:
+    """Make version the stable Rust release, with its manifest, the manifest's .sha256 and its .asc."""
+    manifest = f'manifest-version = "2"\ndate = "{day}"\n[pkg.rust]\nversion = "{version} (0123456 {day})"\n'.encode()
+    web.urls[RUST_STABLE] = rust_page(version, day)
+    web.urls[f"{RUST_DIST}/channel-rust-{version}.toml"] = manifest
+    web.urls[f"{RUST_DIST}/channel-rust-{version}.toml.sha256"] = (
+        f"{hashlib.sha256(manifest).hexdigest()}  channel-rust-{version}.toml\n".encode()
+    )
+    if signature:
+        web.urls[f"{RUST_DIST}/channel-rust-{version}.toml.asc"] = b"signature"
+    return manifest
+
 
 class World:
     def __init__(self, lock_date=NOW):

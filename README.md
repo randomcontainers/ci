@@ -97,6 +97,7 @@ Every job that runs `rc` (`plan`, `build`, `merge`, `release`) checks out this r
 
 - commits a new upstream version to the package repository, after the release has passed its cooldown, its files are published and, on PyPI, its provenance names the expected publisher. Tarballs are downloaded once and their sha256 pinned in `package.yml`, a git tag is resolved to the commit it points to and that commit is pinned, and Python lock files are regenerated with uv.
 - re-locks the Python dependencies of a package once a week and commits the result when it changed.
+- moves extra artifacts that have `track`, such as a Rust toolchain, to their newest release after the same checks, in a commit of their own.
 - creates missing combo repositories and commits their generated files when they changed. It only writes to a combo repository whose `combo.yml` names the same owner.
 - dispatches `build.yml` where the published image differs from what it should be: another version or commit, a new base image or member image, or an image older than 7 days.
 - writes `status/catalog.json` and keeps one tracking issue in this repository up to date with anything that needs a person.

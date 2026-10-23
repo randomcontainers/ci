@@ -1,10 +1,11 @@
 """Edit the values the reconciler pins in package.yml, as text.
 
-These are upstream.version, upstream.artifact.sha256, upstream.git.commit
-and the sha256 of each extra artifact that follows the package version.
-Comments and layout stay as they are. After the edit the file is parsed
-again, and the result must equal the old definition with only those values
-changed; anything else is refused.
+These are upstream.version, upstream.artifact.sha256, upstream.git.commit,
+the sha256 of each extra artifact that follows the package version, and
+the version and sha256 of an extra artifact with `track`. Comments and
+layout stay as they are. After the edit the file is parsed again, and the
+result must equal the old definition with only those values changed;
+anything else is refused.
 """
 
 import dataclasses
@@ -135,3 +136,45 @@ def _expected(package: Package, version: str | None, sha256: str | None, commit:
             ),
         )
     return dataclasses.replace(package, upstream=upstream)
+
+
+def update_extra(text: str, distros: Distros, name: str, version: str, sha256: str | None = None) -> str:
+    """Move the extra artifact `name`, which must have `track`, to another version and sha256."""
+    before = parse_package(yamlio.load_text(text, "package.yml"), "package.yml", distros)
+    extra = before.upstream.extra(name)
+    if extra is None or extra.track is None:
+        raise RcError(f"refusing to update {name!r}: it is not an extra artifact with track")
+    if not isinstance(version, str) or not names.PINNED_VERSION.match(version):
+        raise RcError(f"refusing to write version {version!r} of {name!r}")
+    try:
+        versions.validate(extra.track.versioning, version)
+    except versions.VersionError as exc:
+        raise RcError(f"refusing to write version of {name!r}: {exc}") from None
+    if sha256 is not None and not names.SHA256_HEX.match(sha256):
+        raise RcError(f"refusing to write sha256 {sha256!r}")
+    lines = text.split("\n")
+    upstream = _block(lines, 0, len(lines), "upstream")
+    if upstream is None:
+        raise RcError("package.yml has no upstream section")
+    where = f"upstream.extra-artifacts.{name}"
+    _edit(lines, upstream, ["extra-artifacts", name, "version"], version, f"{where}.version")
+    if sha256 is not None:
+        _edit(lines, upstream, ["extra-artifacts", name, "sha256"], sha256, f"{where}.sha256")
+    result = "\n".join(lines)
+    after = parse_package(yamlio.load_text(result, "package.yml"), "package.yml", distros)
+    moved = dataclasses.replace(
+        extra,
+        version=version,
+        artifact=dataclasses.replace(extra.artifact, sha256=sha256 or extra.artifact.sha256),
+        track=dataclasses.replace(extra.track, version=version),
+    )
+    expected = dataclasses.replace(
+        before,
+        upstream=dataclasses.replace(
+            before.upstream,
+            extra_artifacts=tuple(moved if e.name == name else e for e in before.upstream.extra_artifacts),
+        ),
+    )
+    if after != expected:
+        raise RcError(f"editing package.yml changed more than the version and sha256 of {name!r}")
+    return result

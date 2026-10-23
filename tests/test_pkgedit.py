@@ -7,6 +7,7 @@ from conftest import FIXTURES, ROOT
 from rc import pkgedit, yamlio
 from rc.config import parse_package
 from rc.errors import RcError
+from world import RUST_EXTRA, RUST_SHA256
 
 
 def text(name):
@@ -136,6 +137,47 @@ def test_extra_artifacts_that_follow_the_version(distros):
         pkgedit.update_upstream(flow, distros, extras={"ghostpdl": "e" * 64})
 
 
+def rust_text():
+    return text("ghostscript").replace("image:\n", RUST_EXTRA + "image:\n", 1)
+
+
+def test_tracked_extra(distros):
+    before = rust_text()
+    after = pkgedit.update_extra(before, distros, "rust-toolchain", "1.100.0", "f" * 64)
+    changed = [(a, b) for a, b in zip(before.splitlines(), after.splitlines(), strict=True) if a != b]
+    # the comment stays at its column, and the flow-style checksums with its quoted URL is untouched
+    assert changed == [
+        ("      version: 1.99.1                # moved by the reconciler", "      version: 1.100.0               # moved by the reconciler"),
+        (f"      sha256: {RUST_SHA256}", f"      sha256: {'f' * 64}"),
+    ]
+    extra = parse_package(yamlio.load_text(after, "package.yml"), "package.yml", distros).upstream.extra("rust-toolchain")
+    assert (extra.version, extra.track.version, extra.artifact.sha256) == ("1.100.0", "1.100.0", "f" * 64)
+    assert extra.artifact.checksums.url.endswith("channel-rust-{version}.toml.sha256")
+    # without a digest only the version moves, as in a dry run
+    assert pkgedit.update_extra(before, distros, "rust-toolchain", "1.100.0").count(RUST_SHA256) == 1
+
+
+def test_tracked_extra_refusals(distros):
+    before = rust_text().replace("image:\n", EXTRAS + "image:\n", 1).replace("  extra-artifacts:\n    gts:", "    gts:")
+    assert parse_package(yamlio.load_text(before, "package.yml"), "package.yml", distros).upstream.extra("gts")
+    for name in ("gts", "ghostpdl", "docs"):
+        with pytest.raises(RcError, match=f"refusing to update '{name}': it is not an extra artifact with track"):
+            pkgedit.update_extra(before, distros, name, "0.7.7", "f" * 64)
+    for version in ("1.100.0; id", "1.100.0-beta.1", "latest", "1.100.0\nname: x"):
+        with pytest.raises(RcError, match="refusing to write version"):
+            pkgedit.update_extra(before, distros, "rust-toolchain", version, "f" * 64)
+    with pytest.raises(RcError, match="refusing to write sha256"):
+        pkgedit.update_extra(before, distros, "rust-toolchain", "1.100.0", "F" * 64)
+    flow = rust_text().replace(f"      sha256: {RUST_SHA256}\n", "").replace(
+        "      version: 1.99.1                # moved by the reconciler\n",
+        f"      version: 1.99.1\n      sha256: {RUST_SHA256}\n",
+    )
+    assert pkgedit.update_extra(flow, distros, "rust-toolchain", "1.100.0", "f" * 64).count("f" * 64) == 1
+    inline = flow.replace("      version: 1.99.1\n", "      version: &v 1.99.1\n")
+    with pytest.raises(RcError, match="cannot edit 'version'"):
+        pkgedit.update_extra(inline, distros, "rust-toolchain", "1.100.0", "f" * 64)
+
+
 def doc_blocks():
     doc = (ROOT / "docs" / "adding-a-package.md").read_text()
     return [b.split("```")[0] for b in doc.split("```yaml\n")[1:]]
@@ -183,6 +225,16 @@ def test_documented_examples_can_be_updated(distros, index):
         assert ("#" in a) == ("#" in b)
         if "#" in a:
             assert (a.index("#"), a.split("#", 1)[1]) == (b.index("#"), b.split("#", 1)[1])
+
+
+def test_documented_tracked_extra_can_be_moved(distros):
+    (block,) = [b for b in doc_blocks() if "      track:\n" in b]
+    before = documented_package(block)
+    extra = next(e for e in parse_package(yamlio.load_text(before, "package.yml"), "package.yml", distros).upstream.extra_artifacts if e.track)
+    after = pkgedit.update_extra(before, distros, extra.name, "99.1.0", "c" * 64)
+    changed = [(a, b) for a, b in zip(before.splitlines(), after.splitlines(), strict=True) if a != b]
+    assert [b.split("#")[0].strip() for _, b in changed] == ["version: 99.1.0", f"sha256: {'c' * 64}"]
+    assert all(a.index("#") == b.index("#") for a, b in changed)
 
 
 def test_every_documented_example_is_covered():

@@ -459,6 +459,80 @@ def test_documented_examples_parse(distros):
     assert [e.name for e in upstream.extra_artifacts] == ["gts", "docs"]
 
 
+RUST_TOOLCHAIN = {
+    "version": "1.99.1",
+    "url": "https://static.rust-lang.org/dist/channel-rust-{version}.toml",
+    "checksums": {"url": "https://static.rust-lang.org/dist/channel-rust-{version}.toml.sha256", "algorithm": "sha256"},
+    "signature": "https://static.rust-lang.org/dist/channel-rust-{version}.toml.asc",
+    "sha256": "fb152be80975c194aa5fc684b2aec3a6e14e2b855efe2faa4e5f8ae6e590f463",
+    "track": {
+        "source": "html-index",
+        "url": "https://static.rust-lang.org/dist/channel-rust-stable.toml",
+        "pattern": r'^url = "https://static\.rust-lang\.org/dist/(?P<date>\d{4}-\d{2}-\d{2})/rustc-(?P<version>\d+\.\d+\.\d+)-x86_64-unknown-linux-gnu\.tar\.gz"$',
+        "versioning": "semver",
+        "skip": ["1.100.0"],
+    },
+}
+
+
+def with_track(**changes):
+    track = {**RUST_TOOLCHAIN["track"], **changes}
+    return with_extras(**{"rust-toolchain": {**RUST_TOOLCHAIN, "track": {k: v for k, v in track.items() if v is not None}}})
+
+
+def test_tracked_extra_artifact(distros):
+    upstream = config.parse_package(with_extras(**{"rust-toolchain": RUST_TOOLCHAIN, "gts": GTS}), "package.yml", distros).upstream
+    rust, gts = upstream.extra_artifacts
+    assert rust.pinned_by_hand and gts.track is None
+    track = rust.track
+    assert (track.source, track.version, track.versioning, track.skip) == ("html-index", "1.99.1", "semver", ("1.100.0",))
+    # an extra's track waits a week by default, and its file is the extra itself
+    assert track.cooldown == "7d" and track.artifact is None and track.interval is None
+    assert rust.artifact.checksums == config.Checksums(RUST_TOOLCHAIN["checksums"]["url"], "sha256")
+    assert rust.build_args("10.08.0")["RUST_TOOLCHAIN_URL"] == "https://static.rust-lang.org/dist/channel-rust-1.99.1.toml"
+    assert config.parse_package(with_track(cooldown="48h"), "package.yml", distros).upstream.extra_artifacts[0].track.cooldown == "48h"
+
+
+@pytest.mark.parametrize(
+    "extra,expected",
+    [
+        ({k: v for k, v in RUST_TOOLCHAIN.items() if k != "version"}, "track: needs 'version'"),
+        ({**RUST_TOOLCHAIN, "url": "https://static.rust-lang.org/dist/channel-rust-stable.toml"}, "since 'track' changes the version"),
+        ({**RUST_TOOLCHAIN, "track": "html-index"}, "track: must be a mapping"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "source": "pypi", "project": "x"}}, "pypi cannot be tracked"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "artifact": {"url": "https://e.org/x", "sha256": "0" * 64}}},
+         "track.artifact: is not used: the extra artifact's url, signature and checksums"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "version": "1.99.1"}}, "track.version: comes from the extra artifact's own 'version'"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "git": {}}}, "track.git: is not used"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "extra-artifacts": {}}}, "track.extra-artifacts: is not used"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "mirror": "x"}}, "track: unknown key 'mirror'"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "skip": ["1.100.0-beta.1"]}}, "track.skip[0]: '1.100.0-beta.1' is not a version like 9.0.2"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "skip": ["1.99.1"]}}, "track.skip[0]: 1.99.1 is the current version"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "skip": ["1.100.0", "1.100.0"]}}, "track.skip[1]: lists 1.100.0 more than once"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "skip": ["1.100.0", "1.100"]}}, "track.skip[1]: lists 1.100 more than once"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "skip": [1.1]}}, "track.skip: must be a list of strings"),
+        ({**RUST_TOOLCHAIN, "track": {**RUST_TOOLCHAIN["track"], "cooldown": "1w"}}, "track.cooldown: '1w' is not a valid duration"),
+        ({**RUST_TOOLCHAIN, "version": "1.99.1-beta"}, "rust-toolchain.version: '1.99.1-beta' is not a version like 9.0.2 (track.versioning is semver)"),
+        ({**RUST_TOOLCHAIN, "track": {k: v for k, v in RUST_TOOLCHAIN["track"].items() if k != "pattern"}}, "html-index upstreams need 'pattern'"),
+    ],
+)
+def test_tracked_extra_artifact_problems(distros, extra, expected):
+    assert expected in problems_for(with_extras(**{"rust-toolchain": extra}), distros)
+
+
+def test_checksums_need_track_on_a_hand_pinned_extra(distros):
+    plain = {k: v for k, v in RUST_TOOLCHAIN.items() if k != "track"}
+    assert "is only read when the reconciler pins the file" in problems_for(with_extras(**{"rust-toolchain": plain}), distros)
+    assert config.parse_package(with_extras(**{"rust-toolchain": RUST_TOOLCHAIN}), "package.yml", distros)
+
+
+def test_undated_index_track_is_dated_by_the_file(distros):
+    # without a date group, the Last-Modified of the extra's own file dates a version
+    pattern = r'href="channel-rust-(\d+\.\d+\.\d+)\.toml"'
+    extra = config.parse_package(with_track(pattern=pattern), "package.yml", distros).upstream.extra_artifacts[0]
+    assert not extra.track.index_dated
+
+
 def test_interval(distros):
     data = raw("ghostscript")
     assert config.parse_package(data, "package.yml", distros).upstream.interval is None

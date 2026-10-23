@@ -247,8 +247,39 @@ ADD --checksum=sha256:${GTS_SHA256} https://downloads.sourceforge.net/project/gt
 
 Each extra artifact adds its download URL to `source` on a line of its own, after the main source and before the release link, as in `imagemagick`.
 
-- With `version`, the artifact is pinned by hand. Its URLs take that version, and the reconciler never changes it. To update it, change `version` and `sha256` together, after checking the new file against upstream's checksums or signature. The reconciler does not look for newer versions of it, and what the build compiles from it is not in the image's SBOM, so image scanners miss its advisories too. Follow its releases and security advisories upstream.
-- Without `version`, the artifact follows the package version, so its `url` needs a placeholder. A new version waits until the artifact's URL and `signature` answer, and the reconciler pins its `sha256` in the same commit as the version, with the same checks as `artifact`: `checksums`, the digest GitHub records for a release asset of the same file name, or `signature`. `checksums` is only allowed here.
+- With `version`, the artifact is pinned by hand. Its URLs take that version, and without `track` the reconciler never changes it. To update it, change `version` and `sha256` together, after checking the new file against upstream's checksums or signature. The reconciler does not look for newer versions of it, and what the build compiles from it is not in the image's SBOM, so image scanners miss its advisories too. Follow its releases and security advisories upstream.
+- Without `version`, the artifact follows the package version, so its `url` needs a placeholder. A new version waits until the artifact's URL and `signature` answer, and the reconciler pins its `sha256` in the same commit as the version, with the same checks as `artifact`: `checksums`, the digest GitHub records for a release asset of the same file name, or `signature`.
+- With `version` and `track`, the artifact follows its own upstream, and the reconciler moves `version` and `sha256` to each new release. `checksums` is allowed without `version` or with `track`.
+
+#### Tracked extra artifacts
+
+```yaml
+upstream:                        # a Rust package
+  # source, repository, git ...
+  extra-artifacts:
+    rust-toolchain:
+      version: 1.99.1            # updated by the reconciler
+      url: https://static.rust-lang.org/dist/channel-rust-{version}.toml
+      checksums: {url: 'https://static.rust-lang.org/dist/channel-rust-{version}.toml.sha256', algorithm: sha256}
+      signature: https://static.rust-lang.org/dist/channel-rust-{version}.toml.asc
+      sha256: <hex>              # updated by the reconciler
+      track:
+        source: html-index
+        url: https://static.rust-lang.org/dist/channel-rust-stable.toml
+        pattern: '^url = "https://static\.rust-lang\.org/dist/(?P<date>\d{4}-\d{2}-\d{2})/rustc-(?P<version>\d+\.\d+\.\d+)-x86_64-unknown-linux-gnu\.tar\.gz"$'
+        versioning: semver
+        cooldown: 7d             # default 7d for track
+        skip: []                 # versions never taken
+```
+
+`track` takes the keys of `upstream` that find versions: `source` and the keys of that source, `tag-pattern`, `version-template`, `versioning`, `cooldown` and `interval`, plus `skip`. It has no `version` or `artifact`: the extra's own `version` is the current version, and its `url`, `signature` and `checksums` stand for the artifact. With an `html-index` source and no `date` group, the `Last-Modified` header of the extra's `url` dates a version. A `pypi` source cannot be tracked. The `url` needs a placeholder, and `version` and each entry of `skip` must pass `versioning`.
+
+A new release is taken once it is older than `cooldown` (default `7d` here) and its file and `signature` answer. The reconciler pins its `sha256` after the same checks as for `artifact`: `checksums`, the GitHub digest of a release asset, or `signature`. When none of them applies, it downloads nothing and lists the release under Upstream in the tracking issue as needing a hand pin. All tracked extras of a package that moved in a pass go into one commit, such as "Update rust-toolchain to 1.100.0". A pass that updates the package itself leaves its tracked extras to the next pass.
+
+When a new release breaks a package, there are two ways back:
+
+- Hold the package: remove `track` and `checksums`, set `version` and `sha256` back to the last release that builds, and add a comment that names the problem. The reconciler leaves the pin alone until `track` is restored.
+- Skip the release: add it to `skip`. The reconciler never takes it and moves on with the next release. `skip` is per package, so skipping a release everywhere is one commit per package repository.
 
 ### Source releases
 

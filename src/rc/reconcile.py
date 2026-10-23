@@ -7,7 +7,9 @@ everything current does nothing. A pass:
 1. reads packages.yml and each listed package's package.yml at the head of
    its main branch;
 2. moves a package to a newer upstream release, or re-locks its Python
-   dependencies once a week, in one commit per repository;
+   dependencies once a week, in one commit per repository; in a
+   repository the pass does not commit to otherwise, it moves the extra
+   artifacts with `track` to their newest releases, in one commit;
 3. creates or updates the generated combo repositories;
 4. compares what each image should be (version, commit, base image digest
    and member digests) with the annotations of what is published, and
@@ -148,6 +150,11 @@ def _distro_label(distro: Distro) -> str:
 
 def _why(exc: Exception) -> str:
     return str(exc) if isinstance(exc, RcError) else f"{type(exc).__name__}: {exc}"
+
+
+def _listing(items: list[str]) -> str:
+    """a, b and c"""
+    return items[0] if len(items) == 1 else f"{', '.join(items[:-1])} and {items[-1]}"
 
 
 def _published_index(job: Job) -> bool:
@@ -378,24 +385,105 @@ class Reconciler:
             package = repo.package
             if package is None or (repo.head is None and self.packages_dir is None):
                 continue
+            self._check_package(repo)
+            if any(e.track for e in package.upstream.extra_artifacts):
+                self._check_extras(repo)
+
+    def _check_package(self, repo: Repo) -> None:
+        name = repo.name
+        try:
+            result = self.checker.latest(repo.package)
+        except TransientError as exc:
+            self.say(f"{name}: upstream did not answer, trying again on the next pass: {exc}")
+            return
+        except RcError as exc:
+            self.notes.add("errors", f"Cannot check upstream for `{name}`: {exc}")
+            return
+        for text in result.refused + result.stalled:
+            self.notes.add("upstream", f"`{name}` {text}")
+        for text in result.waiting:
+            self.say(f"{name}: {text}")
+        try:
+            self._update_package(repo, result)
+        except TransientError as exc:
+            self.say(f"{name}: a download did not answer, trying again on the next pass: {exc}")
+        except Exception as exc:
+            self.notes.add("errors", f"Cannot update `{name}`: {_why(exc)}")
+
+    def _check_extras(self, repo: Repo) -> None:
+        """Move the extra artifacts with `track` to their newest releases, in one commit.
+
+        A repository gets one commit per pass, so when the package itself
+        is updated in this pass its extra artifacts wait for the next one.
+        """
+        if repo.committing:
+            self.say(f"{repo.name}: extra artifacts with track are checked on the next pass")
+            return
+        text = repo.text.decode("utf-8")
+        moved: list[tuple[str, str]] = []
+        for extra in repo.package.upstream.extra_artifacts:
+            if extra.track is None:
+                continue
+            label = f"{repo.name} {extra.name}"
             try:
-                result = self.checker.latest(package)
+                result = self.checker.latest_extra(repo.package, extra)
             except TransientError as exc:
-                self.say(f"{name}: upstream did not answer, trying again on the next pass: {exc}")
+                self.say(f"{label}: upstream did not answer, trying again on the next pass: {exc}")
                 continue
             except RcError as exc:
-                self.notes.add("errors", f"Cannot check upstream for `{name}`: {exc}")
+                self.notes.add("errors", f"Cannot check upstream for `{repo.name}` {extra.name}: {exc}")
                 continue
-            for text in result.refused + result.stalled:
-                self.notes.add("upstream", f"`{name}` {text}")
-            for text in result.waiting:
-                self.say(f"{name}: {text}")
+            for line in result.refused + result.stalled:
+                self.notes.add("upstream", f"`{repo.name}` {extra.name} {line}")
+            for line in result.waiting:
+                self.say(f"{label}: {line}")
+            chosen = result.chosen
+            if chosen is None:
+                self.say(f"{label}: {extra.version} is current (newest upstream: {result.newest or 'none found'})")
+                continue
+            unchecked = upstream.unchecked(extra.artifact, chosen)
+            if unchecked:
+                self.notes.add(
+                    "upstream",
+                    f"`{repo.name}` {extra.name} {chosen.version} needs a hand pin: no checksums file, signature or digest "
+                    f"recorded by GitHub checks {unchecked}",
+                )
+                continue
+            self.say(f"{label}: {chosen.version} is available (package.yml pins {extra.version})")
             try:
-                self._update_package(repo, result)
+                sha256 = None
+                if self.dry_run:
+                    self.say(f"{repo.name}: would download {extra.artifact.url_for(chosen.version)} and pin its sha256")
+                else:
+                    sha256 = upstream.pin_file(extra.artifact, chosen.version, chosen, self.checker.web, self.fetch)
+                text = pkgedit.update_extra(text, self.distros, extra.name, chosen.version, sha256)
             except TransientError as exc:
-                self.say(f"{name}: a download did not answer, trying again on the next pass: {exc}")
+                self.say(f"{label}: a download did not answer, trying again on the next pass: {exc}")
+                continue
             except Exception as exc:
-                self.notes.add("errors", f"Cannot update `{name}`: {_why(exc)}")
+                self.notes.add("errors", f"Cannot update `{repo.name}` {extra.name}: {_why(exc)}")
+                continue
+            moved.append((extra.name, chosen.version))
+        if not moved:
+            return
+        message = f"Update {_listing([f'{name} to {version}' for name, version in moved])}"
+        if len(message) > commits.MAX_MESSAGE:
+            message = f"Update {_listing([name for name, _ in moved])}"
+        if len(message) > commits.MAX_MESSAGE:
+            message = f"Update {len(moved)} extra artifacts"
+        if repo.head is None:
+            self.say(f"{repo.name}: {message} (not committed: the repository does not exist)")
+            return
+        files = {"package.yml": text.encode("utf-8")}
+        action = Action(
+            "commit",
+            repo.repo,
+            f"commit \"{message}\" to {repo.repo} (package.yml)",
+            files=files,
+            message=message,
+            parent=repo.head.sha,
+        )
+        self._commit(repo, action)
 
     def _update_package(self, repo: Repo, result: upstream.Result) -> None:
         package = repo.package

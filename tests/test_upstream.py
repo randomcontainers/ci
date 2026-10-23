@@ -5,12 +5,13 @@ from datetime import UTC, timedelta, timezone
 
 import pytest
 
+from conftest import FIXTURES
 from fakegithub import NOW, FakeGitHub, FakeWeb, Router, advertisement, iso, pkt, serve_git
 from fakes import FakeRegistry
-from rc import config, upstream
+from rc import config, upstream, yamlio
 from rc.errors import RcError, TransientError
 from rc.github import GitHub
-from world import World
+from world import RUST_DIST, RUST_EXTRA, RUST_PATTERN, RUST_STABLE, World, publish_rust
 
 OLD = NOW - timedelta(days=10)
 
@@ -847,3 +848,94 @@ def test_interval_on_an_undated_index_reads_last_modified(distros):
     del web.headers[current]
     result = checker(FakeGitHub(), web).latest(package)
     assert result.waiting == ["7.991 https://nmap.org/dist/nmap-7.991.tar.bz2 is not available yet"]
+
+
+# Extra artifacts with track
+
+
+def rust_package(distros, extra=RUST_EXTRA):
+    text = (FIXTURES / "ghostscript" / "package.yml").read_text().replace("image:\n", extra + "image:\n", 1)
+    return config.parse_package(yamlio.load_text(text, "package.yml"), "package.yml", distros)
+
+
+def test_tracked_extra_follows_the_rust_stable_channel(distros):
+    package = rust_package(distros)
+    extra = package.upstream.extra("rust-toolchain")
+    web = FakeWeb()
+    publish_rust(web, "1.100.0", "2026-09-10")
+    got = checker(FakeGitHub(), web).candidates(dataclasses.replace(extra.track, artifact=extra.artifact))
+    assert [(c.version, c.published.isoformat()) for c in got] == [("1.100.0", "2026-09-11T12:00:00+00:00")]
+    result = checker(FakeGitHub(), web).latest_extra(package, extra)
+    assert (result.package, result.current, result.chosen.version) == ("ghostscript rust-toolchain", "1.99.1", "1.100.0")
+    assert result.waiting == result.refused == []
+    # the release that is already pinned is current
+    current = dataclasses.replace(extra, version="1.100.0", track=dataclasses.replace(extra.track, version="1.100.0"))
+    assert checker(FakeGitHub(), web).latest_extra(package, current).chosen is None
+
+
+def test_tracked_extra_waits_for_its_cooldown_and_signature(distros):
+    package = rust_package(distros)
+    extra = package.upstream.extra("rust-toolchain")
+    web = FakeWeb()
+    publish_rust(web, "1.100.0", "2026-09-20")
+    result = checker(FakeGitHub(), web).latest_extra(package, extra)
+    assert result.chosen is None and result.waiting == ["1.100.0 was released 72h ago; the cooldown is 7d"]
+    assert checker(FakeGitHub(), web, now=NOW + timedelta(days=4)).latest_extra(package, extra).chosen.version == "1.100.0"
+
+    web = FakeWeb()
+    publish_rust(web, "1.100.0", "2026-09-10", signature=False)
+    result = checker(FakeGitHub(), web).latest_extra(package, extra)
+    assert result.chosen is None
+    assert result.waiting == [f"1.100.0 {RUST_DIST}/channel-rust-1.100.0.toml.asc is not available yet"]
+
+
+def test_tracked_extra_is_pinned_from_its_checksums_file(distros):
+    extra = rust_package(distros).upstream.extra("rust-toolchain")
+    web = FakeWeb()
+    manifest = publish_rust(web, "1.100.0", "2026-09-10")
+    candidate = upstream.Candidate("1.100.0", "1.100.0")
+
+    def fetch(url, algorithms):
+        assert url == f"{RUST_DIST}/channel-rust-1.100.0.toml"
+        return {a: hashlib.new(a, web.urls[url]).hexdigest() for a in algorithms}
+
+    router = Router(FakeRegistry(), FakeGitHub(), web)
+    assert upstream.unchecked(extra.artifact, candidate) is None
+    assert upstream.pin_file(extra.artifact, "1.100.0", candidate, router, fetch) == hashlib.sha256(manifest).hexdigest()
+    web.urls[f"{RUST_DIST}/channel-rust-1.100.0.toml.sha256"] = f"{'0' * 64}  channel-rust-1.100.0.toml\n".encode()
+    with pytest.raises(RcError, match="channel-rust-1.100.0.toml does not match its sha256 in the checksums file"):
+        upstream.pin_file(extra.artifact, "1.100.0", candidate, router, fetch)
+    web.urls[f"{RUST_DIST}/channel-rust-1.100.0.toml.sha256"] = f"{'0' * 64}  channel-rust-1.99.1.toml\n".encode()
+    with pytest.raises(RcError, match="is not listed in"):
+        upstream.pin_file(extra.artifact, "1.100.0", candidate, router, fetch)
+    # without checksums or a signature, nothing checks the file
+    bare = dataclasses.replace(extra.artifact, checksums=None, signature=None)
+    assert upstream.unchecked(bare, candidate) == "channel-rust-1.100.0.toml"
+
+
+def test_skipped_versions_leave_room_for_newer_ones(distros):
+    lines = "".join(f'<a href="channel-rust-1.{m}.0.toml">x</a> 2026-08-0{m - 99}\n' for m in range(100, 107))
+    extra = RUST_EXTRA.replace(f"url: {RUST_STABLE}", f"url: {RUST_DIST}/").replace(
+        RUST_PATTERN, r'href="channel-rust-(?P<version>\d+\.\d+\.\d+)\.toml">x</a> (?P<date>[0-9-]+)'
+    )
+    skip = "        skip: [1.106.0, 1.105.0, 1.104.0, 1.103.0, 1.102.0]\n"
+    package = rust_package(distros, extra.replace("        versioning: semver\n", "        versioning: semver\n" + skip))
+    web = FakeWeb()
+    web.urls[f"{RUST_DIST}/"] = lines.encode()
+    for version in ("1.100.0", "1.101.0"):
+        web.urls[f"{RUST_DIST}/channel-rust-{version}.toml"] = b"x"
+        web.urls[f"{RUST_DIST}/channel-rust-{version}.toml.asc"] = b"x"
+    result = checker(FakeGitHub(), web).latest_extra(package, package.upstream.extra("rust-toolchain"))
+    assert result.newest == "1.106.0" and result.chosen.version == "1.101.0"
+
+
+def test_index_page_is_read_once_per_pass(distros):
+    package = rust_package(distros)
+    web = FakeWeb()
+    publish_rust(web, "1.100.0", "2026-09-10")
+    check = checker(FakeGitHub(), web)
+    for _ in range(3):
+        assert check.latest_extra(package, package.upstream.extra("rust-toolchain")).chosen.version == "1.100.0"
+    assert web.requests.count(("GET", RUST_STABLE)) == 1
+    with pytest.raises(RcError, match="has no track"):
+        check.latest_extra(package, dataclasses.replace(package.upstream.extra("rust-toolchain"), track=None))
