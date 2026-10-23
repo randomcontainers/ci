@@ -787,3 +787,63 @@ def test_unreachable_upstreams_are_transient(distros):
     web.status[f"{WHISPER['git']['url']}/info/refs?service=git-upload-pack"] = 503
     with pytest.raises(TransientError):
         checker(gh, web).latest(package_with(distros, WHISPER))
+
+
+# Interval
+
+
+def with_interval(package, interval):
+    return dataclasses.replace(package, upstream=dataclasses.replace(package.upstream, interval=interval))
+
+
+def test_interval_holds_back_releases(packages):
+    gh = FakeGitHub()
+    gh.releases["ImageMagick/ImageMagick"] = [
+        World.release(f"7.1.2-{n}", NOW - age, assets=[f"ImageMagick-7.1.2-{n}.tar.xz"])
+        for n, age in ((33, timedelta(hours=30)), (32, timedelta(days=2)), (31, timedelta(days=3)))
+    ]
+    package = with_interval(packages["imagemagick"], "7d")
+    result = checker(gh).latest(package)
+    assert result.chosen is None and result.stalled == []
+    assert result.waiting == ["7.1.2-33 is held back: 7.1.2-31 was released 72h ago; the interval is 7d"]
+    # once the current version is old enough, the newest release past its cooldown is taken
+    assert checker(gh, now=NOW + timedelta(days=4)).latest(package).chosen.version == "7.1.2-33"
+    # a current version the source no longer lists counts as old
+    gh.releases["ImageMagick/ImageMagick"].pop()
+    assert checker(gh).latest(package).chosen.version == "7.1.2-33"
+    # without a newer release nothing is held
+    assert checker(gh).latest(with_version(package, "7.1.2-33")).waiting == []
+
+
+def test_interval_wait_is_not_reported_as_stalled(packages):
+    gh = FakeGitHub()
+    gh.releases["ImageMagick/ImageMagick"] = [
+        World.release("7.1.2-32", NOW - timedelta(days=10), assets=["ImageMagick-7.1.2-32.tar.xz"]),
+        World.release("7.1.2-31", NOW - timedelta(days=20)),
+    ]
+    result = checker(gh).latest(with_interval(packages["imagemagick"], "30d"))
+    assert result.chosen is None and result.stalled == [] and result.refused == []
+    assert result.waiting == ["7.1.2-32 is held back: 7.1.2-31 was released 480h ago; the interval is 30d"]
+
+
+def test_interval_reads_the_date_of_the_current_tag(packages):
+    gh = FakeGitHub()
+    gh.tags["FFmpeg/FFmpeg"] = [("n9.0.2", "1" * 40, "tag", NOW - timedelta(days=2)), ("n9.1", "2" * 40, "tag", NOW - timedelta(days=1, hours=1))]
+    result = checker(gh).latest(with_interval(packages["ffmpeg"], "7d"))
+    assert result.waiting == ["9.1 is held back: 9.0.2 was released 48h ago; the interval is 7d"]
+    assert any(u.endswith(f"/git/tags/{'1' * 40}") for _, u, _, _ in gh.requests)
+
+
+def test_interval_on_an_undated_index_reads_last_modified(distros):
+    web = FakeWeb()
+    web.urls[NMAP["url"]] = NMAP_PAGE
+    package = package_with(distros, NMAP, interval="7d")
+    current = "https://nmap.org/dist/nmap-7.99.tar.bz2"
+    web.urls[current] = b"x"
+    web.headers[current] = {"last-modified": "Mon, 21 Sep 2026 10:00:00 GMT"}
+    result = checker(FakeGitHub(), web).latest(package)
+    assert result.waiting == ["7.991 is held back: 7.99 was released 74h ago; the interval is 7d"]
+    # a current version whose date cannot be read counts as old
+    del web.headers[current]
+    result = checker(FakeGitHub(), web).latest(package)
+    assert result.waiting == ["7.991 https://nmap.org/dist/nmap-7.991.tar.bz2 is not available yet"]

@@ -483,6 +483,20 @@ def test_cooldown_waits_for_new_releases():
     assert "streamlink: 8.7.0 was released 3h ago; the cooldown is 24h" in outcome.log
 
 
+def test_interval_holds_a_package_back_without_a_note():
+    world = World()
+    repo = f"{ORG}/imagemagick"
+    text = world.github.files(repo)["package.yml"].decode().replace("  version: 7.1.2-31\n", "  version: 7.1.2-31\n  interval: 7d\n")
+    world.github.push(repo, {"package.yml": text.encode()})
+    world.github.releases["ImageMagick/ImageMagick"] = [
+        World.release("7.1.2-32", NOW - timedelta(days=2), assets=["ImageMagick-7.1.2-32.tar.xz"]),
+        World.release("7.1.2-31", NOW - timedelta(days=3)),
+    ]
+    outcome = world.run()
+    assert ("commit", "imagemagick") not in kinds(outcome) and "upstream" not in outcome.notes.items
+    assert "imagemagick: 7.1.2-32 is held back: 7.1.2-31 was released 72h ago; the interval is 7d" in outcome.log
+
+
 def test_tarball_bump_pins_sha256_after_checksums():
     world = World()
     base = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10090"

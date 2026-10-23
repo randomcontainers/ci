@@ -457,3 +457,17 @@ def test_documented_examples_parse(distros):
     data["upstream"]["extra-artifacts"] = extras["upstream"]["extra-artifacts"]
     upstream = config.parse_package(data, "package.yml", distros).upstream
     assert [e.name for e in upstream.extra_artifacts] == ["gts", "docs"]
+
+
+def test_interval(distros):
+    data = raw("ghostscript")
+    assert config.parse_package(data, "package.yml", distros).upstream.interval is None
+    data["upstream"]["interval"] = "7d"
+    assert config.parse_package(data, "package.yml", distros).upstream.interval == "7d"
+    data["upstream"]["interval"] = "1w"
+    assert "upstream.interval: '1w' is not a valid duration like 7d" in problems_for(data, distros)
+    data["upstream"]["interval"] = 7
+    assert "upstream.interval: must be a string" in problems_for(data, distros)
+    data["upstream"]["interval"] = "7d"
+    data["upstream"]["skip"] = ["10.09.0"]
+    assert "unknown key 'skip'" in problems_for(data, distros)

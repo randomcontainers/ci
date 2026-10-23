@@ -1,3 +1,5 @@
+import re
+
 import pytest
 import yaml
 
@@ -154,7 +156,8 @@ def documented_package(block):
         return whole[:start] + block + whole[whole.index("\ntest:", start) + 1 :]
     if block.startswith("  artifact:"):
         return head + "upstream:\n" + body[: body.index("  artifact:\n")] + block + tail
-    block = block.replace("  # source, project, artifact ...\n", body)
+    # "  # source, project, artifact ..." stands for the upstream keys of the fixture
+    block = re.sub(r"^  # source, [a-z, -]+ \.\.\.\n", lambda _: body, block, count=1, flags=re.M)
     if {"artifact", "git", "extra-artifacts"} & set(yaml.safe_load(block)["upstream"]):
         head += "source-release: true\n"
     return head + block + tail

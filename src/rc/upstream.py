@@ -21,6 +21,9 @@ sees it, and the commit is pinned in package.yml together with the version.
 
 When a newer release fails a check, older releases that are still newer
 than the current version are tried, and the reason is reported.
+
+With `interval`, no release is taken until the current version is that
+old.
 """
 
 import json
@@ -567,6 +570,28 @@ class Checker:
                 return "waiting", f"has no tag {tag} at {upstream.git.url} yet"
         return None
 
+    def _held(self, upstream: Upstream, candidates: list[Candidate]) -> str | None:
+        """Why no release is taken yet under `interval`, or None.
+
+        The interval counts from the release of the current version. A
+        current version that the source no longer lists, or whose release
+        date cannot be read, counts as old.
+        """
+        current = next((c for c in candidates if versions.compare(upstream.versioning, c.version, upstream.version) == 0), None)
+        if current is None:
+            return None
+        if upstream.source == "html-index" and not upstream.index_dated and current.published is None:
+            resp = http.follow(self.web, "HEAD", upstream.artifact.url_for(current.version))
+            current.published = release_date(resp.header("last-modified")) if resp.status == 200 else None
+        published = self._published(upstream, current)
+        if published is None:
+            return None
+        age = self.now - published
+        if age >= duration(upstream.interval):
+            return None
+        hours = max(0, int(age.total_seconds() // 3600))
+        return f"{upstream.version} was released {hours}h ago; the interval is {upstream.interval}"
+
     def latest(self, package: Package) -> Result:
         upstream = package.upstream
         result = Result(package.name, upstream.version)
@@ -574,6 +599,11 @@ class Checker:
         if candidates:
             result.newest = candidates[0].version
         newer = [c for c in candidates if versions.compare(upstream.versioning, c.version, upstream.version) > 0]
+        if newer and upstream.interval:
+            held = self._held(upstream, candidates)
+            if held:
+                result.waiting.append(f"{newer[0].version} is held back: {held}")
+                return result
         for c in newer[: self.max_candidates]:
             verdict = self.check(upstream, c)
             if verdict is None:

@@ -178,6 +178,7 @@ class Upstream:
     pattern: str | None = None
     git: GitSource | None = None
     extra_artifacts: tuple[ExtraArtifact, ...] = ()
+    interval: str | None = None
 
     @property
     def index_dated(self) -> bool:
@@ -489,6 +490,7 @@ UPSTREAM_KEYS = (
     "pattern",
     "git",
     "extra-artifacts",
+    "interval",
 )
 ARTIFACT_KEYS = ("url", "checksums", "sha256", "signature")
 EXTRA_KEYS = (*ARTIFACT_KEYS, "version", "distros")
@@ -687,6 +689,7 @@ def _parse_upstream(r: _Reader, raw: Any, path: str, distros: Distros) -> Upstre
             r.add(f"{path}.version", str(exc))
             version = None
     cooldown = r.pattern(raw, "cooldown", path, names.DURATION, "duration like 24h") or "24h"
+    interval = r.pattern(raw, "interval", path, names.DURATION, "duration like 7d")
 
     artifact = None
     if "artifact" in raw:
@@ -716,6 +719,7 @@ def _parse_upstream(r: _Reader, raw: Any, path: str, distros: Distros) -> Upstre
         pattern=pattern,
         git=git,
         extra_artifacts=extras,
+        interval=interval,
     )
 
 

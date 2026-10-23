@@ -60,6 +60,8 @@ The newest candidate above the current version is taken when:
 - for tarball builds, `artifact.url` and `artifact.signature` answer HTTP 200, or are assets of the release; the same holds for each extra artifact without a `version`;
 - for git tag builds, the tag that `git.tag` gives is at `git.url`, and with a `github-*`, `gitlab-release` or `forgejo-tag` source it is the tag the version was read from (otherwise the version is refused).
 
+With `upstream.interval`, no candidate is taken while the release of the current version is younger than the interval, and the pass log names the newest candidate it holds back. Once the interval has passed, the newest candidate that meets the rules above is taken. The current version's date is read from the same candidates; a current version that is not among them, or whose date cannot be read, counts as old.
+
 A candidate that is too new is skipped and the next older one is tried. A refused candidate (wrong publisher, no provenance, missing wheels) is listed in the tracking issue. So is a candidate that still waits for its tag or files more than 7 days after its cooldown ended, which usually means a wrong `git.url`, `git.tag` or URL template. An undated `html-index` version is not listed this way, since its release date is only known once its artifact answers.
 
 A timeout, a failed connection or an HTTP 429 or 5xx answer from an upstream, PyPI or a git server is only logged, and the next pass tries again. Other HTTP errors, unreadable replies and an `html-index` page that no longer matches are listed in the tracking issue as errors.

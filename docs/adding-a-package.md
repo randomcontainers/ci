@@ -148,6 +148,23 @@ upstream:                        # nmap, dated by the tarball's Last-Modified he
 
 For a `github-tag` source, start the pattern with a literal prefix (`^n`) so the pass lists only matching tags. For `html-index`, `tag-pattern` is optional and applies to the text of the version group.
 
+### Cooldown and interval
+
+The reconciler takes the newest release that is older than `cooldown`. A longer cooldown delays each update without reducing their number. For an upstream that releases several times a week, `interval` sets the minimum time between two updates:
+
+```yaml
+upstream:
+  # source, repository, git ...
+  cooldown: 48h
+  interval: 7d                   # optional; at most one update a week
+```
+
+- While the release of the version in `package.yml` is younger than `interval`, the pass takes no newer release. The pass log names the release it holds back; the tracking issue does not list it.
+- Once the interval has passed, the pass takes the newest release past its cooldown, as it does without `interval`, and skips the releases in between.
+- The current version's release date comes from the same source as new versions. A current version that the source no longer lists, or whose date cannot be read, counts as old.
+
+Durations are a number followed by `m`, `h` or `d`.
+
 ### Tarball builds
 
 ```yaml
