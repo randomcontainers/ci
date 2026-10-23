@@ -348,11 +348,13 @@ cargo-auditable writes the crate list into the binary's `.dep-v0` section, which
 
 - Every crate must come from crates.io; git dependencies and other registries stop the build.
 - A crate whose SPDX expression is not covered by the terms of `package.yml`'s `license` stops the build. When an update brings in such a crate, add its term to `license`. Crates that are only used to build (proc macros and build script dependencies) get their license files copied but are not checked against `license`.
-- A crate that ships no license files needs them in `licenses/crates/<name>-<version>/`, or in `licenses/crates/<name>/`, which also covers later versions. A directory that matches no crate stops the build.
+- A crate that ships no license files needs them in `licenses/crates/<name>-<version>/`, or in `licenses/crates/<name>/`, which also covers later versions. A directory without a version needs an `EXPRESSION` file with the crate's SPDX expression, so the files are checked again when the crate's license changes. A directory that matches no crate stops the build.
+- When a crate's expression leaves something out, such as data it compiles in under other terms, `DECLARED` holds the crate's own expression and `EXPRESSION` the one to check instead. The build stops when the crate's expression no longer equals `DECLARED`.
 - A crate with a `links` key builds or links C code, and needs its own files there or a line for it in `licenses/crates/native-covered` (`name@version`, or `name` for every version).
-- The verified `.crate` of an MPL-2.0 crate is copied to `share/randomcontainers/<name>/crate-sources/` and its URL listed in `source`. GPL, LGPL and AGPL crates are not supported: the script stops on them.
+- The verified `.crate` of an MPL-2.0 crate is copied to `share/randomcontainers/<name>/crate-sources/` and its URL listed in `source`. A GPL, LGPL or AGPL crate passes only when `license` has that term.
+- A GPL, LGPL or AGPL term in `license` puts the binaries as a whole under that license, so the verified `.crate` of every crates.io crate they record, build-time crates included, is copied to `crate-sources/` (librsvg).
 
-Both scripts are identical in every Rust package and start with a `# version: N` line. The current version is 1, and the canonical copies are in `typos`. A change to either script raises N and goes to every Rust package at once, so `grep '^# version:' scripts/*` finds a stale copy.
+Both scripts are identical in every Rust package and start with a `# version: N` line. The current versions are 1 for `rust-toolchain.sh` and 3 for `cargo-licenses.py`, and the canonical copies are in `typos`. A change to either script raises its N and goes to every Rust package at once, so `grep '^# version:' scripts/*` finds a stale copy.
 
 To update `rust-toolchain` by hand, for a package on hold or before a release's cooldown has passed:
 
