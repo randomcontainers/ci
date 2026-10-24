@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-23T10:36:07Z",
+  "generated": "2026-10-23T22:34:52Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -6346,7 +6346,7 @@
       "homepage": "https://vale.sh/",
       "repository": "https://github.com/randomcontainers/vale",
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND Apache-2.0 AND Unicode-DFS-2016",
-      "version": "3.24.0",
+      "version": "3.25.1",
       "versioning": "semver",
       "examples": [
         {
@@ -6370,82 +6370,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-23T05:30:35Z",
+      "updated": "2026-10-23T22:34:52Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "3.24.0",
+          "version": "3.25.1",
           "tags": [
             "latest",
-            "3.24.0",
-            "3.24",
+            "3.25.1",
+            "3.25",
             "3",
             "ubuntu",
-            "3.24.0-ubuntu",
-            "3.24-ubuntu",
+            "3.25.1-ubuntu",
+            "3.25-ubuntu",
             "3-ubuntu",
-            "3.24.0-ubuntu26.04"
+            "3.25.1-ubuntu26.04"
           ],
-          "digest": "sha256:3af056aad61bbe1b1503333dabb11d7e040a8df1f6d431afec0337e342955f11",
+          "digest": "sha256:29cb78981e2ce297aa7255916f01cc74b1f3eb7a3ddd3047eab3868cc8ef49e2",
           "size": {
-            "linux/amd64": 56967186,
-            "linux/arm64": 55125227
+            "linux/amd64": 56992789,
+            "linux/arm64": 55158630
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "3.24.0",
+          "version": "3.25.1",
           "tags": [
             "alpine",
-            "3.24.0-alpine",
-            "3.24-alpine",
+            "3.25.1-alpine",
+            "3.25-alpine",
             "3-alpine",
-            "3.24.0-alpine3.24"
+            "3.25.1-alpine3.24"
           ],
-          "digest": "sha256:3da0d6c0c8adfb248ba7f05f16bf0064c741ddbac90a7a51fd7227aaaefea74c",
+          "digest": "sha256:1472442e236e258e20f8cc99ce373fcde21c1c0d309e16e7bd6a11da1766b14c",
           "size": {
-            "linux/amd64": 18917471,
-            "linux/arm64": 18415109
+            "linux/amd64": 18942385,
+            "linux/arm64": 18450441
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "3.24.0",
+          "version": "3.25.1",
           "tags": [
             "slim",
-            "3.24.0-slim",
-            "3.24-slim",
+            "3.25.1-slim",
+            "3.25-slim",
             "3-slim",
             "slim-ubuntu",
-            "3.24.0-slim-ubuntu",
-            "3.24-slim-ubuntu",
+            "3.25.1-slim-ubuntu",
+            "3.25-slim-ubuntu",
             "3-slim-ubuntu",
-            "3.24.0-slim-ubuntu26.04"
+            "3.25.1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:3af056aad61bbe1b1503333dabb11d7e040a8df1f6d431afec0337e342955f11",
+          "digest": "sha256:29cb78981e2ce297aa7255916f01cc74b1f3eb7a3ddd3047eab3868cc8ef49e2",
           "size": {
-            "linux/amd64": 56967186,
-            "linux/arm64": 55125227
+            "linux/amd64": 56992789,
+            "linux/arm64": 55158630
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "3.24.0",
+          "version": "3.25.1",
           "tags": [
             "slim-alpine",
-            "3.24.0-slim-alpine",
-            "3.24-slim-alpine",
+            "3.25.1-slim-alpine",
+            "3.25-slim-alpine",
             "3-slim-alpine",
-            "3.24.0-slim-alpine3.24"
+            "3.25.1-slim-alpine3.24"
           ],
-          "digest": "sha256:3da0d6c0c8adfb248ba7f05f16bf0064c741ddbac90a7a51fd7227aaaefea74c",
+          "digest": "sha256:1472442e236e258e20f8cc99ce373fcde21c1c0d309e16e7bd6a11da1766b14c",
           "size": {
-            "linux/amd64": 18917471,
-            "linux/arm64": 18415109
+            "linux/amd64": 18942385,
+            "linux/arm64": 18450441
           }
         }
       ]
