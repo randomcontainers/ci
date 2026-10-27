@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-25T21:53:35Z",
+  "generated": "2026-10-26T23:28:53Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -3609,7 +3609,7 @@
       "homepage": "https://nmap.org/",
       "repository": "https://github.com/randomcontainers/nmap",
       "license": "LicenseRef-NPSL-0.95 AND BSD-2-Clause AND BSD-2-Clause-Patent AND BSD-3-Clause AND MIT",
-      "version": "7.992",
+      "version": "7.993",
       "versioning": "loose",
       "examples": [
         {
@@ -3637,76 +3637,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-23T05:38:34Z",
+      "updated": "2026-10-26T23:28:53Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "7.992",
+          "version": "7.993",
           "tags": [
             "latest",
-            "7.992",
+            "7.993",
             "7",
             "ubuntu",
-            "7.992-ubuntu",
+            "7.993-ubuntu",
             "7-ubuntu",
-            "7.992-ubuntu26.04"
+            "7.993-ubuntu26.04"
           ],
-          "digest": "sha256:d162f4be159f9f975a87ae693cea5892b80bb2e5617f463c6036f91e63197a2b",
+          "digest": "sha256:be6eee0befbc0bb91c67c9d97899b41ba995963844455a29a2a46dd765f0b533",
           "size": {
-            "linux/amd64": 51383798,
-            "linux/arm64": 50247794
+            "linux/amd64": 51386210,
+            "linux/arm64": 50248468
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "7.992",
+          "version": "7.993",
           "tags": [
             "alpine",
-            "7.992-alpine",
+            "7.993-alpine",
             "7-alpine",
-            "7.992-alpine3.24"
+            "7.993-alpine3.24"
           ],
-          "digest": "sha256:a86b936e88fa38feae4f02496ca140a1522828c9112681df604ef4b6ea351d12",
+          "digest": "sha256:26a0bf76ef970c879f09e8032f81dbe990b2b0e23bf9a4b4a1760ae63e07162f",
           "size": {
-            "linux/amd64": 12996216,
-            "linux/arm64": 13202423
+            "linux/amd64": 12997823,
+            "linux/arm64": 13204445
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "7.992",
+          "version": "7.993",
           "tags": [
             "slim",
-            "7.992-slim",
+            "7.993-slim",
             "7-slim",
             "slim-ubuntu",
-            "7.992-slim-ubuntu",
+            "7.993-slim-ubuntu",
             "7-slim-ubuntu",
-            "7.992-slim-ubuntu26.04"
+            "7.993-slim-ubuntu26.04"
           ],
-          "digest": "sha256:d162f4be159f9f975a87ae693cea5892b80bb2e5617f463c6036f91e63197a2b",
+          "digest": "sha256:be6eee0befbc0bb91c67c9d97899b41ba995963844455a29a2a46dd765f0b533",
           "size": {
-            "linux/amd64": 51383798,
-            "linux/arm64": 50247794
+            "linux/amd64": 51386210,
+            "linux/arm64": 50248468
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "7.992",
+          "version": "7.993",
           "tags": [
             "slim-alpine",
-            "7.992-slim-alpine",
+            "7.993-slim-alpine",
             "7-slim-alpine",
-            "7.992-slim-alpine3.24"
+            "7.993-slim-alpine3.24"
           ],
-          "digest": "sha256:a86b936e88fa38feae4f02496ca140a1522828c9112681df604ef4b6ea351d12",
+          "digest": "sha256:26a0bf76ef970c879f09e8032f81dbe990b2b0e23bf9a4b4a1760ae63e07162f",
           "size": {
-            "linux/amd64": 12996216,
-            "linux/arm64": 13202423
+            "linux/amd64": 12997823,
+            "linux/arm64": 13204445
           }
         }
       ]
