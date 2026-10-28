@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-28T08:31:38Z",
+  "generated": "2026-10-28T15:15:29Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -264,7 +264,7 @@
       "homepage": "https://samtools.github.io/bcftools/",
       "repository": "https://github.com/randomcontainers/bcftools",
       "license": "MIT AND BSD-3-Clause AND BSD-1-Clause AND CC0-1.0 AND LicenseRef-Public-Domain",
-      "version": "1.24",
+      "version": "1.25",
       "versioning": "semver",
       "examples": [
         {
@@ -296,76 +296,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-28T02:21:50Z",
+      "updated": "2026-10-28T15:15:18Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "latest",
-            "1.24",
+            "1.25",
             "1",
             "ubuntu",
-            "1.24-ubuntu",
+            "1.25-ubuntu",
             "1-ubuntu",
-            "1.24-ubuntu26.04"
+            "1.25-ubuntu26.04"
           ],
-          "digest": "sha256:0feaa63f0fba2768f15424c38c7c9b56e7ed6bcc211afb1da920f572cc4ec6ba",
+          "digest": "sha256:cc7b0ebf3e5572a499b397383fbf1ef5b53a7924c1134ec03bd85eaf64d98da7",
           "size": {
-            "linux/amd64": 51265892,
-            "linux/arm64": 50017004
+            "linux/amd64": 51297055,
+            "linux/arm64": 50056775
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "alpine",
-            "1.24-alpine",
+            "1.25-alpine",
             "1-alpine",
-            "1.24-alpine3.24"
+            "1.25-alpine3.24"
           ],
-          "digest": "sha256:aff3583771e4dd4650b2660c948a8b41bc70a5cfedbfe52be63ff5d22be5ed7e",
+          "digest": "sha256:17b7428831f2f108b7b31a027345160bf23059a9d99acbed71018deff84c7d18",
           "size": {
-            "linux/amd64": 9481402,
-            "linux/arm64": 9715078
+            "linux/amd64": 9520732,
+            "linux/arm64": 9753536
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "slim",
-            "1.24-slim",
+            "1.25-slim",
             "1-slim",
             "slim-ubuntu",
-            "1.24-slim-ubuntu",
+            "1.25-slim-ubuntu",
             "1-slim-ubuntu",
-            "1.24-slim-ubuntu26.04"
+            "1.25-slim-ubuntu26.04"
           ],
-          "digest": "sha256:0feaa63f0fba2768f15424c38c7c9b56e7ed6bcc211afb1da920f572cc4ec6ba",
+          "digest": "sha256:cc7b0ebf3e5572a499b397383fbf1ef5b53a7924c1134ec03bd85eaf64d98da7",
           "size": {
-            "linux/amd64": 51265892,
-            "linux/arm64": 50017004
+            "linux/amd64": 51297055,
+            "linux/arm64": 50056775
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "slim-alpine",
-            "1.24-slim-alpine",
+            "1.25-slim-alpine",
             "1-slim-alpine",
-            "1.24-slim-alpine3.24"
+            "1.25-slim-alpine3.24"
           ],
-          "digest": "sha256:aff3583771e4dd4650b2660c948a8b41bc70a5cfedbfe52be63ff5d22be5ed7e",
+          "digest": "sha256:17b7428831f2f108b7b31a027345160bf23059a9d99acbed71018deff84c7d18",
           "size": {
-            "linux/amd64": 9481402,
-            "linux/arm64": 9715078
+            "linux/amd64": 9520732,
+            "linux/arm64": 9753536
           }
         }
       ]
@@ -4772,7 +4772,7 @@
       "homepage": "https://www.htslib.org/",
       "repository": "https://github.com/randomcontainers/samtools",
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain",
-      "version": "1.24",
+      "version": "1.25",
       "versioning": "semver",
       "examples": [
         {
@@ -4813,76 +4813,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-28T08:24:44Z",
+      "updated": "2026-10-28T15:15:29Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "latest",
-            "1.24",
+            "1.25",
             "1",
             "ubuntu",
-            "1.24-ubuntu",
+            "1.25-ubuntu",
             "1-ubuntu",
-            "1.24-ubuntu26.04"
+            "1.25-ubuntu26.04"
           ],
-          "digest": "sha256:8925e791132505615461a2637f9cfae31ce6076bc8232d23d2b531aea4397830",
+          "digest": "sha256:c523db92233029bebb5596f81d7872756dda62e0c3ab63b401f481c845ef978b",
           "size": {
-            "linux/amd64": 54255948,
-            "linux/arm64": 52836958
+            "linux/amd64": 54275924,
+            "linux/arm64": 52859746
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "alpine",
-            "1.24-alpine",
+            "1.25-alpine",
             "1-alpine",
-            "1.24-alpine3.24"
+            "1.25-alpine3.24"
           ],
-          "digest": "sha256:70c1a62a91532239aefe046592094fb5bd1f434fc6b0fe921eb2cb3aa170c411",
+          "digest": "sha256:3543224e8a06b85c97aceadf1bea6e7b471c2bf78215ef8d4083f31f91c186fe",
           "size": {
-            "linux/amd64": 12766322,
-            "linux/arm64": 12805144
+            "linux/amd64": 12785810,
+            "linux/arm64": 12824555
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "slim",
-            "1.24-slim",
+            "1.25-slim",
             "1-slim",
             "slim-ubuntu",
-            "1.24-slim-ubuntu",
+            "1.25-slim-ubuntu",
             "1-slim-ubuntu",
-            "1.24-slim-ubuntu26.04"
+            "1.25-slim-ubuntu26.04"
           ],
-          "digest": "sha256:653ddbda5ba7043ca97410f25331256dde1fae30134fa15507394214aea5f5e7",
+          "digest": "sha256:f45cb4fce7bdb8499c29e822ead5cb2a63e1b774f4e307b7077d633a48fe9ffd",
           "size": {
-            "linux/amd64": 51462745,
-            "linux/arm64": 50137121
+            "linux/amd64": 51482733,
+            "linux/arm64": 50159911
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "slim-alpine",
-            "1.24-slim-alpine",
+            "1.25-slim-alpine",
             "1-slim-alpine",
-            "1.24-slim-alpine3.24"
+            "1.25-slim-alpine3.24"
           ],
-          "digest": "sha256:8c2b3993f5bb14edec4eb9372d36acf4a498b2bcef918328729e2f6dd554303e",
+          "digest": "sha256:502750c1d708bc2ab54e58a09e6020c00ccb7f1b39de77500afd3efc13d04f0f",
           "size": {
-            "linux/amd64": 9903610,
-            "linux/arm64": 10050615
+            "linux/amd64": 9923129,
+            "linux/arm64": 10070046
           }
         }
       ]
@@ -6947,7 +6947,7 @@
       "homepage": "https://virustotal.github.io/yara/",
       "repository": "https://github.com/randomcontainers/yara",
       "license": "BSD-3-Clause AND Apache-2.0 AND MIT",
-      "version": "4.5.8",
+      "version": "4.6.0",
       "versioning": "semver",
       "examples": [
         {
@@ -6984,82 +6984,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-28T08:24:27Z",
+      "updated": "2026-10-28T15:15:15Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "4.5.8",
+          "version": "4.6.0",
           "tags": [
             "latest",
-            "4.5.8",
-            "4.5",
+            "4.6.0",
+            "4.6",
             "4",
             "ubuntu",
-            "4.5.8-ubuntu",
-            "4.5-ubuntu",
+            "4.6.0-ubuntu",
+            "4.6-ubuntu",
             "4-ubuntu",
-            "4.5.8-ubuntu26.04"
+            "4.6.0-ubuntu26.04"
           ],
-          "digest": "sha256:928de4a6ef95fd7267111776aec399b8a52d0490e2cf0148595b2f9edeefc6c0",
+          "digest": "sha256:67e02066bd5be642dba738b24bdd85172d4c3bf9d4c523ca293062fb68314ff5",
           "size": {
-            "linux/amd64": 45835031,
-            "linux/arm64": 44748061
+            "linux/amd64": 45838169,
+            "linux/arm64": 44753859
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "4.5.8",
+          "version": "4.6.0",
           "tags": [
             "alpine",
-            "4.5.8-alpine",
-            "4.5-alpine",
+            "4.6.0-alpine",
+            "4.6-alpine",
             "4-alpine",
-            "4.5.8-alpine3.24"
+            "4.6.0-alpine3.24"
           ],
-          "digest": "sha256:fd594f7e1cf9783ef5d7ffdde58e91ffbdc615691b46a8a9bd60cbafecaa1995",
+          "digest": "sha256:7fd0915831a61ff361503d58c1b7e3064fb72fa3360f0f74dbb665a870b125e1",
           "size": {
-            "linux/amd64": 7842842,
-            "linux/arm64": 8068876
+            "linux/amd64": 7845506,
+            "linux/arm64": 8075334
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "4.5.8",
+          "version": "4.6.0",
           "tags": [
             "slim",
-            "4.5.8-slim",
-            "4.5-slim",
+            "4.6.0-slim",
+            "4.6-slim",
             "4-slim",
             "slim-ubuntu",
-            "4.5.8-slim-ubuntu",
-            "4.5-slim-ubuntu",
+            "4.6.0-slim-ubuntu",
+            "4.6-slim-ubuntu",
             "4-slim-ubuntu",
-            "4.5.8-slim-ubuntu26.04"
+            "4.6.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:5c03169fafe4e6b66fc8bea5d65625ff953144a653a832637265fbc064cbf184",
+          "digest": "sha256:c83dcfc32ef63671b0fb2ea54daba3c336282864fcd10a51b1ccb5f298051a40",
           "size": {
-            "linux/amd64": 44410053,
-            "linux/arm64": 43378733
+            "linux/amd64": 44413201,
+            "linux/arm64": 43384539
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "4.5.8",
+          "version": "4.6.0",
           "tags": [
             "slim-alpine",
-            "4.5.8-slim-alpine",
-            "4.5-slim-alpine",
+            "4.6.0-slim-alpine",
+            "4.6-slim-alpine",
             "4-slim-alpine",
-            "4.5.8-slim-alpine3.24"
+            "4.6.0-slim-alpine3.24"
           ],
-          "digest": "sha256:2788a5de2c168f3139a2a2df848b82a2239f48e14bbe75d60a55ece1407eb1dd",
+          "digest": "sha256:2cee323bd0914f34e3bf3b3438dbc6588468b9ff3a6f1260077c066df49f4fe8",
           "size": {
-            "linux/amd64": 5298060,
-            "linux/arm64": 5650060
+            "linux/amd64": 5300747,
+            "linux/arm64": 5656529
           }
         }
       ]
@@ -7956,7 +7956,7 @@
       "summary": "Samtools with BCFtools, for sorting and indexing aligned reads and calling variants from them.",
       "repository": "https://github.com/randomcontainers/samtools-bcftools",
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain AND BSD-1-Clause",
-      "version": "1.24",
+      "version": "1.25",
       "public": true,
       "updated": "2026-10-28T08:25:41Z",
       "variants": [
@@ -8517,7 +8517,7 @@
       "summary": "YARA with 7-Zip, for unpacking password-protected sample archives and scanning what they contain.",
       "repository": "https://github.com/randomcontainers/yara-7zip",
       "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
-      "version": "4.5.8",
+      "version": "4.6.0",
       "public": true,
       "updated": "2026-10-28T08:28:43Z",
       "variants": [
