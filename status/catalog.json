@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-27T19:30:41Z",
+  "generated": "2026-10-27T23:08:46Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -378,7 +378,7 @@
       "homepage": "https://github.com/python-jsonschema/check-jsonschema",
       "repository": "https://github.com/randomcontainers/check-jsonschema",
       "license": "Apache-2.0 AND MIT AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND Apache-2.0 WITH LLVM-exception AND AGPL-3.0-only AND GPL-3.0-only AND CC-BY-4.0 AND GPL-3.0-or-later WITH GCC-exception-3.1",
-      "version": "0.38.2",
+      "version": "0.39.0",
       "versioning": "semver",
       "examples": [
         {
@@ -412,82 +412,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-27T02:29:06Z",
+      "updated": "2026-10-27T23:08:46Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "0.38.2",
+          "version": "0.39.0",
           "tags": [
             "latest",
-            "0.38.2",
-            "0.38",
+            "0.39.0",
+            "0.39",
             "0",
             "ubuntu",
-            "0.38.2-ubuntu",
-            "0.38-ubuntu",
+            "0.39.0-ubuntu",
+            "0.39-ubuntu",
             "0-ubuntu",
-            "0.38.2-ubuntu26.04"
+            "0.39.0-ubuntu26.04"
           ],
-          "digest": "sha256:0b5080d1da1d4cb959f86957921b2e320bee9b1087163930d4403fcd08ce9bc3",
+          "digest": "sha256:347dfc8458535efd2a084cc114622309e32e86bdc36f9dc44a02fe051c6fd7ec",
           "size": {
-            "linux/amd64": 64924582,
-            "linux/arm64": 63884754
+            "linux/amd64": 64987532,
+            "linux/arm64": 63943253
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "0.38.2",
+          "version": "0.39.0",
           "tags": [
             "alpine",
-            "0.38.2-alpine",
-            "0.38-alpine",
+            "0.39.0-alpine",
+            "0.39-alpine",
             "0-alpine",
-            "0.38.2-alpine3.24"
+            "0.39.0-alpine3.24"
           ],
-          "digest": "sha256:7d2876ecea724c23e477d5e4d7ff90e8e8876c1e032a8e352aaa36537ac2676a",
+          "digest": "sha256:25d61b9ebde67758e697df663a0e94f0bf011edf4c01b021da5949ac578f1b0b",
           "size": {
-            "linux/amd64": 28136024,
-            "linux/arm64": 28267765
+            "linux/amd64": 28230700,
+            "linux/arm64": 28370020
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "0.38.2",
+          "version": "0.39.0",
           "tags": [
             "slim",
-            "0.38.2-slim",
-            "0.38-slim",
+            "0.39.0-slim",
+            "0.39-slim",
             "0-slim",
             "slim-ubuntu",
-            "0.38.2-slim-ubuntu",
-            "0.38-slim-ubuntu",
+            "0.39.0-slim-ubuntu",
+            "0.39-slim-ubuntu",
             "0-slim-ubuntu",
-            "0.38.2-slim-ubuntu26.04"
+            "0.39.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:0b5080d1da1d4cb959f86957921b2e320bee9b1087163930d4403fcd08ce9bc3",
+          "digest": "sha256:347dfc8458535efd2a084cc114622309e32e86bdc36f9dc44a02fe051c6fd7ec",
           "size": {
-            "linux/amd64": 64924582,
-            "linux/arm64": 63884754
+            "linux/amd64": 64987532,
+            "linux/arm64": 63943253
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "0.38.2",
+          "version": "0.39.0",
           "tags": [
             "slim-alpine",
-            "0.38.2-slim-alpine",
-            "0.38-slim-alpine",
+            "0.39.0-slim-alpine",
+            "0.39-slim-alpine",
             "0-slim-alpine",
-            "0.38.2-slim-alpine3.24"
+            "0.39.0-slim-alpine3.24"
           ],
-          "digest": "sha256:7d2876ecea724c23e477d5e4d7ff90e8e8876c1e032a8e352aaa36537ac2676a",
+          "digest": "sha256:25d61b9ebde67758e697df663a0e94f0bf011edf4c01b021da5949ac578f1b0b",
           "size": {
-            "linux/amd64": 28136024,
-            "linux/arm64": 28267765
+            "linux/amd64": 28230700,
+            "linux/arm64": 28370020
           }
         }
       ]
@@ -7241,7 +7241,7 @@
       "summary": "check-jsonschema with yamllint, to lint YAML files and validate them against a JSON Schema in one image.",
       "repository": "https://github.com/randomcontainers/check-jsonschema-yamllint",
       "license": "Apache-2.0 AND MIT AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND Apache-2.0 WITH LLVM-exception AND AGPL-3.0-only AND GPL-3.0-only AND CC-BY-4.0 AND GPL-3.0-or-later WITH GCC-exception-3.1 AND GPL-3.0-or-later",
-      "version": "0.38.2",
+      "version": "0.39.0",
       "public": true,
       "updated": "2026-10-27T08:08:03Z",
       "variants": [
