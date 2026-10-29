@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-28T20:21:38Z",
+  "generated": "2026-10-29T00:05:52Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -2765,7 +2765,7 @@
       "homepage": "https://libjpeg-turbo.org/",
       "repository": "https://github.com/randomcontainers/libjpeg-turbo",
       "license": "IJG AND BSD-3-Clause AND Zlib AND BSD-2-Clause AND libpng-2.0",
-      "version": "3.2.0",
+      "version": "3.2.1",
       "versioning": "loose",
       "examples": [
         {
@@ -2806,82 +2806,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-28T08:25:31Z",
+      "updated": "2026-10-29T00:05:52Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "3.2.0",
+          "version": "3.2.1",
           "tags": [
             "latest",
-            "3.2.0",
+            "3.2.1",
             "3.2",
             "3",
             "ubuntu",
-            "3.2.0-ubuntu",
+            "3.2.1-ubuntu",
             "3.2-ubuntu",
             "3-ubuntu",
-            "3.2.0-ubuntu26.04"
+            "3.2.1-ubuntu26.04"
           ],
-          "digest": "sha256:5033696a6d9f3c05e93716e7049f5e3cccf0516b8266372bea0423b44b2d8a4f",
+          "digest": "sha256:ad7a471f7d9e2c1c0d2b37fcefdffacc7fee03b95bfee85896a53b89bd46a146",
           "size": {
-            "linux/amd64": 62169288,
-            "linux/arm64": 61187452
+            "linux/amd64": 62169929,
+            "linux/arm64": 61189280
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "3.2.0",
+          "version": "3.2.1",
           "tags": [
             "alpine",
-            "3.2.0-alpine",
+            "3.2.1-alpine",
             "3.2-alpine",
             "3-alpine",
-            "3.2.0-alpine3.24"
+            "3.2.1-alpine3.24"
           ],
-          "digest": "sha256:f3c20833d8a9477986647f505b0c29ee7681ae9992c592ae9c1fbb2f17cb9334",
+          "digest": "sha256:66977a1816221d0a7f657c3664123377653214c48562eb5bb7ad430945a747f3",
           "size": {
-            "linux/amd64": 21234838,
-            "linux/arm64": 21603555
+            "linux/amd64": 21235241,
+            "linux/arm64": 21605715
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "3.2.0",
+          "version": "3.2.1",
           "tags": [
             "slim",
-            "3.2.0-slim",
+            "3.2.1-slim",
             "3.2-slim",
             "3-slim",
             "slim-ubuntu",
-            "3.2.0-slim-ubuntu",
+            "3.2.1-slim-ubuntu",
             "3.2-slim-ubuntu",
             "3-slim-ubuntu",
-            "3.2.0-slim-ubuntu26.04"
+            "3.2.1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:915188f4cc035d3e1e623e0b50e1ab6ceb973acefefc8c602190e19a337e7296",
+          "digest": "sha256:c5583e53afd6e66403597e30eeb06473559c16983214669129eedd32c60b28cd",
           "size": {
-            "linux/amd64": 44239159,
-            "linux/arm64": 43312474
+            "linux/amd64": 44239794,
+            "linux/arm64": 43314291
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "3.2.0",
+          "version": "3.2.1",
           "tags": [
             "slim-alpine",
-            "3.2.0-slim-alpine",
+            "3.2.1-slim-alpine",
             "3.2-slim-alpine",
             "3-slim-alpine",
-            "3.2.0-slim-alpine3.24"
+            "3.2.1-slim-alpine3.24"
           ],
-          "digest": "sha256:4102439a12d2f61c12d4fc13fac44af5c0422c59c56d78e654c5d5ff3b18ec74",
+          "digest": "sha256:1b14c35205c973ceb7b3d8d665fdda40fc6170941fd5cdf57a397e0c7aa0c36b",
           "size": {
-            "linux/amd64": 5134839,
-            "linux/arm64": 5573828
+            "linux/amd64": 5135355,
+            "linux/arm64": 5576059
           }
         }
       ]
@@ -7649,7 +7649,7 @@
       "summary": "libjpeg-turbo's jpegtran, cjpeg and djpeg with ExifTool, for turning photos upright losslessly and then resetting their Exif orientation.",
       "repository": "https://github.com/randomcontainers/libjpeg-turbo-exiftool",
       "license": "(IJG AND BSD-3-Clause AND Zlib AND BSD-2-Clause AND libpng-2.0 AND ((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0))",
-      "version": "3.2.0",
+      "version": "3.2.1",
       "public": true,
       "updated": "2026-10-28T08:26:03Z",
       "variants": [
