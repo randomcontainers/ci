@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-28T15:15:29Z",
+  "generated": "2026-10-28T20:21:38Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -4813,7 +4813,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-28T15:15:29Z",
+      "updated": "2026-10-28T20:21:26Z",
       "variants": [
         {
           "flavour": "default",
@@ -4828,10 +4828,10 @@
             "1-ubuntu",
             "1.25-ubuntu26.04"
           ],
-          "digest": "sha256:c523db92233029bebb5596f81d7872756dda62e0c3ab63b401f481c845ef978b",
+          "digest": "sha256:b5f2a76c19c410a58a21d62e86af60f901d47349a2c1a983b4db6c20e23d2850",
           "size": {
-            "linux/amd64": 54275924,
-            "linux/arm64": 52859746
+            "linux/amd64": 54307195,
+            "linux/arm64": 52899424
           }
         },
         {
@@ -4844,10 +4844,10 @@
             "1-alpine",
             "1.25-alpine3.24"
           ],
-          "digest": "sha256:3543224e8a06b85c97aceadf1bea6e7b471c2bf78215ef8d4083f31f91c186fe",
+          "digest": "sha256:b0ce3e0ca62fbcde995e294ce08ab7b9bc24950fe73faa83c843bd45252ef9bc",
           "size": {
-            "linux/amd64": 12785810,
-            "linux/arm64": 12824555
+            "linux/amd64": 12825355,
+            "linux/arm64": 12863078
           }
         },
         {
@@ -7958,38 +7958,38 @@
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain AND BSD-1-Clause",
       "version": "1.25",
       "public": true,
-      "updated": "2026-10-28T08:25:41Z",
+      "updated": "2026-10-28T20:21:34Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "latest",
-            "1.24",
+            "1.25",
             "ubuntu",
-            "1.24-ubuntu",
-            "1.24-ubuntu26.04"
+            "1.25-ubuntu",
+            "1.25-ubuntu26.04"
           ],
-          "digest": "sha256:655886d8c13ecf64ec91e996cf663ad92759cbc2e60adc2fe1d353ed2265a4d1",
+          "digest": "sha256:2c26b28ae276742e8cf6a74d3dcbc5e99003849cb7d5f25e98ae5192a110939e",
           "size": {
-            "linux/amd64": 54256105,
-            "linux/arm64": 52837144
+            "linux/amd64": 54307315,
+            "linux/arm64": 52899597
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "1.24",
+          "version": "1.25",
           "tags": [
             "alpine",
-            "1.24-alpine",
-            "1.24-alpine3.24"
+            "1.25-alpine",
+            "1.25-alpine3.24"
           ],
-          "digest": "sha256:94bfba413ae21b340298d33d88bbb53f6c72854058883d1d7cb442f9a965dac7",
+          "digest": "sha256:8422b48883a84c3d866d5330c0127a4b499da202a0683c202df534db8cd78943",
           "size": {
-            "linux/amd64": 12766481,
-            "linux/arm64": 12805311
+            "linux/amd64": 12825507,
+            "linux/arm64": 12863244
           }
         }
       ]
@@ -8519,38 +8519,38 @@
       "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
       "version": "4.6.0",
       "public": true,
-      "updated": "2026-10-28T08:28:43Z",
+      "updated": "2026-10-28T20:21:38Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "4.5.8",
+          "version": "4.6.0",
           "tags": [
             "latest",
-            "4.5.8",
+            "4.6.0",
             "ubuntu",
-            "4.5.8-ubuntu",
-            "4.5.8-ubuntu26.04"
+            "4.6.0-ubuntu",
+            "4.6.0-ubuntu26.04"
           ],
-          "digest": "sha256:46d540821ec6ed92fb1f0be476d5e398288018bbf55ea18d074798e60d89fe27",
+          "digest": "sha256:57890e461d6607c8df2b2528f20f6d7d593812e72998951d020ee8a7cda46e62",
           "size": {
-            "linux/amd64": 45835162,
-            "linux/arm64": 44748228
+            "linux/amd64": 45838337,
+            "linux/arm64": 44754032
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "4.5.8",
+          "version": "4.6.0",
           "tags": [
             "alpine",
-            "4.5.8-alpine",
-            "4.5.8-alpine3.24"
+            "4.6.0-alpine",
+            "4.6.0-alpine3.24"
           ],
-          "digest": "sha256:65b8c7c4d14f93db3935bf105cb816f1b702af70aa5c8f5e1689aa1cba27dac1",
+          "digest": "sha256:4379abe2fd7e74971fbc2ef43cca6c621ba3714ad5a1c13a5178d0f6b71e4bda",
           "size": {
-            "linux/amd64": 7842994,
-            "linux/arm64": 8069009
+            "linux/amd64": 7845681,
+            "linux/arm64": 8075486
           }
         }
       ]
