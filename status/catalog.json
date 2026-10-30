@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-30T03:30:39Z",
+  "generated": "2026-10-30T07:50:01Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -4671,7 +4671,7 @@
       "homepage": "https://mupdf.com/",
       "repository": "https://github.com/randomcontainers/mupdf",
       "license": "AGPL-3.0-or-later AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND FTL AND IJG AND ISC AND MIT AND MIT-Modern-Variant AND OFL-1.1 AND Unicode-TOU AND X11 AND Zlib",
-      "version": "1.28.5",
+      "version": "1.28.6",
       "versioning": "semver",
       "examples": [
         {
@@ -4699,82 +4699,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-29T05:23:56Z",
+      "updated": "2026-10-30T07:50:01Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "1.28.5",
+          "version": "1.28.6",
           "tags": [
             "latest",
-            "1.28.5",
+            "1.28.6",
             "1.28",
             "1",
             "ubuntu",
-            "1.28.5-ubuntu",
+            "1.28.6-ubuntu",
             "1.28-ubuntu",
             "1-ubuntu",
-            "1.28.5-ubuntu26.04"
+            "1.28.6-ubuntu26.04"
           ],
-          "digest": "sha256:14efb5b229ab6101e372caebeefdbdf20a98249c76d88c43bdb7b6570432341b",
+          "digest": "sha256:b4dde46eb2f1ef529c69d98376f99398a9e98fd819fb79eb8032d3e7b8676b55",
           "size": {
-            "linux/amd64": 74039831,
-            "linux/arm64": 72914918
+            "linux/amd64": 74080305,
+            "linux/arm64": 72956113
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "1.28.5",
+          "version": "1.28.6",
           "tags": [
             "alpine",
-            "1.28.5-alpine",
+            "1.28.6-alpine",
             "1.28-alpine",
             "1-alpine",
-            "1.28.5-alpine3.24"
+            "1.28.6-alpine3.24"
           ],
-          "digest": "sha256:b3c6451082be7b98604123cc6620d8e7511d8e08f5eee39ee877ad5f4d548997",
+          "digest": "sha256:c0380e003199dcdff9be17dbb3db6746f130e2194713380c9b1631d9a99a0129",
           "size": {
-            "linux/amd64": 34999970,
-            "linux/arm64": 35236811
+            "linux/amd64": 35036046,
+            "linux/arm64": 35275443
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "1.28.5",
+          "version": "1.28.6",
           "tags": [
             "slim",
-            "1.28.5-slim",
+            "1.28.6-slim",
             "1.28-slim",
             "1-slim",
             "slim-ubuntu",
-            "1.28.5-slim-ubuntu",
+            "1.28.6-slim-ubuntu",
             "1.28-slim-ubuntu",
             "1-slim-ubuntu",
-            "1.28.5-slim-ubuntu26.04"
+            "1.28.6-slim-ubuntu26.04"
           ],
-          "digest": "sha256:14efb5b229ab6101e372caebeefdbdf20a98249c76d88c43bdb7b6570432341b",
+          "digest": "sha256:b4dde46eb2f1ef529c69d98376f99398a9e98fd819fb79eb8032d3e7b8676b55",
           "size": {
-            "linux/amd64": 74039831,
-            "linux/arm64": 72914918
+            "linux/amd64": 74080305,
+            "linux/arm64": 72956113
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "1.28.5",
+          "version": "1.28.6",
           "tags": [
             "slim-alpine",
-            "1.28.5-slim-alpine",
+            "1.28.6-slim-alpine",
             "1.28-slim-alpine",
             "1-slim-alpine",
-            "1.28.5-slim-alpine3.24"
+            "1.28.6-slim-alpine3.24"
           ],
-          "digest": "sha256:b3c6451082be7b98604123cc6620d8e7511d8e08f5eee39ee877ad5f4d548997",
+          "digest": "sha256:c0380e003199dcdff9be17dbb3db6746f130e2194713380c9b1631d9a99a0129",
           "size": {
-            "linux/amd64": 34999970,
-            "linux/arm64": 35236811
+            "linux/amd64": 35036046,
+            "linux/arm64": 35275443
           }
         }
       ]
