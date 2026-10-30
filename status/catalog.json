@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-30T07:50:01Z",
+  "generated": "2026-10-30T14:39:27Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -7522,7 +7522,7 @@
       "homepage": "https://tombi-toml.github.io/tombi/",
       "repository": "https://github.com/randomcontainers/tombi",
       "license": "MIT AND Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND BSD-3-Clause AND ISC AND Unicode-3.0 AND Zlib AND MPL-2.0",
-      "version": "1.9.1",
+      "version": "1.9.7",
       "versioning": "semver",
       "examples": [
         {
@@ -7550,82 +7550,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-30T03:05:17Z",
+      "updated": "2026-10-30T14:39:27Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "1.9.1",
+          "version": "1.9.7",
           "tags": [
             "latest",
-            "1.9.1",
+            "1.9.7",
             "1.9",
             "1",
             "ubuntu",
-            "1.9.1-ubuntu",
+            "1.9.7-ubuntu",
             "1.9-ubuntu",
             "1-ubuntu",
-            "1.9.1-ubuntu26.04"
+            "1.9.7-ubuntu26.04"
           ],
-          "digest": "sha256:f4a09f8b24f285c5f28bb88a3dc3d98712f4238ef3d669501d2d67f915230ed9",
+          "digest": "sha256:bcd25043956b2b775492827e629415cdfc1c72152c45db81bc3c38d75f8a0eb4",
           "size": {
-            "linux/amd64": 54227175,
-            "linux/arm64": 53338334
+            "linux/amd64": 54290026,
+            "linux/arm64": 53434547
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "1.9.1",
+          "version": "1.9.7",
           "tags": [
             "alpine",
-            "1.9.1-alpine",
+            "1.9.7-alpine",
             "1.9-alpine",
             "1-alpine",
-            "1.9.1-alpine3.24"
+            "1.9.7-alpine3.24"
           ],
-          "digest": "sha256:22a00feff1fe31fc6be37bef2c6cf4f453913baa6e604d367d65972144628ffa",
+          "digest": "sha256:9d840cc86f29685020132a7974d1071f8ce8408d9610a630c131d64feb524a57",
           "size": {
-            "linux/amd64": 15700266,
-            "linux/arm64": 15663184
+            "linux/amd64": 15751422,
+            "linux/arm64": 15753339
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "1.9.1",
+          "version": "1.9.7",
           "tags": [
             "slim",
-            "1.9.1-slim",
+            "1.9.7-slim",
             "1.9-slim",
             "1-slim",
             "slim-ubuntu",
-            "1.9.1-slim-ubuntu",
+            "1.9.7-slim-ubuntu",
             "1.9-slim-ubuntu",
             "1-slim-ubuntu",
-            "1.9.1-slim-ubuntu26.04"
+            "1.9.7-slim-ubuntu26.04"
           ],
-          "digest": "sha256:f4a09f8b24f285c5f28bb88a3dc3d98712f4238ef3d669501d2d67f915230ed9",
+          "digest": "sha256:bcd25043956b2b775492827e629415cdfc1c72152c45db81bc3c38d75f8a0eb4",
           "size": {
-            "linux/amd64": 54227175,
-            "linux/arm64": 53338334
+            "linux/amd64": 54290026,
+            "linux/arm64": 53434547
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "1.9.1",
+          "version": "1.9.7",
           "tags": [
             "slim-alpine",
-            "1.9.1-slim-alpine",
+            "1.9.7-slim-alpine",
             "1.9-slim-alpine",
             "1-slim-alpine",
-            "1.9.1-slim-alpine3.24"
+            "1.9.7-slim-alpine3.24"
           ],
-          "digest": "sha256:22a00feff1fe31fc6be37bef2c6cf4f453913baa6e604d367d65972144628ffa",
+          "digest": "sha256:9d840cc86f29685020132a7974d1071f8ce8408d9610a630c131d64feb524a57",
           "size": {
-            "linux/amd64": 15700266,
-            "linux/arm64": 15663184
+            "linux/amd64": 15751422,
+            "linux/arm64": 15753339
           }
         }
       ]
