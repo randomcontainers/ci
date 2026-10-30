@@ -7,12 +7,13 @@ Each lock file names the command that produced it in its header:
 The reconciler reads the requirement and the options from that line,
 checks them against a fixed list, and runs the same command with the new
 version. `--only-binary :all:` means resolving never runs code from a
-package, and `--exclude-newer` keeps dependencies released in the last
-days out of the lock; the package itself is exempt, since its release has
-already passed the cooldown and the provenance check. A lock may exempt a
-few more packages with further `--exclude-newer-package NAME=false`
-options, for dependencies the package pins exactly and releases on the
-same day, such as yt-dlp-ejs for yt-dlp.
+package, and `--exclude-newer` keeps recently released dependencies out
+of the lock, those of the last day for a new lock; the package itself is
+exempt, since its release has already passed the cooldown and the
+provenance check. A lock may exempt a few more packages with further
+`--exclude-newer-package NAME=false` options, for dependencies the
+package pins exactly and releases on the same day, such as yt-dlp-ejs
+for yt-dlp.
 """
 
 import dataclasses
@@ -37,9 +38,10 @@ _REQUIREMENT = re.compile(
     r"^(?P<name>[A-Za-z0-9][A-Za-z0-9._-]{0,99})(?:\[(?P<extras>[a-z0-9-]+(?:,[a-z0-9-]+)*)\])?==(?P<version>[0-9][0-9A-Za-z.]{0,63})$"
 )
 _PYTHON = re.compile(r"^3\.[0-9]{1,2}$")
-_DURATION = re.compile(r"^[0-9]{1,3} (?:hours|days|weeks?)$")
+_DURATION = re.compile(r"^[1-9][0-9]{0,2} (?:hours?|days?|weeks?)$")
 _PACKAGE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,99}$")
 MAX_EXEMPT = 5
+EXCLUDE_NEWER = "1 day"
 TIMEOUT = 600
 _ENV_KEEP = ("PATH", "HOME", "LANG", "LC_ALL", "TMPDIR", "SSL_CERT_FILE", "SSL_CERT_DIR", "HTTPS_PROXY", "NO_PROXY")
 
@@ -151,6 +153,18 @@ def check_exempt(name: str, project: str) -> str:
     return name
 
 
+def check_window(value: str) -> str:
+    """A value for --exclude-newer, in the form the header parser accepts."""
+    if not _DURATION.match(value):
+        raise RcError(f"bad --exclude-newer {value!r}: use a duration such as '1 day', '36 hours' or '2 weeks'")
+    return value
+
+
+def with_window(recipe: Recipe, value: str) -> Recipe:
+    """The recipe with another --exclude-newer window."""
+    return dataclasses.replace(recipe, exclude_newer=check_window(value))
+
+
 def with_exempt(recipe: Recipe, names_: tuple[str, ...]) -> Recipe:
     """The recipe with more packages exempt from --exclude-newer."""
     exempt = list(recipe.exempt)
@@ -164,7 +178,12 @@ def with_exempt(recipe: Recipe, names_: tuple[str, ...]) -> Recipe:
 
 
 def new_recipe(
-    file: str, requirement: str, python_version: str, no_emit: tuple[str, ...] = (), exempt: tuple[str, ...] = ()
+    file: str,
+    requirement: str,
+    python_version: str,
+    no_emit: tuple[str, ...] = (),
+    exempt: tuple[str, ...] = (),
+    exclude_newer: str = EXCLUDE_NEWER,
 ) -> tuple[Recipe, str]:
     """A recipe for a lock file that does not exist yet, and the version it pins."""
     m = _REQUIREMENT.match(requirement)
@@ -178,7 +197,7 @@ def new_recipe(
     if not names.FILE_NAME.match(file):
         raise RcError(f"bad lock file name {file!r}")
     extras = tuple(m.group("extras").split(",")) if m.group("extras") else ()
-    recipe = Recipe(file, m.group("name"), extras, python_version, "7 days", tuple(no_emit))
+    recipe = Recipe(file, m.group("name"), extras, python_version, check_window(exclude_newer), tuple(no_emit))
     return with_exempt(recipe, exempt), m.group("version")
 
 

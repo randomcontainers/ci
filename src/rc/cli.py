@@ -574,9 +574,15 @@ def cmd_setup_repos(args) -> int:
 
 def cmd_lock(args) -> int:
     path = Path(args.file)
+    window = args.exclude_newer
     if args.requirement:
         recipe, version = locks.new_recipe(
-            path.name, args.requirement, args.python_version, tuple(args.no_emit or ()), tuple(args.exempt or ())
+            path.name,
+            args.requirement,
+            args.python_version,
+            tuple(args.no_emit or ()),
+            tuple(args.exempt or ()),
+            locks.EXCLUDE_NEWER if window is None else window,
         )
     else:
         if not path.is_file():
@@ -587,6 +593,8 @@ def cmd_lock(args) -> int:
             raise RcError(f"{package.name} is not installed from PyPI")
         recipe = locks.parse_recipe(path.read_text(encoding="utf-8"), path.name, package.upstream.project)
         recipe = locks.with_exempt(recipe, tuple(args.exempt or ()))
+        if window is not None:
+            recipe = locks.with_window(recipe, window)
         version = package.version
     path.write_bytes(locks.compile_lock(recipe, version))
     print(f"{path}: {recipe.requirement(version)}")
@@ -742,8 +750,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--exempt",
         action="append",
         metavar="PACKAGE",
-        help="let this dependency skip the 7-day --exclude-newer window, for one the package pins exactly "
+        help="let this dependency skip the --exclude-newer window, for one the package pins exactly "
         "and releases together with it; kept in the file's header",
+    )
+    p.add_argument(
+        "--exclude-newer",
+        metavar="DURATION",
+        help=f"leave out dependencies released in the last DURATION, such as '{locks.EXCLUDE_NEWER}' (the default "
+        "for a new file) or '36 hours'; kept in the file's header, so this changes the window of an existing file",
     )
 
     p = add("catalog", cmd_catalog, "Write the catalog of published images.")

@@ -320,7 +320,7 @@ rc lock requirements.lock
 python3 scripts/bundled-licenses.py
 ```
 
-Dependencies released in the last 7 days are left out of the lock, but the package itself is not. When the package pins a dependency exactly and releases both on the same day, as yt-dlp does with `yt-dlp-ejs`, a new version cannot be locked until that dependency is a week old. Exempt such a dependency with `--exempt NAME`; it is kept in the header as `--exclude-newer-package NAME=false`, and `rc lock requirements.lock --exempt NAME` adds it to an existing lock.
+Dependencies released in the last day are left out of the lock, but the package itself is not. The header keeps this window as `--exclude-newer '1 day'`. `rc lock requirements.lock --exclude-newer DURATION` sets another one, such as `'36 hours'` or `'2 weeks'`, and `--exclude-newer '1 day'` moves a lock made with the earlier `'7 days'` to the current window. When the package pins a dependency exactly and releases both on the same day, as yt-dlp does with `yt-dlp-ejs`, a new version cannot be locked until that dependency is a day old. Exempt such a dependency with `--exempt NAME`; it is kept in the header as `--exclude-newer-package NAME=false`, and `rc lock requirements.lock --exempt NAME` adds it to an existing lock.
 
 ### Rust packages
 
