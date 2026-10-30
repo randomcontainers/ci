@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-30T14:39:27Z",
+  "generated": "2026-10-30T19:42:10Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -6922,7 +6922,7 @@
       "homepage": "https://streamlink.github.io/",
       "repository": "https://github.com/randomcontainers/streamlink",
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later",
-      "version": "8.6.2",
+      "version": "8.6.3",
       "versioning": "semver",
       "examples": [
         {
@@ -6955,82 +6955,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-30T03:04:43Z",
+      "updated": "2026-10-30T19:42:10Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "8.6.2",
+          "version": "8.6.3",
           "tags": [
             "latest",
-            "8.6.2",
+            "8.6.3",
             "8.6",
             "8",
             "ubuntu",
-            "8.6.2-ubuntu",
+            "8.6.3-ubuntu",
             "8.6-ubuntu",
             "8-ubuntu",
-            "8.6.2-ubuntu26.04"
+            "8.6.3-ubuntu26.04"
           ],
-          "digest": "sha256:f725c7027fd792a2ae8a294ac4ecb3f63d82fe0253dbdc8216fb38ddf7eab614",
+          "digest": "sha256:44602c2df3c3f2b9a48082bfefe8af828269cd7e751a642fdaa7a697b802afa7",
           "size": {
-            "linux/amd64": 127165979,
-            "linux/arm64": 124806452
+            "linux/amd64": 128257620,
+            "linux/arm64": 125318080
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "8.6.2",
+          "version": "8.6.3",
           "tags": [
             "alpine",
-            "8.6.2-alpine",
+            "8.6.3-alpine",
             "8.6-alpine",
             "8-alpine",
-            "8.6.2-alpine3.24"
+            "8.6.3-alpine3.24"
           ],
-          "digest": "sha256:256eb5d75575eed5df9a74be6263a6ded7360a009881ffcc24c4211fd092d952",
+          "digest": "sha256:4d37a98437299dd21a441ad82a457a90f54f2479f6d140c10305e3c3e69ec22b",
           "size": {
-            "linux/amd64": 89467642,
-            "linux/arm64": 87432203
+            "linux/amd64": 91231130,
+            "linux/arm64": 87995184
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "8.6.2",
+          "version": "8.6.3",
           "tags": [
             "slim",
-            "8.6.2-slim",
+            "8.6.3-slim",
             "8.6-slim",
             "8-slim",
             "slim-ubuntu",
-            "8.6.2-slim-ubuntu",
+            "8.6.3-slim-ubuntu",
             "8.6-slim-ubuntu",
             "8-slim-ubuntu",
-            "8.6.2-slim-ubuntu26.04"
+            "8.6.3-slim-ubuntu26.04"
           ],
-          "digest": "sha256:ed5d0b9adee0f139412581cd006deffab2dafa744c10dd9cea0466330446ba73",
+          "digest": "sha256:c9ac8b16faed036d575f0cedaba9d9ed065fa7c851df53a17e064d49273d5a66",
           "size": {
-            "linux/amd64": 82176454,
-            "linux/arm64": 80847161
+            "linux/amd64": 83268180,
+            "linux/arm64": 81358776
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "8.6.2",
+          "version": "8.6.3",
           "tags": [
             "slim-alpine",
-            "8.6.2-slim-alpine",
+            "8.6.3-slim-alpine",
             "8.6-slim-alpine",
             "8-slim-alpine",
-            "8.6.2-slim-alpine3.24"
+            "8.6.3-slim-alpine3.24"
           ],
-          "digest": "sha256:ec8cf2aed77b9f0b20da870203f1ec16926f2a27e20be2ef26a66cfa5bf749d0",
+          "digest": "sha256:a57a0308adc8867dadd0425b228480397efbdefc4f55f7ea598a57e40525eb5a",
           "size": {
-            "linux/amd64": 44984902,
-            "linux/arm64": 44971033
+            "linux/amd64": 46748313,
+            "linux/arm64": 45533940
           }
         }
       ]
@@ -10049,7 +10049,7 @@
       "summary": "Streamlink with FFmpeg, which it needs for streams that deliver video and audio separately.",
       "repository": "https://github.com/randomcontainers/streamlink-ffmpeg",
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later AND GPL-3.0-or-later",
-      "version": "8.6.2",
+      "version": "8.6.3",
       "public": true,
       "updated": "2026-10-30T03:30:29Z",
       "variants": [
