@@ -51,7 +51,7 @@ TRACK_REFUSED = {
     "extra-artifacts": "is not used in track",
     "publisher": "is not used: pypi cannot be tracked",
 }
-TRACK_COOLDOWN = "7d"
+TRACK_COOLDOWN = "1d"
 
 
 @dataclass(frozen=True)

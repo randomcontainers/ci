@@ -877,10 +877,11 @@ def test_tracked_extra_waits_for_its_cooldown_and_signature(distros):
     package = rust_package(distros)
     extra = package.upstream.extra("rust-toolchain")
     web = FakeWeb()
-    publish_rust(web, "1.100.0", "2026-09-20")
+    publish_rust(web, "1.100.0", "2026-09-23")
     result = checker(FakeGitHub(), web).latest_extra(package, extra)
-    assert result.chosen is None and result.waiting == ["1.100.0 was released 72h ago; the cooldown is 7d"]
-    assert checker(FakeGitHub(), web, now=NOW + timedelta(days=4)).latest_extra(package, extra).chosen.version == "1.100.0"
+    assert result.chosen is None and result.waiting == ["1.100.0 was released 0h ago; the cooldown is 1d"]
+    assert checker(FakeGitHub(), web, now=NOW + timedelta(hours=23)).latest_extra(package, extra).chosen is None
+    assert checker(FakeGitHub(), web, now=NOW + timedelta(days=1)).latest_extra(package, extra).chosen.version == "1.100.0"
 
     web = FakeWeb()
     publish_rust(web, "1.100.0", "2026-09-10", signature=False)

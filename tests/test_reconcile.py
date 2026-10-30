@@ -685,11 +685,11 @@ def extra_commits(outcome, name="ghostscript"):
 def test_tracked_extra_is_moved_after_its_cooldown():
     world = World()
     track(world)
-    manifest = publish_rust(world.web, "1.100.0", "2026-09-20")
-    # three days old, with a cooldown of a week: only the log says so
+    manifest = publish_rust(world.web, "1.100.0", "2026-09-23")
+    # just released, with the default cooldown of a day: only the log says so
     outcome = world.run()
     assert not extra_commits(outcome) and "upstream" not in outcome.notes.items
-    assert "ghostscript rust-toolchain: 1.100.0 was released 72h ago; the cooldown is 7d" in outcome.log
+    assert "ghostscript rust-toolchain: 1.100.0 was released 0h ago; the cooldown is 1d" in outcome.log
 
     outcome = world.run(now=NOW + timedelta(days=5))
     (commit,) = extra_commits(outcome)

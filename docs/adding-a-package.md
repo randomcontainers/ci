@@ -270,13 +270,13 @@ upstream:                        # a Rust package
         url: https://static.rust-lang.org/dist/channel-rust-stable.toml
         pattern: '^url = "https://static\.rust-lang\.org/dist/(?P<date>\d{4}-\d{2}-\d{2})/rustc-(?P<version>\d+\.\d+\.\d+)-x86_64-unknown-linux-gnu\.tar\.gz"$'
         versioning: semver
-        cooldown: 7d             # default 7d for track
+        cooldown: 1d             # default 1d for track
         skip: []                 # versions never taken
 ```
 
 `track` takes the keys of `upstream` that find versions: `source` and the keys of that source, `tag-pattern`, `version-template`, `versioning`, `cooldown` and `interval`, plus `skip`. It has no `version` or `artifact`: the extra's own `version` is the current version, and its `url`, `signature` and `checksums` stand for the artifact. With an `html-index` source and no `date` group, the `Last-Modified` header of the extra's `url` dates a version. A `pypi` source cannot be tracked. The `url` needs a placeholder, and `version` and each entry of `skip` must pass `versioning`.
 
-A new release is taken once it is older than `cooldown` (default `7d` here) and its file and `signature` answer. The reconciler pins its `sha256` after the same checks as for `artifact`: `checksums`, the GitHub digest of a release asset, or `signature`. When none of them applies, it downloads nothing and lists the release under Upstream in the tracking issue as needing a hand pin. All tracked extras of a package that moved in a pass go into one commit, such as "Update rust-toolchain to 1.100.0". A pass that updates the package itself leaves its tracked extras to the next pass.
+A new release is taken once it is older than `cooldown` (default `1d` here) and its file and `signature` answer. The reconciler pins its `sha256` after the same checks as for `artifact`: `checksums`, the GitHub digest of a release asset, or `signature`. When none of them applies, it downloads nothing and lists the release under Upstream in the tracking issue as needing a hand pin. All tracked extras of a package that moved in a pass go into one commit, such as "Update rust-toolchain to 1.100.0". A pass that updates the package itself leaves its tracked extras to the next pass.
 
 When a new release breaks a package, there are two ways back:
 

@@ -486,8 +486,8 @@ def test_tracked_extra_artifact(distros):
     assert rust.pinned_by_hand and gts.track is None
     track = rust.track
     assert (track.source, track.version, track.versioning, track.skip) == ("html-index", "1.99.1", "semver", ("1.100.0",))
-    # an extra's track waits a week by default, and its file is the extra itself
-    assert track.cooldown == "7d" and track.artifact is None and track.interval is None
+    # an extra's track waits a day by default, and its file is the extra itself
+    assert track.cooldown == "1d" and track.artifact is None and track.interval is None
     assert rust.artifact.checksums == config.Checksums(RUST_TOOLCHAIN["checksums"]["url"], "sha256")
     assert rust.build_args("10.08.0")["RUST_TOOLCHAIN_URL"] == "https://static.rust-lang.org/dist/channel-rust-1.99.1.toml"
     assert config.parse_package(with_track(cooldown="48h"), "package.yml", distros).upstream.extra_artifacts[0].track.cooldown == "48h"
