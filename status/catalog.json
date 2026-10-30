@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-30T01:32:09Z",
+  "generated": "2026-10-30T01:37:53Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -9080,9 +9080,42 @@
       "repository": "https://github.com/randomcontainers/doctl-openssh-client",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
       "version": "2.1.0",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-30T01:37:32Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2.1.0",
+          "tags": [
+            "latest",
+            "2.1.0",
+            "ubuntu",
+            "2.1.0-ubuntu",
+            "2.1.0-ubuntu26.04"
+          ],
+          "digest": "sha256:163eeebdefc06974f9414dddab658f13a9616273d73a218fbe806f6f7675d696",
+          "size": {
+            "linux/amd64": 58784962,
+            "linux/arm64": 56429261
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2.1.0",
+          "tags": [
+            "alpine",
+            "2.1.0-alpine",
+            "2.1.0-alpine3.24"
+          ],
+          "digest": "sha256:9b8c9b926d314ac0184a1b47c59b0c0adeb532915d57dd4cbf16d2c1db4cc050",
+          "size": {
+            "linux/amd64": 19840998,
+            "linux/arm64": 18860341
+          }
+        }
+      ]
     },
     {
       "name": "doxygen-graphviz",
@@ -9557,9 +9590,42 @@
       "repository": "https://github.com/randomcontainers/minimap2-samtools",
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain",
       "version": "2.31",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-30T01:37:43Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "2.31",
+          "tags": [
+            "latest",
+            "2.31",
+            "ubuntu",
+            "2.31-ubuntu",
+            "2.31-ubuntu26.04"
+          ],
+          "digest": "sha256:9c70e4f8a8521ab6abc907936adf4db489d3693d7cc2231d2a8bff97354b0822",
+          "size": {
+            "linux/amd64": 51626161,
+            "linux/arm64": 50285752
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "2.31",
+          "tags": [
+            "alpine",
+            "2.31-alpine",
+            "2.31-alpine3.24"
+          ],
+          "digest": "sha256:9e16c3ac53585b32d441d4366650ec42b6084db07e5d166eab7192fe26f9cc4a",
+          "size": {
+            "linux/amd64": 10081553,
+            "linux/arm64": 10209778
+          }
+        }
+      ]
     },
     {
       "name": "mkvtoolnix-ffmpeg-mediainfo",
@@ -10036,9 +10102,42 @@
       "repository": "https://github.com/randomcontainers/terragrunt-opentofu-openssh-client",
       "license": "MIT AND MPL-2.0 AND Apache-2.0 AND BSD-3-Clause AND BSD-2-Clause AND Unicode-DFS-2016 AND Unicode-3.0 AND OFL-1.1 AND ISC AND SSH-OpenSSH AND GPL-2.0-only",
       "version": "1.2.1",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-30T01:37:46Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.2.1",
+          "tags": [
+            "latest",
+            "1.2.1",
+            "ubuntu",
+            "1.2.1-ubuntu",
+            "1.2.1-ubuntu26.04"
+          ],
+          "digest": "sha256:1f1d3b536d310308597566bbb1675a4de1014cacddcd400ae23a26e9889365af",
+          "size": {
+            "linux/amd64": 145014521,
+            "linux/arm64": 136868338
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.2.1",
+          "tags": [
+            "alpine",
+            "1.2.1-alpine",
+            "1.2.1-alpine3.24"
+          ],
+          "digest": "sha256:298d66d434dd0394c389b10eac2012fd6031d9b428e40daad61459e86faf3cc8",
+          "size": {
+            "linux/amd64": 84982712,
+            "linux/arm64": 78693131
+          }
+        }
+      ]
     },
     {
       "name": "tesseract-poppler",
@@ -10411,9 +10510,42 @@
       "repository": "https://github.com/randomcontainers/yara-x-7zip",
       "license": "BSD-3-Clause AND MIT AND Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND Zlib AND Unicode-3.0 AND Unicode-DFS-2016 AND MPL-2.0 AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
       "version": "1.22.1",
-      "public": false,
-      "updated": null,
-      "variants": []
+      "public": true,
+      "updated": "2026-10-30T01:37:53Z",
+      "variants": [
+        {
+          "flavour": "default",
+          "distro": "ubuntu",
+          "version": "1.22.1",
+          "tags": [
+            "latest",
+            "1.22.1",
+            "ubuntu",
+            "1.22.1-ubuntu",
+            "1.22.1-ubuntu26.04"
+          ],
+          "digest": "sha256:e8d292ef2bc56a1cf219ab545429c5f186a2f6aefd2fcdc4486e1a0c98462ac9",
+          "size": {
+            "linux/amd64": 55110835,
+            "linux/arm64": 53140756
+          }
+        },
+        {
+          "flavour": "default",
+          "distro": "alpine",
+          "version": "1.22.1",
+          "tags": [
+            "alpine",
+            "1.22.1-alpine",
+            "1.22.1-alpine3.24"
+          ],
+          "digest": "sha256:efad846dfd2d388472050f1f8b8a18191296a543ebf6f60e9f0771d2169e103b",
+          "size": {
+            "linux/amd64": 17147469,
+            "linux/arm64": 16450695
+          }
+        }
+      ]
     },
     {
       "name": "yt-dlp-ffmpeg",
