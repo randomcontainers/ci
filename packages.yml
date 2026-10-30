@@ -62,3 +62,18 @@ packages:
   - samtools
   - opentofu
   - typos
+  - resvg
+  - ast-grep
+  - yara-x
+  - mdbook
+  - goose
+  - terragrunt
+  - doctl
+  - azcopy
+  - djlint
+  - minimap2
+  - fping
+  - tombi
+  - dcmtk
+  - snort3
+  - librsvg
