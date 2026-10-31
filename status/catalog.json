@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-30T19:42:10Z",
+  "generated": "2026-10-30T23:21:28Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -10051,38 +10051,38 @@
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later AND GPL-3.0-or-later",
       "version": "8.6.3",
       "public": true,
-      "updated": "2026-10-30T03:30:29Z",
+      "updated": "2026-10-30T23:21:28Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "8.6.2",
+          "version": "8.6.3",
           "tags": [
             "latest",
-            "8.6.2",
+            "8.6.3",
             "ubuntu",
-            "8.6.2-ubuntu",
-            "8.6.2-ubuntu26.04"
+            "8.6.3-ubuntu",
+            "8.6.3-ubuntu26.04"
           ],
-          "digest": "sha256:72e4ca40e84c53e3c961b607d2aa8be2ef71f21ecbcc1912a38d31c0ab68d2c2",
+          "digest": "sha256:eb6e969cce6a5ca1a209b7cf034b3c6d00b2471dc44797d0a9b6a7a526548310",
           "size": {
-            "linux/amd64": 127166160,
-            "linux/arm64": 124806531
+            "linux/amd64": 128257769,
+            "linux/arm64": 125318017
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "8.6.2",
+          "version": "8.6.3",
           "tags": [
             "alpine",
-            "8.6.2-alpine",
-            "8.6.2-alpine3.24"
+            "8.6.3-alpine",
+            "8.6.3-alpine3.24"
           ],
-          "digest": "sha256:f35f51014c778a6c02fb064ba8caa7ccc1d1d1740f8deb5ab211685c65ed0c7c",
+          "digest": "sha256:160599b2c3b38590ae519aedd4e695cb76fe85f1eee1fd24e4d1769b4e142d71",
           "size": {
-            "linux/amd64": 89467931,
-            "linux/arm64": 87432413
+            "linux/amd64": 91230996,
+            "linux/arm64": 87995389
           }
         }
       ]
