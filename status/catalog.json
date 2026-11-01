@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-10-30T23:21:28Z",
+  "generated": "2026-11-01T19:03:13Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1324,7 +1324,7 @@
       "homepage": "https://djlint.com/",
       "repository": "https://github.com/randomcontainers/djlint",
       "license": "GPL-3.0-or-later AND MIT AND MPL-2.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND PSF-2.0 AND CNRI-Python",
-      "version": "1.47.1",
+      "version": "1.48.0",
       "versioning": "semver",
       "examples": [
         {
@@ -8004,7 +8004,7 @@
       "homepage": "https://vale.sh/",
       "repository": "https://github.com/randomcontainers/vale",
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND Apache-2.0 AND Unicode-DFS-2016",
-      "version": "3.25.1",
+      "version": "3.26.0",
       "versioning": "semver",
       "examples": [
         {
@@ -8028,82 +8028,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-30T00:03:17Z",
+      "updated": "2026-11-01T19:03:13Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "3.25.1",
+          "version": "3.26.0",
           "tags": [
             "latest",
-            "3.25.1",
-            "3.25",
+            "3.26.0",
+            "3.26",
             "3",
             "ubuntu",
-            "3.25.1-ubuntu",
-            "3.25-ubuntu",
+            "3.26.0-ubuntu",
+            "3.26-ubuntu",
             "3-ubuntu",
-            "3.25.1-ubuntu26.04"
+            "3.26.0-ubuntu26.04"
           ],
-          "digest": "sha256:e59cb2f0f8e6e90eec7597f06d7f01c13d40f79ba24bdafc75a77fe8b88934e5",
+          "digest": "sha256:5c8731c96c65ee8afdae00d2519735f8b433e3d7e76f14cbafaee6367ab30a49",
           "size": {
-            "linux/amd64": 57208048,
-            "linux/arm64": 55363057
+            "linux/amd64": 57217069,
+            "linux/arm64": 55367882
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "3.25.1",
+          "version": "3.26.0",
           "tags": [
             "alpine",
-            "3.25.1-alpine",
-            "3.25-alpine",
+            "3.26.0-alpine",
+            "3.26-alpine",
             "3-alpine",
-            "3.25.1-alpine3.24"
+            "3.26.0-alpine3.24"
           ],
-          "digest": "sha256:c265949fb9f05ec976e5392f89e03a39ce9d2e7cb22b3362b82e860370c98bf6",
+          "digest": "sha256:8791426bc6a2f1ce7150e0b62beb03ece8cab73201a7e48cd1247f8add76cc48",
           "size": {
-            "linux/amd64": 19167816,
-            "linux/arm64": 18640376
+            "linux/amd64": 19175209,
+            "linux/arm64": 18643625
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "3.25.1",
+          "version": "3.26.0",
           "tags": [
             "slim",
-            "3.25.1-slim",
-            "3.25-slim",
+            "3.26.0-slim",
+            "3.26-slim",
             "3-slim",
             "slim-ubuntu",
-            "3.25.1-slim-ubuntu",
-            "3.25-slim-ubuntu",
+            "3.26.0-slim-ubuntu",
+            "3.26-slim-ubuntu",
             "3-slim-ubuntu",
-            "3.25.1-slim-ubuntu26.04"
+            "3.26.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:e59cb2f0f8e6e90eec7597f06d7f01c13d40f79ba24bdafc75a77fe8b88934e5",
+          "digest": "sha256:5c8731c96c65ee8afdae00d2519735f8b433e3d7e76f14cbafaee6367ab30a49",
           "size": {
-            "linux/amd64": 57208048,
-            "linux/arm64": 55363057
+            "linux/amd64": 57217069,
+            "linux/arm64": 55367882
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "3.25.1",
+          "version": "3.26.0",
           "tags": [
             "slim-alpine",
-            "3.25.1-slim-alpine",
-            "3.25-slim-alpine",
+            "3.26.0-slim-alpine",
+            "3.26-slim-alpine",
             "3-slim-alpine",
-            "3.25.1-slim-alpine3.24"
+            "3.26.0-slim-alpine3.24"
           ],
-          "digest": "sha256:c265949fb9f05ec976e5392f89e03a39ce9d2e7cb22b3362b82e860370c98bf6",
+          "digest": "sha256:8791426bc6a2f1ce7150e0b62beb03ece8cab73201a7e48cd1247f8add76cc48",
           "size": {
-            "linux/amd64": 19167816,
-            "linux/arm64": 18640376
+            "linux/amd64": 19175209,
+            "linux/arm64": 18643625
           }
         }
       ]
