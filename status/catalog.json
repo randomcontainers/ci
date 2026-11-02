@@ -1359,7 +1359,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": false,
+      "stale": true,
       "updated": "2026-10-30T03:05:00Z",
       "variants": [
         {
