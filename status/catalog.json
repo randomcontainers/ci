@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-02T18:51:15Z",
+  "generated": "2026-11-03T01:21:55Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -9234,38 +9234,38 @@
       "license": "LGPL-2.1-or-later AND Apache-2.0 AND CC0-1.0 AND LicenseRef-Public-Domain AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
       "version": "2.6.2",
       "public": true,
-      "updated": "2026-10-29T22:03:39Z",
+      "updated": "2026-11-03T01:21:55Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.6.1",
+          "version": "2.6.2",
           "tags": [
             "latest",
-            "2.6.1",
+            "2.6.2",
             "ubuntu",
-            "2.6.1-ubuntu",
-            "2.6.1-ubuntu26.04"
+            "2.6.2-ubuntu",
+            "2.6.2-ubuntu26.04"
           ],
-          "digest": "sha256:cbaac692ddd04d276699adbc0ab7cf00307dfd8fe85c83ed9d53e4a814ad27b4",
+          "digest": "sha256:5cdaf17019727851faf3daa61fc506c3555dfb6c00571ee19c80f3530b81d576",
           "size": {
-            "linux/amd64": 88929805,
-            "linux/arm64": 86822108
+            "linux/amd64": 88932901,
+            "linux/arm64": 86826915
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.6.1",
+          "version": "2.6.2",
           "tags": [
             "alpine",
-            "2.6.1-alpine",
-            "2.6.1-alpine3.24"
+            "2.6.2-alpine",
+            "2.6.2-alpine3.24"
           ],
-          "digest": "sha256:e81ba64b441feba76dbf8777ebc62099e731cf21c5766ab57b8a5a117f9c3de2",
+          "digest": "sha256:acc73026b51c9bf8d2162d8d555b6880fd2f710408ed6ec352c7fc22d2ed7947",
           "size": {
-            "linux/amd64": 51404464,
-            "linux/arm64": 49613242
+            "linux/amd64": 51406940,
+            "linux/arm64": 49617371
           }
         }
       ]
