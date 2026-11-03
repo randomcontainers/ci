@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-02T08:28:18Z",
+  "generated": "2026-11-02T18:51:15Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1324,7 +1324,7 @@
       "homepage": "https://djlint.com/",
       "repository": "https://github.com/randomcontainers/djlint",
       "license": "GPL-3.0-or-later AND MIT AND MPL-2.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND PSF-2.0 AND CNRI-Python",
-      "version": "1.49.0",
+      "version": "1.49.2",
       "versioning": "semver",
       "examples": [
         {
@@ -2151,7 +2151,7 @@
       "homepage": "https://www.fluidsynth.org/",
       "repository": "https://github.com/randomcontainers/fluidsynth",
       "license": "LGPL-2.1-or-later AND Apache-2.0 AND CC0-1.0 AND LicenseRef-Public-Domain",
-      "version": "2.6.1",
+      "version": "2.6.2",
       "versioning": "semver",
       "examples": [
         {
@@ -2188,82 +2188,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-29T22:02:24Z",
+      "updated": "2026-11-02T18:51:15Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.6.1",
+          "version": "2.6.2",
           "tags": [
             "latest",
-            "2.6.1",
+            "2.6.2",
             "2.6",
             "2",
             "ubuntu",
-            "2.6.1-ubuntu",
+            "2.6.2-ubuntu",
             "2.6-ubuntu",
             "2-ubuntu",
-            "2.6.1-ubuntu26.04"
+            "2.6.2-ubuntu26.04"
           ],
-          "digest": "sha256:1e7ecf9f99c84949046740217b9a02b6a564b0754f95dc6c86d5a455c0bc1263",
+          "digest": "sha256:a7ae5f1ce37909b11ca5d8e9a6b37465619879a4ed1e6fb0307011bbb52efdbd",
           "size": {
-            "linux/amd64": 88929671,
-            "linux/arm64": 86821926
+            "linux/amd64": 88932783,
+            "linux/arm64": 86826734
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.6.1",
+          "version": "2.6.2",
           "tags": [
             "alpine",
-            "2.6.1-alpine",
+            "2.6.2-alpine",
             "2.6-alpine",
             "2-alpine",
-            "2.6.1-alpine3.24"
+            "2.6.2-alpine3.24"
           ],
-          "digest": "sha256:1ede0ba2c5b496c49f989a80b0c18c8277d8563c7c840e10ea61acbaf9a49d09",
+          "digest": "sha256:ce7d3e8154d6ca123afbde46f60b8c750bf405ba93dd6b1e0ff70db6e005007d",
           "size": {
-            "linux/amd64": 51404303,
-            "linux/arm64": 49613086
+            "linux/amd64": 51406794,
+            "linux/arm64": 49617207
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "2.6.1",
+          "version": "2.6.2",
           "tags": [
             "slim",
-            "2.6.1-slim",
+            "2.6.2-slim",
             "2.6-slim",
             "2-slim",
             "slim-ubuntu",
-            "2.6.1-slim-ubuntu",
+            "2.6.2-slim-ubuntu",
             "2.6-slim-ubuntu",
             "2-slim-ubuntu",
-            "2.6.1-slim-ubuntu26.04"
+            "2.6.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:a9641524df6cf6384443cecef07accddad0d8c69b9213e3db210239eb10c9395",
+          "digest": "sha256:b17406b56a1d8e63796850f1f9f271293be494e43d1db723dd83f2b403f5ceab",
           "size": {
-            "linux/amd64": 48383599,
-            "linux/arm64": 47269744
+            "linux/amd64": 48386575,
+            "linux/arm64": 47274498
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "2.6.1",
+          "version": "2.6.2",
           "tags": [
             "slim-alpine",
-            "2.6.1-slim-alpine",
+            "2.6.2-slim-alpine",
             "2.6-slim-alpine",
             "2-slim-alpine",
-            "2.6.1-slim-alpine3.24"
+            "2.6.2-slim-alpine3.24"
           ],
-          "digest": "sha256:4487d4c93bf8c0e44cf20ece60bca2284d39c5763446b7d7fa4611dea9442d98",
+          "digest": "sha256:131a8c4074145d67e696d7d082df24e44193428301f1f3e8d94b033b800208f3",
           "size": {
-            "linux/amd64": 7447743,
-            "linux/arm64": 7657885
+            "linux/amd64": 7450256,
+            "linux/arm64": 7662026
           }
         }
       ]
@@ -9232,7 +9232,7 @@
       "summary": "FluidSynth with FFmpeg, for rendering MIDI files to MP3, Opus, AAC and the other formats that FFmpeg encodes.",
       "repository": "https://github.com/randomcontainers/fluidsynth-ffmpeg",
       "license": "LGPL-2.1-or-later AND Apache-2.0 AND CC0-1.0 AND LicenseRef-Public-Domain AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
-      "version": "2.6.1",
+      "version": "2.6.2",
       "public": true,
       "updated": "2026-10-29T22:03:39Z",
       "variants": [
