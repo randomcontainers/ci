@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-04T08:07:51Z",
+  "generated": "2026-11-04T16:29:07Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1324,7 +1324,7 @@
       "homepage": "https://djlint.com/",
       "repository": "https://github.com/randomcontainers/djlint",
       "license": "GPL-3.0-or-later AND MIT AND MPL-2.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND PSF-2.0 AND CNRI-Python",
-      "version": "1.49.2",
+      "version": "1.49.7",
       "versioning": "semver",
       "examples": [
         {
@@ -1359,7 +1359,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": true,
+      "stale": false,
       "updated": "2026-10-30T03:05:00Z",
       "variants": [
         {
@@ -1602,7 +1602,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-29T11:38:34Z",
+      "updated": "2026-11-04T16:27:59Z",
       "variants": [
         {
           "flavour": "default",
@@ -1619,10 +1619,10 @@
             "1-ubuntu",
             "1.18.0-ubuntu26.04"
           ],
-          "digest": "sha256:bcf5cd8d3e95fe6ab73b218a4d3a040ad0d5ede03c2beb50a81e72af93f841f0",
+          "digest": "sha256:4fb5b88246d9bb0f44bfc10dfbbaa3dc00c6a9a6e1ecf1669c565cd6b057eabf",
           "size": {
-            "linux/amd64": 83208665,
-            "linux/arm64": 80144050
+            "linux/amd64": 83208755,
+            "linux/arm64": 80143807
           }
         },
         {
@@ -1636,10 +1636,10 @@
             "1-alpine",
             "1.18.0-alpine3.24"
           ],
-          "digest": "sha256:35c2e38341602415b7d590cfd349eb3ef9ed79462ec73d08342b9cb70982430d",
+          "digest": "sha256:f2448a636a8e2f42ef520ee72408bc39a50302236ad08c6d535a6487da8e6c85",
           "size": {
-            "linux/amd64": 43245740,
-            "linux/arm64": 42685991
+            "linux/amd64": 43245550,
+            "linux/arm64": 42688061
           }
         },
         {
@@ -6713,7 +6713,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-30T03:04:45Z",
+      "updated": "2026-11-04T16:28:03Z",
       "variants": [
         {
           "flavour": "default",
@@ -6730,10 +6730,10 @@
             "9-ubuntu",
             "9.2.0-ubuntu26.04"
           ],
-          "digest": "sha256:89bda4bed4e8bb740fb33199f086f57a2e5ac84684165d83476aa3c0ed39015c",
+          "digest": "sha256:f65501aecaeff85b4812dee727ff69d4697ad814fd8308cd62391ff116b0b565",
           "size": {
-            "linux/amd64": 115108632,
-            "linux/arm64": 112384742
+            "linux/amd64": 115108695,
+            "linux/arm64": 112384615
           }
         },
         {
@@ -6747,10 +6747,10 @@
             "9-alpine",
             "9.2.0-alpine3.24"
           ],
-          "digest": "sha256:a0c01cb97f02cbf4c5f4695de00adb68bb52ee3ffcdc79fdc0e336aa3baaa9a9",
+          "digest": "sha256:34e6a042e522dd99db374a9b78b7cfc3f4fbf4788177932258b8744068399aad",
           "size": {
-            "linux/amd64": 75544586,
-            "linux/arm64": 75249029
+            "linux/amd64": 75544403,
+            "linux/arm64": 75251135
           }
         },
         {
@@ -9132,7 +9132,7 @@
       "license": "GPL-2.0-or-later AND Apache-2.0 AND BSD-2-Clause-Views AND LPPL-1.3c AND MIT AND Zlib AND blessing AND EPL-2.0 AND BSD-3-Clause AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
       "version": "1.18.0",
       "public": true,
-      "updated": "2026-10-29T11:39:37Z",
+      "updated": "2026-11-04T16:28:52Z",
       "variants": [
         {
           "flavour": "default",
@@ -9145,10 +9145,10 @@
             "1.18.0-ubuntu",
             "1.18.0-ubuntu26.04"
           ],
-          "digest": "sha256:ac3be6f220a4696dc6dd73564118feed74aecc9bd63657cd4668c37198785ef6",
+          "digest": "sha256:2f20b84fdbbe9b6f944b72de16efa6b9da2a42613503bb3d3d936cbab7aefd06",
           "size": {
-            "linux/amd64": 83208805,
-            "linux/arm64": 80144225
+            "linux/amd64": 83208908,
+            "linux/arm64": 80143997
           }
         },
         {
@@ -9160,10 +9160,10 @@
             "1.18.0-alpine",
             "1.18.0-alpine3.24"
           ],
-          "digest": "sha256:411052cf3a935d18048447941b416264de056ad500e61554f54bb18e7681fab3",
+          "digest": "sha256:93db76f8edb24461915628aeceb05298f445a6f54e773c26050c2a469ea40a0f",
           "size": {
-            "linux/amd64": 43245900,
-            "linux/arm64": 42686151
+            "linux/amd64": 43245706,
+            "linux/arm64": 42688225
           }
         }
       ]
@@ -9949,7 +9949,7 @@
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND 0BSD AND Unicode-3.0 AND LicenseRef-Public-Domain AND EPL-2.0 AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
       "version": "9.2.0",
       "public": true,
-      "updated": "2026-10-30T03:30:26Z",
+      "updated": "2026-11-04T16:29:07Z",
       "variants": [
         {
           "flavour": "default",
@@ -9962,10 +9962,10 @@
             "9.2.0-ubuntu",
             "9.2.0-ubuntu26.04"
           ],
-          "digest": "sha256:8fb64c0118ef27403341ae5bcae37b5721f0b733e77143167827a6b959bb1ec8",
+          "digest": "sha256:358dfdc6efd1b70cb7d95cc862cdaa117c99c45a29863ea18f33d44261651464",
           "size": {
-            "linux/amd64": 115108695,
-            "linux/arm64": 112384994
+            "linux/amd64": 115108818,
+            "linux/arm64": 112384845
           }
         },
         {
@@ -9977,10 +9977,10 @@
             "9.2.0-alpine",
             "9.2.0-alpine3.24"
           ],
-          "digest": "sha256:7829daa487ae369d7a7fd56539dfafcdae0fccaaec0047b600786b70846a9aa7",
+          "digest": "sha256:d0336b8f28852c2b9b26e9c7a7b09a39b1f147e391cf14b2efa5c205d6046e91",
           "size": {
-            "linux/amd64": 75544457,
-            "linux/arm64": 75249263
+            "linux/amd64": 75544522,
+            "linux/arm64": 75251253
           }
         }
       ]
