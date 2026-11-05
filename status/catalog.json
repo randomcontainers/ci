@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-04T16:29:07Z",
+  "generated": "2026-11-04T22:00:18Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1324,7 +1324,7 @@
       "homepage": "https://djlint.com/",
       "repository": "https://github.com/randomcontainers/djlint",
       "license": "GPL-3.0-or-later AND MIT AND MPL-2.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND PSF-2.0 AND CNRI-Python",
-      "version": "1.49.7",
+      "version": "1.49.8",
       "versioning": "semver",
       "examples": [
         {
@@ -5950,7 +5950,7 @@
       "homepage": "https://rsync.samba.org/",
       "repository": "https://github.com/randomcontainers/rsync",
       "license": "GPL-3.0-or-later AND Zlib",
-      "version": "3.5.1",
+      "version": "3.5.2",
       "versioning": "semver",
       "examples": [
         {
@@ -5978,82 +5978,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-10-29T05:30:03Z",
+      "updated": "2026-11-04T22:00:18Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "3.5.1",
+          "version": "3.5.2",
           "tags": [
             "latest",
-            "3.5.1",
+            "3.5.2",
             "3.5",
             "3",
             "ubuntu",
-            "3.5.1-ubuntu",
+            "3.5.2-ubuntu",
             "3.5-ubuntu",
             "3-ubuntu",
-            "3.5.1-ubuntu26.04"
+            "3.5.2-ubuntu26.04"
           ],
-          "digest": "sha256:c078fda316e0aedf37d36a85ae97a4d274cd395edbdc74048ec929ea0e9fcee1",
+          "digest": "sha256:a3cd0335a195877349fdb8c136aa681e2de6454a8c1204867d97b4df42348b0b",
           "size": {
-            "linux/amd64": 47092228,
-            "linux/arm64": 46001757
+            "linux/amd64": 47097508,
+            "linux/arm64": 46007727
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "3.5.1",
+          "version": "3.5.2",
           "tags": [
             "alpine",
-            "3.5.1-alpine",
+            "3.5.2-alpine",
             "3.5-alpine",
             "3-alpine",
-            "3.5.1-alpine3.24"
+            "3.5.2-alpine3.24"
           ],
-          "digest": "sha256:6852c3e4d1641c31f35dad28e3f29e7308419ff522d474d9ee58d67c5f5ed0c4",
+          "digest": "sha256:44229d5b8d0fad71c9911b877773ae87392e3d94cb296c80748151c6bb94f2ad",
           "size": {
-            "linux/amd64": 7427733,
-            "linux/arm64": 7737106
+            "linux/amd64": 7433504,
+            "linux/arm64": 7743129
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "3.5.1",
+          "version": "3.5.2",
           "tags": [
             "slim",
-            "3.5.1-slim",
+            "3.5.2-slim",
             "3.5-slim",
             "3-slim",
             "slim-ubuntu",
-            "3.5.1-slim-ubuntu",
+            "3.5.2-slim-ubuntu",
             "3.5-slim-ubuntu",
             "3-slim-ubuntu",
-            "3.5.1-slim-ubuntu26.04"
+            "3.5.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:c078fda316e0aedf37d36a85ae97a4d274cd395edbdc74048ec929ea0e9fcee1",
+          "digest": "sha256:a3cd0335a195877349fdb8c136aa681e2de6454a8c1204867d97b4df42348b0b",
           "size": {
-            "linux/amd64": 47092228,
-            "linux/arm64": 46001757
+            "linux/amd64": 47097508,
+            "linux/arm64": 46007727
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "3.5.1",
+          "version": "3.5.2",
           "tags": [
             "slim-alpine",
-            "3.5.1-slim-alpine",
+            "3.5.2-slim-alpine",
             "3.5-slim-alpine",
             "3-slim-alpine",
-            "3.5.1-slim-alpine3.24"
+            "3.5.2-slim-alpine3.24"
           ],
-          "digest": "sha256:6852c3e4d1641c31f35dad28e3f29e7308419ff522d474d9ee58d67c5f5ed0c4",
+          "digest": "sha256:44229d5b8d0fad71c9911b877773ae87392e3d94cb296c80748151c6bb94f2ad",
           "size": {
-            "linux/amd64": 7427733,
-            "linux/arm64": 7737106
+            "linux/amd64": 7433504,
+            "linux/arm64": 7743129
           }
         }
       ]
