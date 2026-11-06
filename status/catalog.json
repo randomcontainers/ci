@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-06T03:24:07Z",
+  "generated": "2026-11-06T10:15:30Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1481,7 +1481,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:00:56Z",
+      "updated": "2026-11-06T10:03:50Z",
       "variants": [
         {
           "flavour": "default",
@@ -1498,10 +1498,10 @@
             "2-ubuntu",
             "2.3.0-ubuntu26.04"
           ],
-          "digest": "sha256:130439ddc0a77588a0a0a6f033e288a2639a7d157d3b28466da5cfc4ccd9f277",
+          "digest": "sha256:8700b20e9b61c8180a0f4774bdd3a3151c2eebae2704809d922bdf1cc0260c19",
           "size": {
-            "linux/amd64": 59144111,
-            "linux/arm64": 56786168
+            "linux/amd64": 59144151,
+            "linux/arm64": 56786207
           }
         },
         {
@@ -1515,10 +1515,10 @@
             "2-alpine",
             "2.3.0-alpine3.24"
           ],
-          "digest": "sha256:4075c573ce9fcbd5730f21679fd4c1eab0770388f1eafe61c4cbd28089904170",
+          "digest": "sha256:27a1064dfd80704877cb6da3946017ad2e7353ced5ae3347019a30569fa13563",
           "size": {
-            "linux/amd64": 20200309,
-            "linux/arm64": 19216995
+            "linux/amd64": 20200338,
+            "linux/arm64": 19217015
           }
         },
         {
@@ -1602,7 +1602,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:59:47Z",
+      "updated": "2026-11-06T10:02:13Z",
       "variants": [
         {
           "flavour": "default",
@@ -1619,10 +1619,10 @@
             "1-ubuntu",
             "1.18.0-ubuntu26.04"
           ],
-          "digest": "sha256:0ad7a9f020ea3f8344cae624023ec1d9a8897c99ef81e7de88301e53042de3cd",
+          "digest": "sha256:d24993fd4fd94ed7943174df016af05fd6791068f67e8a2593ace0bc8d98d1b7",
           "size": {
-            "linux/amd64": 83209256,
-            "linux/arm64": 80144460
+            "linux/amd64": 83209748,
+            "linux/arm64": 80144745
           }
         },
         {
@@ -1636,10 +1636,10 @@
             "1-alpine",
             "1.18.0-alpine3.24"
           ],
-          "digest": "sha256:b88de94f51060e4e98c59b5628f90a95e15500f8d29f0de38640ad6a0c84ef0d",
+          "digest": "sha256:f4404757d94fb5d66a70c080ba65c65562fb200d3b17e272519a8ee3f1af9106",
           "size": {
-            "linux/amd64": 43246113,
-            "linux/arm64": 42688270
+            "linux/amd64": 43246106,
+            "linux/arm64": 42688209
           }
         },
         {
@@ -1843,7 +1843,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:55:53Z",
+      "updated": "2026-11-06T10:01:47Z",
       "variants": [
         {
           "flavour": "default",
@@ -1858,10 +1858,10 @@
             "13-ubuntu",
             "13.60-ubuntu26.04"
           ],
-          "digest": "sha256:d7ac70b83e132babe34cdc85027430ef0eeb9e11b80f88503fb611287b1e220b",
+          "digest": "sha256:2e7a61620ec8bd9a512abb16ae7ceb7dfabe4fbfb9a42f471d5fa7a921c120e7",
           "size": {
-            "linux/amd64": 78694813,
-            "linux/arm64": 76024335
+            "linux/amd64": 78694700,
+            "linux/arm64": 76024228
           }
         },
         {
@@ -1874,10 +1874,10 @@
             "13-alpine",
             "13.60-alpine3.24"
           ],
-          "digest": "sha256:b963ebd9f9ee8112d541ff367b0805cce3975094fae3a56bf228ef5e918c0c3a",
+          "digest": "sha256:e78381da75b2c6a679c480f2f2f5d3fcc353552abab36a3dd8ac5c4aaa3208ee",
           "size": {
-            "linux/amd64": 41891237,
-            "linux/arm64": 41579533
+            "linux/amd64": 41891679,
+            "linux/arm64": 41579703
           }
         },
         {
@@ -1949,7 +1949,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-05T22:51:40Z",
+      "updated": "2026-11-06T10:01:26Z",
       "variants": [
         {
           "flavour": "default",
@@ -1966,10 +1966,10 @@
             "9-ubuntu",
             "9.0.2-ubuntu26.04"
           ],
-          "digest": "sha256:6c1f6581ad1f83f8399a0a717f2b1e263dfe93f396ce2f4f0c066c960dddcc31",
+          "digest": "sha256:4c32e205af296302bc912676b4bc7c0d80260a7cc3cf7af06b96762446b55fbb",
           "size": {
-            "linux/amd64": 87993469,
-            "linux/arm64": 85926309
+            "linux/amd64": 87993463,
+            "linux/arm64": 85926346
           }
         },
         {
@@ -2004,10 +2004,10 @@
             "9-slim-ubuntu",
             "9.0.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:6c1f6581ad1f83f8399a0a717f2b1e263dfe93f396ce2f4f0c066c960dddcc31",
+          "digest": "sha256:4c32e205af296302bc912676b4bc7c0d80260a7cc3cf7af06b96762446b55fbb",
           "size": {
-            "linux/amd64": 87993469,
-            "linux/arm64": 85926309
+            "linux/amd64": 87993463,
+            "linux/arm64": 85926346
           }
         },
         {
@@ -3018,7 +3018,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:55:26Z",
+      "updated": "2026-11-06T10:01:31Z",
       "variants": [
         {
           "flavour": "default",
@@ -3037,10 +3037,10 @@
             "7-ubuntu",
             "7.1.2-35-ubuntu26.04"
           ],
-          "digest": "sha256:62ffdc5f1c54185f77d7c5a595eb15e10d0a7cea4f3cdfd4e879ecd002ef866a",
+          "digest": "sha256:75c672a6e68e7af176a3ad02dc945209e1474daaecfc1b9355e4723f1fa72760",
           "size": {
-            "linux/amd64": 73484431,
-            "linux/arm64": 70780414
+            "linux/amd64": 73484471,
+            "linux/arm64": 70780566
           }
         },
         {
@@ -3055,10 +3055,10 @@
             "7-alpine",
             "7.1.2-35-alpine3.24"
           ],
-          "digest": "sha256:911a2cb5230afabdf938adcb1044d6d942773be9ab6479cf29eca5516f31cc07",
+          "digest": "sha256:fa18a06ba446a6afaab4d6d179938066d71e0e6a4f02f7f96d657dd56a076bac",
           "size": {
-            "linux/amd64": 38534002,
-            "linux/arm64": 38187799
+            "linux/amd64": 38533841,
+            "linux/arm64": 38187850
           }
         },
         {
@@ -3263,7 +3263,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:56:06Z",
+      "updated": "2026-11-06T10:01:50Z",
       "variants": [
         {
           "flavour": "default",
@@ -3280,10 +3280,10 @@
             "1-ubuntu",
             "1.5.6-ubuntu26.04"
           ],
-          "digest": "sha256:2767ad1280a87cf421775949d43e7726cbb3da0ffb34e2433e9ee4c62682eacb",
+          "digest": "sha256:3ed0dc1f30a06470fa764de4ed0861248e5e51ffc0d901495265f9fa36f3d2fe",
           "size": {
-            "linux/amd64": 60772213,
-            "linux/arm64": 58155532
+            "linux/amd64": 60772083,
+            "linux/arm64": 58155537
           }
         },
         {
@@ -3297,9 +3297,9 @@
             "1-alpine",
             "1.5.6-alpine3.24"
           ],
-          "digest": "sha256:a825b20c87b288befa80ff3bb720b0de84dc352f707546b0b8597a2c04b73a56",
+          "digest": "sha256:cd6b5cdaa24252603a7a0b40f29ef201177e680aff6e96d6b523a96a38a7a550",
           "size": {
-            "linux/amd64": 25861292,
+            "linux/amd64": 25861284,
             "linux/arm64": 25612455
           }
         },
@@ -3504,7 +3504,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:07:33Z",
+      "updated": "2026-11-06T10:02:42Z",
       "variants": [
         {
           "flavour": "default",
@@ -3521,9 +3521,9 @@
             "1-ubuntu",
             "1.23.7-ubuntu26.04"
           ],
-          "digest": "sha256:653d047d800ea1dbdca08ba0df157b4fa5118c7a24aaf1125698faaade664434",
+          "digest": "sha256:95d12958cf94c610aecc11f765700f95f926d09820e68d67458846883bd0fc96",
           "size": {
-            "linux/amd64": 69804952,
+            "linux/amd64": 69805162,
             "linux/arm64": 69497158
           }
         },
@@ -3538,10 +3538,10 @@
             "1-alpine",
             "1.23.7-alpine3.24"
           ],
-          "digest": "sha256:3e953757ae2ef3c718911d863329e31441de1299fdc35c012eb1aa6cdcb0a1aa",
+          "digest": "sha256:50e08bfe82dd2dca44e08430bf86a3b794a71bfafe155e77678d9c75fed728cc",
           "size": {
-            "linux/amd64": 32431273,
-            "linux/arm64": 31903901
+            "linux/amd64": 32431263,
+            "linux/arm64": 31903971
           }
         },
         {
@@ -3633,7 +3633,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:02:04Z",
+      "updated": "2026-11-06T10:03:03Z",
       "variants": [
         {
           "flavour": "default",
@@ -3650,10 +3650,10 @@
             "3-ubuntu",
             "3.2.1-ubuntu26.04"
           ],
-          "digest": "sha256:386521829587a687f51b0bf4d46891319f0982fea1c9e81a5c8733e87cbe1f73",
+          "digest": "sha256:5c40cbbd46a372c523454cdfc776c9780c6152f1398914230bb37b64ac274142",
           "size": {
-            "linux/amd64": 62185164,
-            "linux/arm64": 61204489
+            "linux/amd64": 62185293,
+            "linux/arm64": 61204589
           }
         },
         {
@@ -3667,10 +3667,10 @@
             "3-alpine",
             "3.2.1-alpine3.24"
           ],
-          "digest": "sha256:3ab78f968097dfc489af32111c4c7388a191b791c3d7004c82f7128fd9b0472d",
+          "digest": "sha256:e2f717958d9f0ee147bbfa6274d8a9ae18ec06ea699521147943d55ec17e7166",
           "size": {
-            "linux/amd64": 21252501,
-            "linux/arm64": 21627793
+            "linux/amd64": 21252732,
+            "linux/arm64": 21627798
           }
         },
         {
@@ -4461,7 +4461,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:04:08Z",
+      "updated": "2026-11-06T10:04:03Z",
       "variants": [
         {
           "flavour": "default",
@@ -4476,10 +4476,10 @@
             "2-ubuntu",
             "2.31-ubuntu26.04"
           ],
-          "digest": "sha256:08cf3b3c54e2e3259bb1dde90bb1c45e47713de60267764ad5e9c84f4fb5e2fa",
+          "digest": "sha256:21eb1f68a16978da6a45716129992a0e4aa60ca54c4b6908d9ff39c6af761033",
           "size": {
-            "linux/amd64": 51626365,
-            "linux/arm64": 50285979
+            "linux/amd64": 51626419,
+            "linux/arm64": 50285922
           }
         },
         {
@@ -4492,10 +4492,10 @@
             "2-alpine",
             "2.31-alpine3.24"
           ],
-          "digest": "sha256:bd8a7e4286cef74e7cdb2a84c5b5e0fc293444e37f0c8c40ff8242c04f882a44",
+          "digest": "sha256:5aaa5d5e0c8054f3191365c7b1e19cbcb67dfba2a7d890a10e6bb8a42989cd16",
           "size": {
-            "linux/amd64": 10081942,
-            "linux/arm64": 10209723
+            "linux/amd64": 10081982,
+            "linux/arm64": 10209714
           }
         },
         {
@@ -4589,7 +4589,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:56:38Z",
+      "updated": "2026-11-06T10:02:16Z",
       "variants": [
         {
           "flavour": "default",
@@ -4604,10 +4604,10 @@
             "103-ubuntu",
             "103.0-ubuntu26.04"
           ],
-          "digest": "sha256:7ed3316aedf3c5ec89b05d74e8be8d37ed420a6f8476bc1d0e4bc3e9ba29ef90",
+          "digest": "sha256:04501ce839a598369158c9d24b4e3f49c25382f3f2066b4e44c2baec3807d4b8",
           "size": {
-            "linux/amd64": 122875956,
-            "linux/arm64": 119722949
+            "linux/amd64": 122876503,
+            "linux/arm64": 119722561
           }
         },
         {
@@ -4620,10 +4620,10 @@
             "103-alpine",
             "103.0-alpine3.24"
           ],
-          "digest": "sha256:87ea8f9315ce3973fadf22bea0f2815475d7450cb593dfa3960adcdb01c38c99",
+          "digest": "sha256:532fb239af3508263ae590ce679cfc71f812138cec25a8e9fc605ee705e9a582",
           "size": {
-            "linux/amd64": 75303515,
-            "linux/arm64": 72586815
+            "linux/amd64": 75303523,
+            "linux/arm64": 72586884
           }
         },
         {
@@ -5160,7 +5160,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:05:49Z",
+      "updated": "2026-11-06T10:04:34Z",
       "variants": [
         {
           "flavour": "default",
@@ -5177,10 +5177,10 @@
             "1-ubuntu",
             "1.13.8-ubuntu26.04"
           ],
-          "digest": "sha256:3d4c359a5691a266293e43651cc152eb5eb9475a82f66b33bec6e24bd3ebaed9",
+          "digest": "sha256:62e5857ded7b5e5ee20665bfbe79ed426286e9844627c6cdd5a7a71dd6ce374e",
           "size": {
-            "linux/amd64": 111290960,
-            "linux/arm64": 106039944
+            "linux/amd64": 111291235,
+            "linux/arm64": 106039853
           }
         },
         {
@@ -5194,10 +5194,10 @@
             "1-alpine",
             "1.13.8-alpine3.24"
           ],
-          "digest": "sha256:e9030ac15f5f04859642782d20ec03b55ac8be0559a927f312cd2b84056520ba",
+          "digest": "sha256:ffe76f09469968e0b2b68c6cf483bca3f350d748d4044b425fa3b58ff075a1ee",
           "size": {
-            "linux/amd64": 51261367,
-            "linux/arm64": 47863762
+            "linux/amd64": 51261409,
+            "linux/arm64": 47863798
           }
         },
         {
@@ -5281,7 +5281,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:13:01Z",
+      "updated": "2026-11-06T10:02:58Z",
       "variants": [
         {
           "flavour": "default",
@@ -5298,10 +5298,10 @@
             "4-ubuntu",
             "4.7.1-ubuntu26.04"
           ],
-          "digest": "sha256:e1667997796bc56e0e80dcc369714d26ae499df9991dd0efa33408fb526318f8",
+          "digest": "sha256:8cfe66c81f4a33e68568861803518710b13c1f7f04b31097ad02b8bbd39db289",
           "size": {
-            "linux/amd64": 71611012,
-            "linux/arm64": 70513415
+            "linux/amd64": 71611021,
+            "linux/arm64": 70513422
           }
         },
         {
@@ -5315,10 +5315,10 @@
             "4-alpine",
             "4.7.1-alpine3.24"
           ],
-          "digest": "sha256:ddbddcefc358c639cc78fb2ab5e120f2b633a80b5a599018089e198d8e24a0f8",
+          "digest": "sha256:dfa2faf25920015834ebd78d74bfbfa6d1ffde96fa6fb38f1c31bf52c2e98d90",
           "size": {
-            "linux/amd64": 34710588,
-            "linux/arm64": 34908509
+            "linux/amd64": 34710617,
+            "linux/arm64": 34908538
           }
         },
         {
@@ -5746,7 +5746,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:55:36Z",
+      "updated": "2026-11-06T10:01:42Z",
       "variants": [
         {
           "flavour": "default",
@@ -5763,10 +5763,10 @@
             "12-ubuntu",
             "12.4.2-ubuntu26.04"
           ],
-          "digest": "sha256:3aa9ecdf43dd47bad122223bd8229598c58192d826e59b9590cd208c50305ea6",
+          "digest": "sha256:afc791c787fada5b1493700e8d73b1a5f4b4f50b8b607712d76667a6faeb5ddd",
           "size": {
-            "linux/amd64": 62032634,
-            "linux/arm64": 60701248
+            "linux/amd64": 62032659,
+            "linux/arm64": 60701370
           }
         },
         {
@@ -5780,10 +5780,10 @@
             "12-alpine",
             "12.4.2-alpine3.24"
           ],
-          "digest": "sha256:bb0b622718bceb1b1690d1ec1089c3edf9eb2c9238539e6ebdbbca6a33e09154",
+          "digest": "sha256:6d0351a331a132e8f204440ba261b5e2416a7074778bc8f95dcadfebdae9eba8",
           "size": {
-            "linux/amd64": 21852564,
-            "linux/arm64": 21923053
+            "linux/amd64": 21852473,
+            "linux/arm64": 21923134
           }
         },
         {
@@ -6107,7 +6107,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:00:33Z",
+      "updated": "2026-11-06T10:04:05Z",
       "variants": [
         {
           "flavour": "default",
@@ -6122,9 +6122,9 @@
             "1-ubuntu",
             "1.25-ubuntu26.04"
           ],
-          "digest": "sha256:e9eb28b2eb09529b49fcdf00c33f202731d432f4d9be99aad019fd74b47cc002",
+          "digest": "sha256:d663490aaaddbdb326be08083f4793d766d3dad12525a28b052bf02d60070c5d",
           "size": {
-            "linux/amd64": 54307676,
+            "linux/amd64": 54307667,
             "linux/arm64": 52899773
           }
         },
@@ -6138,10 +6138,10 @@
             "1-alpine",
             "1.25-alpine3.24"
           ],
-          "digest": "sha256:970bb69ab0712ab904ff0033cea71ba74bde013a4a0154ac88228f219a54c6a3",
+          "digest": "sha256:4bbfc28ed7d4b8d8d7a798e6fc727c6d7403dbd403fffd9cf14bf1f1d9c1479e",
           "size": {
-            "linux/amd64": 12825904,
-            "linux/arm64": 12863143
+            "linux/amd64": 12825954,
+            "linux/arm64": 12863248
           }
         },
         {
@@ -6713,7 +6713,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:00:43Z",
+      "updated": "2026-11-06T10:02:39Z",
       "variants": [
         {
           "flavour": "default",
@@ -6730,10 +6730,10 @@
             "9-ubuntu",
             "9.2.0-ubuntu26.04"
           ],
-          "digest": "sha256:afd8d85a3ca407b75e9d62f72428084b06a642576431ab7dba6951901d61617d",
+          "digest": "sha256:a458ebfe056a7dbb42383817dc8d44e0d64f42feb03ddfee4d06e7d7718aa1e3",
           "size": {
-            "linux/amd64": 115109333,
-            "linux/arm64": 112385499
+            "linux/amd64": 115109749,
+            "linux/arm64": 112385861
           }
         },
         {
@@ -6747,10 +6747,10 @@
             "9-alpine",
             "9.2.0-alpine3.24"
           ],
-          "digest": "sha256:359b2f90d77f7247e53aad065c4698662f9ddb9cdac86593144a7233bc28fa5c",
+          "digest": "sha256:d1620a2d83d72befeeb3dd45aedb5b06a3de77a8cff0261ee62ab0c48efdff66",
           "size": {
-            "linux/amd64": 75545290,
-            "linux/arm64": 75251573
+            "linux/amd64": 75545343,
+            "linux/arm64": 75251461
           }
         },
         {
@@ -7197,7 +7197,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:01:28Z",
+      "updated": "2026-11-06T10:15:00Z",
       "variants": [
         {
           "flavour": "default",
@@ -7214,10 +7214,10 @@
             "1-ubuntu",
             "1.2.1-ubuntu26.04"
           ],
-          "digest": "sha256:b3ae36c8573840b230c7e502e6c8040a8079eac7055c07b86f2dd536dcdab6aa",
+          "digest": "sha256:4f7b9644f980efe49f6cb94f0d0e97f1334869298d4633e194d2dc9505412ddc",
           "size": {
-            "linux/amd64": 145016203,
-            "linux/arm64": 136868248
+            "linux/amd64": 145016132,
+            "linux/arm64": 136868080
           }
         },
         {
@@ -7231,10 +7231,10 @@
             "1-alpine",
             "1.2.1-alpine3.24"
           ],
-          "digest": "sha256:89f3c3504897a184b9aad14328580d83cf8848989b83d1fb65d75fbe40808495",
+          "digest": "sha256:a554a3232523478639e1e2f5966213b225cffef4c2838b99a4fdf315bda9a651",
           "size": {
-            "linux/amd64": 84985838,
-            "linux/arm64": 78691843
+            "linux/amd64": 84985986,
+            "linux/arm64": 78691860
           }
         },
         {
@@ -7322,7 +7322,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:56:22Z",
+      "updated": "2026-11-06T10:02:04Z",
       "variants": [
         {
           "flavour": "default",
@@ -7339,10 +7339,10 @@
             "5-ubuntu",
             "5.5.4-ubuntu26.04"
           ],
-          "digest": "sha256:622880785b7802a0c70b0518b47a395358751cb45d5db881a35b3f53e2fadf7d",
+          "digest": "sha256:ed3a770f22d6983e305f88c8bf18faf4e1570499f4724f40e4de50cb0cfd46e7",
           "size": {
-            "linux/amd64": 78646988,
-            "linux/arm64": 76923250
+            "linux/amd64": 78647058,
+            "linux/arm64": 76923205
           }
         },
         {
@@ -7356,10 +7356,10 @@
             "5-alpine",
             "5.5.4-alpine3.24"
           ],
-          "digest": "sha256:a87b29d9c3d8070a3c68f82a61cd6b82a8003aef3042c0e9688621ef09699ddd",
+          "digest": "sha256:77fc19178112a0c0aef9828765c77724b63f103c8283a6a4b41e117c00e5bda8",
           "size": {
-            "linux/amd64": 37295330,
-            "linux/arm64": 37104927
+            "linux/amd64": 37295329,
+            "linux/arm64": 37104991
           }
         },
         {
@@ -7675,7 +7675,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:03:24Z",
+      "updated": "2026-11-06T10:03:13Z",
       "variants": [
         {
           "flavour": "default",
@@ -7692,10 +7692,10 @@
             "4-ubuntu",
             "4.6.9-ubuntu26.04"
           ],
-          "digest": "sha256:04e6d8aa63fd6f9c0d4f4b703bd3d53bc29ed82fc8b5cd271826cc2d3a442143",
+          "digest": "sha256:7069e0253ab42d6fbb48acbd17e6715d6c139d7116140f9bdf80037ec9a64e34",
           "size": {
-            "linux/amd64": 85364719,
-            "linux/arm64": 83088408
+            "linux/amd64": 85364720,
+            "linux/arm64": 83088411
           }
         },
         {
@@ -7709,10 +7709,10 @@
             "4-alpine",
             "4.6.9-alpine3.24"
           ],
-          "digest": "sha256:b32f5a796a8afafeeaee099e1fdc766f13b8c64fc0298c35ddef0a91dae2de82",
+          "digest": "sha256:a1ee67e049d24a43f850365c3653c4f339e34e82684320f87543249b63ff3a2d",
           "size": {
-            "linux/amd64": 49157628,
-            "linux/arm64": 48074227
+            "linux/amd64": 49157649,
+            "linux/arm64": 48074244
           }
         },
         {
@@ -7916,7 +7916,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:00:00Z",
+      "updated": "2026-11-06T10:04:57Z",
       "variants": [
         {
           "flavour": "default",
@@ -7933,10 +7933,10 @@
             "7-ubuntu",
             "7.8.5-ubuntu26.04"
           ],
-          "digest": "sha256:c08205038d558948748e390f0e1b19d07af04bd5fc8db08e3594498b489b8b88",
+          "digest": "sha256:a65cfd3f947e16e5acccfb9efe86b4c7f9553c9568d9a005ab5a405551fd26e6",
           "size": {
-            "linux/amd64": 64163081,
-            "linux/arm64": 62590206
+            "linux/amd64": 64163056,
+            "linux/arm64": 62590261
           }
         },
         {
@@ -7950,10 +7950,10 @@
             "7-alpine",
             "7.8.5-alpine3.24"
           ],
-          "digest": "sha256:a8ac7e62480fb165aea7338de2dfa747914f38b54e66aef869e4f7d13acfaa3e",
+          "digest": "sha256:89215f780e845fcfaf52c851301d54b3d8b79155913bee01ad72f79b14c0bd2f",
           "size": {
-            "linux/amd64": 27206078,
-            "linux/arm64": 27038754
+            "linux/amd64": 27206135,
+            "linux/arm64": 27038843
           }
         },
         {
@@ -8278,7 +8278,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:58:11Z",
+      "updated": "2026-11-06T10:01:58Z",
       "variants": [
         {
           "flavour": "default",
@@ -8293,10 +8293,10 @@
             "70-ubuntu",
             "70.0-ubuntu26.04"
           ],
-          "digest": "sha256:66726dc58d34e78dacbab377fd9fe3de368a7327cdf2e6d08c6fc9044385d114",
+          "digest": "sha256:98455ed7b6b9fc4d1778e61304be2e4d9a14afb49348e52a1cf25e4a9506e18f",
           "size": {
-            "linux/amd64": 90389753,
-            "linux/arm64": 88716958
+            "linux/amd64": 90389776,
+            "linux/arm64": 88716932
           }
         },
         {
@@ -8309,10 +8309,10 @@
             "70-alpine",
             "70.0-alpine3.24"
           ],
-          "digest": "sha256:b0f58e1bf476c3e719b91f4f9be74a70dbf137892b91ed368d4d5caa20bf1056",
+          "digest": "sha256:3c7dc90652c285fb97034a3a8e71b395d811941adaa8418a03a2a439587f5c08",
           "size": {
-            "linux/amd64": 60751913,
-            "linux/arm64": 60154890
+            "linux/amd64": 60751947,
+            "linux/arm64": 60154931
           }
         },
         {
@@ -8642,7 +8642,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:58:16Z",
+      "updated": "2026-11-06T10:04:04Z",
       "variants": [
         {
           "flavour": "default",
@@ -8659,10 +8659,10 @@
             "4-ubuntu",
             "4.6.0-ubuntu26.04"
           ],
-          "digest": "sha256:b606b3467252d7adc0863a7a7976ae8ac89fc8ea1df5bd5dfb0d59875bbb75f7",
+          "digest": "sha256:6e0529948291b0f8a18f274568c211fb430cf9efd14fe449e5f78e332640068b",
           "size": {
-            "linux/amd64": 45838516,
-            "linux/arm64": 44754151
+            "linux/amd64": 45838527,
+            "linux/arm64": 44754164
           }
         },
         {
@@ -8676,10 +8676,10 @@
             "4-alpine",
             "4.6.0-alpine3.24"
           ],
-          "digest": "sha256:649df18543ff6d3a969f7030fe1f0017f18026fddf92a1292ca2bc63c954b110",
+          "digest": "sha256:6a653ed00419f5f9e42837132bdb0b0897de09165b722f55bad1286db8d8518b",
           "size": {
-            "linux/amd64": 7846031,
-            "linux/arm64": 8075395
+            "linux/amd64": 7846065,
+            "linux/arm64": 8075405
           }
         },
         {
@@ -8771,7 +8771,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T03:02:00Z",
+      "updated": "2026-11-06T10:04:25Z",
       "variants": [
         {
           "flavour": "default",
@@ -8788,10 +8788,10 @@
             "1-ubuntu",
             "1.22.1-ubuntu26.04"
           ],
-          "digest": "sha256:a73941eb666732744aaaee5ce268fd6cf08b4c6c1872ade51e599364fd2d32a8",
+          "digest": "sha256:b469836b026b6e127cd3c0d2167f227c4d530d43206f0bd23c6b4fd6d3b03fab",
           "size": {
-            "linux/amd64": 55111092,
-            "linux/arm64": 53140992
+            "linux/amd64": 55111093,
+            "linux/arm64": 53141018
           }
         },
         {
@@ -8805,10 +8805,10 @@
             "1-alpine",
             "1.22.1-alpine3.24"
           ],
-          "digest": "sha256:56e707e4a81836f4465bd26c1efda65999a21a0fdfb617a2f689779e4a66b950",
+          "digest": "sha256:7bbe586516a70f622186c6f6a87cdf6e24de8fb2db3309abef07ef473e734a0e",
           "size": {
-            "linux/amd64": 17147817,
-            "linux/arm64": 16450595
+            "linux/amd64": 17147848,
+            "linux/arm64": 16450614
           }
         },
         {
@@ -8979,7 +8979,7 @@
       "license": "GPL-3.0-or-later AND BSD-3-Clause AND Unlicense AND MPL-2.0 AND Zlib",
       "version": "1.11.1",
       "public": true,
-      "updated": "2026-11-06T03:04:12Z",
+      "updated": "2026-11-06T10:06:08Z",
       "variants": [
         {
           "flavour": "default",
@@ -8992,10 +8992,10 @@
             "1.11.1-ubuntu",
             "1.11.1-ubuntu26.04"
           ],
-          "digest": "sha256:d4a3b7f5b7abfa134f9e69e313553ce863a1ff4ceee01c03467b5d54a3430966",
+          "digest": "sha256:81decff571747b6bbfdb53e7410fc1157d2aeeb580dcad5d6ae1e3b887c6cdd5",
           "size": {
-            "linux/amd64": 91556096,
-            "linux/arm64": 89337780
+            "linux/amd64": 91556139,
+            "linux/arm64": 89337805
           }
         },
         {
@@ -9007,10 +9007,10 @@
             "1.11.1-alpine",
             "1.11.1-alpine3.24"
           ],
-          "digest": "sha256:6ce32fdc6ac6c55d80620d353fe1c974ad1f0992c352f20fb8f7c1b35eb10a16",
+          "digest": "sha256:5131a9c73605cf9a13f6ffe7b11c2378e2ae00c056eb446e2f33921843d92501",
           "size": {
-            "linux/amd64": 53603298,
-            "linux/arm64": 51680897
+            "linux/amd64": 53603302,
+            "linux/arm64": 51680895
           }
         }
       ]
@@ -9030,7 +9030,7 @@
       "license": "Apache-2.0 AND MIT AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND Apache-2.0 WITH LLVM-exception AND AGPL-3.0-only AND GPL-3.0-only AND CC-BY-4.0 AND GPL-3.0-or-later WITH GCC-exception-3.1 AND GPL-3.0-or-later",
       "version": "0.39.0",
       "public": true,
-      "updated": "2026-11-06T03:02:53Z",
+      "updated": "2026-11-06T10:04:34Z",
       "variants": [
         {
           "flavour": "default",
@@ -9043,10 +9043,10 @@
             "0.39.0-ubuntu",
             "0.39.0-ubuntu26.04"
           ],
-          "digest": "sha256:6fc9cc0de37e335bcd870ddb686f99a3010aa1e0a933dc7d8d0ab1f17888ad33",
+          "digest": "sha256:927982d75fd6edf124e751739c27a0f16947cf741fc3569df0e613768c22f74f",
           "size": {
-            "linux/amd64": 69794378,
-            "linux/arm64": 68726151
+            "linux/amd64": 69794408,
+            "linux/arm64": 68726125
           }
         },
         {
@@ -9058,10 +9058,10 @@
             "0.39.0-alpine",
             "0.39.0-alpine3.24"
           ],
-          "digest": "sha256:c595e05cf864e1175fa41afbd01f807894c1da42f7efb6f9aba711d915889056",
+          "digest": "sha256:369fa8610a8da75101ff21ad8bdc419a461c0271005229604a6f3d182de3fd04",
           "size": {
-            "linux/amd64": 33353035,
-            "linux/arm64": 33459182
+            "linux/amd64": 33352790,
+            "linux/arm64": 33459074
           }
         }
       ]
@@ -9081,7 +9081,7 @@
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
       "version": "2.3.0",
       "public": true,
-      "updated": "2026-11-06T03:07:52Z",
+      "updated": "2026-11-06T10:06:32Z",
       "variants": [
         {
           "flavour": "default",
@@ -9094,10 +9094,10 @@
             "2.3.0-ubuntu",
             "2.3.0-ubuntu26.04"
           ],
-          "digest": "sha256:de6a87250c5bdb034bf47156a6de1b223712255ca9c06200646f761edd4e1a17",
+          "digest": "sha256:6e28431dd0ab93b31ca89c69e7d3cea84cf458c18c6292590fd11103315e65ab",
           "size": {
-            "linux/amd64": 59144347,
-            "linux/arm64": 56786378
+            "linux/amd64": 59144348,
+            "linux/arm64": 56786393
           }
         },
         {
@@ -9109,10 +9109,10 @@
             "2.3.0-alpine",
             "2.3.0-alpine3.24"
           ],
-          "digest": "sha256:afeec204559d86d2599dc460b75afb220a73c72530e6f2757c74b206ad5da082",
+          "digest": "sha256:6b1c830d8a02627dee443d63638204af7787778ddb24a95f6d89ffeeab28c39a",
           "size": {
-            "linux/amd64": 20200473,
-            "linux/arm64": 19217218
+            "linux/amd64": 20200517,
+            "linux/arm64": 19217204
           }
         }
       ]
@@ -9132,7 +9132,7 @@
       "license": "GPL-2.0-or-later AND Apache-2.0 AND BSD-2-Clause-Views AND LPPL-1.3c AND MIT AND Zlib AND blessing AND EPL-2.0 AND BSD-3-Clause AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
       "version": "1.18.0",
       "public": true,
-      "updated": "2026-11-05T17:42:48Z",
+      "updated": "2026-11-06T10:04:20Z",
       "variants": [
         {
           "flavour": "default",
@@ -9145,10 +9145,10 @@
             "1.18.0-ubuntu",
             "1.18.0-ubuntu26.04"
           ],
-          "digest": "sha256:6b94b784dece1970588f885fae626e558308a285a198529818d4bc59929d1f31",
+          "digest": "sha256:3ec585127574b50e4e4b479d664567105357df510aaae5b5791136f7104c462b",
           "size": {
-            "linux/amd64": 83208881,
-            "linux/arm64": 80143996
+            "linux/amd64": 83209904,
+            "linux/arm64": 80144898
           }
         },
         {
@@ -9160,10 +9160,10 @@
             "1.18.0-alpine",
             "1.18.0-alpine3.24"
           ],
-          "digest": "sha256:48c2e74d18d072160f7e83c680e04cd6863b001666ba55a714f7bc8c530f7bda",
+          "digest": "sha256:096a6d26465f533cffb42a53fd831dc68e9fa396d05bc5d3092650d904955b30",
           "size": {
-            "linux/amd64": 43245699,
-            "linux/arm64": 42688232
+            "linux/amd64": 43246260,
+            "linux/arm64": 42688370
           }
         }
       ]
@@ -9183,7 +9183,7 @@
       "license": "(((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0) AND ImageMagick AND LGPL-3.0-or-later)",
       "version": "13.60",
       "public": true,
-      "updated": "2026-11-06T03:07:45Z",
+      "updated": "2026-11-06T10:04:26Z",
       "variants": [
         {
           "flavour": "default",
@@ -9196,10 +9196,10 @@
             "13.60-ubuntu",
             "13.60-ubuntu26.04"
           ],
-          "digest": "sha256:53322906e9b2932f12984b4347d3bced6aea6698bf8c9691330a0098c6c9974b",
+          "digest": "sha256:6825dc41cdfb30926e5e1ed0da68500597c6d19659643b8ce3a2d83e636a27b5",
           "size": {
-            "linux/amd64": 78694900,
-            "linux/arm64": 76024326
+            "linux/amd64": 78694851,
+            "linux/arm64": 76024521
           }
         },
         {
@@ -9211,10 +9211,10 @@
             "13.60-alpine",
             "13.60-alpine3.24"
           ],
-          "digest": "sha256:86e0fd53889b9b6e7c233068aeba9d8fa270c69b98035d7662b2012675032524",
+          "digest": "sha256:7dec5787940743bc8a01881785b8118438059db4e6832b435b761662b44bf72b",
           "size": {
-            "linux/amd64": 41891899,
-            "linux/arm64": 41579682
+            "linux/amd64": 41891855,
+            "linux/arm64": 41579533
           }
         }
       ]
@@ -9234,7 +9234,7 @@
       "license": "LGPL-2.1-or-later AND Apache-2.0 AND CC0-1.0 AND LicenseRef-Public-Domain AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
       "version": "2.6.2",
       "public": true,
-      "updated": "2026-11-06T03:04:37Z",
+      "updated": "2026-11-06T10:05:53Z",
       "variants": [
         {
           "flavour": "default",
@@ -9247,10 +9247,10 @@
             "2.6.2-ubuntu",
             "2.6.2-ubuntu26.04"
           ],
-          "digest": "sha256:0268007821768fb3df87988b68c0c6ec4838dda7ac5a4c2272d477d5d67d5fd9",
+          "digest": "sha256:e492d9d9909cb5ce6d70443cc81bac49649fe96f819080a24b36ef6e3ee5fc8c",
           "size": {
-            "linux/amd64": 88933015,
-            "linux/arm64": 86826943
+            "linux/amd64": 88933080,
+            "linux/arm64": 86826956
           }
         },
         {
@@ -9262,10 +9262,10 @@
             "2.6.2-alpine",
             "2.6.2-alpine3.24"
           ],
-          "digest": "sha256:9baf98863a85aeab81666cb83f497d872be708504e39d2f9bbe572fea4d15463",
+          "digest": "sha256:ae9fc24cd83a520846b8235b077bbed9a5627590a72799d1404ed3b3c85422f5",
           "size": {
-            "linux/amd64": 51409284,
-            "linux/arm64": 49616016
+            "linux/amd64": 51409290,
+            "linux/arm64": 49616020
           }
         }
       ]
@@ -9285,7 +9285,7 @@
       "license": "GPL-2.0-only AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
       "version": "1.98",
       "public": true,
-      "updated": "2026-11-06T03:14:53Z",
+      "updated": "2026-11-06T10:05:10Z",
       "variants": [
         {
           "flavour": "default",
@@ -9298,10 +9298,10 @@
             "1.98-ubuntu",
             "1.98-ubuntu26.04"
           ],
-          "digest": "sha256:3c82c2c12082228faaa3de890d8515f8a5237e3501f3e8aaf5ab53b9e2729bf3",
+          "digest": "sha256:e86d3e8a42768a041e01e451c3ba3249f8cfef3e14bd9fb381d15438103ddc34",
           "size": {
-            "linux/amd64": 88164256,
-            "linux/arm64": 86091602
+            "linux/amd64": 88164242,
+            "linux/arm64": 86091566
           }
         },
         {
@@ -9313,10 +9313,10 @@
             "1.98-alpine",
             "1.98-alpine3.24"
           ],
-          "digest": "sha256:016b8da17e8903a5c3804527b2185c619de7c35ccebc256cc60a7d3713424c02",
+          "digest": "sha256:5015914ed041a2fbba9bf4570b872fbe7b66bb547ebcd8b9040ad63e096f5fc2",
           "size": {
-            "linux/amd64": 50079043,
-            "linux/arm64": 48323590
+            "linux/amd64": 50079050,
+            "linux/arm64": 48323581
           }
         }
       ]
@@ -9336,7 +9336,7 @@
       "license": "ImageMagick AND LGPL-3.0-or-later AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
       "version": "7.1.2-35",
       "public": true,
-      "updated": "2026-11-06T03:22:32Z",
+      "updated": "2026-11-06T10:04:48Z",
       "variants": [
         {
           "flavour": "default",
@@ -9349,10 +9349,10 @@
             "7.1.2-35-ubuntu",
             "7.1.2-35-ubuntu26.04"
           ],
-          "digest": "sha256:c03eaedb13e6a86a7a5a548bc2245072902ae89ca3403bbdf1fc5e59aa33463d",
+          "digest": "sha256:2a4087487a3ca5cf9e14f62a90bea99f9f12a56897613850cc4e4193cf10c986",
           "size": {
-            "linux/amd64": 73484639,
-            "linux/arm64": 70780706
+            "linux/amd64": 73484667,
+            "linux/arm64": 70780710
           }
         },
         {
@@ -9364,10 +9364,10 @@
             "7.1.2-35-alpine",
             "7.1.2-35-alpine3.24"
           ],
-          "digest": "sha256:7d4f4045a1aacfca326aa0b82bcb93ec73c08d992eb6e5d0a4972679dce8ec83",
+          "digest": "sha256:8c9ebe3c3c198114b6a81d50299482aae940459fdaec196a538ccdecdd02b3d4",
           "size": {
-            "linux/amd64": 38534157,
-            "linux/arm64": 38188051
+            "linux/amd64": 38534030,
+            "linux/arm64": 38188035
           }
         }
       ]
@@ -9387,7 +9387,7 @@
       "license": "GPL-3.0-or-later AND ImageMagick AND LGPL-3.0-or-later",
       "version": "1.5.6",
       "public": true,
-      "updated": "2026-11-06T03:07:38Z",
+      "updated": "2026-11-06T10:04:56Z",
       "variants": [
         {
           "flavour": "default",
@@ -9400,10 +9400,10 @@
             "1.5.6-ubuntu",
             "1.5.6-ubuntu26.04"
           ],
-          "digest": "sha256:c0ba4f2ee6b2544c8027634fdb9c812ed4f9e3f0f975bbee65e0af004fd39361",
+          "digest": "sha256:4bd8f6837941f1808ed940256dbf9ca070e12d614c5866e2d20370f238698f51",
           "size": {
-            "linux/amd64": 60772402,
-            "linux/arm64": 58155718
+            "linux/amd64": 60772252,
+            "linux/arm64": 58155724
           }
         },
         {
@@ -9415,10 +9415,10 @@
             "1.5.6-alpine",
             "1.5.6-alpine3.24"
           ],
-          "digest": "sha256:05a2ba952a3773eecb7c6bee28f8c65af35ab25ee61ce6e0823b0ab2b270af69",
+          "digest": "sha256:045405e64b4131a639537cbfeb206eb950491374eb5dba49290954b5585e5f89",
           "size": {
-            "linux/amd64": 25861463,
-            "linux/arm64": 25612633
+            "linux/amd64": 25861459,
+            "linux/arm64": 25612626
           }
         }
       ]
@@ -9438,7 +9438,7 @@
       "license": "(LGPL-3.0-or-later AND MIT AND GPL-2.0-or-later AND ((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0))",
       "version": "1.23.7",
       "public": true,
-      "updated": "2026-11-06T03:10:50Z",
+      "updated": "2026-11-06T10:05:32Z",
       "variants": [
         {
           "flavour": "default",
@@ -9451,10 +9451,10 @@
             "1.23.7-ubuntu",
             "1.23.7-ubuntu26.04"
           ],
-          "digest": "sha256:651e6533ca787ae2ef00f3a4e32dfcc14f120758743328e250f54d04270808a2",
+          "digest": "sha256:a58161717892d41f739ecc9c3fa994b9a4217351c0f56f57ceb820f8d9085ea5",
           "size": {
-            "linux/amd64": 69805117,
-            "linux/arm64": 69497358
+            "linux/amd64": 69805241,
+            "linux/arm64": 69497467
           }
         },
         {
@@ -9466,10 +9466,10 @@
             "1.23.7-alpine",
             "1.23.7-alpine3.24"
           ],
-          "digest": "sha256:12ead52dace4d582916a465e943822255ae0020f80b38994420657db0cd39c48",
+          "digest": "sha256:05ce282c4a9a608b60543fd985bd14a2684a0f2cad78223ee8ea774043bda0ed",
           "size": {
-            "linux/amd64": 32431457,
-            "linux/arm64": 31904131
+            "linux/amd64": 32431527,
+            "linux/arm64": 31904172
           }
         }
       ]
@@ -9489,7 +9489,7 @@
       "license": "(IJG AND BSD-3-Clause AND Zlib AND BSD-2-Clause AND libpng-2.0 AND ((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0))",
       "version": "3.2.1",
       "public": true,
-      "updated": "2026-11-06T03:04:52Z",
+      "updated": "2026-11-06T10:09:01Z",
       "variants": [
         {
           "flavour": "default",
@@ -9502,10 +9502,10 @@
             "3.2.1-ubuntu",
             "3.2.1-ubuntu26.04"
           ],
-          "digest": "sha256:bbf90642ac66e960290ec24c285ba31842f09d82ec70dabd790a603d0ddfb0fb",
+          "digest": "sha256:027a73fb9c82b512c9b415655898e3877216d9cca80f7385d215ff3ecbda94b1",
           "size": {
-            "linux/amd64": 62185333,
-            "linux/arm64": 61204687
+            "linux/amd64": 62185493,
+            "linux/arm64": 61204788
           }
         },
         {
@@ -9517,10 +9517,10 @@
             "3.2.1-alpine",
             "3.2.1-alpine3.24"
           ],
-          "digest": "sha256:e0758ee3287d841b62057bef77467ff8e86535cada2e2019a95ddf0fd7e5270f",
+          "digest": "sha256:2fd1aeaf9ff75db0a31fb67856119801bd7f5cac4b3ad525c2278b9ab02a54cb",
           "size": {
-            "linux/amd64": 21252366,
-            "linux/arm64": 21627983
+            "linux/amd64": 21252383,
+            "linux/arm64": 21627953
           }
         }
       ]
@@ -9540,7 +9540,7 @@
       "license": "BSD-2-Clause AND Zlib AND MIT AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Unlicense",
       "version": "26.10",
       "public": true,
-      "updated": "2026-11-06T03:08:04Z",
+      "updated": "2026-11-06T10:06:44Z",
       "variants": [
         {
           "flavour": "default",
@@ -9553,10 +9553,10 @@
             "26.10-ubuntu",
             "26.10-ubuntu26.04"
           ],
-          "digest": "sha256:4750582a0c4fde89dd6d0ef0fbea658f9468f57b415351bdf7a88512cff69891",
+          "digest": "sha256:23fa00489068add7d281a9c654ab711eaf7e4a408a9d2e3ace49ba5f3742b330",
           "size": {
-            "linux/amd64": 93973482,
-            "linux/arm64": 91554255
+            "linux/amd64": 93973533,
+            "linux/arm64": 91554279
           }
         },
         {
@@ -9568,10 +9568,10 @@
             "26.10-alpine",
             "26.10-alpine3.24"
           ],
-          "digest": "sha256:a2b67a56caba4382abaacc5053e63cc7614fec1fa49238642bd3fcc9a375b40e",
+          "digest": "sha256:2becff140ec18017b825ea6b6826a3e76082b729c842f167629ae04ebc676bee",
           "size": {
-            "linux/amd64": 56524844,
-            "linux/arm64": 54458774
+            "linux/amd64": 56524864,
+            "linux/arm64": 54458786
           }
         }
       ]
@@ -9591,7 +9591,7 @@
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain",
       "version": "2.31",
       "public": true,
-      "updated": "2026-11-06T03:09:53Z",
+      "updated": "2026-11-06T10:05:08Z",
       "variants": [
         {
           "flavour": "default",
@@ -9604,10 +9604,10 @@
             "2.31-ubuntu",
             "2.31-ubuntu26.04"
           ],
-          "digest": "sha256:41db8c60c97444cda937bcf8876723180e69b44cc1cf78148d990e8e17d9687a",
+          "digest": "sha256:06460a811fd51a890b372428a3b602751c1f4536f0577721708936acb633e94b",
           "size": {
-            "linux/amd64": 51626534,
-            "linux/arm64": 50286155
+            "linux/amd64": 51626545,
+            "linux/arm64": 50286060
           }
         },
         {
@@ -9619,10 +9619,10 @@
             "2.31-alpine",
             "2.31-alpine3.24"
           ],
-          "digest": "sha256:66f9b4d35fa08af046b43ca209f0193799c34ce5f86c54f23670cd69a982909c",
+          "digest": "sha256:50df5e5093cec3f064dbff3867fbadedf8f4650deacd1c27231d76a15b3b9381",
           "size": {
-            "linux/amd64": 10082118,
-            "linux/arm64": 10209884
+            "linux/amd64": 10082145,
+            "linux/arm64": 10209871
           }
         }
       ]
@@ -9643,7 +9643,7 @@
       "license": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSL-1.0 AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense AND BSD-2-Clause AND Brian-Gladman-2-Clause AND Brian-Gladman-3-Clause",
       "version": "103.0",
       "public": true,
-      "updated": "2026-11-06T03:04:37Z",
+      "updated": "2026-11-06T10:06:35Z",
       "variants": [
         {
           "flavour": "default",
@@ -9656,10 +9656,10 @@
             "103.0-ubuntu",
             "103.0-ubuntu26.04"
           ],
-          "digest": "sha256:9f68d211c3e630d07efda021bafbb5436efcabe355d2087ef89c00e94bd56dc4",
+          "digest": "sha256:cee39a1a72ae418e23d668136be8f87cb78f76a1b5eabef5df67a57860d905d2",
           "size": {
-            "linux/amd64": 122876056,
-            "linux/arm64": 119722691
+            "linux/amd64": 122876597,
+            "linux/arm64": 119722780
           }
         },
         {
@@ -9671,10 +9671,10 @@
             "103.0-alpine",
             "103.0-alpine3.24"
           ],
-          "digest": "sha256:927877e0078406702fb7d1b45799b076bc7d06e0037358b851abc73a43a7dbbc",
+          "digest": "sha256:67533481b19195bcd21914623d073b5ef6e14e0e5336053c64da118ec056e5ac",
           "size": {
-            "linux/amd64": 75303777,
-            "linux/arm64": 72587093
+            "linux/amd64": 75303756,
+            "linux/arm64": 72587072
           }
         }
       ]
@@ -9694,7 +9694,7 @@
       "license": "MPL-2.0 AND Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND ISC AND Unicode-DFS-2016 AND Unicode-3.0 AND SSH-OpenSSH AND GPL-2.0-only",
       "version": "1.13.8",
       "public": true,
-      "updated": "2026-11-06T03:12:29Z",
+      "updated": "2026-11-06T10:08:49Z",
       "variants": [
         {
           "flavour": "default",
@@ -9707,10 +9707,10 @@
             "1.13.8-ubuntu",
             "1.13.8-ubuntu26.04"
           ],
-          "digest": "sha256:ad782b65baeeb9b37ebd904b27fe56be0d57b97e7a05a4086be98533572320a3",
+          "digest": "sha256:0e80caa5c1b8d5685a9a7dd668266b4354aa3b188055a9f7bb1f9f3344403e32",
           "size": {
-            "linux/amd64": 111291344,
-            "linux/arm64": 106040171
+            "linux/amd64": 111291398,
+            "linux/arm64": 106040117
           }
         },
         {
@@ -9722,10 +9722,10 @@
             "1.13.8-alpine",
             "1.13.8-alpine3.24"
           ],
-          "digest": "sha256:e41abbfaf228f68415d8167d1025e795e6d210dd9d27094d2c4211efcf859e26",
+          "digest": "sha256:b436f16384f98768dffbd3f58875644594fbc1b4a682576dea36c368f0b1d19c",
           "size": {
-            "linux/amd64": 51261524,
-            "linux/arm64": 47864013
+            "linux/amd64": 51261560,
+            "linux/arm64": 47863966
           }
         }
       ]
@@ -9745,7 +9745,7 @@
       "license": "BSD-3-Clause AND BSD-2-Clause AND MIT AND HPND-Markus-Kuhn AND Unicode-3.0 AND PostgreSQL AND LGPL-3.0-only AND Apache-2.0 AND ISC AND MPL-2.0 AND PSF-2.0 AND LicenseRef-pg-dump AND LicenseRef-Public-Domain",
       "version": "4.7.1",
       "public": true,
-      "updated": "2026-11-06T03:20:04Z",
+      "updated": "2026-11-06T10:08:21Z",
       "variants": [
         {
           "flavour": "default",
@@ -9758,10 +9758,10 @@
             "4.7.1-ubuntu",
             "4.7.1-ubuntu26.04"
           ],
-          "digest": "sha256:4baefff4dcfbdca410654619817249175ba0fc3a758eff4b94314e08c0a6d72f",
+          "digest": "sha256:eaf4126b23858b913ef4f220ea961adf4540f6bc1f77e9738500b4abee583f1a",
           "size": {
-            "linux/amd64": 71604004,
-            "linux/arm64": 70507966
+            "linux/amd64": 71611236,
+            "linux/arm64": 70513653
           }
         },
         {
@@ -9773,10 +9773,10 @@
             "4.7.1-alpine",
             "4.7.1-alpine3.24"
           ],
-          "digest": "sha256:31b40ceca87ef51fb598b65f90035081dd0061a32938d393cdd9705497f5ebf7",
+          "digest": "sha256:47a6f4bb0b78db574d3a9bd3aa86f6ea445453558b7ff41ddbdbf5c1a16a8672",
           "size": {
-            "linux/amd64": 34706330,
-            "linux/arm64": 34904894
+            "linux/amd64": 34710797,
+            "linux/arm64": 34908725
           }
         }
       ]
@@ -9796,7 +9796,7 @@
       "license": "Apache-2.0 AND AGPL-3.0-or-later AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
       "version": "12.4.2",
       "public": true,
-      "updated": "2026-11-06T03:04:24Z",
+      "updated": "2026-11-06T10:05:11Z",
       "variants": [
         {
           "flavour": "default",
@@ -9809,10 +9809,10 @@
             "12.4.2-ubuntu",
             "12.4.2-ubuntu26.04"
           ],
-          "digest": "sha256:c4beb31f20b7dc95c812fd176b2074e25749dc221e106da401e1a3031bc37d28",
+          "digest": "sha256:c58a850d768b583d6c43f5329275125ea360ebf8172563bd7d01c95d45f65a8f",
           "size": {
-            "linux/amd64": 62032814,
-            "linux/arm64": 60701546
+            "linux/amd64": 62032819,
+            "linux/arm64": 60701567
           }
         },
         {
@@ -9824,10 +9824,10 @@
             "12.4.2-alpine",
             "12.4.2-alpine3.24"
           ],
-          "digest": "sha256:c8698f6f3789a45edc0b25a99ac12f2f4f36c90e5470db409109972c9ddd697a",
+          "digest": "sha256:7a566b75e2bb78ffbd801746cc812dd6d9fe2c81eeea2d7b20d3dae637f25711",
           "size": {
-            "linux/amd64": 21852731,
-            "linux/arm64": 21923239
+            "linux/amd64": 21852637,
+            "linux/arm64": 21923314
           }
         }
       ]
@@ -9847,7 +9847,7 @@
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND CC0-1.0 AND LicenseRef-Public-Domain AND BSD-1-Clause",
       "version": "1.25",
       "public": true,
-      "updated": "2026-11-06T03:23:44Z",
+      "updated": "2026-11-06T10:05:04Z",
       "variants": [
         {
           "flavour": "default",
@@ -9860,10 +9860,10 @@
             "1.25-ubuntu",
             "1.25-ubuntu26.04"
           ],
-          "digest": "sha256:d2a4acdb3d326dfcaef779428712a72ad9cafe399df8cdb79b2e744cfb828313",
+          "digest": "sha256:55c1c969e5b23dac7c21b30f18b182699fb9155c22578ecbf4dcf3d4e637a15b",
           "size": {
-            "linux/amd64": 54307813,
-            "linux/arm64": 52900054
+            "linux/amd64": 54307826,
+            "linux/arm64": 52899945
           }
         },
         {
@@ -9875,10 +9875,10 @@
             "1.25-alpine",
             "1.25-alpine3.24"
           ],
-          "digest": "sha256:1a5b764ec6023b975571c1aaecd1aa578c777c20323f69f89794b987a3c39b91",
+          "digest": "sha256:8ca7bceb0ba39e1bb16f78238ba58854af2a4d08658ffdacc77475a404423df4",
           "size": {
-            "linux/amd64": 12826060,
-            "linux/arm64": 12863347
+            "linux/amd64": 12826113,
+            "linux/arm64": 12863405
           }
         }
       ]
@@ -9898,7 +9898,7 @@
       "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND ISC-Veillard AND curl AND Zlib AND libpng-2.0 AND GPL-3.0-or-later AND MPL-2.0 AND Unlicense",
       "version": "3.9.3",
       "public": true,
-      "updated": "2026-11-06T03:04:44Z",
+      "updated": "2026-11-06T10:05:55Z",
       "variants": [
         {
           "flavour": "default",
@@ -9911,10 +9911,10 @@
             "3.9.3-ubuntu",
             "3.9.3-ubuntu26.04"
           ],
-          "digest": "sha256:bf2389e522120e71e6f1d7e2905368498cd9a7268da275ae117a40db88fe7e5d",
+          "digest": "sha256:8b6176dce5a493e756e60d8ce93b2f179dfab835c86cfd00a85f47f79a1ae900",
           "size": {
-            "linux/amd64": 110191860,
-            "linux/arm64": 107873331
+            "linux/amd64": 110191830,
+            "linux/arm64": 107873373
           }
         },
         {
@@ -9926,10 +9926,10 @@
             "3.9.3-alpine",
             "3.9.3-alpine3.24"
           ],
-          "digest": "sha256:c90347decd20f6b8d28364215fd425ac0fff804ec0c59b01bbe6489de9d1c4be",
+          "digest": "sha256:4ec7d9d3f84d0e45f0eaaa7f521bc53b03059106146cb126e7bda8332ed24540",
           "size": {
-            "linux/amd64": 72357627,
-            "linux/arm64": 70302201
+            "linux/amd64": 72357680,
+            "linux/arm64": 70302173
           }
         }
       ]
@@ -9949,7 +9949,7 @@
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND 0BSD AND Unicode-3.0 AND LicenseRef-Public-Domain AND EPL-2.0 AND CPL-1.0 AND LGPL-2.0-or-later AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
       "version": "9.2.0",
       "public": true,
-      "updated": "2026-11-06T03:13:43Z",
+      "updated": "2026-11-06T10:07:10Z",
       "variants": [
         {
           "flavour": "default",
@@ -9962,10 +9962,10 @@
             "9.2.0-ubuntu",
             "9.2.0-ubuntu26.04"
           ],
-          "digest": "sha256:807d48d1f01dee2251450b2944ae66d49cc483b9bea991dfeb2ddbba4b502d4a",
+          "digest": "sha256:09fded422169857d9a2e51a4dddc42b25ddf9cd5e569e94f2ee93d1486e0f19c",
           "size": {
-            "linux/amd64": 115109552,
-            "linux/arm64": 112385960
+            "linux/amd64": 115109849,
+            "linux/arm64": 112385961
           }
         },
         {
@@ -9977,10 +9977,10 @@
             "9.2.0-alpine",
             "9.2.0-alpine3.24"
           ],
-          "digest": "sha256:4b01d0f94ce26a766e95889c26c0896e2b49a8b28ca67af384350e624a64bd28",
+          "digest": "sha256:44029dc541e21113364859ad9a760745d6bd31b225eb584445eb8a2cc59387e5",
           "size": {
-            "linux/amd64": 75545231,
-            "linux/arm64": 75251730
+            "linux/amd64": 75545465,
+            "linux/arm64": 75251615
           }
         }
       ]
@@ -10000,7 +10000,7 @@
       "license": "MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense AND GPL-3.0-or-later",
       "version": "1.5.7",
       "public": true,
-      "updated": "2026-11-06T03:14:49Z",
+      "updated": "2026-11-06T10:07:57Z",
       "variants": [
         {
           "flavour": "default",
@@ -10013,9 +10013,9 @@
             "1.5.7-ubuntu",
             "1.5.7-ubuntu26.04"
           ],
-          "digest": "sha256:b6b8cc6b6bb6a367d3b9cd34f547888edaaa8662409ee7428203934ea1148565",
+          "digest": "sha256:02058bffdff140f2cbe311626d9b401d6013b7059c71d5c984297515ff8f843e",
           "size": {
-            "linux/amd64": 89672555,
+            "linux/amd64": 89672566,
             "linux/arm64": 87508365
           }
         },
@@ -10028,10 +10028,10 @@
             "1.5.7-alpine",
             "1.5.7-alpine3.24"
           ],
-          "digest": "sha256:82d716fa080093ea72b2d00459645d1b482026d5299569a1ac7680d087304b21",
+          "digest": "sha256:c2ab96f16b9e827688bd280ff8947fced5cc000dfbfddc1a6e4bb7b6503b239c",
           "size": {
-            "linux/amd64": 51592497,
-            "linux/arm64": 49745533
+            "linux/amd64": 51592492,
+            "linux/arm64": 49745532
           }
         }
       ]
@@ -10051,7 +10051,7 @@
       "license": "BSD-2-Clause AND BSD-3-Clause AND MIT AND Apache-2.0 AND MPL-2.0 AND ISC AND PSF-2.0 AND Unlicense AND Zlib AND LGPL-2.1-only AND LGPL-2.1-or-later AND GPL-3.0-or-later",
       "version": "8.6.3",
       "public": true,
-      "updated": "2026-11-06T03:19:45Z",
+      "updated": "2026-11-06T10:09:10Z",
       "variants": [
         {
           "flavour": "default",
@@ -10064,10 +10064,10 @@
             "8.6.3-ubuntu",
             "8.6.3-ubuntu26.04"
           ],
-          "digest": "sha256:7a5df5363957ee4cc9154ad1cf891fc806dc4b9cee10485398c8b900f0e2bd14",
+          "digest": "sha256:80e4a5e6a68e99a08f0dd0d90376515df50351c72305f0590d069a7f19b3c684",
           "size": {
-            "linux/amd64": 128258232,
-            "linux/arm64": 125319841
+            "linux/amd64": 128257946,
+            "linux/arm64": 125318484
           }
         },
         {
@@ -10079,10 +10079,10 @@
             "8.6.3-alpine",
             "8.6.3-alpine3.24"
           ],
-          "digest": "sha256:032ea08ecaf2ef36f56b5bd1c49f6e7a7cb0ff0f17946dc0852683f4025a3a1c",
+          "digest": "sha256:5d58a1a2f98710096c1491af61771ecf498017c1ab311ca96262c6ef4072f55a",
           "size": {
-            "linux/amd64": 91233834,
-            "linux/arm64": 87993803
+            "linux/amd64": 91233819,
+            "linux/arm64": 87994263
           }
         }
       ]
@@ -10103,7 +10103,7 @@
       "license": "MIT AND MPL-2.0 AND Apache-2.0 AND BSD-3-Clause AND BSD-2-Clause AND Unicode-DFS-2016 AND Unicode-3.0 AND OFL-1.1 AND ISC AND SSH-OpenSSH AND GPL-2.0-only",
       "version": "1.2.1",
       "public": true,
-      "updated": "2026-11-06T03:08:07Z",
+      "updated": "2026-11-06T10:05:57Z",
       "variants": [
         {
           "flavour": "default",
@@ -10116,10 +10116,10 @@
             "1.2.1-ubuntu",
             "1.2.1-ubuntu26.04"
           ],
-          "digest": "sha256:3fb03e897cd39b2225204e3b16db90c8fb7eefe5222f72f55d5e11cb1663c3a6",
+          "digest": "sha256:d8385ad8b6126fc57ddcfe5e6bb317a887bd71e52d567bd501a6dcf27a001573",
           "size": {
-            "linux/amd64": 145016472,
-            "linux/arm64": 136868477
+            "linux/amd64": 145016089,
+            "linux/arm64": 136868431
           }
         },
         {
@@ -10131,10 +10131,10 @@
             "1.2.1-alpine",
             "1.2.1-alpine3.24"
           ],
-          "digest": "sha256:f332914161309235673fda3b6e2d1b46675a8aca37ce6e80231e3685d77c0977",
+          "digest": "sha256:e1e64ee96cb70a24835a08832134671f702fb7ef20709508f2611607a35792e6",
           "size": {
-            "linux/amd64": 84986257,
-            "linux/arm64": 78692076
+            "linux/amd64": 84986187,
+            "linux/arm64": 78692097
           }
         }
       ]
@@ -10154,7 +10154,7 @@
       "license": "(Apache-2.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))",
       "version": "5.5.4",
       "public": true,
-      "updated": "2026-11-06T03:12:20Z",
+      "updated": "2026-11-06T10:08:43Z",
       "variants": [
         {
           "flavour": "default",
@@ -10167,10 +10167,10 @@
             "5.5.4-ubuntu",
             "5.5.4-ubuntu26.04"
           ],
-          "digest": "sha256:51d92f5581b81554b0c6387a54fa22fdfd93bf50fc04b558b3e1c4d3bff98902",
+          "digest": "sha256:984bb8a077e775d1f4ace09add70ec8e374560f649c5417e2a56e9dcdbbe4c11",
           "size": {
-            "linux/amd64": 78647253,
-            "linux/arm64": 76923424
+            "linux/amd64": 78647205,
+            "linux/arm64": 76923348
           }
         },
         {
@@ -10182,10 +10182,10 @@
             "5.5.4-alpine",
             "5.5.4-alpine3.24"
           ],
-          "digest": "sha256:e0eac087c3d00ea2534cf4a45d936a2844eb7165cc0434345a9d1c261f452e6f",
+          "digest": "sha256:5bf22499d514c82758ad19a3b67fad83deee5b055b854cad09ef127653d5fdad",
           "size": {
-            "linux/amd64": 37295525,
-            "linux/arm64": 37104731
+            "linux/amd64": 37295507,
+            "linux/arm64": 37105132
           }
         }
       ]
@@ -10205,7 +10205,7 @@
       "license": "GPL-2.0-or-later AND BSD-1-Clause AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND ISC AND Kazlib AND LGPL-2.1-or-later AND MIT AND Zlib AND dtoa AND BSD-4-Clause AND BSD-4-Clause-UC AND NTP",
       "version": "4.6.9",
       "public": true,
-      "updated": "2026-11-06T03:05:15Z",
+      "updated": "2026-11-06T10:08:57Z",
       "variants": [
         {
           "flavour": "default",
@@ -10218,10 +10218,10 @@
             "4.6.9-ubuntu",
             "4.6.9-ubuntu26.04"
           ],
-          "digest": "sha256:7ef411ec93c52b40612feec483eb2a3dad0d2716c0461d0e246c294e8c916c5b",
+          "digest": "sha256:0023843eb887074a706b858a1e2b37a795bde0aa9f7acffc07a22946040ea104",
           "size": {
-            "linux/amd64": 85364855,
-            "linux/arm64": 83088530
+            "linux/amd64": 85364884,
+            "linux/arm64": 83088581
           }
         },
         {
@@ -10233,10 +10233,10 @@
             "4.6.9-alpine",
             "4.6.9-alpine3.24"
           ],
-          "digest": "sha256:d509d24ad480233a43245b618728c4a1402f3361b965b4045587b3215060b6c7",
+          "digest": "sha256:74bd7ec5bf2779bc3bcabec74407038f58e094ac405b397e7bb1d53c8801dc08",
           "size": {
-            "linux/amd64": 49157645,
-            "linux/arm64": 48074379
+            "linux/amd64": 49157802,
+            "linux/arm64": 48074400
           }
         }
       ]
@@ -10256,7 +10256,7 @@
       "license": "(BSD-3-Clause AND LicenseRef-Public-Domain AND Unicode-3.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))",
       "version": "7.8.5",
       "public": true,
-      "updated": "2026-11-06T03:15:54Z",
+      "updated": "2026-11-06T10:05:28Z",
       "variants": [
         {
           "flavour": "default",
@@ -10269,10 +10269,10 @@
             "7.8.5-ubuntu",
             "7.8.5-ubuntu26.04"
           ],
-          "digest": "sha256:d93785459515647ff7d3f6ad75b43f92ed5162f031659acd1d15f090920a5ec6",
+          "digest": "sha256:8ed85f5e08d6e5fcaa1f9f5cea8fac314898a404031352c583412cc196185f64",
           "size": {
-            "linux/amd64": 64163214,
-            "linux/arm64": 62590359
+            "linux/amd64": 64163172,
+            "linux/arm64": 62590385
           }
         },
         {
@@ -10284,10 +10284,10 @@
             "7.8.5-alpine",
             "7.8.5-alpine3.24"
           ],
-          "digest": "sha256:59a4a3b0d489076586790497e4eb02f7da6e074d39d3a9c8d24135f8d528102b",
+          "digest": "sha256:de9c2f8c052593ca67abdb1a6838629b36b140cf7c0219819381884c8af19f83",
           "size": {
-            "linux/amd64": 27206228,
-            "linux/arm64": 27038894
+            "linux/amd64": 27206288,
+            "linux/arm64": 27038997
           }
         }
       ]
@@ -10307,7 +10307,7 @@
       "license": "BSD-2-Clause-Patent AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT AND Unlicense AND GPL-3.0-or-later AND MPL-2.0 AND Zlib",
       "version": "3.2.1",
       "public": true,
-      "updated": "2026-11-06T03:06:08Z",
+      "updated": "2026-11-06T10:06:15Z",
       "variants": [
         {
           "flavour": "default",
@@ -10320,10 +10320,10 @@
             "3.2.1-ubuntu",
             "3.2.1-ubuntu26.04"
           ],
-          "digest": "sha256:f45aca2f05b10d4f4b5274a4de5114bf2b2e80c6fa6943803392952e1e6fd358",
+          "digest": "sha256:56652af81de23d10f577a7b132f73c32e840339b04d91b6df908825ce1d57441",
           "size": {
-            "linux/amd64": 88638883,
-            "linux/arm64": 86362051
+            "linux/amd64": 88638887,
+            "linux/arm64": 86362059
           }
         },
         {
@@ -10335,10 +10335,10 @@
             "3.2.1-alpine",
             "3.2.1-alpine3.24"
           ],
-          "digest": "sha256:89548672560b29faaba5d80416ef3b8d520621a5ca865da79985e644826dcb1d",
+          "digest": "sha256:58579bf551e660a79553104f7dfd37273bdd601d76f92d8149214099e0b29ff0",
           "size": {
-            "linux/amd64": 50555726,
-            "linux/arm64": 48594611
+            "linux/amd64": 50555725,
+            "linux/arm64": 48594610
           }
         }
       ]
@@ -10358,7 +10358,7 @@
       "license": "BSD-3-Clause AND MIT AND MIT-CMU AND Apache-2.0 AND BSD-2-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND LGPL-2.1-or-later AND GPL-2.0-or-later AND GPL-3.0-only AND FTL AND MIT-Modern-Variant AND IJG AND Zlib AND libpng-2.0 AND libtiff AND bzip2-1.0.6",
       "version": "70.0",
       "public": true,
-      "updated": "2026-11-06T03:16:22Z",
+      "updated": "2026-11-06T10:10:26Z",
       "variants": [
         {
           "flavour": "default",
@@ -10371,10 +10371,10 @@
             "70.0-ubuntu",
             "70.0-ubuntu26.04"
           ],
-          "digest": "sha256:d048427ec3f2a3f87cda4ca252e23b138e9517cfc3e2e256eaa346ab0900965b",
+          "digest": "sha256:45185f294c22022c638da669f8839a3775022379f6c9bb2998ffbd2806a0c7ce",
           "size": {
-            "linux/amd64": 90389449,
-            "linux/arm64": 88716745
+            "linux/amd64": 90389946,
+            "linux/arm64": 88717056
           }
         },
         {
@@ -10386,10 +10386,10 @@
             "70.0-alpine",
             "70.0-alpine3.24"
           ],
-          "digest": "sha256:17bea94e911a552ad9ec116f64a6febb6eb569aad224d69f334d03a2999183dc",
+          "digest": "sha256:234d24d150128f7400579b41a97f5341d93a52ea4ffb3e11b3dbf8108827235c",
           "size": {
-            "linux/amd64": 60752330,
-            "linux/arm64": 60154347
+            "linux/amd64": 60752087,
+            "linux/arm64": 60155078
           }
         }
       ]
@@ -10409,7 +10409,7 @@
       "license": "((MIT AND (MIT-0 OR Unlicense)) AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense)",
       "version": "1.9.5",
       "public": true,
-      "updated": "2026-11-06T03:07:40Z",
+      "updated": "2026-11-06T10:06:22Z",
       "variants": [
         {
           "flavour": "default",
@@ -10422,10 +10422,10 @@
             "1.9.5-ubuntu",
             "1.9.5-ubuntu26.04"
           ],
-          "digest": "sha256:878781a17997d063a6cbf58a0605e96a7d26e197176086fb2db350cab556f729",
+          "digest": "sha256:824b5563c72b071c00b67cff122c5d9a7aae15561607140a2f959268d79c750d",
           "size": {
-            "linux/amd64": 97521652,
-            "linux/arm64": 91467671
+            "linux/amd64": 97521626,
+            "linux/arm64": 91467657
           }
         },
         {
@@ -10437,10 +10437,10 @@
             "1.9.5-alpine",
             "1.9.5-alpine3.24"
           ],
-          "digest": "sha256:25a7b99ec9fcb516948df6a165f6caa2125fc4ce07dfae2e482919fbd77049f8",
+          "digest": "sha256:2394f6abd8517163aa19429a0b04e4dd3df100bcccd6ab2045b369eb08641701",
           "size": {
-            "linux/amd64": 59351246,
-            "linux/arm64": 53846117
+            "linux/amd64": 59351233,
+            "linux/arm64": 53846124
           }
         }
       ]
@@ -10460,7 +10460,7 @@
       "license": "BSD-3-Clause AND Apache-2.0 AND MIT AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
       "version": "4.6.0",
       "public": true,
-      "updated": "2026-11-06T03:24:07Z",
+      "updated": "2026-11-06T10:07:55Z",
       "variants": [
         {
           "flavour": "default",
@@ -10473,10 +10473,10 @@
             "4.6.0-ubuntu",
             "4.6.0-ubuntu26.04"
           ],
-          "digest": "sha256:e3fe52153916289fd16673d04acf76fddb282e9e749e7e94f19142a9632545f2",
+          "digest": "sha256:230269082d3b1fd313f614bd8ab08809e7d169f7a8edc36969d4ebb2c893890f",
           "size": {
-            "linux/amd64": 45838649,
-            "linux/arm64": 44754321
+            "linux/amd64": 45838657,
+            "linux/arm64": 44754307
           }
         },
         {
@@ -10488,10 +10488,10 @@
             "4.6.0-alpine",
             "4.6.0-alpine3.24"
           ],
-          "digest": "sha256:959a26a9b22c288e325f5272be66abd7fa669f13235c472cf6dcc949b2a65998",
+          "digest": "sha256:2aeeb73343df58838288f8d0b3e2c9b91a52f2e6c03df9f15995aa0259ba9722",
           "size": {
-            "linux/amd64": 7846195,
-            "linux/arm64": 8075541
+            "linux/amd64": 7846209,
+            "linux/arm64": 8075556
           }
         }
       ]
@@ -10511,7 +10511,7 @@
       "license": "BSD-3-Clause AND MIT AND Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND Zlib AND Unicode-3.0 AND Unicode-DFS-2016 AND MPL-2.0 AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
       "version": "1.22.1",
       "public": true,
-      "updated": "2026-11-06T03:10:17Z",
+      "updated": "2026-11-06T10:07:17Z",
       "variants": [
         {
           "flavour": "default",
@@ -10524,10 +10524,10 @@
             "1.22.1-ubuntu",
             "1.22.1-ubuntu26.04"
           ],
-          "digest": "sha256:6d998b4a19a9e5e5f4014de112ebbe40c95b88c921ea5e9f4cf3d44732371574",
+          "digest": "sha256:64dc8833f47a4fef0485de0baa838973560ff762bf93f0953fbd8c0a9099b16d",
           "size": {
-            "linux/amd64": 55111208,
-            "linux/arm64": 53141146
+            "linux/amd64": 55111250,
+            "linux/arm64": 53141165
           }
         },
         {
@@ -10539,10 +10539,10 @@
             "1.22.1-alpine",
             "1.22.1-alpine3.24"
           ],
-          "digest": "sha256:56496a48f2834632ae2a3eeeab9247c59b45e2a9ffee88535f5aacea7e6a2fce",
+          "digest": "sha256:e9892b3d154accbb0b799b449feb383d562c12707e474171d49549737b9c6a51",
           "size": {
-            "linux/amd64": 17148022,
-            "linux/arm64": 16450768
+            "linux/amd64": 17147998,
+            "linux/arm64": 16450762
           }
         }
       ]
@@ -10562,7 +10562,7 @@
       "license": "Unlicense AND MIT AND MIT-0 AND ISC AND BSD-2-Clause AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND GPL-2.0-or-later AND curl AND Zlib AND Unicode-DFS-2016 AND PSF-2.0 AND GPL-3.0-or-later",
       "version": "2026.10.26",
       "public": true,
-      "updated": "2026-11-06T03:11:25Z",
+      "updated": "2026-11-06T10:15:30Z",
       "variants": [
         {
           "flavour": "default",
@@ -10575,10 +10575,10 @@
             "2026.10.26-ubuntu",
             "2026.10.26-ubuntu26.04"
           ],
-          "digest": "sha256:fce28eb73129d23cd927cc9409de3ad8debe20942deac13e70fff930364a07fe",
+          "digest": "sha256:14e8032d4f6c9bbadd1bcc9bab5d7748cac7e87686718afdf4d74137e653013c",
           "size": {
-            "linux/amd64": 178677547,
-            "linux/arm64": 174628997
+            "linux/amd64": 178677546,
+            "linux/arm64": 174629049
           }
         },
         {
@@ -10590,10 +10590,10 @@
             "2026.10.26-alpine",
             "2026.10.26-alpine3.24"
           ],
-          "digest": "sha256:2ec6fc535abb858fe4b2abc571758d123622393310da3263be0ab3bca81d3d83",
+          "digest": "sha256:2f1ecc9804e0e9a97d3033009fb4768a03c3ae7b7e3b2f8b14f51780db06b6c0",
           "size": {
-            "linux/amd64": 145441843,
-            "linux/arm64": 142714210
+            "linux/amd64": 145441935,
+            "linux/arm64": 142714222
           }
         }
       ]
