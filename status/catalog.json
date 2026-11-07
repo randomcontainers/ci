@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-07T08:42:20Z",
+  "generated": "2026-11-07T15:09:45Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -5369,7 +5369,7 @@
       "homepage": "https://poppler.freedesktop.org/",
       "repository": "https://github.com/randomcontainers/poppler",
       "license": "(GPL-2.0-only OR GPL-3.0-only) AND MIT",
-      "version": "26.10.0",
+      "version": "26.11.0",
       "versioning": "loose",
       "examples": [
         {
@@ -5401,82 +5401,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-06T02:59:24Z",
+      "updated": "2026-11-07T15:09:45Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "26.10.0",
+          "version": "26.11.0",
           "tags": [
             "latest",
-            "26.10.0",
-            "26.10",
+            "26.11.0",
+            "26.11",
             "26",
             "ubuntu",
-            "26.10.0-ubuntu",
-            "26.10-ubuntu",
+            "26.11.0-ubuntu",
+            "26.11-ubuntu",
             "26-ubuntu",
-            "26.10.0-ubuntu26.04"
+            "26.11.0-ubuntu26.04"
           ],
-          "digest": "sha256:7360bd7b38e74a6a863b7d1796d2c2a9e69019d6910b15daf6148dc2e62a6d26",
+          "digest": "sha256:1d1f16d08c4eb6b0316daae64f1d96268cbb96bbc88cbb1cc747979c99832bd8",
           "size": {
-            "linux/amd64": 62779001,
-            "linux/arm64": 61306397
+            "linux/amd64": 62798413,
+            "linux/arm64": 61317282
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "26.10.0",
+          "version": "26.11.0",
           "tags": [
             "alpine",
-            "26.10.0-alpine",
-            "26.10-alpine",
+            "26.11.0-alpine",
+            "26.11-alpine",
             "26-alpine",
-            "26.10.0-alpine3.24"
+            "26.11.0-alpine3.24"
           ],
-          "digest": "sha256:2d513688f73bc7087bce203ae1053c5c7bb4eb486fa1e3ea35a5584e7ba8f14c",
+          "digest": "sha256:b33171567e67c4083e363ffeb56bdf635715db69d2804e84f64488c7fd3f3878",
           "size": {
-            "linux/amd64": 25664108,
-            "linux/arm64": 25585417
+            "linux/amd64": 25683529,
+            "linux/arm64": 25598069
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "26.10.0",
+          "version": "26.11.0",
           "tags": [
             "slim",
-            "26.10.0-slim",
-            "26.10-slim",
+            "26.11.0-slim",
+            "26.11-slim",
             "26-slim",
             "slim-ubuntu",
-            "26.10.0-slim-ubuntu",
-            "26.10-slim-ubuntu",
+            "26.11.0-slim-ubuntu",
+            "26.11-slim-ubuntu",
             "26-slim-ubuntu",
-            "26.10.0-slim-ubuntu26.04"
+            "26.11.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:7360bd7b38e74a6a863b7d1796d2c2a9e69019d6910b15daf6148dc2e62a6d26",
+          "digest": "sha256:1d1f16d08c4eb6b0316daae64f1d96268cbb96bbc88cbb1cc747979c99832bd8",
           "size": {
-            "linux/amd64": 62779001,
-            "linux/arm64": 61306397
+            "linux/amd64": 62798413,
+            "linux/arm64": 61317282
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "26.10.0",
+          "version": "26.11.0",
           "tags": [
             "slim-alpine",
-            "26.10.0-slim-alpine",
-            "26.10-slim-alpine",
+            "26.11.0-slim-alpine",
+            "26.11-slim-alpine",
             "26-slim-alpine",
-            "26.10.0-slim-alpine3.24"
+            "26.11.0-slim-alpine3.24"
           ],
-          "digest": "sha256:2d513688f73bc7087bce203ae1053c5c7bb4eb486fa1e3ea35a5584e7ba8f14c",
+          "digest": "sha256:b33171567e67c4083e363ffeb56bdf635715db69d2804e84f64488c7fd3f3878",
           "size": {
-            "linux/amd64": 25664108,
-            "linux/arm64": 25585417
+            "linux/amd64": 25683529,
+            "linux/arm64": 25598069
           }
         }
       ]
@@ -10000,7 +10000,7 @@
       "license": "MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense AND GPL-3.0-or-later",
       "version": "1.5.7",
       "public": true,
-      "updated": "2026-11-07T08:40:45Z",
+      "updated": "2026-11-07T15:09:08Z",
       "variants": [
         {
           "flavour": "default",
@@ -10013,10 +10013,10 @@
             "1.5.7-ubuntu",
             "1.5.7-ubuntu26.04"
           ],
-          "digest": "sha256:2a95f21b41996eccc809cdf9171ff225cbcf3b8e44399f0b5a8ba59f0d6d6c92",
+          "digest": "sha256:89ddc29f8917d0d023d01d73125b3d054373f40ae54ee4570056aca97626a34b",
           "size": {
-            "linux/amd64": 89672611,
-            "linux/arm64": 87508449
+            "linux/amd64": 89672596,
+            "linux/arm64": 87508462
           }
         },
         {
@@ -10028,10 +10028,10 @@
             "1.5.7-alpine",
             "1.5.7-alpine3.24"
           ],
-          "digest": "sha256:4a56879153fd983bf8c167bf3289885b7507e93fc9c750c9482d59d64c9450dd",
+          "digest": "sha256:e99f25222cb4384a490a33e7164f65e6c54302e2755eb19130eed7c4cbf9ca37",
           "size": {
-            "linux/amd64": 51592490,
-            "linux/arm64": 49745530
+            "linux/amd64": 51592473,
+            "linux/arm64": 49745564
           }
         }
       ]
