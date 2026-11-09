@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-08T20:11:36Z",
+  "generated": "2026-11-08T23:38:11Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1359,7 +1359,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": false,
+      "stale": true,
       "updated": "2026-10-30T03:05:00Z",
       "variants": [
         {
@@ -4897,7 +4897,7 @@
       "homepage": "https://www.openssh.com/",
       "repository": "https://github.com/randomcontainers/openssh-client",
       "license": "SSH-OpenSSH AND MIT",
-      "version": "10.6p1",
+      "version": "10.6p2",
       "versioning": "loose",
       "examples": [
         {
@@ -4925,76 +4925,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-08T15:46:24Z",
+      "updated": "2026-11-08T23:38:11Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "10.6p1",
+          "version": "10.6p2",
           "tags": [
             "latest",
-            "10.6p1",
+            "10.6p2",
             "10",
             "ubuntu",
-            "10.6p1-ubuntu",
+            "10.6p2-ubuntu",
             "10-ubuntu",
-            "10.6p1-ubuntu26.04"
+            "10.6p2-ubuntu26.04"
           ],
-          "digest": "sha256:dfa1da1ce451a4392018466a46ffe38f0094627b15e566eead793918a79f731b",
+          "digest": "sha256:661779819fe1d5fda1dc9f00c10502253f9603f5148b5c91fc8e1c6992238c71",
           "size": {
-            "linux/amd64": 45402029,
-            "linux/arm64": 44326672
+            "linux/amd64": 45401786,
+            "linux/arm64": 44326363
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "10.6p1",
+          "version": "10.6p2",
           "tags": [
             "alpine",
-            "10.6p1-alpine",
+            "10.6p2-alpine",
             "10-alpine",
-            "10.6p1-alpine3.24"
+            "10.6p2-alpine3.24"
           ],
-          "digest": "sha256:9b7e7787e8de951e4337c263bf8a0734910a8bcc2445e533af474282e000d5ed",
+          "digest": "sha256:87385f90912d7d15b0dc8ef0010cd997cd71c7913dca0ec6b9d4013d6574ae6e",
           "size": {
-            "linux/amd64": 6509015,
-            "linux/arm64": 6807235
+            "linux/amd64": 6508577,
+            "linux/arm64": 6806908
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "10.6p1",
+          "version": "10.6p2",
           "tags": [
             "slim",
-            "10.6p1-slim",
+            "10.6p2-slim",
             "10-slim",
             "slim-ubuntu",
-            "10.6p1-slim-ubuntu",
+            "10.6p2-slim-ubuntu",
             "10-slim-ubuntu",
-            "10.6p1-slim-ubuntu26.04"
+            "10.6p2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:dfa1da1ce451a4392018466a46ffe38f0094627b15e566eead793918a79f731b",
+          "digest": "sha256:661779819fe1d5fda1dc9f00c10502253f9603f5148b5c91fc8e1c6992238c71",
           "size": {
-            "linux/amd64": 45402029,
-            "linux/arm64": 44326672
+            "linux/amd64": 45401786,
+            "linux/arm64": 44326363
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "10.6p1",
+          "version": "10.6p2",
           "tags": [
             "slim-alpine",
-            "10.6p1-slim-alpine",
+            "10.6p2-slim-alpine",
             "10-slim-alpine",
-            "10.6p1-slim-alpine3.24"
+            "10.6p2-slim-alpine3.24"
           ],
-          "digest": "sha256:9b7e7787e8de951e4337c263bf8a0734910a8bcc2445e533af474282e000d5ed",
+          "digest": "sha256:87385f90912d7d15b0dc8ef0010cd997cd71c7913dca0ec6b9d4013d6574ae6e",
           "size": {
-            "linux/amd64": 6509015,
-            "linux/arm64": 6807235
+            "linux/amd64": 6508577,
+            "linux/arm64": 6806908
           }
         }
       ]
