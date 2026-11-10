@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-09T11:18:05Z",
+  "generated": "2026-11-09T21:32:53Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -2865,7 +2865,7 @@
       "homepage": "https://graphviz.org/",
       "repository": "https://github.com/randomcontainers/graphviz",
       "license": "EPL-2.0 AND BSD-3-Clause AND CPL-1.0 AND LGPL-2.0-or-later AND MIT AND LicenseRef-ColorBrewer AND LicenseRef-rbtree",
-      "version": "16.1.0",
+      "version": "16.1.1",
       "versioning": "semver",
       "examples": [
         {
@@ -2893,82 +2893,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-08T15:44:24Z",
+      "updated": "2026-11-09T21:32:53Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "16.1.0",
+          "version": "16.1.1",
           "tags": [
             "latest",
-            "16.1.0",
+            "16.1.1",
             "16.1",
             "16",
             "ubuntu",
-            "16.1.0-ubuntu",
+            "16.1.1-ubuntu",
             "16.1-ubuntu",
             "16-ubuntu",
-            "16.1.0-ubuntu26.04"
+            "16.1.1-ubuntu26.04"
           ],
-          "digest": "sha256:b02cf5b9201ba1863dff590bb0462430ec32d4c9f80b867473ad8f9e31b56d25",
+          "digest": "sha256:f859574dcf0e3ea2d24957762616e473a5b05c3b9d7f8ff79191498dd09fc0bc",
           "size": {
-            "linux/amd64": 74805926,
-            "linux/arm64": 72109651
+            "linux/amd64": 74804578,
+            "linux/arm64": 72111612
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "16.1.0",
+          "version": "16.1.1",
           "tags": [
             "alpine",
-            "16.1.0-alpine",
+            "16.1.1-alpine",
             "16.1-alpine",
             "16-alpine",
-            "16.1.0-alpine3.24"
+            "16.1.1-alpine3.24"
           ],
-          "digest": "sha256:780c4626d0d3bcea5ae8a578a030f9d256020213a5c2427d8c8124147d7ce584",
+          "digest": "sha256:ab4a6bc459ce6be3fb5f39405fc7bbbffabb61c659c996f2c4609ffb8b989aef",
           "size": {
-            "linux/amd64": 34811308,
-            "linux/arm64": 34602945
+            "linux/amd64": 34809898,
+            "linux/arm64": 34605299
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "16.1.0",
+          "version": "16.1.1",
           "tags": [
             "slim",
-            "16.1.0-slim",
+            "16.1.1-slim",
             "16.1-slim",
             "16-slim",
             "slim-ubuntu",
-            "16.1.0-slim-ubuntu",
+            "16.1.1-slim-ubuntu",
             "16.1-slim-ubuntu",
             "16-slim-ubuntu",
-            "16.1.0-slim-ubuntu26.04"
+            "16.1.1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:b02cf5b9201ba1863dff590bb0462430ec32d4c9f80b867473ad8f9e31b56d25",
+          "digest": "sha256:f859574dcf0e3ea2d24957762616e473a5b05c3b9d7f8ff79191498dd09fc0bc",
           "size": {
-            "linux/amd64": 74805926,
-            "linux/arm64": 72109651
+            "linux/amd64": 74804578,
+            "linux/arm64": 72111612
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "16.1.0",
+          "version": "16.1.1",
           "tags": [
             "slim-alpine",
-            "16.1.0-slim-alpine",
+            "16.1.1-slim-alpine",
             "16.1-slim-alpine",
             "16-slim-alpine",
-            "16.1.0-slim-alpine3.24"
+            "16.1.1-slim-alpine3.24"
           ],
-          "digest": "sha256:780c4626d0d3bcea5ae8a578a030f9d256020213a5c2427d8c8124147d7ce584",
+          "digest": "sha256:ab4a6bc459ce6be3fb5f39405fc7bbbffabb61c659c996f2c4609ffb8b989aef",
           "size": {
-            "linux/amd64": 34811308,
-            "linux/arm64": 34602945
+            "linux/amd64": 34809898,
+            "linux/arm64": 34605299
           }
         }
       ]
