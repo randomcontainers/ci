@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-10T03:47:45Z",
+  "generated": "2026-11-11T00:03:32Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1806,7 +1806,7 @@
       "homepage": "https://exiftool.org/",
       "repository": "https://github.com/randomcontainers/exiftool",
       "license": "(Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0",
-      "version": "13.61",
+      "version": "13.62",
       "versioning": "loose",
       "examples": [
         {
@@ -1843,76 +1843,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-08T19:59:26Z",
+      "updated": "2026-11-11T00:03:28Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "13.61",
+          "version": "13.62",
           "tags": [
             "latest",
-            "13.61",
+            "13.62",
             "13",
             "ubuntu",
-            "13.61-ubuntu",
+            "13.62-ubuntu",
             "13-ubuntu",
-            "13.61-ubuntu26.04"
+            "13.62-ubuntu26.04"
           ],
-          "digest": "sha256:adb37b8300b5e39300ac324ef70a7b616506371bff20894633142ba0da2b7ef2",
+          "digest": "sha256:c4f614d0cac779538d0e2e4b12091a81606cd1571b8654c68c383f24335f9e4a",
           "size": {
-            "linux/amd64": 78700725,
-            "linux/arm64": 76030209
+            "linux/amd64": 81168621,
+            "linux/arm64": 78439547
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "13.61",
+          "version": "13.62",
           "tags": [
             "alpine",
-            "13.61-alpine",
+            "13.62-alpine",
             "13-alpine",
-            "13.61-alpine3.24"
+            "13.62-alpine3.24"
           ],
-          "digest": "sha256:2e847fb70c970faf94bbcb9912b3ac45d2135727e3665a2308c89e0ecb5a61ab",
+          "digest": "sha256:9469978f8474b2eb0fb11b74ced654561d04a2b1efd4989df698e298fdde0c32",
           "size": {
-            "linux/amd64": 41897839,
-            "linux/arm64": 41585523
+            "linux/amd64": 41907766,
+            "linux/arm64": 41595415
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "13.61",
+          "version": "13.62",
           "tags": [
             "slim",
-            "13.61-slim",
+            "13.62-slim",
             "13-slim",
             "slim-ubuntu",
-            "13.61-slim-ubuntu",
+            "13.62-slim-ubuntu",
             "13-slim-ubuntu",
-            "13.61-slim-ubuntu26.04"
+            "13.62-slim-ubuntu26.04"
           ],
-          "digest": "sha256:d4f09f83175bc7527e5c4aeb9a58bc1caaaa96c12449d066e8a29bb95a6bec07",
+          "digest": "sha256:3f577ba2a7432bacd6dcdca03cdc05d4520b37687ccef59b64af91af662890b7",
           "size": {
-            "linux/amd64": 61109430,
-            "linux/arm64": 60021356
+            "linux/amd64": 63572358,
+            "linux/arm64": 62427056
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "13.61",
+          "version": "13.62",
           "tags": [
             "slim-alpine",
-            "13.61-slim-alpine",
+            "13.62-slim-alpine",
             "13-slim-alpine",
-            "13.61-slim-alpine3.24"
+            "13.62-slim-alpine3.24"
           ],
-          "digest": "sha256:238ee7ccb7fbebd9f45e825259c75d9a3c12a9fa66cd4370099b207f0a9ebe83",
+          "digest": "sha256:06e6e9a30485df11386378df5032ec784fce0c07147cb714ef9a2728b9041192",
           "size": {
-            "linux/amd64": 20217492,
-            "linux/arm64": 20492819
+            "linux/amd64": 20227424,
+            "linux/arm64": 20502782
           }
         }
       ]
@@ -7763,7 +7763,7 @@
       "homepage": "https://github.com/crate-ci/typos",
       "repository": "https://github.com/randomcontainers/typos",
       "license": "MIT AND Apache-2.0 AND BSD-3-Clause AND Unicode-3.0 AND Apache-2.0 WITH LLVM-exception AND LicenseRef-VarCon AND CC-BY-SA-3.0 AND CC-BY-SA-4.0",
-      "version": "1.52.0",
+      "version": "1.52.1",
       "versioning": "semver",
       "examples": [
         {
@@ -7791,82 +7791,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-08T15:42:54Z",
+      "updated": "2026-11-11T00:03:32Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "1.52.0",
+          "version": "1.52.1",
           "tags": [
             "latest",
-            "1.52.0",
+            "1.52.1",
             "1.52",
             "1",
             "ubuntu",
-            "1.52.0-ubuntu",
+            "1.52.1-ubuntu",
             "1.52-ubuntu",
             "1-ubuntu",
-            "1.52.0-ubuntu26.04"
+            "1.52.1-ubuntu26.04"
           ],
-          "digest": "sha256:a7d82aef3b270d91f2b9a090965d1b7f4e35abf75562ec0ff875e70b27f10b72",
+          "digest": "sha256:60210c6acc18676d2f3b61cda4f5782c9c85f26e68a1cffe10c0102b99919be1",
           "size": {
-            "linux/amd64": 51213417,
-            "linux/arm64": 50674711
+            "linux/amd64": 51215182,
+            "linux/arm64": 50675940
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "1.52.0",
+          "version": "1.52.1",
           "tags": [
             "alpine",
-            "1.52.0-alpine",
+            "1.52.1-alpine",
             "1.52-alpine",
             "1-alpine",
-            "1.52.0-alpine3.24"
+            "1.52.1-alpine3.24"
           ],
-          "digest": "sha256:a164728eb37f1546d292c80b77905d32f8d815980751c44707637e3ecb583aee",
+          "digest": "sha256:c0b85034a371f14ab2c43444c72a45deca8798a78028103cd59ef8a5df47b44d",
           "size": {
-            "linux/amd64": 12464122,
-            "linux/arm64": 13005291
+            "linux/amd64": 12463257,
+            "linux/arm64": 13003658
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "1.52.0",
+          "version": "1.52.1",
           "tags": [
             "slim",
-            "1.52.0-slim",
+            "1.52.1-slim",
             "1.52-slim",
             "1-slim",
             "slim-ubuntu",
-            "1.52.0-slim-ubuntu",
+            "1.52.1-slim-ubuntu",
             "1.52-slim-ubuntu",
             "1-slim-ubuntu",
-            "1.52.0-slim-ubuntu26.04"
+            "1.52.1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:a7d82aef3b270d91f2b9a090965d1b7f4e35abf75562ec0ff875e70b27f10b72",
+          "digest": "sha256:60210c6acc18676d2f3b61cda4f5782c9c85f26e68a1cffe10c0102b99919be1",
           "size": {
-            "linux/amd64": 51213417,
-            "linux/arm64": 50674711
+            "linux/amd64": 51215182,
+            "linux/arm64": 50675940
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "1.52.0",
+          "version": "1.52.1",
           "tags": [
             "slim-alpine",
-            "1.52.0-slim-alpine",
+            "1.52.1-slim-alpine",
             "1.52-slim-alpine",
             "1-slim-alpine",
-            "1.52.0-slim-alpine3.24"
+            "1.52.1-slim-alpine3.24"
           ],
-          "digest": "sha256:a164728eb37f1546d292c80b77905d32f8d815980751c44707637e3ecb583aee",
+          "digest": "sha256:c0b85034a371f14ab2c43444c72a45deca8798a78028103cd59ef8a5df47b44d",
           "size": {
-            "linux/amd64": 12464122,
-            "linux/arm64": 13005291
+            "linux/amd64": 12463257,
+            "linux/arm64": 13003658
           }
         }
       ]
@@ -9181,7 +9181,7 @@
       "summary": "ExifTool with ImageMagick, for converting and resizing images and then copying, fixing or removing their metadata.",
       "repository": "https://github.com/randomcontainers/exiftool-imagemagick",
       "license": "(((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0) AND ImageMagick AND LGPL-3.0-or-later)",
-      "version": "13.61",
+      "version": "13.62",
       "public": true,
       "updated": "2026-11-08T20:03:12Z",
       "variants": [
