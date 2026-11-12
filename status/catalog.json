@@ -1324,7 +1324,7 @@
       "homepage": "https://djlint.com/",
       "repository": "https://github.com/randomcontainers/djlint",
       "license": "GPL-3.0-or-later AND MIT AND MPL-2.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND PSF-2.0 AND CNRI-Python",
-      "version": "1.49.10",
+      "version": "1.50.0",
       "versioning": "semver",
       "examples": [
         {
@@ -1359,7 +1359,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": true,
+      "stale": false,
       "updated": "2026-10-30T03:05:00Z",
       "variants": [
         {
@@ -7159,7 +7159,7 @@
       "homepage": "https://terragrunt.com/",
       "repository": "https://github.com/randomcontainers/terragrunt",
       "license": "MIT AND MPL-2.0 AND Apache-2.0 AND BSD-3-Clause AND BSD-2-Clause AND Unicode-DFS-2016 AND Unicode-3.0 AND OFL-1.1",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "versioning": "semver",
       "examples": [
         {
@@ -10101,7 +10101,7 @@
       "summary": "Terragrunt with OpenTofu, Git and the OpenSSH client, for units whose modules come from the OpenTofu registry or from Git repositories over HTTPS or SSH.",
       "repository": "https://github.com/randomcontainers/terragrunt-opentofu-openssh-client",
       "license": "MIT AND MPL-2.0 AND Apache-2.0 AND BSD-3-Clause AND BSD-2-Clause AND Unicode-DFS-2016 AND Unicode-3.0 AND OFL-1.1 AND ISC AND SSH-OpenSSH AND GPL-2.0-only",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "public": true,
       "updated": "2026-11-12T09:51:30Z",
       "variants": [
