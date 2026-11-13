@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-12T22:59:48Z",
+  "generated": "2026-11-13T03:23:29Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -5281,7 +5281,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-12T09:40:08Z",
+      "updated": "2026-11-13T03:23:29Z",
       "variants": [
         {
           "flavour": "default",
@@ -5298,10 +5298,10 @@
             "4-ubuntu",
             "4.7.1-ubuntu26.04"
           ],
-          "digest": "sha256:cbbc9ab58555ec4316cbb6e09654f606aff27ca4bd49087bffac204a645ec495",
+          "digest": "sha256:90d35dbb46f3528fcb15d321803d7d2077931e1a49b7847012a44dcba182639e",
           "size": {
-            "linux/amd64": 71638430,
-            "linux/arm64": 70538098
+            "linux/amd64": 71640486,
+            "linux/arm64": 70539845
           }
         },
         {
@@ -5315,10 +5315,10 @@
             "4-alpine",
             "4.7.1-alpine3.24"
           ],
-          "digest": "sha256:b4813ae9be1186433559ae934482f89e89747c9afbc41a9969a0bcc08c51a286",
+          "digest": "sha256:30b2370b3c2c7db35fdbe3f766167c4e766010110ca0fdd0f1017fd0def3f658",
           "size": {
-            "linux/amd64": 34711886,
-            "linux/arm64": 34909391
+            "linux/amd64": 34713468,
+            "linux/arm64": 34911648
           }
         },
         {
@@ -5336,10 +5336,10 @@
             "4-slim-ubuntu",
             "4.7.1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:df8813c5132b79f90c737d4184d94c4e10e53d0afd8358aca3b09832f3e56ce5",
+          "digest": "sha256:14c7398b2a908604c3a6ec1298bae9aaa3fa03372fbf86ae0acd0b5f0dfed07a",
           "size": {
-            "linux/amd64": 69610340,
-            "linux/arm64": 68536278
+            "linux/amd64": 69612417,
+            "linux/arm64": 68538001
           }
         },
         {
@@ -5353,10 +5353,10 @@
             "4-slim-alpine",
             "4.7.1-slim-alpine3.24"
           ],
-          "digest": "sha256:f6fc3a63ba8b57a11e031f15bc69d64b9ecdd3a521f9696540af465e92ca15d8",
+          "digest": "sha256:43f08e75376723534f2846004f1d236635a04400bbe9c804cbe9cdf2b4427ed5",
           "size": {
-            "linux/amd64": 31433869,
-            "linux/arm64": 31625901
+            "linux/amd64": 31435491,
+            "linux/arm64": 31628168
           }
         }
       ]
