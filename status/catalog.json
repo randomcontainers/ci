@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-13T03:23:29Z",
+  "generated": "2026-11-13T11:16:01Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -9745,7 +9745,7 @@
       "license": "BSD-3-Clause AND BSD-2-Clause AND MIT AND HPND-Markus-Kuhn AND Unicode-3.0 AND PostgreSQL AND LGPL-3.0-only AND Apache-2.0 AND ISC AND MPL-2.0 AND PSF-2.0 AND LicenseRef-pg-dump AND LicenseRef-Public-Domain",
       "version": "4.7.1",
       "public": true,
-      "updated": "2026-11-12T09:43:18Z",
+      "updated": "2026-11-13T11:16:01Z",
       "variants": [
         {
           "flavour": "default",
@@ -9758,10 +9758,10 @@
             "4.7.1-ubuntu",
             "4.7.1-ubuntu26.04"
           ],
-          "digest": "sha256:ef62550a835f0596bc7163b217d28b67a906b24115bedfd544a022636800e7e6",
+          "digest": "sha256:1d227a142412f716f6fddaf919958428d0d3e1038e1cc34165f29fd96941955b",
           "size": {
-            "linux/amd64": 71638618,
-            "linux/arm64": 70538279
+            "linux/amd64": 71640682,
+            "linux/arm64": 70540058
           }
         },
         {
@@ -9773,10 +9773,10 @@
             "4.7.1-alpine",
             "4.7.1-alpine3.24"
           ],
-          "digest": "sha256:352dbb313ae3effd2c29c50b64ac667006c5bd9bd3c55ee9ed347c593af6fdfa",
+          "digest": "sha256:09fdd6af238972d9c9b8e49d47bb338e0c6ba1844b4c2b104c0c2c0c7ac2022b",
           "size": {
-            "linux/amd64": 34712074,
-            "linux/arm64": 34909601
+            "linux/amd64": 34713712,
+            "linux/arm64": 34911840
           }
         }
       ]
