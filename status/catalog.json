@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-13T11:16:01Z",
+  "generated": "2026-11-13T18:38:26Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -2749,7 +2749,7 @@
       "homepage": "https://pressly.github.io/goose/",
       "repository": "https://github.com/randomcontainers/goose",
       "license": "MIT AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND BSD-2-Clause AND ISC AND MIT-0 AND blessing",
-      "version": "3.30.0",
+      "version": "3.30.1",
       "versioning": "semver",
       "examples": [
         {
@@ -2777,82 +2777,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-12T02:08:29Z",
+      "updated": "2026-11-13T18:38:26Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "3.30.0",
+          "version": "3.30.1",
           "tags": [
             "latest",
-            "3.30.0",
+            "3.30.1",
             "3.30",
             "3",
             "ubuntu",
-            "3.30.0-ubuntu",
+            "3.30.1-ubuntu",
             "3.30-ubuntu",
             "3-ubuntu",
-            "3.30.0-ubuntu26.04"
+            "3.30.1-ubuntu26.04"
           ],
-          "digest": "sha256:026860862d70871868d36605bd1ebe06e34b58f60371bcc587978871fd817988",
+          "digest": "sha256:3389a302387da5526c28b633adda3e730ff1598dfbb309bcb1ca0d763fc99f10",
           "size": {
-            "linux/amd64": 58646050,
-            "linux/arm64": 56336949
+            "linux/amd64": 58649366,
+            "linux/arm64": 56340022
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "3.30.0",
+          "version": "3.30.1",
           "tags": [
             "alpine",
-            "3.30.0-alpine",
+            "3.30.1-alpine",
             "3.30-alpine",
             "3-alpine",
-            "3.30.0-alpine3.24"
+            "3.30.1-alpine3.24"
           ],
-          "digest": "sha256:406583aec3ee8ce35c1dec0884b7e0e24ab5731df1c0ae5b815ae25a24f9cc38",
+          "digest": "sha256:7910cb1b9bb17bcd60a4aef5c03109186991c274c93cb156aa903221b310b610",
           "size": {
-            "linux/amd64": 19499046,
-            "linux/arm64": 18572616
+            "linux/amd64": 19502366,
+            "linux/arm64": 18575706
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "3.30.0",
+          "version": "3.30.1",
           "tags": [
             "slim",
-            "3.30.0-slim",
+            "3.30.1-slim",
             "3.30-slim",
             "3-slim",
             "slim-ubuntu",
-            "3.30.0-slim-ubuntu",
+            "3.30.1-slim-ubuntu",
             "3.30-slim-ubuntu",
             "3-slim-ubuntu",
-            "3.30.0-slim-ubuntu26.04"
+            "3.30.1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:026860862d70871868d36605bd1ebe06e34b58f60371bcc587978871fd817988",
+          "digest": "sha256:3389a302387da5526c28b633adda3e730ff1598dfbb309bcb1ca0d763fc99f10",
           "size": {
-            "linux/amd64": 58646050,
-            "linux/arm64": 56336949
+            "linux/amd64": 58649366,
+            "linux/arm64": 56340022
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "3.30.0",
+          "version": "3.30.1",
           "tags": [
             "slim-alpine",
-            "3.30.0-slim-alpine",
+            "3.30.1-slim-alpine",
             "3.30-slim-alpine",
             "3-slim-alpine",
-            "3.30.0-slim-alpine3.24"
+            "3.30.1-slim-alpine3.24"
           ],
-          "digest": "sha256:406583aec3ee8ce35c1dec0884b7e0e24ab5731df1c0ae5b815ae25a24f9cc38",
+          "digest": "sha256:7910cb1b9bb17bcd60a4aef5c03109186991c274c93cb156aa903221b310b610",
           "size": {
-            "linux/amd64": 19499046,
-            "linux/arm64": 18572616
+            "linux/amd64": 19502366,
+            "linux/arm64": 18575706
           }
         }
       ]
