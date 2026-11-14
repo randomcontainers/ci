@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-13T18:38:26Z",
+  "generated": "2026-11-13T23:53:41Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -6955,7 +6955,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-12T09:38:57Z",
+      "updated": "2026-11-13T23:53:41Z",
       "variants": [
         {
           "flavour": "default",
@@ -6972,10 +6972,10 @@
             "8-ubuntu",
             "8.6.3-ubuntu26.04"
           ],
-          "digest": "sha256:5ca6710892d219d94c74387d4b31fd8f30a5064c0bf8b92c0adf3f778ed1aa83",
+          "digest": "sha256:dce017c00bde6dc1547f2361a527a856df18441452818bb36562fd1fc66978d8",
           "size": {
-            "linux/amd64": 128335856,
-            "linux/arm64": 125582301
+            "linux/amd64": 128396743,
+            "linux/arm64": 125627262
           }
         },
         {
@@ -6989,10 +6989,10 @@
             "8-alpine",
             "8.6.3-alpine3.24"
           ],
-          "digest": "sha256:5ec2532b34a9583cc55d0590538620a30951f6980269c2113365caaca5e56db9",
+          "digest": "sha256:525642b3d8fd55af75adf9544e7021f25d64d80cf83ac976fc887867a2fe6461",
           "size": {
-            "linux/amd64": 91261680,
-            "linux/arm64": 88236941
+            "linux/amd64": 91329326,
+            "linux/arm64": 88284062
           }
         },
         {
@@ -7010,10 +7010,10 @@
             "8-slim-ubuntu",
             "8.6.3-slim-ubuntu26.04"
           ],
-          "digest": "sha256:f23f3e09737a5a0ff57d77c06172a363d1bcc7bb520f6cd72d6f4844c33eb5d8",
+          "digest": "sha256:81644b869d7517f191099db672a60f3d5f2630ec790ce633fda071de35664646",
           "size": {
-            "linux/amd64": 83346244,
-            "linux/arm64": 81623042
+            "linux/amd64": 83407171,
+            "linux/arm64": 81668121
           }
         },
         {
@@ -7027,10 +7027,10 @@
             "8-slim-alpine",
             "8.6.3-slim-alpine3.24"
           ],
-          "digest": "sha256:e27270e4cfabd36c136f101557519f52c644c41918a3b801f4a917f590fa4fe5",
+          "digest": "sha256:8c902a9c153279b3c10669e5e9c3e43a9ade59989bf0e1e021cf155af7c57489",
           "size": {
-            "linux/amd64": 46777987,
-            "linux/arm64": 45779319
+            "linux/amd64": 46845621,
+            "linux/arm64": 45826444
           }
         }
       ]
@@ -8004,7 +8004,7 @@
       "homepage": "https://vale.sh/",
       "repository": "https://github.com/randomcontainers/vale",
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND Apache-2.0 AND Unicode-DFS-2016",
-      "version": "3.26.0",
+      "version": "3.27.0",
       "versioning": "semver",
       "examples": [
         {
