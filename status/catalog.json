@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-14T21:20:21Z",
+  "generated": "2026-11-15T07:49:33Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1324,7 +1324,7 @@
       "homepage": "https://djlint.com/",
       "repository": "https://github.com/randomcontainers/djlint",
       "license": "GPL-3.0-or-later AND MIT AND MPL-2.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND PSF-2.0 AND CNRI-Python",
-      "version": "1.50.0",
+      "version": "1.50.1",
       "versioning": "semver",
       "examples": [
         {
@@ -5489,7 +5489,7 @@
       "homepage": "https://www.postgresql.org/",
       "repository": "https://github.com/randomcontainers/postgresql-client",
       "license": "PostgreSQL AND BSD-3-Clause AND ISC AND MIT AND Unicode-3.0 AND LicenseRef-pg-dump AND LicenseRef-Public-Domain",
-      "version": "18.6",
+      "version": "18.7",
       "versioning": "semver",
       "examples": [
         {
@@ -5517,76 +5517,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-12T01:59:16Z",
+      "updated": "2026-11-15T07:49:33Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "18.6",
+          "version": "18.7",
           "tags": [
             "latest",
-            "18.6",
+            "18.7",
             "18",
             "ubuntu",
-            "18.6-ubuntu",
+            "18.7-ubuntu",
             "18-ubuntu",
-            "18.6-ubuntu26.04"
+            "18.7-ubuntu26.04"
           ],
-          "digest": "sha256:76783c95f641ae3306db02bded94526b6d7835027d141f5fa30cdc9358ae7963",
+          "digest": "sha256:461c6f81be7a216121eac384a542fa84a3b1c7381d10cff602dfe4f995f2db27",
           "size": {
-            "linux/amd64": 45938934,
-            "linux/arm64": 44875010
+            "linux/amd64": 45939887,
+            "linux/arm64": 44876942
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "18.6",
+          "version": "18.7",
           "tags": [
             "alpine",
-            "18.6-alpine",
+            "18.7-alpine",
             "18-alpine",
-            "18.6-alpine3.24"
+            "18.7-alpine3.24"
           ],
-          "digest": "sha256:1b651705c70db0dbf7cb674b6a741ab381cc6b8cc8b51738397d5a25ef787a7f",
+          "digest": "sha256:94045b260ecf75912a8231374373444272af0e36f1dae5d4be84e475222f1c21",
           "size": {
-            "linux/amd64": 7504197,
-            "linux/arm64": 7851715
+            "linux/amd64": 7505861,
+            "linux/arm64": 7852601
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "18.6",
+          "version": "18.7",
           "tags": [
             "slim",
-            "18.6-slim",
+            "18.7-slim",
             "18-slim",
             "slim-ubuntu",
-            "18.6-slim-ubuntu",
+            "18.7-slim-ubuntu",
             "18-slim-ubuntu",
-            "18.6-slim-ubuntu26.04"
+            "18.7-slim-ubuntu26.04"
           ],
-          "digest": "sha256:76783c95f641ae3306db02bded94526b6d7835027d141f5fa30cdc9358ae7963",
+          "digest": "sha256:461c6f81be7a216121eac384a542fa84a3b1c7381d10cff602dfe4f995f2db27",
           "size": {
-            "linux/amd64": 45938934,
-            "linux/arm64": 44875010
+            "linux/amd64": 45939887,
+            "linux/arm64": 44876942
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "18.6",
+          "version": "18.7",
           "tags": [
             "slim-alpine",
-            "18.6-slim-alpine",
+            "18.7-slim-alpine",
             "18-slim-alpine",
-            "18.6-slim-alpine3.24"
+            "18.7-slim-alpine3.24"
           ],
-          "digest": "sha256:1b651705c70db0dbf7cb674b6a741ab381cc6b8cc8b51738397d5a25ef787a7f",
+          "digest": "sha256:94045b260ecf75912a8231374373444272af0e36f1dae5d4be84e475222f1c21",
           "size": {
-            "linux/amd64": 7504197,
-            "linux/arm64": 7851715
+            "linux/amd64": 7505861,
+            "linux/arm64": 7852601
           }
         }
       ]
