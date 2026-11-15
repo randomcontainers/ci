@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-14T17:00:41Z",
+  "generated": "2026-11-14T21:20:21Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -170,7 +170,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": false,
+      "stale": true,
       "updated": "2026-10-30T03:05:08Z",
       "variants": [
         {
@@ -7549,7 +7549,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": false,
+      "stale": true,
       "updated": "2026-11-08T15:48:40Z",
       "variants": [
         {
@@ -9081,38 +9081,38 @@
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
       "version": "2.5.0",
       "public": true,
-      "updated": "2026-11-12T09:40:45Z",
+      "updated": "2026-11-14T21:20:08Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.4.0",
+          "version": "2.5.0",
           "tags": [
             "latest",
-            "2.4.0",
+            "2.5.0",
             "ubuntu",
-            "2.4.0-ubuntu",
-            "2.4.0-ubuntu26.04"
+            "2.5.0-ubuntu",
+            "2.5.0-ubuntu26.04"
           ],
-          "digest": "sha256:17af2e688ce69cdbb26973dc5beb8ad33422b378c318fcdd06dd014b0fcb0e24",
+          "digest": "sha256:402ebd9d37623b62c150b35c6c8276899878337bbc8cd1578d2fd8065b6b4a93",
           "size": {
-            "linux/amd64": 59192226,
-            "linux/arm64": 56827452
+            "linux/amd64": 59347895,
+            "linux/arm64": 56981812
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.4.0",
+          "version": "2.5.0",
           "tags": [
             "alpine",
-            "2.4.0-alpine",
-            "2.4.0-alpine3.24"
+            "2.5.0-alpine",
+            "2.5.0-alpine3.24"
           ],
-          "digest": "sha256:4b9e5a607c3558a70584d14a0a508e85e9d8a25f8d08d83d2ff2ca2e2f1f6c3c",
+          "digest": "sha256:1068d2a2e3cdb79e8eebe4e65d897e15d93f6e4dd1be15abdeb5631e2e550dda",
           "size": {
-            "linux/amd64": 20220547,
-            "linux/arm64": 19233603
+            "linux/amd64": 20376303,
+            "linux/arm64": 19387976
           }
         }
       ]
@@ -10511,7 +10511,7 @@
       "license": "BSD-3-Clause AND MIT AND Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND Zlib AND Unicode-3.0 AND Unicode-DFS-2016 AND MPL-2.0 AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
       "version": "1.23.0",
       "public": true,
-      "updated": "2026-11-12T09:44:26Z",
+      "updated": "2026-11-14T21:20:21Z",
       "variants": [
         {
           "flavour": "default",
@@ -10524,10 +10524,10 @@
             "1.23.0-ubuntu",
             "1.23.0-ubuntu26.04"
           ],
-          "digest": "sha256:5a005181ba373ac1fc6264c587b138c466211b09fb99c29cdea789c42f386586",
+          "digest": "sha256:30d4947c98577ef0f423100f28a39c740f758bc53f8332ba9e11d56e02af7ecf",
           "size": {
-            "linux/amd64": 55121329,
-            "linux/arm64": 53156099
+            "linux/amd64": 55122623,
+            "linux/arm64": 53163129
           }
         },
         {
@@ -10539,10 +10539,10 @@
             "1.23.0-alpine",
             "1.23.0-alpine3.24"
           ],
-          "digest": "sha256:eeca2808e376dfe06ea3d68137d0f6c0d408194edadacecf341eebe828fe92fc",
+          "digest": "sha256:4c5728a7b3476c59679a4628c8fa81b159ecab78f56506f77a159bf97e6adea2",
           "size": {
-            "linux/amd64": 17139794,
-            "linux/arm64": 16439311
+            "linux/amd64": 17138728,
+            "linux/arm64": 16448033
           }
         }
       ]
