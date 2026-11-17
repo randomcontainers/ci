@@ -139,7 +139,7 @@
       "homepage": "https://ast-grep.github.io/",
       "repository": "https://github.com/randomcontainers/ast-grep",
       "license": "MIT AND Apache-2.0 AND BSD-3-Clause AND ISC AND MIT-0 AND MPL-2.0 AND Unicode-3.0 AND Unicode-DFS-2016 AND ICU AND Apache-2.0 WITH LLVM-exception",
-      "version": "0.51.2",
+      "version": "0.51.3",
       "versioning": "semver",
       "examples": [
         {
@@ -384,7 +384,7 @@
       "homepage": "https://github.com/Azure/azure-storage-azcopy",
       "repository": "https://github.com/randomcontainers/azcopy",
       "license": "MIT AND Apache-2.0 AND BSD-3-Clause AND BSD-2-Clause AND ISC AND MPL-2.0",
-      "version": "10.34.1",
+      "version": "10.34.2",
       "versioning": "semver",
       "examples": [
         {
@@ -411,7 +411,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": false,
+      "stale": true,
       "updated": "2026-11-16T06:18:02Z",
       "variants": [
         {
@@ -1359,7 +1359,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": false,
+      "stale": true,
       "updated": "2026-10-30T03:05:00Z",
       "variants": [
         {
