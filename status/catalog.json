@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-16T16:30:33Z",
+  "generated": "2026-11-17T22:41:07Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1324,7 +1324,7 @@
       "homepage": "https://djlint.com/",
       "repository": "https://github.com/randomcontainers/djlint",
       "license": "GPL-3.0-or-later AND MIT AND MPL-2.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND PSF-2.0 AND CNRI-Python",
-      "version": "1.50.4",
+      "version": "1.51.0",
       "versioning": "semver",
       "examples": [
         {
@@ -1359,7 +1359,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": true,
+      "stale": false,
       "updated": "2026-10-30T03:05:00Z",
       "variants": [
         {
@@ -1448,7 +1448,7 @@
       "homepage": "https://docs.digitalocean.com/reference/doctl/",
       "repository": "https://github.com/randomcontainers/doctl",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1",
-      "version": "2.5.0",
+      "version": "2.5.2",
       "versioning": "semver",
       "examples": [
         {
@@ -1481,82 +1481,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-16T15:37:44Z",
+      "updated": "2026-11-17T22:41:00Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.5.0",
+          "version": "2.5.2",
           "tags": [
             "latest",
-            "2.5.0",
+            "2.5.2",
             "2.5",
             "2",
             "ubuntu",
-            "2.5.0-ubuntu",
+            "2.5.2-ubuntu",
             "2.5-ubuntu",
             "2-ubuntu",
-            "2.5.0-ubuntu26.04"
+            "2.5.2-ubuntu26.04"
           ],
-          "digest": "sha256:9250f2be2035415f0b0f0bef353a96afa56733e71ef5c91b0aeb3741ef1ef748",
+          "digest": "sha256:89867257d94926b9b08be7cabc1a586eb769de0bc25ff90fc114e46317f95cac",
           "size": {
-            "linux/amd64": 59347755,
-            "linux/arm64": 56981626
+            "linux/amd64": 59348821,
+            "linux/arm64": 56985068
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.5.0",
+          "version": "2.5.2",
           "tags": [
             "alpine",
-            "2.5.0-alpine",
+            "2.5.2-alpine",
             "2.5-alpine",
             "2-alpine",
-            "2.5.0-alpine3.24"
+            "2.5.2-alpine3.24"
           ],
-          "digest": "sha256:d5dc76c1ba2765c328e6bf2c52174190b19f7aa8fd06e75718d26c916ee481ec",
+          "digest": "sha256:dbcf4c7e433fc31c9495a118adb08fe979ac254f20fa7fdd5ebda02a6d58a166",
           "size": {
-            "linux/amd64": 20376128,
-            "linux/arm64": 19387829
+            "linux/amd64": 20377223,
+            "linux/arm64": 19391229
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "2.5.0",
+          "version": "2.5.2",
           "tags": [
             "slim",
-            "2.5.0-slim",
+            "2.5.2-slim",
             "2.5-slim",
             "2-slim",
             "slim-ubuntu",
-            "2.5.0-slim-ubuntu",
+            "2.5.2-slim-ubuntu",
             "2.5-slim-ubuntu",
             "2-slim-ubuntu",
-            "2.5.0-slim-ubuntu26.04"
+            "2.5.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:d71b4489a29afaa84b168fa5bacfaa6a3f37452b39c5fb2376652da723e3e122",
+          "digest": "sha256:183005698ffcaa5c2db7fe9091271264337566586780b87b69528ac4031bdf8c",
           "size": {
-            "linux/amd64": 57110744,
-            "linux/arm64": 54780720
+            "linux/amd64": 57111834,
+            "linux/arm64": 54784193
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "2.5.0",
+          "version": "2.5.2",
           "tags": [
             "slim-alpine",
-            "2.5.0-slim-alpine",
+            "2.5.2-slim-alpine",
             "2.5-slim-alpine",
             "2-slim-alpine",
-            "2.5.0-slim-alpine3.24"
+            "2.5.2-slim-alpine3.24"
           ],
-          "digest": "sha256:8381e8d18a3dffebb79e01bb1148d4aa7d0d2259491e36311b5fcf993bc04740",
+          "digest": "sha256:8c7cff22b4960f22c2ca8b8ee7dfe574da5bbf3a985412fab671441b08a53eba",
           "size": {
-            "linux/amd64": 17963771,
-            "linux/arm64": 17016430
+            "linux/amd64": 17964898,
+            "linux/arm64": 17019853
           }
         }
       ]
@@ -1806,7 +1806,7 @@
       "homepage": "https://exiftool.org/",
       "repository": "https://github.com/randomcontainers/exiftool",
       "license": "(Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0",
-      "version": "13.63",
+      "version": "13.64",
       "versioning": "loose",
       "examples": [
         {
@@ -1843,76 +1843,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-16T15:30:52Z",
+      "updated": "2026-11-17T22:41:07Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "13.63",
+          "version": "13.64",
           "tags": [
             "latest",
-            "13.63",
+            "13.64",
             "13",
             "ubuntu",
-            "13.63-ubuntu",
+            "13.64-ubuntu",
             "13-ubuntu",
-            "13.63-ubuntu26.04"
+            "13.64-ubuntu26.04"
           ],
-          "digest": "sha256:ecbbddb7a70521789b3d2c4ef3012ee3e5fcaa92bb1c8dbb22549d15e9945a9a",
+          "digest": "sha256:5052da57a774c292d69ee4abb1b600e397ab9110866b9ecb3a2a705fc346cb76",
           "size": {
-            "linux/amd64": 81197536,
-            "linux/arm64": 78465027
+            "linux/amd64": 81198578,
+            "linux/arm64": 78466409
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "13.63",
+          "version": "13.64",
           "tags": [
             "alpine",
-            "13.63-alpine",
+            "13.64-alpine",
             "13-alpine",
-            "13.63-alpine3.24"
+            "13.64-alpine3.24"
           ],
-          "digest": "sha256:9e41f070eef9b37bfb6cc0c07473c6c6667b134781c3643b87a414175ed07161",
+          "digest": "sha256:05f85dadc59a2268d416f6340baab6bdb849a4580b6147ce3e94a4f00204e53a",
           "size": {
-            "linux/amd64": 41908555,
-            "linux/arm64": 41596302
+            "linux/amd64": 41910058,
+            "linux/arm64": 41597920
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "13.63",
+          "version": "13.64",
           "tags": [
             "slim",
-            "13.63-slim",
+            "13.64-slim",
             "13-slim",
             "slim-ubuntu",
-            "13.63-slim-ubuntu",
+            "13.64-slim-ubuntu",
             "13-slim-ubuntu",
-            "13.63-slim-ubuntu26.04"
+            "13.64-slim-ubuntu26.04"
           ],
-          "digest": "sha256:81e7d1354207619c4668dc9eb45a4076e4f237b3d5cb84dec675aa2a474fbe83",
+          "digest": "sha256:3b71da76d3757e9c39e74bb92b09f853c295e4d636e219b645039022009dee4d",
           "size": {
-            "linux/amd64": 63600216,
-            "linux/arm64": 62451824
+            "linux/amd64": 63601736,
+            "linux/arm64": 62453397
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "13.63",
+          "version": "13.64",
           "tags": [
             "slim-alpine",
-            "13.63-slim-alpine",
+            "13.64-slim-alpine",
             "13-slim-alpine",
-            "13.63-slim-alpine3.24"
+            "13.64-slim-alpine3.24"
           ],
-          "digest": "sha256:42dd580e3cebe24027fd2780e349ebc89f93ff5bb3a78bc474e19eab17b2138e",
+          "digest": "sha256:db8d27202a74307738cbb13c4b7ddfbd104933e9899bb0cbc6025b2b6dbd10e3",
           "size": {
-            "linux/amd64": 20228218,
-            "linux/arm64": 20503654
+            "linux/amd64": 20229759,
+            "linux/arm64": 20505137
           }
         }
       ]
@@ -2981,7 +2981,7 @@
       "homepage": "https://imagemagick.org/",
       "repository": "https://github.com/randomcontainers/imagemagick",
       "license": "ImageMagick AND LGPL-3.0-or-later",
-      "version": "7.1.2-35",
+      "version": "7.1.2-36",
       "versioning": "loose",
       "examples": [
         {
@@ -9079,7 +9079,7 @@
       "summary": "doctl with the OpenSSH client, which doctl compute ssh runs to log in to Droplets.",
       "repository": "https://github.com/randomcontainers/doctl-openssh-client",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
-      "version": "2.5.0",
+      "version": "2.5.2",
       "public": true,
       "updated": "2026-11-16T15:33:38Z",
       "variants": [
@@ -9181,7 +9181,7 @@
       "summary": "ExifTool with ImageMagick, for converting and resizing images and then copying, fixing or removing their metadata.",
       "repository": "https://github.com/randomcontainers/exiftool-imagemagick",
       "license": "(((Artistic-1.0-Perl OR GPL-1.0-or-later) AND GPL-2.0-or-later AND CC-BY-4.0) AND ImageMagick AND LGPL-3.0-or-later)",
-      "version": "13.63",
+      "version": "13.64",
       "public": true,
       "updated": "2026-11-16T15:33:13Z",
       "variants": [
@@ -9334,7 +9334,7 @@
       "summary": "ImageMagick with Ghostscript, for reading and writing PDF, PostScript and EPS files.",
       "repository": "https://github.com/randomcontainers/imagemagick-ghostscript",
       "license": "ImageMagick AND LGPL-3.0-or-later AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-3-Clause AND FTL AND ISC AND MIT AND Zlib",
-      "version": "7.1.2-35",
+      "version": "7.1.2-36",
       "public": true,
       "updated": "2026-11-16T15:34:30Z",
       "variants": [
