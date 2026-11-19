@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-18T12:24:58Z",
+  "generated": "2026-11-18T20:46:19Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1324,7 +1324,7 @@
       "homepage": "https://djlint.com/",
       "repository": "https://github.com/randomcontainers/djlint",
       "license": "GPL-3.0-or-later AND MIT AND MPL-2.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND PSF-2.0 AND CNRI-Python",
-      "version": "1.53.0",
+      "version": "1.53.1",
       "versioning": "semver",
       "examples": [
         {
@@ -1359,7 +1359,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": true,
+      "stale": false,
       "updated": "2026-10-30T03:05:00Z",
       "variants": [
         {
@@ -1448,7 +1448,7 @@
       "homepage": "https://docs.digitalocean.com/reference/doctl/",
       "repository": "https://github.com/randomcontainers/doctl",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1",
-      "version": "2.5.2",
+      "version": "2.6.0",
       "versioning": "semver",
       "examples": [
         {
@@ -1481,82 +1481,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-17T22:41:00Z",
+      "updated": "2026-11-18T20:46:19Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.5.2",
+          "version": "2.6.0",
           "tags": [
             "latest",
-            "2.5.2",
-            "2.5",
+            "2.6.0",
+            "2.6",
             "2",
             "ubuntu",
-            "2.5.2-ubuntu",
-            "2.5-ubuntu",
+            "2.6.0-ubuntu",
+            "2.6-ubuntu",
             "2-ubuntu",
-            "2.5.2-ubuntu26.04"
+            "2.6.0-ubuntu26.04"
           ],
-          "digest": "sha256:89867257d94926b9b08be7cabc1a586eb769de0bc25ff90fc114e46317f95cac",
+          "digest": "sha256:b7731a67c8dfb40fe6f3a32b8c111df5419018c27f1cf0293e75d3ec9b1fb94a",
           "size": {
-            "linux/amd64": 59348821,
-            "linux/arm64": 56985068
+            "linux/amd64": 59349776,
+            "linux/arm64": 56988679
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.5.2",
+          "version": "2.6.0",
           "tags": [
             "alpine",
-            "2.5.2-alpine",
-            "2.5-alpine",
+            "2.6.0-alpine",
+            "2.6-alpine",
             "2-alpine",
-            "2.5.2-alpine3.24"
+            "2.6.0-alpine3.24"
           ],
-          "digest": "sha256:dbcf4c7e433fc31c9495a118adb08fe979ac254f20fa7fdd5ebda02a6d58a166",
+          "digest": "sha256:d8f97f93e40a4a069c02b730f4ed7a65422b0a563e686ade80e49813947f8b00",
           "size": {
-            "linux/amd64": 20377223,
-            "linux/arm64": 19391229
+            "linux/amd64": 20378110,
+            "linux/arm64": 19394890
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "2.5.2",
+          "version": "2.6.0",
           "tags": [
             "slim",
-            "2.5.2-slim",
-            "2.5-slim",
+            "2.6.0-slim",
+            "2.6-slim",
             "2-slim",
             "slim-ubuntu",
-            "2.5.2-slim-ubuntu",
-            "2.5-slim-ubuntu",
+            "2.6.0-slim-ubuntu",
+            "2.6-slim-ubuntu",
             "2-slim-ubuntu",
-            "2.5.2-slim-ubuntu26.04"
+            "2.6.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:183005698ffcaa5c2db7fe9091271264337566586780b87b69528ac4031bdf8c",
+          "digest": "sha256:a7951c72704d695dfcd7b185e860b0bdca01d77fb5ca9a0cdc14e2db0f943a5f",
           "size": {
-            "linux/amd64": 57111834,
-            "linux/arm64": 54784193
+            "linux/amd64": 57112777,
+            "linux/arm64": 54787817
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "2.5.2",
+          "version": "2.6.0",
           "tags": [
             "slim-alpine",
-            "2.5.2-slim-alpine",
-            "2.5-slim-alpine",
+            "2.6.0-slim-alpine",
+            "2.6-slim-alpine",
             "2-slim-alpine",
-            "2.5.2-slim-alpine3.24"
+            "2.6.0-slim-alpine3.24"
           ],
-          "digest": "sha256:8c7cff22b4960f22c2ca8b8ee7dfe574da5bbf3a985412fab671441b08a53eba",
+          "digest": "sha256:3a4da460c115eaab915c016c7695d44ad60608f54ec0e7506b6bf84d90cd475e",
           "size": {
-            "linux/amd64": 17964898,
-            "linux/arm64": 17019853
+            "linux/amd64": 17965782,
+            "linux/arm64": 17023517
           }
         }
       ]
@@ -7522,7 +7522,7 @@
       "homepage": "https://tombi-toml.github.io/tombi/",
       "repository": "https://github.com/randomcontainers/tombi",
       "license": "MIT AND Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND BSD-3-Clause AND ISC AND Unicode-3.0 AND Zlib AND MPL-2.0",
-      "version": "1.11.2",
+      "version": "1.11.3",
       "versioning": "semver",
       "examples": [
         {
@@ -7549,7 +7549,7 @@
       "combos": [],
       "public": true,
       "default_ready": true,
-      "stale": true,
+      "stale": false,
       "updated": "2026-11-08T15:48:40Z",
       "variants": [
         {
@@ -9079,7 +9079,7 @@
       "summary": "doctl with the OpenSSH client, which doctl compute ssh runs to log in to Droplets.",
       "repository": "https://github.com/randomcontainers/doctl-openssh-client",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
-      "version": "2.5.2",
+      "version": "2.6.0",
       "public": true,
       "updated": "2026-11-18T03:55:12Z",
       "variants": [
