@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-19T02:06:13Z",
+  "generated": "2026-11-20T01:13:33Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -7638,7 +7638,7 @@
       "homepage": "https://www.wireshark.org/",
       "repository": "https://github.com/randomcontainers/tshark",
       "license": "GPL-2.0-or-later AND BSD-1-Clause AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND ISC AND Kazlib AND LGPL-2.1-or-later AND MIT AND Zlib AND dtoa",
-      "version": "4.6.9",
+      "version": "4.6.10",
       "versioning": "semver",
       "examples": [
         {
@@ -7675,82 +7675,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-16T15:32:17Z",
+      "updated": "2026-11-20T01:13:33Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "4.6.9",
+          "version": "4.6.10",
           "tags": [
             "latest",
-            "4.6.9",
+            "4.6.10",
             "4.6",
             "4",
             "ubuntu",
-            "4.6.9-ubuntu",
+            "4.6.10-ubuntu",
             "4.6-ubuntu",
             "4-ubuntu",
-            "4.6.9-ubuntu26.04"
+            "4.6.10-ubuntu26.04"
           ],
-          "digest": "sha256:463e40aced6f92bdcc8f9e2e8618692f1c4185e7ce9933ec779760577b24297f",
+          "digest": "sha256:fdbed8eba4d67dc7fa9f1f4e10bc9cb77827a32714dea43c0dc89c2c5fa3451d",
           "size": {
-            "linux/amd64": 85391879,
-            "linux/arm64": 83112402
+            "linux/amd64": 85551092,
+            "linux/arm64": 83260821
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "4.6.9",
+          "version": "4.6.10",
           "tags": [
             "alpine",
-            "4.6.9-alpine",
+            "4.6.10-alpine",
             "4.6-alpine",
             "4-alpine",
-            "4.6.9-alpine3.24"
+            "4.6.10-alpine3.24"
           ],
-          "digest": "sha256:7478fe7fd32895b2612a903515a4407aee337034ef7df870b8b89781163de856",
+          "digest": "sha256:bd92415d92175bb605a66a1ff794b2302d8ba474a0dff24999180d4482530dd0",
           "size": {
-            "linux/amd64": 49159544,
-            "linux/arm64": 48076337
+            "linux/amd64": 49312324,
+            "linux/arm64": 48231792
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "4.6.9",
+          "version": "4.6.10",
           "tags": [
             "slim",
-            "4.6.9-slim",
+            "4.6.10-slim",
             "4.6-slim",
             "4-slim",
             "slim-ubuntu",
-            "4.6.9-slim-ubuntu",
+            "4.6.10-slim-ubuntu",
             "4.6-slim-ubuntu",
             "4-slim-ubuntu",
-            "4.6.9-slim-ubuntu26.04"
+            "4.6.10-slim-ubuntu26.04"
           ],
-          "digest": "sha256:c36b3c01ad369b8f7986086171ee9d9aa081f3156fd1ddd3ab72052a2e267454",
+          "digest": "sha256:2d1852a284971aa6772501f385fdbd6dbde249de568ca635c624e49590e36f78",
           "size": {
-            "linux/amd64": 84855158,
-            "linux/arm64": 82566781
+            "linux/amd64": 85014390,
+            "linux/arm64": 82715222
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "4.6.9",
+          "version": "4.6.10",
           "tags": [
             "slim-alpine",
-            "4.6.9-slim-alpine",
+            "4.6.10-slim-alpine",
             "4.6-slim-alpine",
             "4-slim-alpine",
-            "4.6.9-slim-alpine3.24"
+            "4.6.10-slim-alpine3.24"
           ],
-          "digest": "sha256:87e28b756eab3099fc0d61444211aac0604eb35f88de39360d3573c0021c72e0",
+          "digest": "sha256:526d12608f39016f37b04974e4723e682e15ded3b47927dcf246ea326531f02c",
           "size": {
-            "linux/amd64": 48589167,
-            "linux/arm64": 47507903
+            "linux/amd64": 48741970,
+            "linux/arm64": 47663380
           }
         }
       ]
@@ -10203,7 +10203,7 @@
       "summary": "TShark with tcpdump, for capturing and filtering with tcpdump and decoding with Wireshark's dissectors in one image.",
       "repository": "https://github.com/randomcontainers/tshark-tcpdump",
       "license": "GPL-2.0-or-later AND BSD-1-Clause AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND ISC AND Kazlib AND LGPL-2.1-or-later AND MIT AND Zlib AND dtoa AND BSD-4-Clause AND BSD-4-Clause-UC AND NTP",
-      "version": "4.6.9",
+      "version": "4.6.10",
       "public": true,
       "updated": "2026-11-16T15:36:34Z",
       "variants": [
