@@ -56,7 +56,16 @@ gh attestation verify oci://$registry/$org/$name:latest \
   --repo $org/$name --signer-repo $org/ci
 ```
 
-Images from `$registry/$org/$owner` are built in [$org/$owner](https://github.com/$org/$owner), so verify them with `--repo $org/$owner --signer-repo $org/ci`.
+Each image also has a keyless cosign signature from the same workflow, for admission controllers that check cosign signatures:
+
+```sh
+cosign verify $registry/$org/$name:latest \
+  --certificate-identity https://github.com/$org/ci/.github/workflows/build.yml@refs/tags/v1 \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  --certificate-github-workflow-repository $org/$name
+```
+
+Images from `$registry/$org/$owner` are built in [$org/$owner](https://github.com/$org/$owner), so name that repository in `--repo` and `--certificate-github-workflow-repository`.
 
 ## Updates
 

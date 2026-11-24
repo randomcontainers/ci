@@ -124,7 +124,13 @@ def test_repo_files(packages, distros):
         "gh attestation verify oci://ghcr.io/randomcontainers/yt-dlp-ffmpeg:latest \\\n"
         "  --repo randomcontainers/yt-dlp-ffmpeg --signer-repo randomcontainers/ci\n"
     ) in readme
-    assert "`--repo randomcontainers/yt-dlp --signer-repo randomcontainers/ci`" in readme
+    assert (
+        "cosign verify ghcr.io/randomcontainers/yt-dlp-ffmpeg:latest \\\n"
+        "  --certificate-identity https://github.com/randomcontainers/ci/.github/workflows/build.yml@refs/tags/v1 \\\n"
+        "  --certificate-oidc-issuer https://token.actions.githubusercontent.com \\\n"
+        "  --certificate-github-workflow-repository randomcontainers/yt-dlp-ffmpeg\n"
+    ) in readme
+    assert "are built in [randomcontainers/yt-dlp](https://github.com/randomcontainers/yt-dlp), so name that repository" in readme
     assert "tags ending in `ubuntu26.04` or `alpine3.24` stay on that release" in readme
     assert "Only the tags of the yt-dlp version currently in [yt-dlp's package.yml]" in readme
     assert "(https://github.com/orgs/randomcontainers/packages/container/package/yt-dlp-ffmpeg)" in readme
