@@ -177,7 +177,7 @@ jobs:
     permissions:
       contents: read # read the head of main
       packages: write # create the index and tags
-      id-token: write # sign the attestation
+      id-token: write # sign the attestation and the image
       attestations: write # store the attestation
       artifact-metadata: write # record the image as an artifact of this run
     strategy:
@@ -241,6 +241,25 @@ jobs:
           subject-name: ${{ steps.decide.outputs.image }}
           subject-digest: ${{ steps.index.outputs.digest }}
           push-to-registry: false
+      - name: Install cosign
+        if: steps.decide.outputs.skip == 'false'
+        uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
+        with:
+          cosign-release: v3.1.4
+      - name: Sign
+        if: steps.decide.outputs.skip == 'false'
+        env:
+          IMAGE: ${{ steps.decide.outputs.image }}
+          DIGEST: ${{ steps.index.outputs.digest }}
+        # Kyverno's ClusterPolicy and policy-controller read only the classic
+        # format, stored under the sha256-<hex>.sig tag.
+        run: |
+          for attempt in 1 2 3; do
+            cosign sign --yes --new-bundle-format=false --use-signing-config=false "$IMAGE@$DIGEST" && exit 0
+            echo "::warning::cosign sign failed (attempt $attempt)"
+            sleep 30
+          done
+          exit 1
 
   release:
     name: Source release
