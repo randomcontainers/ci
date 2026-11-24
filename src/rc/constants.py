@@ -10,7 +10,7 @@ REGISTRY = "ghcr.io"
 VENDOR = "randomcontainers"
 
 METADATA_DIR = "/usr/local/share/randomcontainers"
-COMMON_PACKAGES = ("ca-certificates", "tini")
+COMMON_PACKAGES = ("ca-certificates", "tini", "tzdata")
 COMMON_ENV = {"LANG": "C.UTF-8", "XDG_CACHE_HOME": "/cache"}
 IMAGE_USER = "1000:1000"
 WORKDIR = "/work"

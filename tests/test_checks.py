@@ -29,6 +29,7 @@ bash
 ca-certificates
 python3
 tini
+tzdata
 
 @@section dirs
 /work 1777
