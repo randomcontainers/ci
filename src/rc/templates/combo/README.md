@@ -56,7 +56,7 @@ gh attestation verify oci://$registry/$org/$name:latest \
   --repo $org/$name --signer-repo $org/ci
 ```
 
-Each image also has a keyless cosign signature from the same workflow, for admission controllers that check cosign signatures:
+Images published since November 2026 also have a keyless cosign signature from the same workflow, for admission controllers that check cosign signatures. Tags last built before then have only the attestation.
 
 ```sh
 cosign verify $registry/$org/$name:latest \
@@ -65,7 +65,7 @@ cosign verify $registry/$org/$name:latest \
   --certificate-github-workflow-repository $org/$name
 ```
 
-Images from `$registry/$org/$owner` are built in [$org/$owner](https://github.com/$org/$owner), so name that repository in `--repo` and `--certificate-github-workflow-repository`.
+Images from `$registry/$org/$owner` are built in [$org/$owner](https://github.com/$org/$owner), so use `$org/$owner` in `--repo` and `--certificate-github-workflow-repository`.
 
 ## Updates
 
