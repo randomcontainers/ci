@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-25T09:22:40Z",
+  "generated": "2026-11-25T19:26:58Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1448,7 +1448,7 @@
       "homepage": "https://docs.digitalocean.com/reference/doctl/",
       "repository": "https://github.com/randomcontainers/doctl",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1",
-      "version": "2.7.0",
+      "version": "2.8.0",
       "versioning": "semver",
       "examples": [
         {
@@ -1481,82 +1481,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-25T05:27:37Z",
+      "updated": "2026-11-25T19:26:58Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.7.0",
+          "version": "2.8.0",
           "tags": [
             "latest",
-            "2.7.0",
-            "2.7",
+            "2.8.0",
+            "2.8",
             "2",
             "ubuntu",
-            "2.7.0-ubuntu",
-            "2.7-ubuntu",
+            "2.8.0-ubuntu",
+            "2.8-ubuntu",
             "2-ubuntu",
-            "2.7.0-ubuntu26.04"
+            "2.8.0-ubuntu26.04"
           ],
-          "digest": "sha256:27710ded0df072cd0ca3ac085aebbf55636c55663972dabad730a0531105b1c4",
+          "digest": "sha256:3c4faff4b557fdb60728bb55f67873e7686d9459c77932435d18d36cabebc80e",
           "size": {
-            "linux/amd64": 59756368,
-            "linux/arm64": 57396450
+            "linux/amd64": 59953330,
+            "linux/arm64": 57574514
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.7.0",
+          "version": "2.8.0",
           "tags": [
             "alpine",
-            "2.7.0-alpine",
-            "2.7-alpine",
+            "2.8.0-alpine",
+            "2.8-alpine",
             "2-alpine",
-            "2.7.0-alpine3.24"
+            "2.8.0-alpine3.24"
           ],
-          "digest": "sha256:42ea1dda551312649659f1839af3afd356283e0d199991f77e8395ee758665d1",
+          "digest": "sha256:f129d906569f87aaefbd109224ca12de73db501c04060d358ebf4cc742b337b8",
           "size": {
-            "linux/amd64": 20564292,
-            "linux/arm64": 19581419
+            "linux/amd64": 20761252,
+            "linux/arm64": 19759442
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "2.7.0",
+          "version": "2.8.0",
           "tags": [
             "slim",
-            "2.7.0-slim",
-            "2.7-slim",
+            "2.8.0-slim",
+            "2.8-slim",
             "2-slim",
             "slim-ubuntu",
-            "2.7.0-slim-ubuntu",
-            "2.7-slim-ubuntu",
+            "2.8.0-slim-ubuntu",
+            "2.8-slim-ubuntu",
             "2-slim-ubuntu",
-            "2.7.0-slim-ubuntu26.04"
+            "2.8.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:5346a47333e189f5a2b49dc35f545bad861a82b9c8f89ba232acf9a81c1273f9",
+          "digest": "sha256:602410a1f0e1fd9545bf136438205d747ccf33f13df92b7dd3cd52d63f561d9c",
           "size": {
-            "linux/amd64": 57518789,
-            "linux/arm64": 55194869
+            "linux/amd64": 57715735,
+            "linux/arm64": 55372952
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "2.7.0",
+          "version": "2.8.0",
           "tags": [
             "slim-alpine",
-            "2.7.0-slim-alpine",
-            "2.7-slim-alpine",
+            "2.8.0-slim-alpine",
+            "2.8-slim-alpine",
             "2-slim-alpine",
-            "2.7.0-slim-alpine3.24"
+            "2.8.0-slim-alpine3.24"
           ],
-          "digest": "sha256:b91e818798f916f0acd14322da9ae96d3c10eea6684d275777388b63c343826f",
+          "digest": "sha256:3a7e873b23b0ad002dcd2490462217c432a2737cf7c6bb5129e168fba65ea80a",
           "size": {
-            "linux/amd64": 18139553,
-            "linux/arm64": 17197260
+            "linux/amd64": 18336537,
+            "linux/arm64": 17375306
           }
         }
       ]
@@ -2500,7 +2500,7 @@
       "homepage": "https://www.lcdf.org/gifsicle/",
       "repository": "https://github.com/randomcontainers/gifsicle",
       "license": "GPL-2.0-only",
-      "version": "1.98",
+      "version": "1.99",
       "versioning": "semver",
       "examples": [
         {
@@ -2545,76 +2545,76 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-25T04:30:55Z",
+      "updated": "2026-11-25T19:26:56Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "1.98",
+          "version": "1.99",
           "tags": [
             "latest",
-            "1.98",
+            "1.99",
             "1",
             "ubuntu",
-            "1.98-ubuntu",
+            "1.99-ubuntu",
             "1-ubuntu",
-            "1.98-ubuntu26.04"
+            "1.99-ubuntu26.04"
           ],
-          "digest": "sha256:516968980015f7d026d07cde674be633d4cd0b9ac0d716f37abbefaa106496dd",
+          "digest": "sha256:8997061823bbf9313f03f2b079b8a718ffa28c25ce77e9145b86409750fcd7e5",
           "size": {
-            "linux/amd64": 88848272,
-            "linux/arm64": 86750134
+            "linux/amd64": 89149021,
+            "linux/arm64": 87046270
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "1.98",
+          "version": "1.99",
           "tags": [
             "alpine",
-            "1.98-alpine",
+            "1.99-alpine",
             "1-alpine",
-            "1.98-alpine3.24"
+            "1.99-alpine3.24"
           ],
-          "digest": "sha256:372292d99b114b91bc5b548a27ee9b4a00368f315e6f7b29e697ef5fae7eb7ab",
+          "digest": "sha256:4225a4ea25873fa188b41169ab977ebfa985fa7c974b9d5c99eb6f1539838657",
           "size": {
-            "linux/amd64": 50519786,
-            "linux/arm64": 48728835
+            "linux/amd64": 50520370,
+            "linux/arm64": 48730008
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "1.98",
+          "version": "1.99",
           "tags": [
             "slim",
-            "1.98-slim",
+            "1.99-slim",
             "1-slim",
             "slim-ubuntu",
-            "1.98-slim-ubuntu",
+            "1.99-slim-ubuntu",
             "1-slim-ubuntu",
-            "1.98-slim-ubuntu26.04"
+            "1.99-slim-ubuntu26.04"
           ],
-          "digest": "sha256:485d2cc01192b409bbec6af4a0716c7545877140a95ede5d969af2388db718bf",
+          "digest": "sha256:43d2c81dac6147f44b53872e9ee179005f7ec449dc7c1d17c52aab67eb3e00cd",
           "size": {
-            "linux/amd64": 43822649,
-            "linux/arm64": 42775185
+            "linux/amd64": 43822855,
+            "linux/arm64": 42776007
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "1.98",
+          "version": "1.99",
           "tags": [
             "slim-alpine",
-            "1.98-slim-alpine",
+            "1.99-slim-alpine",
             "1-slim-alpine",
-            "1.98-slim-alpine3.24"
+            "1.99-slim-alpine3.24"
           ],
-          "digest": "sha256:3231ccede86cca49a3724899e37741e36a89b1283532585e2c34e61f5f762d19",
+          "digest": "sha256:64da9167369d882b2dc88022da7003718a85b6f1606e08f02505e740188044ce",
           "size": {
-            "linux/amd64": 4443929,
-            "linux/arm64": 4778290
+            "linux/amd64": 4444467,
+            "linux/arm64": 4779454
           }
         }
       ]
@@ -4589,7 +4589,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-25T05:26:20Z",
+      "updated": "2026-11-25T19:24:24Z",
       "variants": [
         {
           "flavour": "default",
@@ -4604,10 +4604,10 @@
             "104-ubuntu",
             "104.0-ubuntu26.04"
           ],
-          "digest": "sha256:5bf38f94df930950be393466c3d967ef60aa3eb7b3ed7b4866c9f3ad6f455e11",
+          "digest": "sha256:71b5056b134058a44d430780ca4082039abf5ab4ef943647359f6d3c04a60ba6",
           "size": {
-            "linux/amd64": 123298724,
-            "linux/arm64": 120134169
+            "linux/amd64": 123490795,
+            "linux/arm64": 120317135
           }
         },
         {
@@ -4620,10 +4620,10 @@
             "104-alpine",
             "104.0-alpine3.24"
           ],
-          "digest": "sha256:82ed6ad81c4dcf764d41f024f970572074481be25e75ec56bbbc911d2e2f7872",
+          "digest": "sha256:5b769c15268ed30ec19ecdc30bc46bfc6fa7ee0ec840dd96f908ef6326280385",
           "size": {
-            "linux/amd64": 75567436,
-            "linux/arm64": 72810236
+            "linux/amd64": 75567427,
+            "linux/arm64": 72810244
           }
         },
         {
@@ -9079,7 +9079,7 @@
       "summary": "doctl with the OpenSSH client, which doctl compute ssh runs to log in to Droplets.",
       "repository": "https://github.com/randomcontainers/doctl-openssh-client",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
-      "version": "2.7.0",
+      "version": "2.8.0",
       "public": true,
       "updated": "2026-11-25T09:18:54Z",
       "variants": [
@@ -9283,7 +9283,7 @@
       "summary": "Gifsicle with FFmpeg, for turning video clips into GIF animations and then optimizing them.",
       "repository": "https://github.com/randomcontainers/gifsicle-ffmpeg",
       "license": "GPL-2.0-only AND GPL-3.0-or-later AND MPL-2.0 AND BSD-3-Clause AND Zlib AND Unlicense",
-      "version": "1.98",
+      "version": "1.99",
       "public": true,
       "updated": "2026-11-25T09:19:09Z",
       "variants": [
