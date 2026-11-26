@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-26T02:19:57Z",
+  "generated": "2026-11-26T11:05:25Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1448,7 +1448,7 @@
       "homepage": "https://docs.digitalocean.com/reference/doctl/",
       "repository": "https://github.com/randomcontainers/doctl",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1",
-      "version": "2.8.0",
+      "version": "2.9.0",
       "versioning": "semver",
       "examples": [
         {
@@ -1481,82 +1481,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-25T19:26:58Z",
+      "updated": "2026-11-26T11:05:25Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.8.0",
+          "version": "2.9.0",
           "tags": [
             "latest",
-            "2.8.0",
-            "2.8",
+            "2.9.0",
+            "2.9",
             "2",
             "ubuntu",
-            "2.8.0-ubuntu",
-            "2.8-ubuntu",
+            "2.9.0-ubuntu",
+            "2.9-ubuntu",
             "2-ubuntu",
-            "2.8.0-ubuntu26.04"
+            "2.9.0-ubuntu26.04"
           ],
-          "digest": "sha256:3c4faff4b557fdb60728bb55f67873e7686d9459c77932435d18d36cabebc80e",
+          "digest": "sha256:2511845b537bf16bd86965a90cd7eb18618e824050679512d4ea9c1cc68e33a7",
           "size": {
-            "linux/amd64": 59953330,
-            "linux/arm64": 57574514
+            "linux/amd64": 59957983,
+            "linux/arm64": 57578701
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.8.0",
+          "version": "2.9.0",
           "tags": [
             "alpine",
-            "2.8.0-alpine",
-            "2.8-alpine",
+            "2.9.0-alpine",
+            "2.9-alpine",
             "2-alpine",
-            "2.8.0-alpine3.24"
+            "2.9.0-alpine3.24"
           ],
-          "digest": "sha256:f129d906569f87aaefbd109224ca12de73db501c04060d358ebf4cc742b337b8",
+          "digest": "sha256:413f5b9212f1becc18aeeefcb60dc9f02696a6ecef9776ed7bdc388c72866670",
           "size": {
-            "linux/amd64": 20761252,
-            "linux/arm64": 19759442
+            "linux/amd64": 20765933,
+            "linux/arm64": 19763632
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "2.8.0",
+          "version": "2.9.0",
           "tags": [
             "slim",
-            "2.8.0-slim",
-            "2.8-slim",
+            "2.9.0-slim",
+            "2.9-slim",
             "2-slim",
             "slim-ubuntu",
-            "2.8.0-slim-ubuntu",
-            "2.8-slim-ubuntu",
+            "2.9.0-slim-ubuntu",
+            "2.9-slim-ubuntu",
             "2-slim-ubuntu",
-            "2.8.0-slim-ubuntu26.04"
+            "2.9.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:602410a1f0e1fd9545bf136438205d747ccf33f13df92b7dd3cd52d63f561d9c",
+          "digest": "sha256:3435ed7e0d132396af9438c2fc5ef5ee38cdcd337d43675b029702c3fe72cbff",
           "size": {
-            "linux/amd64": 57715735,
-            "linux/arm64": 55372952
+            "linux/amd64": 57720433,
+            "linux/arm64": 55377140
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "2.8.0",
+          "version": "2.9.0",
           "tags": [
             "slim-alpine",
-            "2.8.0-slim-alpine",
-            "2.8-slim-alpine",
+            "2.9.0-slim-alpine",
+            "2.9-slim-alpine",
             "2-slim-alpine",
-            "2.8.0-slim-alpine3.24"
+            "2.9.0-slim-alpine3.24"
           ],
-          "digest": "sha256:3a7e873b23b0ad002dcd2490462217c432a2737cf7c6bb5129e168fba65ea80a",
+          "digest": "sha256:9ff2767a331c208ff661be39476f079e077ba2fdc70de6cf3b5b89cdae610b25",
           "size": {
-            "linux/amd64": 18336537,
-            "linux/arm64": 17375306
+            "linux/amd64": 18341211,
+            "linux/arm64": 17379492
           }
         }
       ]
@@ -9079,7 +9079,7 @@
       "summary": "doctl with the OpenSSH client, which doctl compute ssh runs to log in to Droplets.",
       "repository": "https://github.com/randomcontainers/doctl-openssh-client",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
-      "version": "2.8.0",
+      "version": "2.9.0",
       "public": true,
       "updated": "2026-11-26T02:19:49Z",
       "variants": [
