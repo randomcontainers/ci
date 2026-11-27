@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-26T11:05:25Z",
+  "generated": "2026-11-26T20:07:05Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1448,7 +1448,7 @@
       "homepage": "https://docs.digitalocean.com/reference/doctl/",
       "repository": "https://github.com/randomcontainers/doctl",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1",
-      "version": "2.9.0",
+      "version": "2.10.0",
       "versioning": "semver",
       "examples": [
         {
@@ -1481,82 +1481,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-26T11:05:25Z",
+      "updated": "2026-11-26T20:07:05Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.9.0",
+          "version": "2.10.0",
           "tags": [
             "latest",
-            "2.9.0",
-            "2.9",
+            "2.10.0",
+            "2.10",
             "2",
             "ubuntu",
-            "2.9.0-ubuntu",
-            "2.9-ubuntu",
+            "2.10.0-ubuntu",
+            "2.10-ubuntu",
             "2-ubuntu",
-            "2.9.0-ubuntu26.04"
+            "2.10.0-ubuntu26.04"
           ],
-          "digest": "sha256:2511845b537bf16bd86965a90cd7eb18618e824050679512d4ea9c1cc68e33a7",
+          "digest": "sha256:ddc8c0098d849fe675b0dc6c98dc3a11f70d13dfdcfbda20cd1faa05505fc85d",
           "size": {
-            "linux/amd64": 59957983,
-            "linux/arm64": 57578701
+            "linux/amd64": 59979771,
+            "linux/arm64": 57594481
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.9.0",
+          "version": "2.10.0",
           "tags": [
             "alpine",
-            "2.9.0-alpine",
-            "2.9-alpine",
+            "2.10.0-alpine",
+            "2.10-alpine",
             "2-alpine",
-            "2.9.0-alpine3.24"
+            "2.10.0-alpine3.24"
           ],
-          "digest": "sha256:413f5b9212f1becc18aeeefcb60dc9f02696a6ecef9776ed7bdc388c72866670",
+          "digest": "sha256:7497ff2e8df6b61d524a82ca2273b228d6c658520763f38d2b3933d0e84fc51a",
           "size": {
-            "linux/amd64": 20765933,
-            "linux/arm64": 19763632
+            "linux/amd64": 20787683,
+            "linux/arm64": 19779390
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "2.9.0",
+          "version": "2.10.0",
           "tags": [
             "slim",
-            "2.9.0-slim",
-            "2.9-slim",
+            "2.10.0-slim",
+            "2.10-slim",
             "2-slim",
             "slim-ubuntu",
-            "2.9.0-slim-ubuntu",
-            "2.9-slim-ubuntu",
+            "2.10.0-slim-ubuntu",
+            "2.10-slim-ubuntu",
             "2-slim-ubuntu",
-            "2.9.0-slim-ubuntu26.04"
+            "2.10.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:3435ed7e0d132396af9438c2fc5ef5ee38cdcd337d43675b029702c3fe72cbff",
+          "digest": "sha256:721d80dce4f246ed11449da51afef3d30b05bef356d1ec5be15f006881e71388",
           "size": {
-            "linux/amd64": 57720433,
-            "linux/arm64": 55377140
+            "linux/amd64": 57742188,
+            "linux/arm64": 55392910
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "2.9.0",
+          "version": "2.10.0",
           "tags": [
             "slim-alpine",
-            "2.9.0-slim-alpine",
-            "2.9-slim-alpine",
+            "2.10.0-slim-alpine",
+            "2.10-slim-alpine",
             "2-slim-alpine",
-            "2.9.0-slim-alpine3.24"
+            "2.10.0-slim-alpine3.24"
           ],
-          "digest": "sha256:9ff2767a331c208ff661be39476f079e077ba2fdc70de6cf3b5b89cdae610b25",
+          "digest": "sha256:2f0e7207ada46e2084e7cd9d23775726bc692e879458e965a427af83b7bfff2c",
           "size": {
-            "linux/amd64": 18341211,
-            "linux/arm64": 17379492
+            "linux/amd64": 18362964,
+            "linux/arm64": 17395262
           }
         }
       ]
@@ -2743,7 +2743,7 @@
       "homepage": "https://pressly.github.io/goose/",
       "repository": "https://github.com/randomcontainers/goose",
       "license": "MIT AND BSD-3-Clause AND Apache-2.0 AND MPL-2.0 AND BSD-2-Clause AND ISC AND MIT-0 AND blessing",
-      "version": "3.30.1",
+      "version": "3.30.2",
       "versioning": "semver",
       "examples": [
         {
@@ -2771,82 +2771,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-25T04:30:40Z",
+      "updated": "2026-11-26T20:06:56Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "3.30.1",
+          "version": "3.30.2",
           "tags": [
             "latest",
-            "3.30.1",
+            "3.30.2",
             "3.30",
             "3",
             "ubuntu",
-            "3.30.1-ubuntu",
+            "3.30.2-ubuntu",
             "3.30-ubuntu",
             "3-ubuntu",
-            "3.30.1-ubuntu26.04"
+            "3.30.2-ubuntu26.04"
           ],
-          "digest": "sha256:1f7b3663d43ddcd1c50a673f161c5efbd6b5016bd9a9a02457b36a9dc34dc743",
+          "digest": "sha256:7521c11312b106cd02791e80e607318c9dea018fdbb31ef5b3c4372e83900b1c",
           "size": {
-            "linux/amd64": 59050719,
-            "linux/arm64": 56742454
+            "linux/amd64": 59050112,
+            "linux/arm64": 56743367
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "3.30.1",
+          "version": "3.30.2",
           "tags": [
             "alpine",
-            "3.30.1-alpine",
+            "3.30.2-alpine",
             "3.30-alpine",
             "3-alpine",
-            "3.30.1-alpine3.24"
+            "3.30.2-alpine3.24"
           ],
-          "digest": "sha256:444a5c9bcda0409f6bee38a593e338112b53cc22fc37cb4b8e7a73a55231ebdd",
+          "digest": "sha256:6daeca3a6ba51d3b16a3d5e63c53a4958fac2c366a942e8aa7cc6d702c931286",
           "size": {
-            "linux/amd64": 19671533,
-            "linux/arm64": 18744860
+            "linux/amd64": 19670904,
+            "linux/arm64": 18745810
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "3.30.1",
+          "version": "3.30.2",
           "tags": [
             "slim",
-            "3.30.1-slim",
+            "3.30.2-slim",
             "3.30-slim",
             "3-slim",
             "slim-ubuntu",
-            "3.30.1-slim-ubuntu",
+            "3.30.2-slim-ubuntu",
             "3.30-slim-ubuntu",
             "3-slim-ubuntu",
-            "3.30.1-slim-ubuntu26.04"
+            "3.30.2-slim-ubuntu26.04"
           ],
-          "digest": "sha256:1f7b3663d43ddcd1c50a673f161c5efbd6b5016bd9a9a02457b36a9dc34dc743",
+          "digest": "sha256:7521c11312b106cd02791e80e607318c9dea018fdbb31ef5b3c4372e83900b1c",
           "size": {
-            "linux/amd64": 59050719,
-            "linux/arm64": 56742454
+            "linux/amd64": 59050112,
+            "linux/arm64": 56743367
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "3.30.1",
+          "version": "3.30.2",
           "tags": [
             "slim-alpine",
-            "3.30.1-slim-alpine",
+            "3.30.2-slim-alpine",
             "3.30-slim-alpine",
             "3-slim-alpine",
-            "3.30.1-slim-alpine3.24"
+            "3.30.2-slim-alpine3.24"
           ],
-          "digest": "sha256:444a5c9bcda0409f6bee38a593e338112b53cc22fc37cb4b8e7a73a55231ebdd",
+          "digest": "sha256:6daeca3a6ba51d3b16a3d5e63c53a4958fac2c366a942e8aa7cc6d702c931286",
           "size": {
-            "linux/amd64": 19671533,
-            "linux/arm64": 18744860
+            "linux/amd64": 19670904,
+            "linux/arm64": 18745810
           }
         }
       ]
@@ -7159,7 +7159,7 @@
       "homepage": "https://terragrunt.com/",
       "repository": "https://github.com/randomcontainers/terragrunt",
       "license": "MIT AND MPL-2.0 AND Apache-2.0 AND BSD-3-Clause AND BSD-2-Clause AND Unicode-DFS-2016 AND Unicode-3.0 AND OFL-1.1",
-      "version": "1.2.2",
+      "version": "1.2.3",
       "versioning": "semver",
       "examples": [
         {
@@ -8278,7 +8278,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-25T05:26:15Z",
+      "updated": "2026-11-26T20:06:59Z",
       "variants": [
         {
           "flavour": "default",
@@ -8293,10 +8293,10 @@
             "70-ubuntu",
             "70.0-ubuntu26.04"
           ],
-          "digest": "sha256:3af26b669502f04241e7543b6a863c41ab076b2c033855d1b203c0744485b37e",
+          "digest": "sha256:00277ed431ddf5d5928c724faf295208a84993ebfe7f642ca32a3334ef889317",
           "size": {
-            "linux/amd64": 90417174,
-            "linux/arm64": 88742622
+            "linux/amd64": 91812884,
+            "linux/arm64": 90197380
           }
         },
         {
@@ -8309,10 +8309,10 @@
             "70-alpine",
             "70.0-alpine3.24"
           ],
-          "digest": "sha256:8dd3b15c6047d2d4ff8000b38df406d4354c4f68617b8a79f143311255a92688",
+          "digest": "sha256:f729317268f7cb92a7ffb42cc028eec51735715e65329a9529c93540e8af4373",
           "size": {
-            "linux/amd64": 61159069,
-            "linux/arm64": 60547648
+            "linux/amd64": 62616520,
+            "linux/arm64": 61977704
           }
         },
         {
@@ -8328,10 +8328,10 @@
             "70-slim-ubuntu",
             "70.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:f3aecadb6439431a3f7f2f286176bfb817e21770209cc28ab3c1363e7904ea94",
+          "digest": "sha256:77ebd37928c9fd683046a34e58d7bc8f6ccdae4c012d1cb13cfa30380a95baf5",
           "size": {
-            "linux/amd64": 88572684,
-            "linux/arm64": 86990722
+            "linux/amd64": 89968373,
+            "linux/arm64": 88445478
           }
         },
         {
@@ -8344,10 +8344,10 @@
             "70-slim-alpine",
             "70.0-slim-alpine3.24"
           ],
-          "digest": "sha256:fd858f19fb0518f949f8e608feacbe869e2468beb841e4600309a44e67890eee",
+          "digest": "sha256:469c816b3b45a29f21a57c08ff9710499657b55a19c376ed2b16f6a48b6854ec",
           "size": {
-            "linux/amd64": 59306802,
-            "linux/arm64": 58764007
+            "linux/amd64": 60764275,
+            "linux/arm64": 60194081
           }
         }
       ]
@@ -9079,40 +9079,40 @@
       "summary": "doctl with the OpenSSH client, which doctl compute ssh runs to log in to Droplets.",
       "repository": "https://github.com/randomcontainers/doctl-openssh-client",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
-      "version": "2.9.0",
+      "version": "2.10.0",
       "public": true,
-      "updated": "2026-11-26T02:19:49Z",
+      "updated": "2026-11-26T20:06:40Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.8.0",
+          "version": "2.9.0",
           "tags": [
             "latest",
-            "2.8.0",
+            "2.9.0",
             "ubuntu",
-            "2.8.0-ubuntu",
-            "2.8.0-ubuntu26.04"
+            "2.9.0-ubuntu",
+            "2.9.0-ubuntu26.04"
           ],
-          "digest": "sha256:959430ad55a5d1022d0a156b2dfa009ef2e905fcd4088c63df22f6d24c41c053",
+          "digest": "sha256:3be3adf13fe8fad6c17d3dfea7d615e4e6556cf8de451ecf4449a379a5141bb9",
           "size": {
-            "linux/amd64": 59953515,
-            "linux/arm64": 57574727
+            "linux/amd64": 59958184,
+            "linux/arm64": 57578933
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.8.0",
+          "version": "2.9.0",
           "tags": [
             "alpine",
-            "2.8.0-alpine",
-            "2.8.0-alpine3.24"
+            "2.9.0-alpine",
+            "2.9.0-alpine3.24"
           ],
-          "digest": "sha256:0c7ccb7099af92fa7903d6a27f93c0aab8b351f8e38585aa20c9207eca7bb59d",
+          "digest": "sha256:49cbb27e6c3c5b19ab31b622c41293f9aeb6f9b4fb14ed397887fe59c34d5ab3",
           "size": {
-            "linux/amd64": 20761461,
-            "linux/arm64": 19759655
+            "linux/amd64": 20766143,
+            "linux/arm64": 19763823
           }
         }
       ]
@@ -10101,7 +10101,7 @@
       "summary": "Terragrunt with OpenTofu, Git and the OpenSSH client, for units whose modules come from the OpenTofu registry or from Git repositories over HTTPS or SSH.",
       "repository": "https://github.com/randomcontainers/terragrunt-opentofu-openssh-client",
       "license": "MIT AND MPL-2.0 AND Apache-2.0 AND BSD-3-Clause AND BSD-2-Clause AND Unicode-DFS-2016 AND Unicode-3.0 AND OFL-1.1 AND ISC AND SSH-OpenSSH AND GPL-2.0-only",
-      "version": "1.2.2",
+      "version": "1.2.3",
       "public": true,
       "updated": "2026-11-25T09:20:13Z",
       "variants": [
