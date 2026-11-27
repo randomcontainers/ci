@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-26T20:07:05Z",
+  "generated": "2026-11-27T02:48:30Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -9081,38 +9081,38 @@
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
       "version": "2.10.0",
       "public": true,
-      "updated": "2026-11-26T20:06:40Z",
+      "updated": "2026-11-27T02:48:30Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.9.0",
+          "version": "2.10.0",
           "tags": [
             "latest",
-            "2.9.0",
+            "2.10.0",
             "ubuntu",
-            "2.9.0-ubuntu",
-            "2.9.0-ubuntu26.04"
+            "2.10.0-ubuntu",
+            "2.10.0-ubuntu26.04"
           ],
-          "digest": "sha256:3be3adf13fe8fad6c17d3dfea7d615e4e6556cf8de451ecf4449a379a5141bb9",
+          "digest": "sha256:e3c6c297f96d0a67169e164cd7ee0c68b525f12851124d63bfe89ba73d3a728f",
           "size": {
-            "linux/amd64": 59958184,
-            "linux/arm64": 57578933
+            "linux/amd64": 59979975,
+            "linux/arm64": 57594728
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.9.0",
+          "version": "2.10.0",
           "tags": [
             "alpine",
-            "2.9.0-alpine",
-            "2.9.0-alpine3.24"
+            "2.10.0-alpine",
+            "2.10.0-alpine3.24"
           ],
-          "digest": "sha256:49cbb27e6c3c5b19ab31b622c41293f9aeb6f9b4fb14ed397887fe59c34d5ab3",
+          "digest": "sha256:bedf29d788ddbe0359171bfc06d4a47fccce8b7203a73eddc8b005181a6f0a7c",
           "size": {
-            "linux/amd64": 20766143,
-            "linux/arm64": 19763823
+            "linux/amd64": 20787891,
+            "linux/arm64": 19779609
           }
         }
       ]
@@ -10358,7 +10358,7 @@
       "license": "BSD-3-Clause AND MIT AND MIT-CMU AND Apache-2.0 AND BSD-2-Clause AND ISC AND MPL-2.0 AND PSF-2.0 AND LGPL-2.1-or-later AND GPL-2.0-or-later AND GPL-3.0-only AND FTL AND MIT-Modern-Variant AND IJG AND Zlib AND libpng-2.0 AND libtiff AND bzip2-1.0.6",
       "version": "70.0",
       "public": true,
-      "updated": "2026-11-25T09:22:06Z",
+      "updated": "2026-11-27T02:48:29Z",
       "variants": [
         {
           "flavour": "default",
@@ -10371,10 +10371,10 @@
             "70.0-ubuntu",
             "70.0-ubuntu26.04"
           ],
-          "digest": "sha256:f571f07b505b076049d7b8691f6ba8d3f52ba1f5697a53fdbccbeded36f3a6ef",
+          "digest": "sha256:15221e9bec1fb8c36694140da318049d785f95809e2af5087041848e9ef4a40b",
           "size": {
-            "linux/amd64": 90417322,
-            "linux/arm64": 88742830
+            "linux/amd64": 91813027,
+            "linux/arm64": 90197545
           }
         },
         {
@@ -10386,10 +10386,10 @@
             "70.0-alpine",
             "70.0-alpine3.24"
           ],
-          "digest": "sha256:52291f8a98fabe4aae13af02c8bf3ff7e338b67044421ea562354e764a836ba3",
+          "digest": "sha256:117974bed187dfb22535c4dbabf8fafa877632389e5c6bc8cf855e69cfe5b39b",
           "size": {
-            "linux/amd64": 61159222,
-            "linux/arm64": 60547798
+            "linux/amd64": 62616696,
+            "linux/arm64": 61977877
           }
         }
       ]
