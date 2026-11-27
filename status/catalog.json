@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-27T02:48:30Z",
+  "generated": "2026-11-27T11:32:49Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -1448,7 +1448,7 @@
       "homepage": "https://docs.digitalocean.com/reference/doctl/",
       "repository": "https://github.com/randomcontainers/doctl",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1",
-      "version": "2.10.0",
+      "version": "2.11.0",
       "versioning": "semver",
       "examples": [
         {
@@ -1481,82 +1481,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-26T20:07:05Z",
+      "updated": "2026-11-27T11:32:49Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.10.0",
+          "version": "2.11.0",
           "tags": [
             "latest",
-            "2.10.0",
-            "2.10",
+            "2.11.0",
+            "2.11",
             "2",
             "ubuntu",
-            "2.10.0-ubuntu",
-            "2.10-ubuntu",
+            "2.11.0-ubuntu",
+            "2.11-ubuntu",
             "2-ubuntu",
-            "2.10.0-ubuntu26.04"
+            "2.11.0-ubuntu26.04"
           ],
-          "digest": "sha256:ddc8c0098d849fe675b0dc6c98dc3a11f70d13dfdcfbda20cd1faa05505fc85d",
+          "digest": "sha256:5f601ef1ff8cea0e0662182c24ae8b705e81df2a40f19a98afd3a1b630c66518",
           "size": {
-            "linux/amd64": 59979771,
-            "linux/arm64": 57594481
+            "linux/amd64": 59979878,
+            "linux/arm64": 57594360
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.10.0",
+          "version": "2.11.0",
           "tags": [
             "alpine",
-            "2.10.0-alpine",
-            "2.10-alpine",
+            "2.11.0-alpine",
+            "2.11-alpine",
             "2-alpine",
-            "2.10.0-alpine3.24"
+            "2.11.0-alpine3.24"
           ],
-          "digest": "sha256:7497ff2e8df6b61d524a82ca2273b228d6c658520763f38d2b3933d0e84fc51a",
+          "digest": "sha256:8679439460c38d8918d2bd7e72749d72a2af96a38c1632e79078e8284c15d7b7",
           "size": {
-            "linux/amd64": 20787683,
-            "linux/arm64": 19779390
+            "linux/amd64": 20787885,
+            "linux/arm64": 19779257
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "2.10.0",
+          "version": "2.11.0",
           "tags": [
             "slim",
-            "2.10.0-slim",
-            "2.10-slim",
+            "2.11.0-slim",
+            "2.11-slim",
             "2-slim",
             "slim-ubuntu",
-            "2.10.0-slim-ubuntu",
-            "2.10-slim-ubuntu",
+            "2.11.0-slim-ubuntu",
+            "2.11-slim-ubuntu",
             "2-slim-ubuntu",
-            "2.10.0-slim-ubuntu26.04"
+            "2.11.0-slim-ubuntu26.04"
           ],
-          "digest": "sha256:721d80dce4f246ed11449da51afef3d30b05bef356d1ec5be15f006881e71388",
+          "digest": "sha256:69f95febcc92e28d11c424caa5426a9589997c64eb3e65bac26512e19fa49726",
           "size": {
-            "linux/amd64": 57742188,
-            "linux/arm64": 55392910
+            "linux/amd64": 57742321,
+            "linux/arm64": 55392763
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "2.10.0",
+          "version": "2.11.0",
           "tags": [
             "slim-alpine",
-            "2.10.0-slim-alpine",
-            "2.10-slim-alpine",
+            "2.11.0-slim-alpine",
+            "2.11-slim-alpine",
             "2-slim-alpine",
-            "2.10.0-slim-alpine3.24"
+            "2.11.0-slim-alpine3.24"
           ],
-          "digest": "sha256:2f0e7207ada46e2084e7cd9d23775726bc692e879458e965a427af83b7bfff2c",
+          "digest": "sha256:014fcf9557c21729cfde641bd41e48a0eeafc542c37904706d37f1cbe130d657",
           "size": {
-            "linux/amd64": 18362964,
-            "linux/arm64": 17395262
+            "linux/amd64": 18363159,
+            "linux/arm64": 17395124
           }
         }
       ]
@@ -5281,7 +5281,7 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-25T05:28:05Z",
+      "updated": "2026-11-27T11:32:47Z",
       "variants": [
         {
           "flavour": "default",
@@ -5298,10 +5298,10 @@
             "4-ubuntu",
             "4.7.1-ubuntu26.04"
           ],
-          "digest": "sha256:23a834023ce3673f2381ef5fd5093baaa6f7e95638c73222f3ce268133212b42",
+          "digest": "sha256:75bf8d9136c857b46d41054fdb626225d5af3454c6ca167a058ebda8490b8306",
           "size": {
-            "linux/amd64": 71687158,
-            "linux/arm64": 70581500
+            "linux/amd64": 71777279,
+            "linux/arm64": 70671602
           }
         },
         {
@@ -5315,10 +5315,10 @@
             "4-alpine",
             "4.7.1-alpine3.24"
           ],
-          "digest": "sha256:e8b4d05b2d4e04d62f9d5ed3dada2baa7cfa42b721d3d2b1e4623219613a6b15",
+          "digest": "sha256:d214a6d54a304cc048bbce27d041b39558e03e83ba4a1e113720902bfd0ae5c0",
           "size": {
-            "linux/amd64": 34959338,
-            "linux/arm64": 35154705
+            "linux/amd64": 35038543,
+            "linux/arm64": 35234133
           }
         },
         {
@@ -5336,10 +5336,10 @@
             "4-slim-ubuntu",
             "4.7.1-slim-ubuntu26.04"
           ],
-          "digest": "sha256:ceb19ac1a97f6242bc7b859a508dcc56e1552133d876b1c275436dace8bfc1f8",
+          "digest": "sha256:b0fe652761e738083690408b2a6ae906611503ff61647c18b8436e2bafb58762",
           "size": {
-            "linux/amd64": 69617394,
-            "linux/arm64": 68544018
+            "linux/amd64": 69707550,
+            "linux/arm64": 68634129
           }
         },
         {
@@ -5353,10 +5353,10 @@
             "4-slim-alpine",
             "4.7.1-slim-alpine3.24"
           ],
-          "digest": "sha256:e69a40db481a5d34f1ee4618cd05838f253cf22f4e0b192295e70acffa298679",
+          "digest": "sha256:56edae49f5102fe1bceaad7d5e11917542eaef63f5430356abe73b6a5c4003bd",
           "size": {
-            "linux/amd64": 31666339,
-            "linux/arm64": 31862853
+            "linux/amd64": 31745566,
+            "linux/arm64": 31942286
           }
         }
       ]
@@ -8730,7 +8730,7 @@
       "homepage": "https://virustotal.github.io/yara-x/",
       "repository": "https://github.com/randomcontainers/yara-x",
       "license": "BSD-3-Clause AND MIT AND Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND Zlib AND Unicode-3.0 AND Unicode-DFS-2016 AND MPL-2.0",
-      "version": "1.24.0",
+      "version": "1.25.0",
       "versioning": "semver",
       "examples": [
         {
@@ -9079,7 +9079,7 @@
       "summary": "doctl with the OpenSSH client, which doctl compute ssh runs to log in to Droplets.",
       "repository": "https://github.com/randomcontainers/doctl-openssh-client",
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
-      "version": "2.10.0",
+      "version": "2.11.0",
       "public": true,
       "updated": "2026-11-27T02:48:30Z",
       "variants": [
@@ -10509,7 +10509,7 @@
       "summary": "YARA-X with 7-Zip, for unpacking password-protected sample archives and scanning what they contain.",
       "repository": "https://github.com/randomcontainers/yara-x-7zip",
       "license": "BSD-3-Clause AND MIT AND Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND Zlib AND Unicode-3.0 AND Unicode-DFS-2016 AND MPL-2.0 AND LGPL-2.1-or-later AND BSD-2-Clause AND LicenseRef-7-Zip-unRAR",
-      "version": "1.24.0",
+      "version": "1.25.0",
       "public": true,
       "updated": "2026-11-25T09:21:12Z",
       "variants": [
