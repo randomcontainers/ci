@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-27T11:32:49Z",
+  "generated": "2026-11-27T20:15:55Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -7285,7 +7285,7 @@
       "homepage": "https://tesseract-ocr.github.io/",
       "repository": "https://github.com/randomcontainers/tesseract",
       "license": "Apache-2.0",
-      "version": "5.5.4",
+      "version": "5.5.5",
       "versioning": "semver",
       "examples": [
         {
@@ -7322,82 +7322,82 @@
       "public": true,
       "default_ready": true,
       "stale": false,
-      "updated": "2026-11-25T05:26:13Z",
+      "updated": "2026-11-27T20:15:55Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "5.5.4",
+          "version": "5.5.5",
           "tags": [
             "latest",
-            "5.5.4",
+            "5.5.5",
             "5.5",
             "5",
             "ubuntu",
-            "5.5.4-ubuntu",
+            "5.5.5-ubuntu",
             "5.5-ubuntu",
             "5-ubuntu",
-            "5.5.4-ubuntu26.04"
+            "5.5.5-ubuntu26.04"
           ],
-          "digest": "sha256:9138a5935191836bb56b85d8612665e798d75bb7ad7c6a2e51eb6602c3331da4",
+          "digest": "sha256:fb0571548db473d9488e151a54e48a428cac08ddfaab3f2459b4c155bf431db6",
           "size": {
-            "linux/amd64": 79097091,
-            "linux/arm64": 77362349
+            "linux/amd64": 79180653,
+            "linux/arm64": 77437942
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "5.5.4",
+          "version": "5.5.5",
           "tags": [
             "alpine",
-            "5.5.4-alpine",
+            "5.5.5-alpine",
             "5.5-alpine",
             "5-alpine",
-            "5.5.4-alpine3.24"
+            "5.5.5-alpine3.24"
           ],
-          "digest": "sha256:e204007273301370fa416d17425067391b3cbd9b32a15bed9894e77f1e7d83a3",
+          "digest": "sha256:ceeb74abebbce2d827c51e26092e7d4315b1ac8bf5500b885d8aea17235d4eda",
           "size": {
-            "linux/amd64": 37504191,
-            "linux/arm64": 37284270
+            "linux/amd64": 37568050,
+            "linux/arm64": 37347342
           }
         },
         {
           "flavour": "slim",
           "distro": "ubuntu",
-          "version": "5.5.4",
+          "version": "5.5.5",
           "tags": [
             "slim",
-            "5.5.4-slim",
+            "5.5.5-slim",
             "5.5-slim",
             "5-slim",
             "slim-ubuntu",
-            "5.5.4-slim-ubuntu",
+            "5.5.5-slim-ubuntu",
             "5.5-slim-ubuntu",
             "5-slim-ubuntu",
-            "5.5.4-slim-ubuntu26.04"
+            "5.5.5-slim-ubuntu26.04"
           ],
-          "digest": "sha256:2871ff103ab0fb1feef0e6ea25e63533d9f09b42b35f16d06c756d978ed68473",
+          "digest": "sha256:045c49ce3eff1f7c3418ba42cba1efc3f8f3e8870c6a294507962b1fc9593539",
           "size": {
-            "linux/amd64": 61266320,
-            "linux/arm64": 59850600
+            "linux/amd64": 61331913,
+            "linux/arm64": 59910039
           }
         },
         {
           "flavour": "slim",
           "distro": "alpine",
-          "version": "5.5.4",
+          "version": "5.5.5",
           "tags": [
             "slim-alpine",
-            "5.5.4-slim-alpine",
+            "5.5.5-slim-alpine",
             "5.5-slim-alpine",
             "5-slim-alpine",
-            "5.5.4-slim-alpine3.24"
+            "5.5.5-slim-alpine3.24"
           ],
-          "digest": "sha256:845f2a885801310c3317b1511406a639687a45772911bf81692c27d7d5bc0f4b",
+          "digest": "sha256:6eda01b37a7b5702d3fb1eb266c96b11d1921f6230bf0042624dee13c23a4676",
           "size": {
-            "linux/amd64": 18640930,
-            "linux/arm64": 18759357
+            "linux/amd64": 18704676,
+            "linux/arm64": 18821683
           }
         }
       ]
@@ -8004,7 +8004,7 @@
       "homepage": "https://vale.sh/",
       "repository": "https://github.com/randomcontainers/vale",
       "license": "MIT AND BSD-3-Clause AND BSD-2-Clause AND Apache-2.0 AND Unicode-DFS-2016",
-      "version": "3.28.1",
+      "version": "3.29.0",
       "versioning": "semver",
       "examples": [
         {
@@ -9081,38 +9081,38 @@
       "license": "Apache-2.0 AND MIT AND BSD-3-Clause AND BSD-2-Clause AND MPL-2.0 AND ISC AND OFL-1.1 AND SSH-OpenSSH",
       "version": "2.11.0",
       "public": true,
-      "updated": "2026-11-27T02:48:30Z",
+      "updated": "2026-11-27T20:15:38Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "2.10.0",
+          "version": "2.11.0",
           "tags": [
             "latest",
-            "2.10.0",
+            "2.11.0",
             "ubuntu",
-            "2.10.0-ubuntu",
-            "2.10.0-ubuntu26.04"
+            "2.11.0-ubuntu",
+            "2.11.0-ubuntu26.04"
           ],
-          "digest": "sha256:e3c6c297f96d0a67169e164cd7ee0c68b525f12851124d63bfe89ba73d3a728f",
+          "digest": "sha256:00b69f2403db89dadc25f0ea1914b42a6652bdfda3e65de3754c7396e358a9fa",
           "size": {
-            "linux/amd64": 59979975,
-            "linux/arm64": 57594728
+            "linux/amd64": 59980092,
+            "linux/arm64": 57594552
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "2.10.0",
+          "version": "2.11.0",
           "tags": [
             "alpine",
-            "2.10.0-alpine",
-            "2.10.0-alpine3.24"
+            "2.11.0-alpine",
+            "2.11.0-alpine3.24"
           ],
-          "digest": "sha256:bedf29d788ddbe0359171bfc06d4a47fccce8b7203a73eddc8b005181a6f0a7c",
+          "digest": "sha256:0b39c3fb1950d81276ea8f2c7d67bb2f3ba9fbd2b726f6a33ff6784a6369472e",
           "size": {
-            "linux/amd64": 20787891,
-            "linux/arm64": 19779609
+            "linux/amd64": 20788084,
+            "linux/arm64": 19779472
           }
         }
       ]
@@ -9745,7 +9745,7 @@
       "license": "BSD-3-Clause AND BSD-2-Clause AND MIT AND HPND-Markus-Kuhn AND Unicode-3.0 AND PostgreSQL AND LGPL-3.0-only AND Apache-2.0 AND ISC AND MPL-2.0 AND PSF-2.0 AND LicenseRef-pg-dump AND LicenseRef-Public-Domain",
       "version": "4.7.1",
       "public": true,
-      "updated": "2026-11-25T09:20:00Z",
+      "updated": "2026-11-27T20:15:37Z",
       "variants": [
         {
           "flavour": "default",
@@ -9758,10 +9758,10 @@
             "4.7.1-ubuntu",
             "4.7.1-ubuntu26.04"
           ],
-          "digest": "sha256:e6a55723b23191752036d8d0f24c7336b03db6e87ddd00a1a101961d4ddc0c65",
+          "digest": "sha256:16e403f44f5094b6b7bbcf91898beaf6d6ea7c9436c1c21220c80760028b1422",
           "size": {
-            "linux/amd64": 71687343,
-            "linux/arm64": 70581757
+            "linux/amd64": 71777491,
+            "linux/arm64": 70671789
           }
         },
         {
@@ -9773,10 +9773,10 @@
             "4.7.1-alpine",
             "4.7.1-alpine3.24"
           ],
-          "digest": "sha256:363a01f4365c45df1f47fffdd8c2cc69e816aa68e999cc35242089737150e477",
+          "digest": "sha256:2f25b4470a822461e07c6a951ba2e9df466850eccf3b14fd6d863fb264d38f77",
           "size": {
-            "linux/amd64": 34959531,
-            "linux/arm64": 35154904
+            "linux/amd64": 35038776,
+            "linux/arm64": 35234344
           }
         }
       ]
@@ -10152,7 +10152,7 @@
       "summary": "Tesseract with Poppler, for OCR of PDF files. pdftoppm renders the pages and Tesseract reads them.",
       "repository": "https://github.com/randomcontainers/tesseract-poppler",
       "license": "(Apache-2.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))",
-      "version": "5.5.4",
+      "version": "5.5.5",
       "public": true,
       "updated": "2026-11-25T09:19:55Z",
       "variants": [
