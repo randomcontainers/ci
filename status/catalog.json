@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated": "2026-11-27T20:15:55Z",
+  "generated": "2026-11-28T02:50:06Z",
   "registry": {
     "ghcr": "ghcr.io/randomcontainers"
   },
@@ -10154,38 +10154,38 @@
       "license": "(Apache-2.0 AND ((GPL-2.0-only OR GPL-3.0-only) AND MIT))",
       "version": "5.5.5",
       "public": true,
-      "updated": "2026-11-25T09:19:55Z",
+      "updated": "2026-11-28T02:50:06Z",
       "variants": [
         {
           "flavour": "default",
           "distro": "ubuntu",
-          "version": "5.5.4",
+          "version": "5.5.5",
           "tags": [
             "latest",
-            "5.5.4",
+            "5.5.5",
             "ubuntu",
-            "5.5.4-ubuntu",
-            "5.5.4-ubuntu26.04"
+            "5.5.5-ubuntu",
+            "5.5.5-ubuntu26.04"
           ],
-          "digest": "sha256:be366f0eb8c79c2d63be0ef95d91cc1b97854115aa3589114c313584e84604a8",
+          "digest": "sha256:0d647263bcc5e2e3a37c51afda1a5c67c44340564f9dddf7d27b567a9cc24054",
           "size": {
-            "linux/amd64": 79097247,
-            "linux/arm64": 77362533
+            "linux/amd64": 79181566,
+            "linux/arm64": 77438139
           }
         },
         {
           "flavour": "default",
           "distro": "alpine",
-          "version": "5.5.4",
+          "version": "5.5.5",
           "tags": [
             "alpine",
-            "5.5.4-alpine",
-            "5.5.4-alpine3.24"
+            "5.5.5-alpine",
+            "5.5.5-alpine3.24"
           ],
-          "digest": "sha256:62de2bc5d098e4e60edeb402a5ca3497195a50aabf5604f9714860a1b41a27e6",
+          "digest": "sha256:dec1f1342e1760b5f3d104c096e74a74f840683158355d9463d2389942ba4f3c",
           "size": {
-            "linux/amd64": 37504398,
-            "linux/arm64": 37284448
+            "linux/amd64": 37568163,
+            "linux/arm64": 37347527
           }
         }
       ]
